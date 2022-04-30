@@ -3,11 +3,13 @@ import {Container, Paper, Button} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { PasswordInputField } from '../Components/PasswordInputField';
+import { UsernameInputField } from '../Components/UsernameInputField';
 
 import {Colors} from '../Assets/Colors';
 
 export const RegistrationPage: React.FC = () => {    
     const passwordFieldId = "outlined-adornment-password";
+    const usernameFieldId = "outlined-username";
     
     return (
     <Container
@@ -21,8 +23,19 @@ export const RegistrationPage: React.FC = () => {
                 backgroundColor: Colors.transparentWhite}}>
 
             <FormControl 
-                sx={{m: 1, width: '80vw', marginTop: '2vh',
-                marginBottom: '2vh', maxWidth: '400px'}} variant="outlined">
+                sx={{m: 1, width: '80vw', marginTop: '1vh',
+                marginBottom: '1vh', maxWidth: '400px'}} variant="outlined"
+            >
+                <InputLabel htmlFor={usernameFieldId}>
+                    Username
+                </InputLabel>
+                <UsernameInputField id={usernameFieldId}/>
+            </FormControl>
+
+            <FormControl 
+                sx={{m: 1, width: '80vw',
+                marginBottom: '2vh', maxWidth: '400px'}} variant="outlined"
+            >
                 <InputLabel htmlFor={passwordFieldId}>
                     Password
                 </InputLabel>
@@ -33,7 +46,8 @@ export const RegistrationPage: React.FC = () => {
                 variant="contained"
                 sx={{'width': '80vw', 'maxWidth': '400px',
                 'backgroundColor': Colors.cyan,
-                ':hover': {backgroundColor: Colors.cyan}}}>
+                ':hover': {backgroundColor: Colors.cyan}}}
+            >
                 Register Account
             </Button>
         </Paper>

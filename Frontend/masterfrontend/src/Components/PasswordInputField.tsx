@@ -28,7 +28,7 @@ export const PasswordInputField: React.FC<Props> = ({id}) => {
         event.preventDefault();
     };
     
-    const handleChange = (prop: number | string) => (event: { target: { value: any; }; }) => {
+    const handleChange = (prop: string) => (event: { target: { value: any; }; }) => {
         setValues({...values, [prop]: event.target.value});
     };
      
@@ -45,8 +45,9 @@ export const PasswordInputField: React.FC<Props> = ({id}) => {
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
-                    edge="end">
-                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                    edge="end"
+                >
+                {values.showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
                 </InputAdornment>
             }

@@ -2,6 +2,7 @@ export const Colors = {
     navyBlue: '#103849',
     cyan: '#00bcd4',
     green: '#80ed99',
+    lightGreen: '#8bc34a',
     teal: '#00a8ab',
     darkPurple: '#170055',
     blue: '#3e00ff',

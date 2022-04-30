@@ -8,19 +8,19 @@ interface Props {
 }
 
 export const UsernameInputField: React.FC<Props> = ({id}) => {
-    const [username, setUsername] = useState<number | string>();
+    const [email, setEmail] = useState<number | string>();
 
     const handleChange = () => (event: { target: { value: number | string; }; }) => {
-        setUsername(event.target.value);
+        setEmail(event.target.value);
     };
      
     return (
         <OutlinedInput
             id={id}
-            value={username}
+            value={email}
             onChange={handleChange()}
             sx={{backgroundColor: Colors.transparentWhite, maxWidth: '400px'}}
-            label="Password"
+            label="Email"
         />
     );
 };

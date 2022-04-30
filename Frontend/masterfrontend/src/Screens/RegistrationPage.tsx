@@ -3,13 +3,13 @@ import {Container, Paper, Button} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { PasswordInputField } from '../Components/PasswordInputField';
-import { UsernameInputField } from '../Components/UsernameInputField';
+import { UsernameInputField } from '../Components/EmailInputField';
 
 import {Colors} from '../Assets/Colors';
 
 export const RegistrationPage: React.FC = () => {    
     const passwordFieldId = "outlined-adornment-password";
-    const usernameFieldId = "outlined-username";
+    const emailFieldId = "outlined-email";
     
     return (
     <Container
@@ -26,10 +26,10 @@ export const RegistrationPage: React.FC = () => {
                 sx={{m: 1, width: '80vw', marginTop: '1vh',
                 marginBottom: '1vh', maxWidth: '400px'}} variant="outlined"
             >
-                <InputLabel htmlFor={usernameFieldId}>
-                    Username
+                <InputLabel htmlFor={emailFieldId}>
+                    Email
                 </InputLabel>
-                <UsernameInputField id={usernameFieldId}/>
+                <UsernameInputField id={emailFieldId}/>
             </FormControl>
 
             <FormControl 

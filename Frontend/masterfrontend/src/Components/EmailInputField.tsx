@@ -10,7 +10,7 @@ interface Props {
 export const UsernameInputField: React.FC<Props> = ({id}) => {
     const [email, setEmail] = useState<number | string>();
 
-    const handleChange = () => (event: { target: { value: number | string; }; }) => {
+    const handleChange = () => (event: { target: { value: number | string }; }) => {
         setEmail(event.target.value);
     };
      

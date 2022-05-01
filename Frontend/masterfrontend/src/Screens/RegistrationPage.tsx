@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import {Container, Paper, Button} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -15,6 +15,7 @@ export const RegistrationPage: React.FC = () => {
     <Container
         sx={{flex: 1, display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center', width: '100vw'}}>
+        <h1>Registration</h1>
         <Paper 
             elevation={0}
             sx={{display: 'flex', flexDirection: 'column',
@@ -24,7 +25,8 @@ export const RegistrationPage: React.FC = () => {
 
             <FormControl 
                 sx={{m: 1, width: '80vw', marginTop: '1vh',
-                marginBottom: '1vh', maxWidth: '400px'}} variant="outlined"
+                marginBottom: '1vh', maxWidth: '400px'}}
+                variant="outlined"
             >
                 <InputLabel htmlFor={emailFieldId}>
                     Email
@@ -32,15 +34,12 @@ export const RegistrationPage: React.FC = () => {
                 <UsernameInputField id={emailFieldId}/>
             </FormControl>
 
-            <FormControl 
+
+            <PasswordInputField 
+                id={passwordFieldId} 
                 sx={{m: 1, width: '80vw',
-                marginBottom: '2vh', maxWidth: '400px'}} variant="outlined"
-            >
-                <InputLabel htmlFor={passwordFieldId}>
-                    Password
-                </InputLabel>
-                <PasswordInputField id={passwordFieldId}/>
-            </FormControl>
+                marginBottom: '2vh', maxWidth: '400px'}}
+            />
 
             <Button 
                 variant="contained"

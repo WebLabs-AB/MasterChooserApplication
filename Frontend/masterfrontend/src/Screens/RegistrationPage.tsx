@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {Container, Paper, Button, FormHelperText} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -6,33 +6,26 @@ import { PasswordInputField } from '../Components/PasswordInputField';
 import { UsernameInputField } from '../Components/EmailInputField';
 
 import {Colors} from '../Assets/Colors';
+import { REQUIRED_PASSWORD_LENGTH, PASSWORD_ERROR_MESSAGE, EMAIL_ERROR_MESSAGE } from '../Assets/Constants';
 
 export const RegistrationPage: React.FC = () => {
     
     // Hooks used for password checks
-    const [errorMessage, seterrorMessage] = useState("");
-
-    const [values, setValues] = useState({
-        password: '',
-        showPassword: false,
-      });
+    const [passwordErrorField, setPasswordErrorField] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordOk, setPasswordOk] = useState(false);
 
     // Hooks used for email checks
+    const [emailErrorField, setEmailErrorField] = useState("");
+    const [email, setEmail] = useState("");
+    const [emailOk, setEmailOk] = useState(false);
     
     // Constants
     const passwordFieldId = "outlined-adornment-password";
     const emailFieldId = "outlined-email";
-    const requiredLength = 8;
 
-    const handleClickShowPassword = () => {
-        setValues({
-        ...values,
-        showPassword: !values.showPassword,
-        });
-    };
-
-    const isPasswordOk = (inputtedPassword: string) => {
-        const isLengthOk = inputtedPassword.length >= requiredLength ? true : false;
+    const isPasswordOk = (inputtedPassword: string): boolean => {
+        const isLengthOk = inputtedPassword.length >= REQUIRED_PASSWORD_LENGTH ? true : false;
         if (!isLengthOk) return false;
 
         const containsNumber = /\d/.test(inputtedPassword);
@@ -45,16 +38,55 @@ export const RegistrationPage: React.FC = () => {
         if (!containsLowerLetter) return false;
 
         return true;
-    }
+    };
 
-    const handleChange = () => (event: { target: { value: any; }; }) => {
-        if(isPasswordOk(event.target.value)) {
-            setValues({...values, password: event.target.value});
-            seterrorMessage("")
+    const isEmailOk = (inputtedEmail: string): boolean  => {
+        let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        if(regex.test(inputtedEmail)) { // Valid email
+            setEmailErrorField("");
+            return true;
+        }else {
+            setEmailErrorField(EMAIL_ERROR_MESSAGE);
+            return false;
         }
-        else {
-            setValues({...values, password: event.target.value});
-            seterrorMessage("Password must have more than 7 characters, capital letter and a number")
+    };
+
+    const handleInputtedPassword = () => (event: { target: { value: string; }; }) => {
+        if (event.target.value.length === 0) {
+            setPasswordErrorField(""); // Null value was inputted, field is empty.
+            setPassword(event.target.value);
+        }
+        else{
+            if(isPasswordOk(event.target.value)) {
+                setPassword(event.target.value);
+                setPasswordErrorField("");
+                setPasswordOk(true); // Inputted password is ok.
+            }
+            else {
+                setPassword(event.target.value);
+                setPasswordErrorField(PASSWORD_ERROR_MESSAGE);
+                setPasswordOk(false); // Inputted password is not ok.
+            }
+        }
+    };
+
+    const handleInputtedEmail= () => (event: { target: { value: string }; }) => {
+        if (event.target.value.length === 0){
+            setEmailErrorField(""); // Null value was inputted, field is empty.
+            setEmail(event.target.value);
+        }
+        else{
+            if(isEmailOk(event.target.value)) {
+                setEmail(event.target.value);
+                setEmailErrorField("");
+                setEmailOk(true); // Inputted emnail is ok.
+            }
+            else {
+                setEmail(event.target.value);
+                setEmailErrorField(EMAIL_ERROR_MESSAGE);
+                setEmailOk(false); // Inputted email is not ok.
+            }
         }
     };
 
@@ -78,7 +110,12 @@ export const RegistrationPage: React.FC = () => {
                 <InputLabel htmlFor={emailFieldId}>
                     Email
                 </InputLabel>
-                <UsernameInputField id={emailFieldId}/>
+                <UsernameInputField
+                    id={emailFieldId}
+                    email={email}
+                    handleChange={handleInputtedEmail}
+                />
+                <FormHelperText error id="error-text-email">{emailErrorField}</FormHelperText>
             </FormControl>
 
             <FormControl 
@@ -91,11 +128,10 @@ export const RegistrationPage: React.FC = () => {
                 </InputLabel>
                 <PasswordInputField 
                     id={passwordFieldId}
-                    handleChange={handleChange}
-                    handleClickShowPassword={handleClickShowPassword}
-                    values={values}
+                    handleChange={handleInputtedPassword}
+                    password={password}
                 />
-                <FormHelperText error id="error-text-password">{errorMessage}</FormHelperText>
+                <FormHelperText error id="error-text-password">{passwordErrorField}</FormHelperText>
             </FormControl>
 
             <Button 

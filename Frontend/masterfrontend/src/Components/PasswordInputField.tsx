@@ -12,21 +12,25 @@ import {Colors} from '../Assets/Colors';
 interface Props {
     id: string;
     handleChange: any;
-    handleClickShowPassword: any;
-    values: any;
+    password: string;
 }
 
-export const PasswordInputField: React.FC<Props> = ({id, handleChange, handleClickShowPassword, values}) => {
+export const PasswordInputField: React.FC<Props> = ({id, handleChange, password}) => {
+    const [showPassword, setShowpassword] = useState(false);
 
     const handleMouseDownPassword = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
+    };
+
+    const handleClickShowPassword = () => {
+        setShowpassword(!showPassword);
     };
     
     return (
         <OutlinedInput
                 id={id}
-                type={values.showPassword ? 'text' : 'password'}
-                value={values.password}
+                type={showPassword ? 'text' : 'password'}
+                value={password}
                 onChange={handleChange()}
                 sx={{backgroundColor: Colors.transparentWhite, maxWidth: '400px'}}
                 endAdornment={
@@ -37,7 +41,7 @@ export const PasswordInputField: React.FC<Props> = ({id, handleChange, handleCli
                     onMouseDown={handleMouseDownPassword}
                     edge="end"
                 >
-                {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
                 </InputAdornment>
                 }

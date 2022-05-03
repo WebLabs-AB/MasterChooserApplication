@@ -1,18 +1,14 @@
-import { useState } from 'react';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
 import {Colors} from '../Assets/Colors';
 
 interface Props {
     id: string;
+    email: string;
+    handleChange: any;
 }
 
-export const UsernameInputField: React.FC<Props> = ({id}) => {
-    const [email, setEmail] = useState<number | string>();
-
-    const handleChange = () => (event: { target: { value: number | string }; }) => {
-        setEmail(event.target.value);
-    };
+export const UsernameInputField: React.FC<Props> = ({id, email, handleChange}) => {
      
     return (
         <OutlinedInput

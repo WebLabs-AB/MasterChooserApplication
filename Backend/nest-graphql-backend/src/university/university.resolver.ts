@@ -1,0 +1,30 @@
+import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
+
+// Own files.
+import { University } from 'src/entities/University';
+import { createUniversityInput } from 'src/inputTypes/create-university.input';
+import { UniversityService } from './university.service';
+
+@Resolver((of) => University)
+export class UniversityResolver {
+  constructor(private universityService: UniversityService) {}
+
+  // Query that returns all universities from the database.
+  @Query((returns) => [University]) // Returns an array of universities.
+  universities(): Promise<University[]> {
+    return this.universityService.findAll();
+  }
+
+  // Query that finds on university from the database.
+  @Query(() => University, {})
+  findOne(@Args('universityName') universityName: string) {
+    return this.universityService.findOne(universityName);
+  }
+
+  @Mutation((returns) => University)
+  createNewUniversity(
+    @Args('createUniversityInput') createUniversityInput: createUniversityInput,
+  ): Promise<University> {
+    return this.universityService.createUniversity(createUniversityInput);
+  }
+}

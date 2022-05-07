@@ -10,6 +10,8 @@ import { AppService } from './app.service';
 import { RegularUser } from './entities/RegularUser';
 import { SuperUser } from './entities/SuperUser';
 import { RegularuserModule } from './regularuser/regularuser.module';
+import { UniversityModule } from './university/university.module';
+import { University } from './entities/University';
 
 @Module({
   imports: [
@@ -24,10 +26,11 @@ import { RegularuserModule } from './regularuser/regularuser.module';
       username: 'eribi',
       password: 'MySqlDatabase',
       database: 'masterchooserdb',
-      entities: [SuperUser, RegularUser],
+      entities: [SuperUser, RegularUser, University],
       synchronize: true,
     }),
     RegularuserModule,
+    UniversityModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+// Own files
 import { RegularUser } from 'src/entities/RegularUser';
 import { createRegularuserInput } from 'src/inputTypes/create-regularuser.input';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class RegularuserService {
@@ -21,7 +23,7 @@ export class RegularuserService {
     return this.regularusersRepository.save(newRegularuser);
   }
 
-  // find all users from the regularuser table.
+  // Find all users from the regularuser table.
   async findAll(): Promise<RegularUser[]> {
     return this.regularusersRepository.find(); // SELECT * FROM regularuser;
   }

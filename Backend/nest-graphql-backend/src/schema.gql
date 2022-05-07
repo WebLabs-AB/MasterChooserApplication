@@ -18,14 +18,21 @@ type University {
   universityName: String!
 }
 
+type Education {
+  educationName: String!
+  symbol: String!
+}
+
 type Query {
   regularusers: [RegularUser!]!
   universities: [University!]!
+  educations: [Education!]!
 }
 
 type Mutation {
   createNewRegularuser(createRegularuserInput: createRegularuserInput!): RegularUser!
   createNewUniversity(createUniversityInput: createUniversityInput!): University!
+  createNewEducation(createEducationInput: createEducationInput!): Education!
 }
 
 input createRegularuserInput {
@@ -36,4 +43,9 @@ input createRegularuserInput {
 
 input createUniversityInput {
   universityName: String!
+}
+
+input createEducationInput {
+  educationName: String!
+  symbol: String!
 }

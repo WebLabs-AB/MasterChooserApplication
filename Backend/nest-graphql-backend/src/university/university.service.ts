@@ -13,7 +13,7 @@ export class UniversityService {
     private universityRepository: Repository<University>,
   ) {}
 
-  // Creates a new university and saves it in the datanbase.
+  // Creates a new university and saves it in the database.
   createUniversity(
     createUniversityInput: createUniversityInput,
   ): Promise<University> {

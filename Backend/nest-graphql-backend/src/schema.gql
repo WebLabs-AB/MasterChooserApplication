@@ -16,3 +16,12 @@ scalar DateTime
 type Query {
   regularusers: [RegularUser!]!
 }
+
+type Mutation {
+  createNewRegularuser(createRegularuserInput: createRegularuserInput!): RegularUser!
+}
+
+input createRegularuserInput {
+  email: String!
+  password: String!
+}

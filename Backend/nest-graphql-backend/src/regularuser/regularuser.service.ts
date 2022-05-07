@@ -23,6 +23,11 @@ export class RegularuserService {
     const newRegularuser = this.regularusersRepository.create(
       createRegularuserInput,
     );
+
+    const university = new University();
+    university.universityName = createRegularuserInput.universityName;
+    newRegularuser.university = university;
+
     return this.regularusersRepository.save(newRegularuser);
   }
 

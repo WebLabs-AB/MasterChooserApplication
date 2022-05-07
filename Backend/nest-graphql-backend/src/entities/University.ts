@@ -9,7 +9,9 @@ export class University extends BaseEntity {
   @Field()
   universityName: string;
 
-  @OneToMany(() => RegularUser, (regularuser) => regularuser.university) // Shows which students goes to the university.
+  @OneToMany(() => RegularUser, (regularuser) => regularuser.university, {
+    cascade: ['insert'],
+  }) // Shows which students goes to the university.
   @Field((type) => [RegularUser], { nullable: true })
   Students?: RegularUser[];
 }

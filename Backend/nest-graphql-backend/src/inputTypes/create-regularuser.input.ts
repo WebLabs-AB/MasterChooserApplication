@@ -13,4 +13,7 @@ export class createRegularuserInput {
   @IsNumber()
   @Field((type) => Int)
   startingYear: number;
+
+  @Field()
+  universityName: string;
 }

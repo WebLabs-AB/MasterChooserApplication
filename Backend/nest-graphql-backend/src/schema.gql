@@ -2,21 +2,24 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type University {
+  universityName: String!
+  Students: [RegularUser!]
+}
+
 type RegularUser {
   email: String!
   password: String!
   createdAt: DateTime!
   startingYear: Int!
+  universityName: String!
+  university: University!
 }
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
-
-type University {
-  universityName: String!
-}
 
 type Education {
   educationName: String!
@@ -26,6 +29,7 @@ type Education {
 type Query {
   regularusers: [RegularUser!]!
   universities: [University!]!
+  findOne(universityName: String!): University!
   educations: [Education!]!
 }
 
@@ -39,6 +43,7 @@ input createRegularuserInput {
   email: String!
   password: String!
   startingYear: Int!
+  universityName: String!
 }
 
 input createUniversityInput {

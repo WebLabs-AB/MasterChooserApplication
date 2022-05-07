@@ -1,7 +1,15 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Parent,
+  ResolveField,
+} from '@nestjs/graphql';
 
 // Own files.
 import { RegularUser } from 'src/entities/RegularUser';
+import { University } from 'src/entities/University';
 import { createRegularuserInput } from 'src/inputTypes/create-regularuser.input';
 import { RegularuserService } from './regularuser.service';
 
@@ -13,6 +21,11 @@ export class RegularuserResolver {
   @Query((returns) => [RegularUser]) // Returns an array of regularusers.
   regularusers(): Promise<RegularUser[]> {
     return this.regularuserService.findAll();
+  }
+
+  @ResolveField((returns) => University) // Used to resolve nested fields in queries.
+  university(@Parent() regularuser: RegularUser): Promise<University> {
+    return this.regularuserService.getUniversity(regularuser.universityName);
   }
 
   @Mutation((returns) => RegularUser)

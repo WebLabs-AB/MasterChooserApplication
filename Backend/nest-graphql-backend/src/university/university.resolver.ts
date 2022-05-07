@@ -15,6 +15,12 @@ export class UniversityResolver {
     return this.universityService.findAll();
   }
 
+  // Query that finds on university from the database.
+  @Query(() => University, {})
+  findOne(@Args('universityName') universityName: string) {
+    return this.universityService.findOne(universityName);
+  }
+
   @Mutation((returns) => University)
   createNewUniversity(
     @Args('createUniversityInput') createUniversityInput: createUniversityInput,

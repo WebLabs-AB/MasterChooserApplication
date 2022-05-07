@@ -9,5 +9,6 @@ import { University } from 'src/entities/University';
 @Module({
   imports: [TypeOrmModule.forFeature([University])], // Allows us to use repository for university.
   providers: [UniversityService, UniversityResolver],
+  exports: [UniversityService],
 })
 export class UniversityModule {}

@@ -5,12 +5,15 @@ import { Repository } from 'typeorm';
 // Own files
 import { RegularUser } from 'src/entities/RegularUser';
 import { createRegularuserInput } from 'src/inputTypes/create-regularuser.input';
+import { UniversityService } from 'src/university/university.service';
+import { University } from 'src/entities/University';
 
 @Injectable()
 export class RegularuserService {
   constructor(
     @InjectRepository(RegularUser)
     private regularusersRepository: Repository<RegularUser>,
+    private universityService: UniversityService,
   ) {}
 
   // Creates a new regularuser and saves it in the datanbase.
@@ -26,5 +29,9 @@ export class RegularuserService {
   // Find all users from the regularuser table.
   async findAll(): Promise<RegularUser[]> {
     return this.regularusersRepository.find(); // SELECT * FROM regularuser;
+  }
+
+  getUniversity(universityName: string): Promise<University> {
+    return this.universityService.findOne(universityName);
   }
 }

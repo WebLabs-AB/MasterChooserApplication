@@ -27,4 +27,8 @@ export class UniversityService {
   async findAll(): Promise<University[]> {
     return this.universityRepository.find(); // SELECT * FROM university;
   }
+
+  findOne(universityName: string): Promise<University> {
+    return this.universityRepository.findOneByOrFail({ universityName });
+  }
 }

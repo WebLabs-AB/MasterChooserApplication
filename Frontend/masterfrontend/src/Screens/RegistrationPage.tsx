@@ -22,8 +22,7 @@ export const RegistrationPage: React.FC = () => {
     const [email, setEmail] = useState("");
     const [emailOk, setEmailOk] = useState(false);
 
-    // Hooks used for starting year checks
-    const [startingYearErrorField, setStartingYearErrorField] = useState("");
+    // Hooks used for starting year input field
     const [startingYear, setStartingYear] = useState("");
     const [startingYearOk, setStartingYearOk] = useState(false);
 
@@ -33,6 +32,8 @@ export const RegistrationPage: React.FC = () => {
     // Constants
     const passwordFieldId = "outlined-adornment-password";
     const emailFieldId = "outlined-email";
+    const numericFieldLabelId="demo-simple-select-helper-label";
+    const numericFieldId="demo-simple-select-helper";
 
     const handleClose = () => {
         setOpen(false);
@@ -43,11 +44,15 @@ export const RegistrationPage: React.FC = () => {
     };
     
     const registerUser = () => {
-        if((emailOk || passwordOk) === false) {
+
+        if(emailOk === false || passwordOk === false || startingYearOk === false) {
             openSnackBar();
         }
         else {
             // Send post-request to backend
+            console.log(email);
+            console.log(password);
+            console.log(startingYear);
         }
     };
 
@@ -107,7 +112,22 @@ export const RegistrationPage: React.FC = () => {
                 <FormHelperText error id="error-text-password">{passwordErrorField}</FormHelperText>
             </FormControl>
 
-            <NumericInputField />
+            <FormControl 
+                sx={{m: 1, width: '80vw', marginTop: '1vh',
+                marginBottom: '1vh', maxWidth: '400px'}}
+                variant="outlined"
+            >
+                <InputLabel id="demo-simple-select-helper-label">Year</InputLabel>
+
+                <NumericInputField 
+                    id={numericFieldId}
+                    labelId={numericFieldLabelId}
+                    startingYear={startingYear}
+                    setStartingYear={setStartingYear}
+                    setStartingYearOk={setStartingYearOk}
+                />
+                <FormHelperText>Choose the year you started university</FormHelperText>
+            </FormControl>
 
             <Button 
                 onClick={registerUser}

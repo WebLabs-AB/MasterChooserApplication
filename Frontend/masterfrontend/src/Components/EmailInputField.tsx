@@ -27,7 +27,7 @@ export const UsernameInputField: React.FC<Props> = ({id, email, setEmailErrorFie
         }
     };
 
-    const handleInputtedEmail = () => (event: { target: { value: string }; }) => {
+    const handleInputtedEmail = (event: { target: { value: string }; }) => {
         if (event.target.value.length === 0){
             setEmailErrorField(""); // Null value was inputted, field is empty.
             setEmail(event.target.value);
@@ -51,7 +51,7 @@ export const UsernameInputField: React.FC<Props> = ({id, email, setEmailErrorFie
         <OutlinedInput
             id={id}
             value={email}
-            onChange={handleInputtedEmail()}
+            onChange={handleInputtedEmail}
             sx={{backgroundColor: Colors.transparentWhite, maxWidth: '400px'}}
             label="Email"
         />

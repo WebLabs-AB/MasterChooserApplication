@@ -45,7 +45,7 @@ export const PasswordInputField: React.FC<Props> = ({id, password, setPasswordEr
         return true;
     };
 
-    const handleInputtedPassword = () => (event: { target: { value: string; }; }) => {
+    const handleInputtedPassword = (event: { target: { value: string }; }) => {
         if (event.target.value.length === 0) {
             setPasswordErrorField(""); // Null value was inputted, field is empty.
             setPassword(event.target.value);
@@ -70,7 +70,7 @@ export const PasswordInputField: React.FC<Props> = ({id, password, setPasswordEr
                 id={id}
                 type={showPassword ? 'text' : 'password'}
                 value={password}
-                onChange={handleInputtedPassword()}
+                onChange={handleInputtedPassword}
                 sx={{backgroundColor: Colors.transparentWhite, maxWidth: '400px'}}
                 endAdornment={
                 <InputAdornment position="end">

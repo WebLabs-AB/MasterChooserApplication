@@ -6,7 +6,7 @@ import { PasswordInputField } from '../Components/PasswordInputField';
 import { UsernameInputField } from '../Components/EmailInputField';
 
 import {Colors} from '../Assets/Colors';
-import { REQUIRED_PASSWORD_LENGTH, PASSWORD_ERROR_MESSAGE, EMAIL_ERROR_MESSAGE, SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
+import { REQUIRED_PASSWORD_LENGTH, PASSWORD_ERROR_MESSAGE, SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
 
 export const RegistrationPage: React.FC = () => {
     
@@ -20,7 +20,12 @@ export const RegistrationPage: React.FC = () => {
     const [email, setEmail] = useState("");
     const [emailOk, setEmailOk] = useState(false);
 
-    //Used for snackbar
+    // Hooks used for starting year checks
+    const [startingYearErrorField, setStartingYearErrorField] = useState("");
+    const [startingYear, setStartingYear] = useState("");
+    const [startingYearOk, setStartingYearOk] = useState(false);
+
+    // Used for snackbar
     const [open, setOpen] = useState(false);
     
     // Constants
@@ -51,18 +56,6 @@ export const RegistrationPage: React.FC = () => {
         return true;
     };
 
-    const isEmailOk = (inputtedEmail: string): boolean  => {
-        let regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-        if(regex.test(inputtedEmail)) { // Valid email
-            setEmailErrorField("");
-            return true;
-        }else {
-            setEmailErrorField(EMAIL_ERROR_MESSAGE);
-            return false;
-        }
-    };
-
     const handleInputtedPassword = () => (event: { target: { value: string; }; }) => {
         if (event.target.value.length === 0) {
             setPasswordErrorField(""); // Null value was inputted, field is empty.
@@ -79,26 +72,6 @@ export const RegistrationPage: React.FC = () => {
                 setPassword(event.target.value);
                 setPasswordErrorField(PASSWORD_ERROR_MESSAGE);
                 setPasswordOk(false); 
-            }
-        }
-    };
-
-    const handleInputtedEmail = () => (event: { target: { value: string }; }) => {
-        if (event.target.value.length === 0){
-            setEmailErrorField(""); // Null value was inputted, field is empty.
-            setEmail(event.target.value);
-            setEmailOk(false); 
-        }
-        else{
-            if(isEmailOk(event.target.value)) {
-                setEmail(event.target.value);
-                setEmailErrorField("");
-                setEmailOk(true); 
-            }
-            else {
-                setEmail(event.target.value);
-                setEmailErrorField(EMAIL_ERROR_MESSAGE);
-                setEmailOk(false); 
             }
         }
     };
@@ -143,7 +116,9 @@ export const RegistrationPage: React.FC = () => {
                 <UsernameInputField
                     id={emailFieldId}
                     email={email}
-                    handleChange={handleInputtedEmail}
+                    setEmailErrorField={setEmailErrorField}
+                    setEmail={setEmail}
+                    setEmailOk={setEmailOk}
                 />
                 <FormHelperText error id="error-text-email">{emailErrorField}</FormHelperText>
             </FormControl>

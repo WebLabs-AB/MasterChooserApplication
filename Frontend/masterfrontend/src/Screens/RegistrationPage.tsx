@@ -6,7 +6,7 @@ import { PasswordInputField } from '../Components/PasswordInputField';
 import { UsernameInputField } from '../Components/EmailInputField';
 
 import {Colors} from '../Assets/Colors';
-import { REQUIRED_PASSWORD_LENGTH, PASSWORD_ERROR_MESSAGE, SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
+import { SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
 
 export const RegistrationPage: React.FC = () => {
     
@@ -40,42 +40,6 @@ export const RegistrationPage: React.FC = () => {
         setOpen(true);
     };
     
-    const isPasswordOk = (inputtedPassword: string): boolean => {
-        const isLengthOk = inputtedPassword.length >= REQUIRED_PASSWORD_LENGTH ? true : false;
-        if (!isLengthOk) return false;
-
-        const containsNumber = /\d/.test(inputtedPassword);
-        if (!containsNumber) return false;
-
-        const containsUpperLetter = inputtedPassword.toLowerCase() !== inputtedPassword;
-        if (!containsUpperLetter) return false;
-
-        const containsLowerLetter = inputtedPassword.toUpperCase() !== inputtedPassword;
-        if (!containsLowerLetter) return false;
-
-        return true;
-    };
-
-    const handleInputtedPassword = () => (event: { target: { value: string; }; }) => {
-        if (event.target.value.length === 0) {
-            setPasswordErrorField(""); // Null value was inputted, field is empty.
-            setPassword(event.target.value);
-            setPasswordOk(false); 
-        }
-        else{
-            if(isPasswordOk(event.target.value)) {
-                setPassword(event.target.value);
-                setPasswordErrorField("");
-                setPasswordOk(true); 
-            }
-            else {
-                setPassword(event.target.value);
-                setPasswordErrorField(PASSWORD_ERROR_MESSAGE);
-                setPasswordOk(false); 
-            }
-        }
-    };
-
     const registerUser = () => {
         if((emailOk || passwordOk) === false) {
             openSnackBar();
@@ -133,8 +97,10 @@ export const RegistrationPage: React.FC = () => {
                 </InputLabel>
                 <PasswordInputField 
                     id={passwordFieldId}
-                    handleChange={handleInputtedPassword}
                     password={password}
+                    setPasswordErrorField={setPasswordErrorField}
+                    setPassword={setPassword}
+                    setPasswordOk={setPasswordOk}
                 />
                 <FormHelperText error id="error-text-password">{passwordErrorField}</FormHelperText>
             </FormControl>

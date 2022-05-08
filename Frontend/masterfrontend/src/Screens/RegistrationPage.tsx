@@ -2,9 +2,11 @@ import { useState } from 'react';
 import {Container, Paper, Button, FormHelperText, Snackbar, Alert} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+
+// Own files.
 import { PasswordInputField } from '../Components/PasswordInputField';
 import { UsernameInputField } from '../Components/EmailInputField';
-
+import { NumericInputField } from '../Components/NumericInputField';
 import {Colors} from '../Assets/Colors';
 import { SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
 
@@ -104,6 +106,8 @@ export const RegistrationPage: React.FC = () => {
                 />
                 <FormHelperText error id="error-text-password">{passwordErrorField}</FormHelperText>
             </FormControl>
+
+            <NumericInputField />
 
             <Button 
                 onClick={registerUser}

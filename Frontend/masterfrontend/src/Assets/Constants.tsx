@@ -6,5 +6,7 @@ export const EMAIL_ERROR_MESSAGE = "Invalid email was inputted";
 
 export const SNACKBAR_REGISTER_ERROR_MSG = "Email or password is incorrectly inputted";
 
+
+
  
 

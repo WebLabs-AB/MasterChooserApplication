@@ -6,7 +6,7 @@ import InputLabel from '@mui/material/InputLabel';
 // Own files.
 import { PasswordInputField } from '../Components/PasswordInputField';
 import { UsernameInputField } from '../Components/EmailInputField';
-import { NumericInputField } from '../Components/NumericInputField';
+import { SelectMenuList } from '../Components/SelectMenuList';
 import {Colors} from '../Assets/Colors';
 import { SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
 
@@ -22,9 +22,13 @@ export const RegistrationPage: React.FC = () => {
     const [email, setEmail] = useState("");
     const [emailOk, setEmailOk] = useState(false);
 
-    // Hooks used for starting year input field
+    // Hooks used for starting year selectmenulist
     const [startingYear, setStartingYear] = useState("");
     const [startingYearOk, setStartingYearOk] = useState(false);
+
+    // Hooks used for university selectmenulist
+    const [university, setUniversity] = useState("");
+    const [universityOk, setUniversityOk] = useState(false);
 
     // Used for snackbar
     const [open, setOpen] = useState(false);
@@ -32,8 +36,30 @@ export const RegistrationPage: React.FC = () => {
     // Constants
     const passwordFieldId = "outlined-adornment-password";
     const emailFieldId = "outlined-email";
-    const numericFieldLabelId="demo-simple-select-helper-label";
-    const numericFieldId="demo-simple-select-helper";
+
+    // Starting year selectmenulist id's
+    const startingYearMenuLabelId = "simple-starting-year-label";
+    const startingYearMenuId = "simple-starting-year-id";
+    const startingYearOutlinedLabel= "StartingYear";
+    const startingYearInputLabelId = "simple-starting-year-inputlabel"
+
+    // University selectmenulist id's
+    const universityMenuLabelId = "simple-university-label";
+    const universityMenuId = "simple-university-id";
+    const universityOutlinedLabel= "University";
+    const universityInputLabelId = "simple-university-inputlabel"
+
+    const startingYearsList = [
+        '2019',
+        '2020',
+        '2021',
+        '2022',
+    ];
+
+    const universityList = [
+        'Linköpings Universitet',
+        'Chalmers',
+    ];
 
     const handleClose = () => {
         setOpen(false);
@@ -45,7 +71,7 @@ export const RegistrationPage: React.FC = () => {
     
     const registerUser = () => {
 
-        if(emailOk === false || passwordOk === false || startingYearOk === false) {
+        if(emailOk === false || passwordOk === false || startingYearOk === false || universityOk === false) {
             openSnackBar();
         }
         else {
@@ -53,6 +79,7 @@ export const RegistrationPage: React.FC = () => {
             console.log(email);
             console.log(password);
             console.log(startingYear);
+            console.log(university);
         }
     };
 
@@ -117,16 +144,36 @@ export const RegistrationPage: React.FC = () => {
                 marginBottom: '1vh', maxWidth: '400px'}}
                 variant="outlined"
             >
-                <InputLabel id="demo-simple-select-helper-label">Year</InputLabel>
+                <InputLabel id={startingYearInputLabelId}>Year</InputLabel>
 
-                <NumericInputField 
-                    id={numericFieldId}
-                    labelId={numericFieldLabelId}
-                    startingYear={startingYear}
-                    setStartingYear={setStartingYear}
-                    setStartingYearOk={setStartingYearOk}
+                <SelectMenuList 
+                    id={startingYearMenuId}
+                    labelId={startingYearMenuLabelId}
+                    value={startingYear}
+                    outlinedLabel={startingYearOutlinedLabel}
+                    valueList={startingYearsList}
+                    setValue={setStartingYear}
+                    setValueOk={setStartingYearOk}
                 />
                 <FormHelperText>Choose the year you started university</FormHelperText>
+            </FormControl>
+
+            <FormControl 
+                sx={{m: 1, width: '80vw', marginTop: '1vh',
+                marginBottom: '1vh', maxWidth: '400px'}}
+                variant="outlined"
+            >
+                <InputLabel id={universityInputLabelId}>University</InputLabel>
+
+                <SelectMenuList 
+                    id={universityMenuId}
+                    labelId={universityMenuLabelId}
+                    value={university}
+                    outlinedLabel={universityOutlinedLabel}
+                    valueList={universityList}
+                    setValue={setUniversity}
+                    setValueOk={setUniversityOk}
+                />
             </FormControl>
 
             <Button 

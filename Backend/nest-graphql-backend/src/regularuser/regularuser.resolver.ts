@@ -19,17 +19,17 @@ export class RegularuserResolver {
 
   // Query that returns all regularusers from the database.
   @Query((returns) => [RegularUser]) // Returns an array of regularusers.
-  regularusers(): Promise<RegularUser[]> {
+  async regularusers(): Promise<RegularUser[]> {
     return this.regularuserService.findAll();
   }
 
   @ResolveField((returns) => University) // Used to find what university a student goes to.
-  university(@Parent() regularuser: RegularUser): Promise<University> {
+  async university(@Parent() regularuser: RegularUser): Promise<University> {
     return this.regularuserService.getUniversity(regularuser.universityName);
   }
 
   @Mutation((returns) => RegularUser)
-  createNewRegularuser(
+  async createNewRegularuser(
     @Args('createRegularuserInput')
     createRegularuserInput: createRegularuserInput,
   ): Promise<RegularUser> {

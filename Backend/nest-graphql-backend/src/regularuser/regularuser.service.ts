@@ -17,7 +17,7 @@ export class RegularuserService {
   ) {}
 
   // Creates a new regularuser and saves it in the datanbase.
-  createRegularuser(
+  async createRegularuser(
     createRegularuserInput: createRegularuserInput,
   ): Promise<RegularUser> {
     const newRegularuser = this.regularusersRepository.create(
@@ -26,7 +26,7 @@ export class RegularuserService {
 
     const university = new University();
     university.universityName = createRegularuserInput.universityName;
-    newRegularuser.university = university;
+    newRegularuser.university = university; // Set foreign key
 
     return this.regularusersRepository.save(newRegularuser);
   }
@@ -37,7 +37,7 @@ export class RegularuserService {
   }
 
   // Gets a specific university.
-  getUniversity(universityName: string): Promise<University> {
+  async getUniversity(universityName: string): Promise<University> {
     return this.universityService.findOne(universityName);
   }
 }

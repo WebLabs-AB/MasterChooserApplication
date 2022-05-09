@@ -17,10 +17,15 @@ export class EducationService {
   ) {}
 
   // Creates a new education and saves it in the database.
-  createEducation(
+  async createEducation(
     createEducationInput: createEducationInput,
   ): Promise<Education> {
     const newEducation = this.educationRepository.create(createEducationInput);
+
+    const university = new University();
+    university.universityName = createEducationInput.universityName;
+    newEducation.university = university; // Set foreign key
+
     return this.educationRepository.save(newEducation);
   }
 
@@ -29,8 +34,16 @@ export class EducationService {
     return this.educationRepository.find(); // SELECT * FROM education;
   }
 
+  // Find all programs from the education table that matches string.
+  async findEducationFromUniversity(
+    universityName: string,
+  ): Promise<Education[]> {
+    return this.educationRepository.find({
+      where: { universityName: universityName },
+    }); // SELECT * FROM education WHERE universitName = universityName;
+  }
   // Gets a specific university.
-  getUniversity(universityName: string): Promise<University> {
+  async getUniversity(universityName: string): Promise<University> {
     return this.universityService.findOne(universityName);
   }
 }

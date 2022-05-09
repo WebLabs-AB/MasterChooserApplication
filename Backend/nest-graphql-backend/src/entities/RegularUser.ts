@@ -11,13 +11,12 @@ export class RegularUser extends User {
   @Field((type) => Int)
   startingYear: number;
 
+  @Column()
   @Field()
   universityName: string; // Used to find out what university the student goes to.
 
   @ManyToOne(() => University, (university) => university.Students, {
     cascade: true,
   }) // Shows which university a student goes
-  @Field((type) => University)
-  @JoinColumn({ name: 'universityName' })
   university: University;
 }

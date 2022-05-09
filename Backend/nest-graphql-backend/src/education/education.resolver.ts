@@ -19,17 +19,25 @@ export class EducationResolver {
 
   // Query that returns all educations from the database.
   @Query((returns) => [Education]) // Returns an array of educations.
-  educations(): Promise<Education[]> {
+  async educations(): Promise<Education[]> {
     return this.educationService.findAll();
   }
 
+  // Query that returns all educations that belongs to a specific university..
+  @Query((returns) => [Education]) // Returns an array of educations.
+  async educationFromUniversity(
+    @Args('universityName') universityName: string,
+  ): Promise<Education[]> {
+    return this.educationService.findEducationFromUniversity(universityName);
+  }
+
   @ResolveField((returns) => University) // Used to find what university the education belongs to.
-  university(@Parent() education: Education): Promise<University> {
+  async university(@Parent() education: Education): Promise<University> {
     return this.educationService.getUniversity(education.universityName);
   }
 
   @Mutation((returns) => Education)
-  createNewEducation(
+  async createNewEducation(
     @Args('createEducationInput') createEducationInput: createEducationInput,
   ): Promise<Education> {
     return this.educationService.createEducation(createEducationInput);

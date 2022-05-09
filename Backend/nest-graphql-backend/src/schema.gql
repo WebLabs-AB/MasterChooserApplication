@@ -34,6 +34,7 @@ type Query {
   universities: [University!]!
   findOne(universityName: String!): University!
   educations: [Education!]!
+  educationFromUniversity(universityName: String!): [Education!]!
 }
 
 type Mutation {

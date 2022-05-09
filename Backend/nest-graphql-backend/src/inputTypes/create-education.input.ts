@@ -7,4 +7,7 @@ export class createEducationInput {
 
   @Field()
   symbol: string;
+
+  @Field()
+  universityName: string; // Foreign key to university table.
 }

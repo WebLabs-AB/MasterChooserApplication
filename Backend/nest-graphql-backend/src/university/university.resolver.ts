@@ -11,18 +11,18 @@ export class UniversityResolver {
 
   // Query that returns all universities from the database.
   @Query((returns) => [University]) // Returns an array of universities.
-  universities(): Promise<University[]> {
+  async universities(): Promise<University[]> {
     return this.universityService.findAll();
   }
 
   // Query that finds on university from the database.
   @Query(() => University, {})
-  findOne(@Args('universityName') universityName: string) {
+  async findOne(@Args('universityName') universityName: string) {
     return this.universityService.findOne(universityName);
   }
 
   @Mutation((returns) => University)
-  createNewUniversity(
+  async createNewUniversity(
     @Args('createUniversityInput') createUniversityInput: createUniversityInput,
   ): Promise<University> {
     return this.universityService.createUniversity(createUniversityInput);

@@ -14,7 +14,7 @@ export class UniversityService {
   ) {}
 
   // Creates a new university and saves it in the database.
-  createUniversity(
+  async createUniversity(
     createUniversityInput: createUniversityInput,
   ): Promise<University> {
     const newUniversity = this.universityRepository.create(
@@ -28,7 +28,8 @@ export class UniversityService {
     return this.universityRepository.find(); // SELECT * FROM university;
   }
 
-  findOne(universityName: string): Promise<University> {
+  // Finds a specific university or fails.
+  async findOne(universityName: string): Promise<University> {
     return this.universityRepository.findOneByOrFail({ universityName });
   }
 }

@@ -10,16 +10,17 @@ interface Props {
   labelId: string;
   value: string;
   outlinedLabel: string;
+  disabled: boolean;
   valueList: any;
   setValue: any;
   setValueOk: any;
 }
 
-export const SelectMenuList: React.FC<Props> = ({ id, labelId, value, outlinedLabel, valueList, setValue, setValueOk}) => {
+export const SelectMenuList: React.FC<Props> = ({ id, labelId, value, outlinedLabel, disabled, valueList, setValue, setValueOk}) => {
 
     const handleChange = (event: SelectChangeEvent) => {
       setValue(event.target.value);
-      setValueOk(true);
+      setValueOk(true); 
     };
 
     return (
@@ -29,6 +30,7 @@ export const SelectMenuList: React.FC<Props> = ({ id, labelId, value, outlinedLa
         value={value}
         label={outlinedLabel}
         onChange={handleChange}
+        disabled={disabled}
         sx={{backgroundColor: Colors.transparentWhite, maxWidth: '400px'}}
       >
         {valueList.map((item: string)=> (

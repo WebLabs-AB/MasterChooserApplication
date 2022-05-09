@@ -30,6 +30,10 @@ export const RegistrationPage: React.FC = () => {
     const [university, setUniversity] = useState("");
     const [universityOk, setUniversityOk] = useState(false);
 
+     // Hooks used for education selectmenulist
+     const [education, setEducation] = useState("");
+     const [educationOk, setEducationOk] = useState(false);
+
     // Used for snackbar
     const [open, setOpen] = useState(false);
     
@@ -49,6 +53,12 @@ export const RegistrationPage: React.FC = () => {
     const universityOutlinedLabel= "University";
     const universityInputLabelId = "simple-university-inputlabel"
 
+    // Education selectmenulist id's
+    const educationMenuLabelId = "simple-education-label";
+    const educationMenuId = "simple-education-id";
+    const educationOutlinedLabel= "Education";
+    const educationInputLabelId = "simple-education-inputlabel"
+
     const startingYearsList = [
         '2019',
         '2020',
@@ -61,6 +71,11 @@ export const RegistrationPage: React.FC = () => {
         'Chalmers',
     ];
 
+    const educationList = [
+        'U',
+        'D',
+    ];
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -71,7 +86,7 @@ export const RegistrationPage: React.FC = () => {
     
     const registerUser = () => {
 
-        if(emailOk === false || passwordOk === false || startingYearOk === false || universityOk === false) {
+        if(emailOk === false || passwordOk === false || startingYearOk === false || universityOk === false || educationOk === false) {
             openSnackBar();
         }
         else {
@@ -80,6 +95,7 @@ export const RegistrationPage: React.FC = () => {
             console.log(password);
             console.log(startingYear);
             console.log(university);
+            console.log(education);
         }
     };
 
@@ -151,6 +167,7 @@ export const RegistrationPage: React.FC = () => {
                     labelId={startingYearMenuLabelId}
                     value={startingYear}
                     outlinedLabel={startingYearOutlinedLabel}
+                    disabled={false}
                     valueList={startingYearsList}
                     setValue={setStartingYear}
                     setValueOk={setStartingYearOk}
@@ -170,9 +187,29 @@ export const RegistrationPage: React.FC = () => {
                     labelId={universityMenuLabelId}
                     value={university}
                     outlinedLabel={universityOutlinedLabel}
+                    disabled={false}
                     valueList={universityList}
                     setValue={setUniversity}
                     setValueOk={setUniversityOk}
+                />
+            </FormControl>
+
+            <FormControl 
+                sx={{m: 1, width: '80vw', marginTop: '1vh',
+                marginBottom: '1vh', maxWidth: '400px'}}
+                variant="outlined"
+            >
+                <InputLabel id={educationInputLabelId}>Education</InputLabel>
+
+                <SelectMenuList 
+                    id={educationMenuId}
+                    labelId={educationMenuLabelId}
+                    value={education}
+                    outlinedLabel={educationOutlinedLabel}
+                    disabled={!universityOk}
+                    valueList={educationList}
+                    setValue={setEducation}
+                    setValueOk={setEducationOk}
                 />
             </FormControl>
 

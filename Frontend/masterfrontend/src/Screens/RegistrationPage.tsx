@@ -2,11 +2,13 @@ import { useState } from 'react';
 import {Container, Paper, Button, FormHelperText, Snackbar, Alert} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+
+// Own files.
 import { PasswordInputField } from '../Components/PasswordInputField';
 import { UsernameInputField } from '../Components/EmailInputField';
-
+import { SelectMenuList } from '../Components/SelectMenuList';
 import {Colors} from '../Assets/Colors';
-import { REQUIRED_PASSWORD_LENGTH, PASSWORD_ERROR_MESSAGE, EMAIL_ERROR_MESSAGE, SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
+import { SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
 
 export const RegistrationPage: React.FC = () => {
     
@@ -20,12 +22,59 @@ export const RegistrationPage: React.FC = () => {
     const [email, setEmail] = useState("");
     const [emailOk, setEmailOk] = useState(false);
 
-    //Used for snackbar
+    // Hooks used for starting year selectmenulist
+    const [startingYear, setStartingYear] = useState("");
+    const [startingYearOk, setStartingYearOk] = useState(false);
+
+    // Hooks used for university selectmenulist
+    const [university, setUniversity] = useState("");
+    const [universityOk, setUniversityOk] = useState(false);
+
+     // Hooks used for education selectmenulist
+     const [education, setEducation] = useState("");
+     const [educationOk, setEducationOk] = useState(false);
+
+    // Used for snackbar
     const [open, setOpen] = useState(false);
     
     // Constants
     const passwordFieldId = "outlined-adornment-password";
     const emailFieldId = "outlined-email";
+
+    // Starting year selectmenulist id's
+    const startingYearMenuLabelId = "simple-starting-year-label";
+    const startingYearMenuId = "simple-starting-year-id";
+    const startingYearOutlinedLabel= "StartingYear";
+    const startingYearInputLabelId = "simple-starting-year-inputlabel"
+
+    // University selectmenulist id's
+    const universityMenuLabelId = "simple-university-label";
+    const universityMenuId = "simple-university-id";
+    const universityOutlinedLabel= "University";
+    const universityInputLabelId = "simple-university-inputlabel"
+
+    // Education selectmenulist id's
+    const educationMenuLabelId = "simple-education-label";
+    const educationMenuId = "simple-education-id";
+    const educationOutlinedLabel= "Education";
+    const educationInputLabelId = "simple-education-inputlabel"
+
+    const startingYearsList = [
+        '2019',
+        '2020',
+        '2021',
+        '2022',
+    ];
+
+    const universityList = [
+        'Linköpings Universitet',
+        'Chalmers',
+    ];
+
+    const educationList = [
+        'U',
+        'D',
+    ];
 
     const handleClose = () => {
         setOpen(false);
@@ -35,80 +84,18 @@ export const RegistrationPage: React.FC = () => {
         setOpen(true);
     };
     
-    const isPasswordOk = (inputtedPassword: string): boolean => {
-        const isLengthOk = inputtedPassword.length >= REQUIRED_PASSWORD_LENGTH ? true : false;
-        if (!isLengthOk) return false;
-
-        const containsNumber = /\d/.test(inputtedPassword);
-        if (!containsNumber) return false;
-
-        const containsUpperLetter = inputtedPassword.toLowerCase() !== inputtedPassword;
-        if (!containsUpperLetter) return false;
-
-        const containsLowerLetter = inputtedPassword.toUpperCase() !== inputtedPassword;
-        if (!containsLowerLetter) return false;
-
-        return true;
-    };
-
-    const isEmailOk = (inputtedEmail: string): boolean  => {
-        let regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-        if(regex.test(inputtedEmail)) { // Valid email
-            setEmailErrorField("");
-            return true;
-        }else {
-            setEmailErrorField(EMAIL_ERROR_MESSAGE);
-            return false;
-        }
-    };
-
-    const handleInputtedPassword = () => (event: { target: { value: string; }; }) => {
-        if (event.target.value.length === 0) {
-            setPasswordErrorField(""); // Null value was inputted, field is empty.
-            setPassword(event.target.value);
-            setPasswordOk(false); 
-        }
-        else{
-            if(isPasswordOk(event.target.value)) {
-                setPassword(event.target.value);
-                setPasswordErrorField("");
-                setPasswordOk(true); 
-            }
-            else {
-                setPassword(event.target.value);
-                setPasswordErrorField(PASSWORD_ERROR_MESSAGE);
-                setPasswordOk(false); 
-            }
-        }
-    };
-
-    const handleInputtedEmail = () => (event: { target: { value: string }; }) => {
-        if (event.target.value.length === 0){
-            setEmailErrorField(""); // Null value was inputted, field is empty.
-            setEmail(event.target.value);
-            setEmailOk(false); 
-        }
-        else{
-            if(isEmailOk(event.target.value)) {
-                setEmail(event.target.value);
-                setEmailErrorField("");
-                setEmailOk(true); 
-            }
-            else {
-                setEmail(event.target.value);
-                setEmailErrorField(EMAIL_ERROR_MESSAGE);
-                setEmailOk(false); 
-            }
-        }
-    };
-
     const registerUser = () => {
-        if((emailOk || passwordOk) === false) {
+
+        if(emailOk === false || passwordOk === false || startingYearOk === false || universityOk === false || educationOk === false) {
             openSnackBar();
         }
         else {
             // Send post-request to backend
+            console.log(email);
+            console.log(password);
+            console.log(startingYear);
+            console.log(university);
+            console.log(education);
         }
     };
 
@@ -143,7 +130,9 @@ export const RegistrationPage: React.FC = () => {
                 <UsernameInputField
                     id={emailFieldId}
                     email={email}
-                    handleChange={handleInputtedEmail}
+                    setEmailErrorField={setEmailErrorField}
+                    setEmail={setEmail}
+                    setEmailOk={setEmailOk}
                 />
                 <FormHelperText error id="error-text-email">{emailErrorField}</FormHelperText>
             </FormControl>
@@ -158,10 +147,70 @@ export const RegistrationPage: React.FC = () => {
                 </InputLabel>
                 <PasswordInputField 
                     id={passwordFieldId}
-                    handleChange={handleInputtedPassword}
                     password={password}
+                    setPasswordErrorField={setPasswordErrorField}
+                    setPassword={setPassword}
+                    setPasswordOk={setPasswordOk}
                 />
                 <FormHelperText error id="error-text-password">{passwordErrorField}</FormHelperText>
+            </FormControl>
+
+            <FormControl 
+                sx={{m: 1, width: '80vw', marginTop: '1vh',
+                marginBottom: '1vh', maxWidth: '400px'}}
+                variant="outlined"
+            >
+                <InputLabel id={startingYearInputLabelId}>Year</InputLabel>
+
+                <SelectMenuList 
+                    id={startingYearMenuId}
+                    labelId={startingYearMenuLabelId}
+                    value={startingYear}
+                    outlinedLabel={startingYearOutlinedLabel}
+                    disabled={false}
+                    valueList={startingYearsList}
+                    setValue={setStartingYear}
+                    setValueOk={setStartingYearOk}
+                />
+                <FormHelperText>Choose the year you started university</FormHelperText>
+            </FormControl>
+
+            <FormControl 
+                sx={{m: 1, width: '80vw', marginTop: '1vh',
+                marginBottom: '1vh', maxWidth: '400px'}}
+                variant="outlined"
+            >
+                <InputLabel id={universityInputLabelId}>University</InputLabel>
+
+                <SelectMenuList 
+                    id={universityMenuId}
+                    labelId={universityMenuLabelId}
+                    value={university}
+                    outlinedLabel={universityOutlinedLabel}
+                    disabled={false}
+                    valueList={universityList}
+                    setValue={setUniversity}
+                    setValueOk={setUniversityOk}
+                />
+            </FormControl>
+
+            <FormControl 
+                sx={{m: 1, width: '80vw', marginTop: '1vh',
+                marginBottom: '1vh', maxWidth: '400px'}}
+                variant="outlined"
+            >
+                <InputLabel id={educationInputLabelId}>Education</InputLabel>
+
+                <SelectMenuList 
+                    id={educationMenuId}
+                    labelId={educationMenuLabelId}
+                    value={education}
+                    outlinedLabel={educationOutlinedLabel}
+                    disabled={!universityOk}
+                    valueList={educationList}
+                    setValue={setEducation}
+                    setValueOk={setEducationOk}
+                />
             </FormControl>
 
             <Button 

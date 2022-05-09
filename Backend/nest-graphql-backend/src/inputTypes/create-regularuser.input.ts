@@ -15,5 +15,5 @@ export class createRegularuserInput {
   startingYear: number;
 
   @Field()
-  universityName: string;
+  universityName: string; // Foreign key to university table.
 }

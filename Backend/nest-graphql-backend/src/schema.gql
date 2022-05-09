@@ -56,4 +56,5 @@ input createUniversityInput {
 input createEducationInput {
   educationName: String!
   symbol: String!
+  universityName: String!
 }

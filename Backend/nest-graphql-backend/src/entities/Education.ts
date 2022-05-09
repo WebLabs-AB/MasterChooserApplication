@@ -27,5 +27,7 @@ export class Education extends BaseEntity {
   @ManyToOne(() => University, (university) => university.Educations, {
     cascade: true,
   }) // Shows which university an education belongs to.
+  @Field((type) => University)
+  @JoinColumn({ name: 'universityName' })
   university: University;
 }

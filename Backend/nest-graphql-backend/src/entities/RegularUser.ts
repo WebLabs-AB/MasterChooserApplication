@@ -18,5 +18,7 @@ export class RegularUser extends User {
   @ManyToOne(() => University, (university) => university.Students, {
     cascade: true,
   }) // Shows which university a student goes
+  @Field((type) => University)
+  @JoinColumn({ name: 'universityName' })
   university: University;
 }

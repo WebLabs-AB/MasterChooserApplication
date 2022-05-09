@@ -36,6 +36,7 @@ export class RegularuserService {
     return this.regularusersRepository.find(); // SELECT * FROM regularuser;
   }
 
+  // Gets a specific university.
   getUniversity(universityName: string): Promise<University> {
     return this.universityService.findOne(universityName);
   }

@@ -23,7 +23,7 @@ export class RegularuserResolver {
     return this.regularuserService.findAll();
   }
 
-  @ResolveField((returns) => University) // Used to resolve nested fields in queries.
+  @ResolveField((returns) => University) // Used to find what university a student goes to.
   university(@Parent() regularuser: RegularUser): Promise<University> {
     return this.regularuserService.getUniversity(regularuser.universityName);
   }

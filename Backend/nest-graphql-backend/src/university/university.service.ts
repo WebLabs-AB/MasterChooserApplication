@@ -28,6 +28,7 @@ export class UniversityService {
     return this.universityRepository.find(); // SELECT * FROM university;
   }
 
+  // Finds a specific university or fails.
   findOne(universityName: string): Promise<University> {
     return this.universityRepository.findOneByOrFail({ universityName });
   }

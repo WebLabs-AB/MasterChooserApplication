@@ -1,5 +1,13 @@
-import { Entity, BaseEntity, PrimaryColumn, Column } from 'typeorm';
+import {
+  Entity,
+  BaseEntity,
+  PrimaryColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { University } from './University';
 
 @Entity('Education')
 @ObjectType()
@@ -11,4 +19,14 @@ export class Education extends BaseEntity {
   @Column()
   @Field()
   symbol: string;
+
+  @Field()
+  universityName: string; // Used to find out what university the education belongs to.
+
+  @ManyToOne(() => University, (university) => university.Students, {
+    cascade: true,
+  }) // Shows which university an education belongs to.
+  @Field((type) => University)
+  @JoinColumn({ name: 'universityName' })
+  university: University;
 }

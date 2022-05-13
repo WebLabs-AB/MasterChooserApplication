@@ -31,7 +31,7 @@ export const RegistrationPage: React.FC = () => {
     // Hooks used for university selectmenulist.
     const [university, setUniversity] = useState("");
     const [universityOk, setUniversityOk] = useState(false);
-    const [universities, setUniversities] = useState([]);
+    const [universities, setUniversities] = useState([""]);
 
     // Hooks used for education selectmenulist.
     const [education, setEducation] = useState("");
@@ -39,12 +39,19 @@ export const RegistrationPage: React.FC = () => {
 
     // Used for snackbar.
     const [open, setOpen] = useState(false);
+
+    // Interfaces 
+    interface universityJsonType{
+        universityName: string;
+    }
     
     // GraphQL hooks.
     const [getUniversities, { loading, error, data }] = useLazyQuery(GET_ALL_UNIVERSITIES, {
         variables: { university }, // Execute query when university hook is changed.
         onCompleted: data => {
-            console.log(data.universities)
+            let universityArray: string[] = [];
+            data.universities.map((e: universityJsonType) => universityArray.push(e.universityName));
+            setUniversities(universityArray);
         },
         onError: error => {
             console.log(error);
@@ -83,11 +90,6 @@ export const RegistrationPage: React.FC = () => {
         '2020',
         '2021',
         '2022',
-    ];
-
-    const universityList = [
-        'Linköpings Universitet',
-        'Chalmers',
     ];
 
     const educationList = [
@@ -207,7 +209,7 @@ export const RegistrationPage: React.FC = () => {
                     value={university}
                     outlinedLabel={universityOutlinedLabel}
                     disabled={false}
-                    valueList={universityList}
+                    valueList={universities}
                     setValue={setUniversity}
                     setValueOk={setUniversityOk}
                 />

@@ -58,7 +58,6 @@ export const RegistrationPage: React.FC = () => {
         }
     });
 
-
     useEffect(() => {
         getUniversities();
     }, [getUniversities])

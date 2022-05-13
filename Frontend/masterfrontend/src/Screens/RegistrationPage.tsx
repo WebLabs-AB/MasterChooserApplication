@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {Container, Paper, Button, FormHelperText, Snackbar, Alert} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+import { useQuery, useLazyQuery } from '@apollo/client';
 
 // Own files.
 import { PasswordInputField } from '../Components/PasswordInputField';
@@ -9,33 +10,51 @@ import { UsernameInputField } from '../Components/EmailInputField';
 import { SelectMenuList } from '../Components/SelectMenuList';
 import {Colors} from '../Assets/Colors';
 import { SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
+import { GET_ALL_UNIVERSITIES } from '../gql/Query';
 
 export const RegistrationPage: React.FC = () => {
     
-    // Hooks used for password checks
+    // Hooks used for password checks.
     const [passwordErrorField, setPasswordErrorField] = useState("");
     const [password, setPassword] = useState("");
     const [passwordOk, setPasswordOk] = useState(false);
 
-    // Hooks used for email checks
+    // Hooks used for email checks.
     const [emailErrorField, setEmailErrorField] = useState("");
     const [email, setEmail] = useState("");
     const [emailOk, setEmailOk] = useState(false);
 
-    // Hooks used for starting year selectmenulist
+    // Hooks used for starting year selectmenulist.
     const [startingYear, setStartingYear] = useState("");
     const [startingYearOk, setStartingYearOk] = useState(false);
 
-    // Hooks used for university selectmenulist
+    // Hooks used for university selectmenulist.
     const [university, setUniversity] = useState("");
     const [universityOk, setUniversityOk] = useState(false);
+    const [universities, setUniversities] = useState([]);
 
-     // Hooks used for education selectmenulist
-     const [education, setEducation] = useState("");
-     const [educationOk, setEducationOk] = useState(false);
+    // Hooks used for education selectmenulist.
+    const [education, setEducation] = useState("");
+    const [educationOk, setEducationOk] = useState(false);
 
-    // Used for snackbar
+    // Used for snackbar.
     const [open, setOpen] = useState(false);
+    
+    // GraphQL hooks.
+    const [getUniversities, { loading, error, data }] = useLazyQuery(GET_ALL_UNIVERSITIES, {
+        variables: { university }, // Execute query when university hook is changed.
+        onCompleted: data => {
+            console.log(data.universities)
+        },
+        onError: error => {
+            console.log(error);
+        }
+    });
+
+
+    useEffect(() => {
+        getUniversities();
+    }, [getUniversities])
     
     // Constants
     const passwordFieldId = "outlined-adornment-password";

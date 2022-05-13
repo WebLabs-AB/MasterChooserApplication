@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {Container, Paper, Button, FormHelperText, Snackbar, Alert} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+import { useQuery, useLazyQuery } from '@apollo/client';
 
 // Own files.
 import { PasswordInputField } from '../Components/PasswordInputField';
@@ -9,33 +10,68 @@ import { UsernameInputField } from '../Components/EmailInputField';
 import { SelectMenuList } from '../Components/SelectMenuList';
 import {Colors} from '../Assets/Colors';
 import { SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
+import { GET_ALL_UNIVERSITIES, GET_UNIVERSITY_EDUCATIONS } from '../gql/Query';
+import { educationJsonType, universityJsonType } from '../Assets/Interfaces';
 
 export const RegistrationPage: React.FC = () => {
     
-    // Hooks used for password checks
+    // Hooks used for password checks.
     const [passwordErrorField, setPasswordErrorField] = useState("");
     const [password, setPassword] = useState("");
     const [passwordOk, setPasswordOk] = useState(false);
 
-    // Hooks used for email checks
+    // Hooks used for email checks.
     const [emailErrorField, setEmailErrorField] = useState("");
     const [email, setEmail] = useState("");
     const [emailOk, setEmailOk] = useState(false);
 
-    // Hooks used for starting year selectmenulist
+    // Hooks used for starting year selectmenulist.
     const [startingYear, setStartingYear] = useState("");
     const [startingYearOk, setStartingYearOk] = useState(false);
 
-    // Hooks used for university selectmenulist
-    const [university, setUniversity] = useState("");
+    // Hooks used for university selectmenulist.
+    const [chosenUniversity, setUniversity] = useState("");
     const [universityOk, setUniversityOk] = useState(false);
+    const [universities, setUniversities] = useState([""]);
 
-     // Hooks used for education selectmenulist
-     const [education, setEducation] = useState("");
-     const [educationOk, setEducationOk] = useState(false);
+    // Hooks used for education selectmenulist.
+    const [chosenEducation, setEducation] = useState("");
+    const [educationOk, setEducationOk] = useState(false);
+    const [educations, setEducations] = useState([""]);
 
-    // Used for snackbar
+    // Used for snackbar.
     const [open, setOpen] = useState(false);
+
+    // GraphQL hooks.
+    const [getUniversities] = useLazyQuery(GET_ALL_UNIVERSITIES, {
+        variables: { chosenUniversity }, // Execute query when chosenUniversity hook is changed.
+        onCompleted: data => {
+            let universityArray: string[] = [];
+            data.universities.map((e: universityJsonType) => universityArray.push(e.universityName));
+            setUniversities(universityArray);
+        },
+        onError: error => {
+            console.log(error);
+        }
+    });
+
+    const [getUniversityEducation] = useLazyQuery(GET_UNIVERSITY_EDUCATIONS, {
+        onCompleted: data => {
+            let educationArray: string[] = [];
+            console.log(data);
+            data.educationFromUniversity.map((e: educationJsonType) => educationArray.push(e.symbol));
+            setEducations(educationArray);
+        },
+        onError: error => {
+            console.log(error);
+        }
+    });
+
+    useEffect(() => {
+        getUniversities();
+        if(universityOk) getUniversityEducation({variables: {universityName: chosenUniversity}});
+        
+    }, [getUniversities, chosenUniversity, universityOk, getUniversityEducation])
     
     // Constants
     const passwordFieldId = "outlined-adornment-password";
@@ -66,16 +102,6 @@ export const RegistrationPage: React.FC = () => {
         '2022',
     ];
 
-    const universityList = [
-        'Linköpings Universitet',
-        'Chalmers',
-    ];
-
-    const educationList = [
-        'U',
-        'D',
-    ];
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -94,8 +120,8 @@ export const RegistrationPage: React.FC = () => {
             console.log(email);
             console.log(password);
             console.log(startingYear);
-            console.log(university);
-            console.log(education);
+            console.log(chosenUniversity);
+            console.log(chosenEducation);
         }
     };
 
@@ -185,10 +211,10 @@ export const RegistrationPage: React.FC = () => {
                 <SelectMenuList 
                     id={universityMenuId}
                     labelId={universityMenuLabelId}
-                    value={university}
+                    value={chosenUniversity}
                     outlinedLabel={universityOutlinedLabel}
                     disabled={false}
-                    valueList={universityList}
+                    valueList={universities}
                     setValue={setUniversity}
                     setValueOk={setUniversityOk}
                 />
@@ -204,10 +230,10 @@ export const RegistrationPage: React.FC = () => {
                 <SelectMenuList 
                     id={educationMenuId}
                     labelId={educationMenuLabelId}
-                    value={education}
+                    value={chosenEducation}
                     outlinedLabel={educationOutlinedLabel}
                     disabled={!universityOk}
-                    valueList={educationList}
+                    valueList={educations}
                     setValue={setEducation}
                     setValueOk={setEducationOk}
                 />

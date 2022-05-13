@@ -1,5 +1,3 @@
-import React from 'react';
-import logo from './logo.svg';
 import {Stack} from '@mui/material';
 
 import './App.css';

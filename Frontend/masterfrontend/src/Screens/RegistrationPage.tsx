@@ -10,7 +10,8 @@ import { UsernameInputField } from '../Components/EmailInputField';
 import { SelectMenuList } from '../Components/SelectMenuList';
 import {Colors} from '../Assets/Colors';
 import { SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
-import { GET_ALL_UNIVERSITIES } from '../gql/Query';
+import { GET_ALL_UNIVERSITIES, GET_UNIVERSITY_EDUCATIONS } from '../gql/Query';
+import { educationJsonType, universityJsonType } from '../Assets/Interfaces';
 
 export const RegistrationPage: React.FC = () => {
     
@@ -29,25 +30,21 @@ export const RegistrationPage: React.FC = () => {
     const [startingYearOk, setStartingYearOk] = useState(false);
 
     // Hooks used for university selectmenulist.
-    const [university, setUniversity] = useState("");
+    const [chosenUniversity, setUniversity] = useState("");
     const [universityOk, setUniversityOk] = useState(false);
     const [universities, setUniversities] = useState([""]);
 
     // Hooks used for education selectmenulist.
-    const [education, setEducation] = useState("");
+    const [chosenEducation, setEducation] = useState("");
     const [educationOk, setEducationOk] = useState(false);
+    const [educations, setEducations] = useState([""]);
 
     // Used for snackbar.
     const [open, setOpen] = useState(false);
 
-    // Interfaces 
-    interface universityJsonType{
-        universityName: string;
-    }
-    
     // GraphQL hooks.
-    const [getUniversities, { loading, error, data }] = useLazyQuery(GET_ALL_UNIVERSITIES, {
-        variables: { university }, // Execute query when university hook is changed.
+    const [getUniversities] = useLazyQuery(GET_ALL_UNIVERSITIES, {
+        variables: { chosenUniversity }, // Execute query when chosenUniversity hook is changed.
         onCompleted: data => {
             let universityArray: string[] = [];
             data.universities.map((e: universityJsonType) => universityArray.push(e.universityName));
@@ -58,9 +55,23 @@ export const RegistrationPage: React.FC = () => {
         }
     });
 
+    const [getUniversityEducation] = useLazyQuery(GET_UNIVERSITY_EDUCATIONS, {
+        onCompleted: data => {
+            let educationArray: string[] = [];
+            console.log(data);
+            data.educationFromUniversity.map((e: educationJsonType) => educationArray.push(e.symbol));
+            setEducations(educationArray);
+        },
+        onError: error => {
+            console.log(error);
+        }
+    });
+
     useEffect(() => {
         getUniversities();
-    }, [getUniversities])
+        if(universityOk) getUniversityEducation({variables: {universityName: chosenUniversity}});
+        
+    }, [getUniversities, chosenUniversity, universityOk, getUniversityEducation])
     
     // Constants
     const passwordFieldId = "outlined-adornment-password";
@@ -91,11 +102,6 @@ export const RegistrationPage: React.FC = () => {
         '2022',
     ];
 
-    const educationList = [
-        'U',
-        'D',
-    ];
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -114,8 +120,8 @@ export const RegistrationPage: React.FC = () => {
             console.log(email);
             console.log(password);
             console.log(startingYear);
-            console.log(university);
-            console.log(education);
+            console.log(chosenUniversity);
+            console.log(chosenEducation);
         }
     };
 
@@ -205,7 +211,7 @@ export const RegistrationPage: React.FC = () => {
                 <SelectMenuList 
                     id={universityMenuId}
                     labelId={universityMenuLabelId}
-                    value={university}
+                    value={chosenUniversity}
                     outlinedLabel={universityOutlinedLabel}
                     disabled={false}
                     valueList={universities}
@@ -224,10 +230,10 @@ export const RegistrationPage: React.FC = () => {
                 <SelectMenuList 
                     id={educationMenuId}
                     labelId={educationMenuLabelId}
-                    value={education}
+                    value={chosenEducation}
                     outlinedLabel={educationOutlinedLabel}
                     disabled={!universityOk}
-                    valueList={educationList}
+                    valueList={educations}
                     setValue={setEducation}
                     setValueOk={setEducationOk}
                 />

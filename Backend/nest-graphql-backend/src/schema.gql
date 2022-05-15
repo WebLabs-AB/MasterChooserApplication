@@ -29,18 +29,24 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type StartingYear {
+  startingYear: Int!
+}
+
 type Query {
   regularusers: [RegularUser!]!
   universities: [University!]!
   findOne(universityName: String!): University!
   educations: [Education!]!
   educationFromUniversity(universityName: String!): [Education!]!
+  startingYears: [StartingYear!]!
 }
 
 type Mutation {
   createNewRegularuser(createRegularuserInput: createRegularuserInput!): RegularUser!
   createNewUniversity(createUniversityInput: createUniversityInput!): University!
   createNewEducation(createEducationInput: createEducationInput!): Education!
+  createNewStartingYear(createStartingYearInput: createStartingYearInput!): StartingYear!
 }
 
 input createRegularuserInput {
@@ -58,4 +64,8 @@ input createEducationInput {
   educationName: String!
   symbol: String!
   universityName: String!
+}
+
+input createStartingYearInput {
+  startingYear: Int!
 }

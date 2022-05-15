@@ -15,3 +15,11 @@ query GetUnivsersityEducation($universityName: String!) {
     }
 }
 `;
+
+export const GET_ALL_STARTING_YEARS = gql`
+query{
+    startingYears {
+      startingYear
+    }
+  }
+`;

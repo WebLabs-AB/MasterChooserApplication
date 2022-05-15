@@ -6,3 +6,7 @@ export interface universityJsonType{
 export interface educationJsonType{
     symbol: string;
 }
+
+export interface startingYearJsonType{
+    startingYear: string;
+}

@@ -10,8 +10,8 @@ import { UsernameInputField } from '../Components/EmailInputField';
 import { SelectMenuList } from '../Components/SelectMenuList';
 import {Colors} from '../Assets/Colors';
 import { SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
-import { GET_ALL_UNIVERSITIES, GET_UNIVERSITY_EDUCATIONS } from '../gql/Query';
-import { educationJsonType, universityJsonType } from '../Assets/Interfaces';
+import { GET_ALL_STARTING_YEARS, GET_ALL_UNIVERSITIES, GET_UNIVERSITY_EDUCATIONS } from '../gql/Query';
+import { educationJsonType, startingYearJsonType, universityJsonType } from '../Assets/Interfaces';
 
 export const RegistrationPage: React.FC = () => {
     
@@ -28,6 +28,7 @@ export const RegistrationPage: React.FC = () => {
     // Hooks used for starting year selectmenulist.
     const [startingYear, setStartingYear] = useState("");
     const [startingYearOk, setStartingYearOk] = useState(false);
+    const [startingYears, setStartingYears] = useState([""]);
 
     // Hooks used for university selectmenulist.
     const [chosenUniversity, setUniversity] = useState("");
@@ -47,7 +48,7 @@ export const RegistrationPage: React.FC = () => {
         variables: { chosenUniversity }, // Execute query when chosenUniversity hook is changed.
         onCompleted: data => {
             let universityArray: string[] = [];
-            data.universities.map((e: universityJsonType) => universityArray.push(e.universityName));
+            data.universities.map((uni: universityJsonType) => universityArray.push(uni.universityName));
             setUniversities(universityArray);
         },
         onError: error => {
@@ -59,7 +60,7 @@ export const RegistrationPage: React.FC = () => {
         onCompleted: data => {
             let educationArray: string[] = [];
             console.log(data);
-            data.educationFromUniversity.map((e: educationJsonType) => educationArray.push(e.symbol));
+            data.educationFromUniversity.map((education: educationJsonType) => educationArray.push(education.symbol));
             setEducations(educationArray);
         },
         onError: error => {
@@ -67,6 +68,16 @@ export const RegistrationPage: React.FC = () => {
         }
     });
 
+    const { data } = useQuery(GET_ALL_STARTING_YEARS, {
+        onCompleted: data => {
+            let startingYearsArray: string[] = [];
+            console.log(data);
+            data.startingYears.map((year: startingYearJsonType) => startingYearsArray.push(year.startingYear));
+            setStartingYears(startingYearsArray);
+        }
+    });
+
+    // Updates the screen when choices are made.
     useEffect(() => {
         getUniversities();
         if(universityOk) getUniversityEducation({variables: {universityName: chosenUniversity}});
@@ -94,13 +105,6 @@ export const RegistrationPage: React.FC = () => {
     const educationMenuId = "simple-education-id";
     const educationOutlinedLabel= "Education";
     const educationInputLabelId = "simple-education-inputlabel"
-
-    const startingYearsList = [
-        '2019',
-        '2020',
-        '2021',
-        '2022',
-    ];
 
     const handleClose = () => {
         setOpen(false);
@@ -194,7 +198,7 @@ export const RegistrationPage: React.FC = () => {
                     value={startingYear}
                     outlinedLabel={startingYearOutlinedLabel}
                     disabled={false}
-                    valueList={startingYearsList}
+                    valueList={startingYears}
                     setValue={setStartingYear}
                     setValueOk={setStartingYearOk}
                 />

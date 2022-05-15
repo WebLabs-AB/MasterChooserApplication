@@ -12,6 +12,8 @@ import { UniversityModule } from './university/university.module';
 import { University } from './entities/University';
 import { EducationModule } from './education/education.module';
 import { Education } from './entities/Education';
+import { StartingYearModule } from './starting-year/starting-year.module';
+import { StartingYear } from './entities/StartingYear';
 
 @Module({
   imports: [
@@ -26,12 +28,13 @@ import { Education } from './entities/Education';
       username: 'eribi',
       password: 'MySqlDatabase',
       database: 'masterchooserdb',
-      entities: [SuperUser, RegularUser, University, Education],
+      entities: [SuperUser, RegularUser, University, Education, StartingYear],
       synchronize: true,
     }),
     RegularuserModule,
     UniversityModule,
     EducationModule,
+    StartingYearModule,
   ],
   controllers: [],
   providers: [],

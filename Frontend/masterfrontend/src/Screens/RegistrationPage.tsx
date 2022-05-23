@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import {Container, Paper, Button, FormHelperText, Snackbar, Alert} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import { useQuery, useLazyQuery } from '@apollo/client';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 
 // Own files.
 import { PasswordInputField } from '../Components/PasswordInputField';
@@ -12,8 +12,12 @@ import {Colors} from '../Assets/Colors';
 import { SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
 import { GET_ALL_STARTING_YEARS, GET_ALL_UNIVERSITIES, GET_UNIVERSITY_EDUCATIONS } from '../gql/Query';
 import { educationJsonType, startingYearJsonType, universityJsonType } from '../Assets/Interfaces';
+import { useNewRegularUserMutation } from '../gql/RegUserMut';
 
 export const RegistrationPage: React.FC = () => {
+
+    // Hook for creating new RegularUser
+    const setNewRegularUser = useNewRegularUserMutation();
     
     // Hooks used for password checks.
     const [passwordErrorField, setPasswordErrorField] = useState("");
@@ -60,7 +64,7 @@ export const RegistrationPage: React.FC = () => {
         onCompleted: data => {
             let educationArray: string[] = [];
             console.log(data);
-            data.educationFromUniversity.map((education: educationJsonType) => educationArray.push(education.symbol));
+            data.educationFromUniversity.map((education: educationJsonType) => educationArray.push(education.educationName));
             setEducations(educationArray);
         },
         onError: error => {
@@ -71,7 +75,6 @@ export const RegistrationPage: React.FC = () => {
     const { data } = useQuery(GET_ALL_STARTING_YEARS, {
         onCompleted: data => {
             let startingYearsArray: string[] = [];
-            console.log(data);
             data.startingYears.map((year: startingYearJsonType) => startingYearsArray.push(year.startingYear));
             setStartingYears(startingYearsArray);
         }
@@ -114,7 +117,7 @@ export const RegistrationPage: React.FC = () => {
         setOpen(true);
     };
     
-    const registerUser = () => {
+    const registerUser = async () => {
 
         if(emailOk === false || passwordOk === false || startingYearOk === false || universityOk === false || educationOk === false) {
             openSnackBar();
@@ -126,6 +129,10 @@ export const RegistrationPage: React.FC = () => {
             console.log(startingYear);
             console.log(chosenUniversity);
             console.log(chosenEducation);
+            
+            // Check if email is already taken before trying to register.
+            const res = await setNewRegularUser(email, password, Number(startingYear), chosenUniversity, chosenEducation)
+            console.log(res);
         }
     };
 

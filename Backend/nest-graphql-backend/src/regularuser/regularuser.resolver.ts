@@ -6,6 +6,7 @@ import {
   Parent,
   ResolveField,
 } from '@nestjs/graphql';
+import { Education } from 'src/entities/Education';
 
 // Own files.
 import { RegularUser } from 'src/entities/RegularUser';
@@ -26,6 +27,11 @@ export class RegularuserResolver {
   @ResolveField((returns) => University) // Used to find what university a student goes to.
   async university(@Parent() regularuser: RegularUser): Promise<University> {
     return this.regularuserService.getUniversity(regularuser.universityName);
+  }
+
+  @ResolveField((returns) => Education) // Used to find what education a student studies.
+  async education(@Parent() regularuser: RegularUser): Promise<Education> {
+    return this.regularuserService.getEducation(regularuser.educationName);
   }
 
   @Mutation((returns) => RegularUser)

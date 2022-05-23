@@ -7,6 +7,7 @@ type Education {
   symbol: String!
   universityName: String!
   university: University!
+  Students: [RegularUser!]
 }
 
 type University {
@@ -21,7 +22,9 @@ type RegularUser {
   createdAt: DateTime!
   startingYear: Int!
   universityName: String!
+  educationName: String!
   university: University!
+  education: Education!
 }
 
 """
@@ -54,6 +57,7 @@ input createRegularuserInput {
   password: String!
   startingYear: Int!
   universityName: String!
+  educationName: String!
 }
 
 input createUniversityInput {

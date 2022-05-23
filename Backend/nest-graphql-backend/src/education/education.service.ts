@@ -42,6 +42,12 @@ export class EducationService {
       where: { universityName: universityName },
     }); // SELECT * FROM education WHERE universitName = universityName;
   }
+
+  // Finds a specific education or fails.
+  async findOne(educationName: string): Promise<Education> {
+    return this.educationRepository.findOneByOrFail({ educationName });
+  }
+
   // Gets a specific university.
   async getUniversity(universityName: string): Promise<University> {
     return this.universityService.findOne(universityName);

@@ -11,13 +11,13 @@ query GetAllUniversities {
 export const GET_UNIVERSITY_EDUCATIONS = gql`
 query GetUnivsersityEducation($universityName: String!) {
     educationFromUniversity(universityName: $universityName) {
-      symbol
+      educationName
     }
 }
 `;
 
 export const GET_ALL_STARTING_YEARS = gql`
-query{
+query {
     startingYears {
       startingYear
     }

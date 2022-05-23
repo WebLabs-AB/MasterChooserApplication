@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react';
 import {Container, Paper, Button, FormHelperText, Snackbar, Alert} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import { useQuery, useLazyQuery } from '@apollo/client';
 
 // Own files.
 import { PasswordInputField } from '../Components/PasswordInputField';
 import { UsernameInputField } from '../Components/EmailInputField';
 import { SelectMenuList } from '../Components/SelectMenuList';
-import {Colors} from '../Assets/Colors';
-import { SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
-import { GET_ALL_STARTING_YEARS, GET_ALL_UNIVERSITIES, GET_UNIVERSITY_EDUCATIONS } from '../gql/Query';
+import { Colors } from '../Assets/Colors';
+import { SNACKBAR_REGISTER_DUPLICATE_MSG, SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
+import { CHECK_IF_REGULAR_USER_EXISTS, GET_ALL_STARTING_YEARS, GET_ALL_UNIVERSITIES, GET_UNIVERSITY_EDUCATIONS } from '../gql/Query';
 import { educationJsonType, startingYearJsonType, universityJsonType } from '../Assets/Interfaces';
 import { useNewRegularUserMutation } from '../gql/RegUserMut';
 
@@ -28,6 +28,7 @@ export const RegistrationPage: React.FC = () => {
     const [emailErrorField, setEmailErrorField] = useState("");
     const [email, setEmail] = useState("");
     const [emailOk, setEmailOk] = useState(false);
+    const [duplicateEmail, setDuplicateEmail] = useState(false);
 
     // Hooks used for starting year selectmenulist.
     const [startingYear, setStartingYear] = useState("");
@@ -46,6 +47,7 @@ export const RegistrationPage: React.FC = () => {
 
     // Used for snackbar.
     const [open, setOpen] = useState(false);
+    const [msg, setMsg] = useState("");
 
     // GraphQL hooks.
     const [getUniversities] = useLazyQuery(GET_ALL_UNIVERSITIES, {
@@ -63,7 +65,6 @@ export const RegistrationPage: React.FC = () => {
     const [getUniversityEducation] = useLazyQuery(GET_UNIVERSITY_EDUCATIONS, {
         onCompleted: data => {
             let educationArray: string[] = [];
-            console.log(data);
             data.educationFromUniversity.map((education: educationJsonType) => educationArray.push(education.educationName));
             setEducations(educationArray);
         },
@@ -71,6 +72,17 @@ export const RegistrationPage: React.FC = () => {
             console.log(error);
         }
     });
+
+    const [getRegularuser] = useLazyQuery(CHECK_IF_REGULAR_USER_EXISTS, {
+        fetchPolicy: 'no-cache',
+        onCompleted: () => { // Email does exist in the database.
+            setDuplicateEmail(true);
+        },
+        notifyOnNetworkStatusChange: true, 
+        onError: () => { // Email does not exist in the database.
+            setDuplicateEmail(false);
+        }
+    })
 
     const { data } = useQuery(GET_ALL_STARTING_YEARS, {
         onCompleted: data => {
@@ -113,24 +125,31 @@ export const RegistrationPage: React.FC = () => {
         setOpen(false);
     };
 
-    const openSnackBar = () => {
+    const openSnackBar = (msg: string) => {
         setOpen(true);
+        setMsg(msg);
     };
     
     const registerUser = async () => {
 
         if(emailOk === false || passwordOk === false || startingYearOk === false || universityOk === false || educationOk === false) {
-            openSnackBar();
+            openSnackBar(SNACKBAR_REGISTER_ERROR_MSG);
         }
         else {
             // Send post-request to backend
-            console.log(email);
-            console.log(password);
-            console.log(startingYear);
-            console.log(chosenUniversity);
-            console.log(chosenEducation);
+            console.log("Email: ", email);
+            console.log("Password: ", password);
+            console.log("Year: ", startingYear);
+            console.log("Uni: ", chosenUniversity);
+            console.log("Ed: ", chosenEducation);
             
             // Check if email is already taken before trying to register.
+            getRegularuser({variables: {email: email}});
+            if(duplicateEmail) {
+                openSnackBar(SNACKBAR_REGISTER_DUPLICATE_MSG);
+                setEmailErrorField("Email already exists");
+            }
+
             const res = await setNewRegularUser(email, password, Number(startingYear), chosenUniversity, chosenEducation)
             console.log(res);
         }
@@ -144,7 +163,7 @@ export const RegistrationPage: React.FC = () => {
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{vertical: 'top', horizontal: 'center'}} sx={{marginTop: '7vh'}}
         >
             <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
-                {SNACKBAR_REGISTER_ERROR_MSG}
+                {msg}
             </Alert>
         </Snackbar>
 

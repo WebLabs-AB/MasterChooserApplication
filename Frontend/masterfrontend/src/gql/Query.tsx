@@ -23,3 +23,11 @@ query {
     }
   }
 `;
+
+export const CHECK_IF_REGULAR_USER_EXISTS = gql`
+query getRegularuser($email: String!) {
+  getRegularuser(email: $email) {
+    email
+  }
+}
+`;

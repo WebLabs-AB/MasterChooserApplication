@@ -38,6 +38,7 @@ type StartingYear {
 
 type Query {
   regularusers: [RegularUser!]!
+  getRegularuser(email: String!): RegularUser!
   universities: [University!]!
   findOne(universityName: String!): University!
   educations: [Education!]!

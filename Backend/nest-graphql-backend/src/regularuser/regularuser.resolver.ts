@@ -24,6 +24,12 @@ export class RegularuserResolver {
     return this.regularuserService.findAll();
   }
 
+  // Query that returns if an regularuser exists in the database.
+  @Query((returns) => RegularUser)
+  async getRegularuser(@Args('email') email: string): Promise<RegularUser> {
+    return this.regularuserService.findOne(email);
+  }
+
   @ResolveField((returns) => University) // Used to find what university a student goes to.
   async university(@Parent() regularuser: RegularUser): Promise<University> {
     return this.regularuserService.getUniversity(regularuser.universityName);

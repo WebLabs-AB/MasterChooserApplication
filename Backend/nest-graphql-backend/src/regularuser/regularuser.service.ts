@@ -43,6 +43,11 @@ export class RegularuserService {
     return this.regularusersRepository.find(); // SELECT * FROM regularuser;
   }
 
+  // Finds a specific regularuser or fails.
+  async findOne(email: string): Promise<RegularUser> {
+    return this.regularusersRepository.findOneByOrFail({ email });
+  }
+
   // Gets a specific university.
   async getUniversity(universityName: string): Promise<University> {
     return this.universityService.findOne(universityName);

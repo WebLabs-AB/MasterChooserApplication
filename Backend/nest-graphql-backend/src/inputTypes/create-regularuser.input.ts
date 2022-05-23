@@ -16,4 +16,7 @@ export class createRegularuserInput {
 
   @Field()
   universityName: string; // Foreign key to university table.
+
+  @Field()
+  educationName: string; // Foreign key to education table.
 }

@@ -10,5 +10,6 @@ import { UniversityModule } from 'src/university/university.module';
 @Module({
   imports: [TypeOrmModule.forFeature([Education]), UniversityModule], // Allows us to use repository for education and university.
   providers: [EducationService, EducationResolver],
+  exports: [EducationService],
 })
 export class EducationModule {}

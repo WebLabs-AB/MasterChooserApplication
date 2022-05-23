@@ -5,9 +5,11 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { University } from './University';
+import { RegularUser } from './RegularUser';
 
 @Entity('Education')
 @ObjectType()
@@ -30,4 +32,10 @@ export class Education extends BaseEntity {
   @Field((type) => University)
   @JoinColumn({ name: 'universityName' })
   university: University;
+
+  @OneToMany(() => RegularUser, (regularuser) => regularuser.education, {
+    cascade: ['insert'],
+  }) // Shows which students studies that education.
+  @Field((type) => [RegularUser], { nullable: true })
+  Students?: RegularUser[];
 }

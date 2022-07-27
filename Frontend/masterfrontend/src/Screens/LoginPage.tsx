@@ -28,16 +28,11 @@ export const LoginPage: React.FC = () => {
     const passwordFieldId = "outlined-adornment-password";
     const emailFieldId = "outlined-email";
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const handleGoToRegister = () => navigate("/register");
     
     const handleClose = () => {
         setOpen(false);
-    };
-
-    const openSnackBar = (msg: string) => {
-        setOpen(true);
-        setMsg(msg);
     };
 
     const loginUser = async () => {

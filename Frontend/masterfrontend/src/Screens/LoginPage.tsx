@@ -5,6 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Paper from "@mui/material/Paper";
 import Snackbar from "@mui/material/Snackbar";
+import Stack from "@mui/material/Stack";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Colors } from "../Assets/Colors";
@@ -28,7 +29,7 @@ export const LoginPage: React.FC = () => {
     const emailFieldId = "outlined-email";
 
     let navigate = useNavigate();
-    const handleGoToRegister = () => navigate("register");
+    const handleGoToRegister = () => navigate("/register");
     
     const handleClose = () => {
         setOpen(false);
@@ -94,27 +95,29 @@ export const LoginPage: React.FC = () => {
                         setPassword={setPassword}
                     />
                 </FormControl>
-    
-                <Button 
-                    onClick={loginUser} 
-                    variant="contained"
-                    sx={{'width': '80vw', 'maxWidth': '400px',
-                    'backgroundColor': Colors.cyan,
-                    ':hover': {backgroundColor: Colors.cyan}}}
-                >
-                    Login
-                </Button>
 
-                <Button 
-                    onClick={handleGoToRegister} 
-                    variant="contained"
-                    sx={{'width': '80vw', 'maxWidth': '400px',
-                    'backgroundColor': Colors.cyan,
-                    ':hover': {backgroundColor: Colors.cyan}}}
-                >
-                    Register
-                </Button>
+                <Stack direction="row" spacing={2}>
+                    <Button 
+                        onClick={loginUser} 
+                        variant="contained"
+                        sx={{'width': '80vw', 'maxWidth': '200px',
+                        'backgroundColor': Colors.cyan,
+                        ':hover': {backgroundColor: Colors.cyan}}}
+                    >
+                        Login
+                    </Button>
+
+                    <Button 
+                        onClick={handleGoToRegister} 
+                        variant="contained"
+                        sx={{'width': '80vw', 'maxWidth': '200px',
+                        'backgroundColor': Colors.cyan,
+                        ':hover': {backgroundColor: Colors.cyan}}}
+                    >
+                        Register
+                    </Button>
+                </Stack>
             </Paper>
         </Container>
-        );
+    );
 }

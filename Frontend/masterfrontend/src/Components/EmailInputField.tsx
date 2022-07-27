@@ -7,49 +7,65 @@ import { EMAIL_ERROR_MESSAGE } from '../Assets/Constants';
 interface Props {
     id: string;
     email: string;
-    setEmailErrorField: any;
+    setEmailErrorField?: any;
     setEmail: any;
-    setEmailOk: any;
+    setEmailOk?: any;
 }
 
-export const UsernameInputField: React.FC<Props> = ({id, email, setEmailErrorField, setEmail, setEmailOk}) => {
+export const UsernameInputField: React.FC<Props> = (props) => {
 
     const isEmailOk = (inputtedEmail: string): boolean  => {
+
+        if (!props.setEmailErrorField) return true // We skip check to see if email meets requirements.
+
         let regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         if(regex.test(inputtedEmail)) { // Valid email
-            setEmailErrorField("");
+            if (props.setEmailErrorField) {
+                props.setEmailErrorField("") ;
+            }
             return true;
         }else {
-            setEmailErrorField(EMAIL_ERROR_MESSAGE);
+            if (props.setEmailErrorField) {
+                props.setEmailErrorField(EMAIL_ERROR_MESSAGE) ;
+            }
             return false;
         }
     };
 
     const handleInputtedEmail = (event: { target: { value: string }; }) => {
         if (event.target.value.length === 0){
-            setEmailErrorField(""); // Null value was inputted, field is empty.
-            setEmail(event.target.value);
-            setEmailOk(false); 
+            props.setEmail(event.target.value);
+
+            if (props.setEmailErrorField) {
+                props.setEmailErrorField(""); // Null value was inputted, field is empty.
+                props.setEmailOk(false); 
+            }
         }
         else{
             if(isEmailOk(event.target.value)) {
-                setEmail(event.target.value);
-                setEmailErrorField("");
-                setEmailOk(true); 
+                props.setEmail(event.target.value);
+
+                if (props.setEmailErrorField) {
+                    props.setEmailErrorField("");
+                    props.setEmailOk(true); 
+                }
             }
             else {
-                setEmail(event.target.value);
-                setEmailErrorField(EMAIL_ERROR_MESSAGE);
-                setEmailOk(false); 
+                props.setEmail(event.target.value);
+
+                if (props.setEmailErrorField) {
+                    props.setEmailErrorField(EMAIL_ERROR_MESSAGE);
+                    props.setEmailOk(false); 
+                }
             }
         }
     };
 
     return (
         <OutlinedInput
-            id={id}
-            value={email}
+            id={props.id}
+            value={props.email}
             onChange={handleInputtedEmail}
             sx={{backgroundColor: Colors.transparentWhite, maxWidth: '400px'}}
             label="Email"

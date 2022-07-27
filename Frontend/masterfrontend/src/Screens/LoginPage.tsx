@@ -14,14 +14,10 @@ import { PasswordInputField } from "../Components/PasswordInputField";
 export const LoginPage: React.FC = () => {
 
     // Hooks used for password checks.
-    const [passwordErrorField, setPasswordErrorField] = useState("");
     const [password, setPassword] = useState("");
-    const [passwordOk, setPasswordOk] = useState(false);
 
     // Hooks used for email checks.
-    const [emailErrorField, setEmailErrorField] = useState("");
     const [email, setEmail] = useState("");
-    const [emailOk, setEmailOk] = useState(false);
 
     // Used for snackbar.
     const [open, setOpen] = useState(false);
@@ -38,6 +34,11 @@ export const LoginPage: React.FC = () => {
     const openSnackBar = (msg: string) => {
         setOpen(true);
         setMsg(msg);
+    };
+
+    const loginUser = async () => {
+
+        console.log("Login is accepted")
     };
 
 
@@ -72,11 +73,8 @@ export const LoginPage: React.FC = () => {
                     <UsernameInputField
                         id={emailFieldId}
                         email={email}
-                        setEmailErrorField={setEmailErrorField}
                         setEmail={setEmail}
-                        setEmailOk={setEmailOk}
                     />
-                    <FormHelperText error id="error-text-email">{emailErrorField}</FormHelperText>
                 </FormControl>
     
                 <FormControl 
@@ -90,15 +88,12 @@ export const LoginPage: React.FC = () => {
                     <PasswordInputField 
                         id={passwordFieldId}
                         password={password}
-                        setPasswordErrorField={setPasswordErrorField}
                         setPassword={setPassword}
-                        setPasswordOk={setPasswordOk}
                     />
-                    <FormHelperText error id="error-text-password">{passwordErrorField}</FormHelperText>
                 </FormControl>
     
                 <Button 
-                    // onClick={registerUser}  // Send request to try to login user.
+                    onClick={loginUser} 
                     variant="contained"
                     sx={{'width': '80vw', 'maxWidth': '400px',
                     'backgroundColor': Colors.cyan,

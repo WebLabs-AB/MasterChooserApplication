@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {Container, Paper, Button, FormHelperText, Snackbar, Alert} from '@mui/material';
+import {Container, Paper, Button, FormHelperText, Snackbar, Alert, Stack} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { useQuery, useLazyQuery } from '@apollo/client';
@@ -13,6 +13,7 @@ import { SNACKBAR_REGISTER_DUPLICATE_MSG, SNACKBAR_REGISTER_ERROR_MSG } from '..
 import { CHECK_IF_REGULAR_USER_EXISTS, GET_ALL_STARTING_YEARS, GET_ALL_UNIVERSITIES, GET_UNIVERSITY_EDUCATIONS } from '../gql/Query';
 import { educationJsonType, startingYearJsonType, universityJsonType } from '../Assets/Interfaces';
 import { useNewRegularUserMutation } from '../gql/RegUserMut';
+import { useNavigate } from 'react-router-dom';
 
 export const RegistrationPage: React.FC = () => {
 
@@ -121,6 +122,9 @@ export const RegistrationPage: React.FC = () => {
     const educationOutlinedLabel= "Education";
     const educationInputLabelId = "simple-education-inputlabel"
 
+    let navigate = useNavigate();
+    const handleGoToMainMenu = () => navigate("/");
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -135,14 +139,7 @@ export const RegistrationPage: React.FC = () => {
         if(emailOk === false || passwordOk === false || startingYearOk === false || universityOk === false || educationOk === false) {
             openSnackBar(SNACKBAR_REGISTER_ERROR_MSG);
         }
-        else {
-            // Send post-request to backend
-            console.log("Email: ", email);
-            console.log("Password: ", password);
-            console.log("Year: ", startingYear);
-            console.log("Uni: ", chosenUniversity);
-            console.log("Ed: ", chosenEducation);
-            
+        else {         
             // Check if email is already taken before trying to register.
             getRegularuser({variables: {email: email}});
             if(duplicateEmail) {
@@ -150,8 +147,7 @@ export const RegistrationPage: React.FC = () => {
                 setEmailErrorField("Email already exists");
             }
 
-            const res = await setNewRegularUser(email, password, Number(startingYear), chosenUniversity, chosenEducation)
-            console.log(res);
+            await setNewRegularUser(email, password, Number(startingYear), chosenUniversity, chosenEducation)
         }
     };
 
@@ -269,15 +265,27 @@ export const RegistrationPage: React.FC = () => {
                 />
             </FormControl>
 
-            <Button 
-                onClick={registerUser}
-                variant="contained"
-                sx={{'width': '80vw', 'maxWidth': '400px',
-                'backgroundColor': Colors.cyan,
-                ':hover': {backgroundColor: Colors.cyan}}}
-            >
-                Register Account
-            </Button>
+            <Stack direction="row" spacing={2}>
+                <Button 
+                    onClick={registerUser}
+                    variant="contained"
+                    sx={{'width': '80vw', 'maxWidth': '200px',
+                    'backgroundColor': Colors.cyan,
+                    ':hover': {backgroundColor: Colors.cyan}}}
+                >
+                    Register Account
+                </Button>
+
+                <Button 
+                    onClick={handleGoToMainMenu}
+                    variant="contained"
+                    sx={{'width': '80vw', 'maxWidth': '200px',
+                    'backgroundColor': Colors.cyan,
+                    ':hover': {backgroundColor: Colors.cyan}}}
+                >
+                    Back
+                </Button>
+            </Stack>
         </Paper>
     </Container>
     );

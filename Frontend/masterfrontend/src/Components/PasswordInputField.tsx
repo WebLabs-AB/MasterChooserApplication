@@ -7,18 +7,18 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 
 import {Colors} from '../Assets/Colors';
-import { PASSWORD_ERROR_MESSAGE, REQUIRED_PASSWORD_LENGTH } from '../Assets/Constants';
+import { REG_PSWD_ERR_MSG, REQUIRED_PASSWORD_LENGTH } from '../Assets/Constants';
 
 
 interface Props {
     id: string;
     password: string;
-    setPasswordErrorField: any;
+    setPasswordErrorField?: any;
     setPassword: any;
-    setPasswordOk: any;
+    setPasswordOk?: any;
 }
 
-export const PasswordInputField: React.FC<Props> = ({id, password, setPasswordErrorField, setPassword, setPasswordOk}) => {
+export const PasswordInputField: React.FC<Props> = (props) => {
     const [showPassword, setShowpassword] = useState(false);
 
     const handleMouseDownPassword = (event: { preventDefault: () => void; }) => {
@@ -30,6 +30,8 @@ export const PasswordInputField: React.FC<Props> = ({id, password, setPasswordEr
     };
     
     const isPasswordOk = (inputtedPassword: string): boolean => {
+        if (!props.setPasswordErrorField) return true // We skip checks for password requirements.
+
         const isLengthOk = inputtedPassword.length >= REQUIRED_PASSWORD_LENGTH ? true : false;
         if (!isLengthOk) return false;
 
@@ -47,29 +49,38 @@ export const PasswordInputField: React.FC<Props> = ({id, password, setPasswordEr
 
     const handleInputtedPassword = (event: { target: { value: string }; }) => {
         if (event.target.value.length === 0) {
-            setPasswordErrorField(""); // Null value was inputted, field is empty.
-            setPassword(event.target.value);
-            setPasswordOk(false); 
+            props.setPassword(event.target.value);
+
+            if (props.setPasswordErrorField !== "") {
+                props.setPasswordErrorField(""); // Null value was inputted, field is empty..
+                props.setPasswordOk(false); 
+            }
         }
         else{
             if(isPasswordOk(event.target.value)) {
-                setPassword(event.target.value);
-                setPasswordErrorField("");
-                setPasswordOk(true); 
+                props.setPassword(event.target.value);
+
+                if (props.setPasswordErrorField) {
+                    props.setPasswordErrorField("");
+                    props.setPasswordOk(true);  
+                }
             }
             else {
-                setPassword(event.target.value);
-                setPasswordErrorField(PASSWORD_ERROR_MESSAGE);
-                setPasswordOk(false); 
+                props.setPassword(event.target.value);
+
+                if (props.setPasswordErrorField) {
+                    props.setPasswordErrorField(REG_PSWD_ERR_MSG);
+                    props.setPasswordOk(false);  
+                } 
             }
         }
     };
 
     return (
         <OutlinedInput
-                id={id}
+                id={props.id}
                 type={showPassword ? 'text' : 'password'}
-                value={password}
+                value={props.password}
                 onChange={handleInputtedPassword}
                 sx={{backgroundColor: Colors.transparentWhite, maxWidth: '400px'}}
                 endAdornment={

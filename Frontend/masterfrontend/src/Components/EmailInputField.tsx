@@ -1,5 +1,4 @@
 import OutlinedInput from '@mui/material/OutlinedInput';
-import { useState } from 'react';
 
 // Own files.
 import {Colors} from '../Assets/Colors';

@@ -54,7 +54,7 @@ export const RegistrationPage: React.FC = () => {
     const [getUniversities] = useLazyQuery(GET_ALL_UNIVERSITIES, {
         variables: { chosenUniversity }, // Execute query when chosenUniversity hook is changed.
         onCompleted: data => {
-            let universityArray: string[] = [];
+            const universityArray: string[] = [];
             data.universities.map((uni: universityJsonType) => universityArray.push(uni.universityName));
             setUniversities(universityArray);
         },
@@ -65,7 +65,7 @@ export const RegistrationPage: React.FC = () => {
 
     const [getUniversityEducation] = useLazyQuery(GET_UNIVERSITY_EDUCATIONS, {
         onCompleted: data => {
-            let educationArray: string[] = [];
+            const educationArray: string[] = [];
             data.educationFromUniversity.map((education: educationJsonType) => educationArray.push(education.educationName));
             setEducations(educationArray);
         },
@@ -87,7 +87,7 @@ export const RegistrationPage: React.FC = () => {
 
     const { data } = useQuery(GET_ALL_STARTING_YEARS, {
         onCompleted: data => {
-            let startingYearsArray: string[] = [];
+            const startingYearsArray: string[] = [];
             data.startingYears.map((year: startingYearJsonType) => startingYearsArray.push(year.startingYear));
             setStartingYears(startingYearsArray);
         }
@@ -122,7 +122,7 @@ export const RegistrationPage: React.FC = () => {
     const educationOutlinedLabel= "Education";
     const educationInputLabelId = "simple-education-inputlabel"
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const handleGoToMainMenu = () => navigate("/");
 
     const handleClose = () => {

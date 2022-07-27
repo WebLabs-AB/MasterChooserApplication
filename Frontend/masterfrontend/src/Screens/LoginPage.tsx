@@ -2,11 +2,11 @@ import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import FormControl from "@mui/material/FormControl";
-import FormHelperText from "@mui/material/FormHelperText";
 import InputLabel from "@mui/material/InputLabel";
 import Paper from "@mui/material/Paper";
 import Snackbar from "@mui/material/Snackbar";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Colors } from "../Assets/Colors";
 import { UsernameInputField } from "../Components/EmailInputField";
 import { PasswordInputField } from "../Components/PasswordInputField";
@@ -26,6 +26,9 @@ export const LoginPage: React.FC = () => {
     // Constants
     const passwordFieldId = "outlined-adornment-password";
     const emailFieldId = "outlined-email";
+
+    let navigate = useNavigate();
+    const handleGoToRegister = () => navigate("register");
     
     const handleClose = () => {
         setOpen(false);
@@ -100,6 +103,16 @@ export const LoginPage: React.FC = () => {
                     ':hover': {backgroundColor: Colors.cyan}}}
                 >
                     Login
+                </Button>
+
+                <Button 
+                    onClick={handleGoToRegister} 
+                    variant="contained"
+                    sx={{'width': '80vw', 'maxWidth': '400px',
+                    'backgroundColor': Colors.cyan,
+                    ':hover': {backgroundColor: Colors.cyan}}}
+                >
+                    Register
                 </Button>
             </Paper>
         </Container>

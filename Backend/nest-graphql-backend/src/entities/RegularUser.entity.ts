@@ -1,9 +1,9 @@
 import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
-import { User } from './SuperTypes/User';
-import { University } from './University';
-import { Education } from './Education';
+import { User } from './SuperTypes/User.entity';
+import { University } from './University.entity';
+import { Education } from './Education.entity';
 
 @Entity('RegularUser')
 @ObjectType()

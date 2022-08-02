@@ -4,7 +4,7 @@ import { RegularuserResolver } from './regularuser.resolver';
 
 //Own files.
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RegularUser } from 'src/entities/RegularUser';
+import { RegularUser } from 'src/entities/RegularUser.entity';
 import { UniversityModule } from 'src/university/university.module';
 import { EducationModule } from 'src/education/education.module';
 

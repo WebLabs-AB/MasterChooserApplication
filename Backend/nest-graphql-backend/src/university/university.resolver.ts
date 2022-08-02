@@ -1,7 +1,7 @@
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 
 // Own files.
-import { University } from 'src/entities/University';
+import { University } from 'src/entities/University.entity';
 import { createUniversityInput } from 'src/inputTypes/create-university.input';
 import { UniversityService } from './university.service';
 

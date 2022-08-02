@@ -1,6 +1,6 @@
 import { Args, Mutation, Query } from '@nestjs/graphql';
 import { Resolver } from '@nestjs/graphql';
-import { StartingYear } from 'src/entities/StartingYear';
+import { StartingYear } from 'src/entities/StartingYear.entity';
 import { createStartingYearInput } from 'src/inputTypes/create-startingYear.input';
 import { StartingYearService } from './starting-year.service';
 

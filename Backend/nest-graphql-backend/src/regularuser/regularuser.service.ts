@@ -4,11 +4,11 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 // Own files
-import { RegularUser } from 'src/entities/RegularUser';
+import { RegularUser } from 'src/entities/RegularUser.entity';
 import { createRegularuserInput } from 'src/inputTypes/create-regularuser.input';
 import { UniversityService } from 'src/university/university.service';
-import { University } from 'src/entities/University';
-import { Education } from 'src/entities/Education';
+import { University } from 'src/entities/University.entity';
+import { Education } from 'src/entities/Education.entity';
 import { EducationService } from 'src/education/education.service';
 import { UserInputError } from 'apollo-server-express';
 

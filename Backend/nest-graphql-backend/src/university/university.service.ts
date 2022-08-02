@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 // Own files.
-import { University } from 'src/entities/University';
+import { University } from 'src/entities/University.entity';
 import { createUniversityInput } from 'src/inputTypes/create-university.input';
 
 @Injectable()

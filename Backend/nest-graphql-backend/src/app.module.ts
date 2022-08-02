@@ -3,17 +3,14 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
+import { ConfigModule } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 
 // Own files
-import { RegularUser } from './entities/RegularUser';
-import { SuperUser } from './entities/SuperUser';
 import { RegularuserModule } from './regularuser/regularuser.module';
 import { UniversityModule } from './university/university.module';
-import { University } from './entities/University';
 import { EducationModule } from './education/education.module';
-import { Education } from './entities/Education';
 import { StartingYearModule } from './starting-year/starting-year.module';
-import { StartingYear } from './entities/StartingYear';
 
 @Module({
   imports: [
@@ -21,15 +18,22 @@ import { StartingYear } from './entities/StartingYear';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'eribi',
-      password: 'MySqlDatabase',
-      database: 'masterchooserdb',
-      entities: [SuperUser, RegularUser, University, Education, StartingYear],
-      synchronize: true,
+    ConfigModule.forRoot({
+      isGlobal: true, // [REQUIRED if want to use env globally among all modules]
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get<string>('DATABASE_HOST'),
+        port: parseInt(configService.get<string>('DATABASE_PORT')),
+        username: configService.get<string>('MYSQL_USER'),
+        password: configService.get<string>('MYSQL_PASSWORD'),
+        database: configService.get<string>('DATABASE'),
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: true,
+      }),
+      inject: [ConfigService],
     }),
     RegularuserModule,
     UniversityModule,

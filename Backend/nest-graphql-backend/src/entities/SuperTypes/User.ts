@@ -11,14 +11,13 @@ import {
 @ObjectType()
 export class User extends BaseEntity {
   @PrimaryColumn()
-  @Field()
+  @Field(() => String, { description: 'User email ' })
   email: string;
 
-  @Field()
   @Column()
   password: string;
 
-  @Field()
+  @Field(() => String, { description: 'User time created ' })
   @CreateDateColumn() // When an user is added to database, save date when user was created.
   createdAt: Date;
 }

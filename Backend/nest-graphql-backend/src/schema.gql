@@ -17,20 +17,17 @@ type University {
 }
 
 type RegularUser {
+  """User email """
   email: String!
-  password: String!
-  createdAt: DateTime!
+
+  """User time created """
+  createdAt: String!
   startingYear: Int!
   universityName: String!
   educationName: String!
   university: University!
   education: Education!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type StartingYear {
   startingYear: Int!
@@ -54,10 +51,19 @@ type Mutation {
 }
 
 input createRegularuserInput {
+  """email of the user"""
   email: String!
+
+  """password of the user"""
   password: String!
+
+  """starting year of the user"""
   startingYear: Int!
+
+  """university of the user"""
   universityName: String!
+
+  """education of the user"""
   educationName: String!
 }
 

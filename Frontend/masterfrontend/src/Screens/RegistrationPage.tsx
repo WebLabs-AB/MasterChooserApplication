@@ -9,7 +9,7 @@ import { PasswordInputField } from '../Components/PasswordInputField';
 import { UsernameInputField } from '../Components/EmailInputField';
 import { SelectMenuList } from '../Components/SelectMenuList';
 import { Colors } from '../Assets/Colors';
-import { SNACKBAR_REGISTER_DUPLICATE_MSG, SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
+import { SNACKBAR_REGISTER_DUPLICATE_MSG, SNACKBAR_REGISTER_ERROR_MSG, SNACKBAR_USER_CREATED } from '../Assets/Constants';
 import { CHECK_IF_REGULAR_USER_EXISTS, GET_ALL_STARTING_YEARS, GET_ALL_UNIVERSITIES, GET_UNIVERSITY_EDUCATIONS } from '../gql/Query';
 import { educationJsonType, startingYearJsonType, universityJsonType } from '../Assets/Interfaces';
 import { useNewRegularUserMutation } from '../gql/RegUserMut';
@@ -140,14 +140,15 @@ export const RegistrationPage: React.FC = () => {
             openSnackBar(SNACKBAR_REGISTER_ERROR_MSG);
         }
         else {         
-            // Check if email is already taken before trying to register.
-            getRegularuser({variables: {email: email}});
-            if(duplicateEmail) {
-                openSnackBar(SNACKBAR_REGISTER_DUPLICATE_MSG);
-                setEmailErrorField("Email already exists");
-            }
-
-            await setNewRegularUser(email, password, Number(startingYear), chosenUniversity, chosenEducation)
+            try {
+                await setNewRegularUser(email, password, Number(startingYear), chosenUniversity, chosenEducation)
+                openSnackBar(SNACKBAR_USER_CREATED);
+            } 
+            catch (err: unknown) {
+                if (err instanceof Error) {
+                    openSnackBar(err.message)
+                }
+            }    
         }
     };
 

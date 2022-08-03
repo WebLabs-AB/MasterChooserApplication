@@ -7,10 +7,11 @@ import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config';
 
 // Own files
-import { RegularuserModule } from './regularuser/regularuser.module';
-import { UniversityModule } from './university/university.module';
-import { EducationModule } from './education/education.module';
-import { StartingYearModule } from './starting-year/starting-year.module';
+import { RegularuserModule } from './routers/regularuser/regularuser.module';
+import { UniversityModule } from './routers/university/university.module';
+import { EducationModule } from './routers/education/education.module';
+import { StartingYearModule } from './routers/starting-year/starting-year.module';
+import { SuperuserModule } from './routers/superuser/superuser.module';
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import { StartingYearModule } from './starting-year/starting-year.module';
         username: configService.get<string>('MYSQL_USER'),
         password: configService.get<string>('MYSQL_PASSWORD'),
         database: configService.get<string>('DATABASE'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        entities: [__dirname + '/**/!(SuperTypes)*.entity{.ts,.js}'],
         synchronize: true,
       }),
       inject: [ConfigService],
@@ -39,8 +40,8 @@ import { StartingYearModule } from './starting-year/starting-year.module';
     UniversityModule,
     EducationModule,
     StartingYearModule,
+    SuperuserModule,
   ],
   controllers: [],
-  providers: [],
 })
 export class AppModule {}

@@ -2,7 +2,7 @@ import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 
 // Own files.
 import { University } from 'src/entities/University.entity';
-import { createUniversityInput } from 'src/inputTypes/create-university.input';
+import { CreateUniversityInput } from 'src/inputTypes/create-university.input';
 import { UniversityService } from './university.service';
 
 @Resolver((of) => University)
@@ -23,7 +23,7 @@ export class UniversityResolver {
 
   @Mutation((returns) => University)
   async createNewUniversity(
-    @Args('createUniversityInput') createUniversityInput: createUniversityInput,
+    @Args('createUniversityInput') createUniversityInput: CreateUniversityInput,
   ): Promise<University> {
     return this.universityService.createUniversity(createUniversityInput);
   }

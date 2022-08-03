@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 // Own files.
 import { University } from 'src/entities/University.entity';
-import { createUniversityInput } from 'src/inputTypes/create-university.input';
+import { CreateUniversityInput } from 'src/inputTypes/create-university.input';
 
 @Injectable()
 export class UniversityService {
@@ -15,7 +15,7 @@ export class UniversityService {
 
   // Creates a new university and saves it in the database.
   async createUniversity(
-    createUniversityInput: createUniversityInput,
+    createUniversityInput: CreateUniversityInput,
   ): Promise<University> {
     const newUniversity = this.universityRepository.create(
       createUniversityInput,

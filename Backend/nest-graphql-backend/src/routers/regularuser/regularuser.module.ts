@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { RegularuserService } from './regularuser.service';
-import { RegularuserResolver } from './regularuser.resolver';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 //Own files.
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { RegularUser } from 'src/entities/RegularUser.entity';
-import { UniversityModule } from 'src/university/university.module';
-import { EducationModule } from 'src/education/education.module';
+import { UniversityModule } from 'src/routers/university/university.module';
+import { EducationModule } from 'src/routers/education/education.module';
+import { RegularuserService } from './regularuser.service';
+import { RegularuserResolver } from './regularuser.resolver';
 
 @Module({
   imports: [

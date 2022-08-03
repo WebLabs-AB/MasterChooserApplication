@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EducationService } from './education.service';
 import { EducationResolver } from './education.resolver';
 import { Education } from 'src/entities/Education.entity';
-import { UniversityModule } from 'src/university/university.module';
+import { UniversityModule } from 'src/routers/university/university.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Education]), UniversityModule], // Allows us to use repository for education and university.

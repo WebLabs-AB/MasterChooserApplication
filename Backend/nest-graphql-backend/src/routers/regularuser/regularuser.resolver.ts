@@ -11,7 +11,7 @@ import { Education } from 'src/entities/Education.entity';
 // Own files.
 import { RegularUser } from 'src/entities/RegularUser.entity';
 import { University } from 'src/entities/University.entity';
-import { createRegularuserInput } from 'src/inputTypes/create-regularuser.input';
+import { CreateRegularuserInput } from 'src/inputTypes/create-regularuser.input';
 import { RegularuserService } from './regularuser.service';
 
 @Resolver((of) => RegularUser)
@@ -43,7 +43,7 @@ export class RegularuserResolver {
   @Mutation((returns) => RegularUser)
   async createNewRegularuser(
     @Args('createRegularuserInput')
-    createRegularuserInput: createRegularuserInput,
+    createRegularuserInput: CreateRegularuserInput,
   ): Promise<RegularUser> {
     return this.regularuserService.createRegularuser(createRegularuserInput);
   }

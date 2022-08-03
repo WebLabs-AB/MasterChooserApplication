@@ -10,7 +10,7 @@ import {
 // Own files.
 import { Education } from 'src/entities/Education.entity';
 import { EducationService } from './education.service';
-import { createEducationInput } from 'src/inputTypes/create-education.input';
+import { CreateEducationInput } from 'src/inputTypes/create-education.input';
 import { University } from 'src/entities/University.entity';
 
 @Resolver((of) => Education)
@@ -38,7 +38,7 @@ export class EducationResolver {
 
   @Mutation((returns) => Education)
   async createNewEducation(
-    @Args('createEducationInput') createEducationInput: createEducationInput,
+    @Args('createEducationInput') createEducationInput: CreateEducationInput,
   ): Promise<Education> {
     return this.educationService.createEducation(createEducationInput);
   }

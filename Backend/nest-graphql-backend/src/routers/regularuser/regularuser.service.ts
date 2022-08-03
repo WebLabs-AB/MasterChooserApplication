@@ -5,11 +5,11 @@ import * as bcrypt from 'bcrypt';
 
 // Own files
 import { RegularUser } from 'src/entities/RegularUser.entity';
-import { createRegularuserInput } from 'src/inputTypes/create-regularuser.input';
-import { UniversityService } from 'src/university/university.service';
+import { CreateRegularuserInput } from 'src/inputTypes/create-regularuser.input';
+import { UniversityService } from 'src/routers/university/university.service';
 import { University } from 'src/entities/University.entity';
 import { Education } from 'src/entities/Education.entity';
-import { EducationService } from 'src/education/education.service';
+import { EducationService } from 'src/routers/education/education.service';
 import { UserInputError } from 'apollo-server-express';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class RegularuserService {
 
   // Creates a new regularuser and saves it in the database.
   async createRegularuser(
-    createRegularuserInput: createRegularuserInput,
+    createRegularuserInput: CreateRegularuserInput,
   ): Promise<RegularUser> {
     if (await this.doesUserExists(createRegularuserInput.email)) {
       throw new UserInputError('User already exists');
@@ -56,9 +56,11 @@ export class RegularuserService {
     return this.regularusersRepository.find(); // SELECT * FROM regularuser;
   }
 
-  // Finds a specific regularuser or fails.
+  // Finds a specific regularuser or returns null.
   async findOne(email: string): Promise<RegularUser> {
-    return this.regularusersRepository.findOneByOrFail({ email });
+    return this.regularusersRepository.findOne({
+      where: { email: email },
+    });
   }
 
   // Gets a specific university.

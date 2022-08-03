@@ -44,13 +44,13 @@ type Query {
 }
 
 type Mutation {
-  createNewRegularuser(createRegularuserInput: createRegularuserInput!): RegularUser!
-  createNewUniversity(createUniversityInput: createUniversityInput!): University!
-  createNewEducation(createEducationInput: createEducationInput!): Education!
-  createNewStartingYear(createStartingYearInput: createStartingYearInput!): StartingYear!
+  createNewRegularuser(createRegularuserInput: CreateRegularuserInput!): RegularUser!
+  createNewUniversity(createUniversityInput: CreateUniversityInput!): University!
+  createNewEducation(createEducationInput: CreateEducationInput!): Education!
+  createNewStartingYear(createStartingYearInput: CreateStartingYearInput!): StartingYear!
 }
 
-input createRegularuserInput {
+input CreateRegularuserInput {
   """email of the user"""
   email: String!
 
@@ -67,16 +67,16 @@ input createRegularuserInput {
   educationName: String!
 }
 
-input createUniversityInput {
+input CreateUniversityInput {
   universityName: String!
 }
 
-input createEducationInput {
+input CreateEducationInput {
   educationName: String!
   symbol: String!
   universityName: String!
 }
 
-input createStartingYearInput {
+input CreateStartingYearInput {
   startingYear: Int!
 }

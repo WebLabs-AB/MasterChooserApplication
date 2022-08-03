@@ -1,7 +1,7 @@
 import { Args, Mutation, Query } from '@nestjs/graphql';
 import { Resolver } from '@nestjs/graphql';
 import { StartingYear } from 'src/entities/StartingYear.entity';
-import { createStartingYearInput } from 'src/inputTypes/create-startingYear.input';
+import { CreateStartingYearInput } from 'src/inputTypes/create-startingYear.input';
 import { StartingYearService } from './starting-year.service';
 
 @Resolver((of) => StartingYear)
@@ -16,7 +16,7 @@ export class StartingYearResolver {
   @Mutation((returns) => StartingYear)
   async createNewStartingYear(
     @Args('createStartingYearInput')
-    createStartingYearInput: createStartingYearInput,
+    createStartingYearInput: CreateStartingYearInput,
   ): Promise<StartingYear> {
     return this.startingYearService.createStartingYear(createStartingYearInput);
   }

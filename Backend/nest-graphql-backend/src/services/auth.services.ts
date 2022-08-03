@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  forwardRef,
-  Inject,
-  Injectable,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { RegularUser } from 'src/entities/RegularUser.entity';
@@ -14,8 +9,6 @@ import { SuperuserService } from 'src/routers/superuser/superuser.service';
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(forwardRef(() => RegularuserService))
-    @Inject(forwardRef(() => SuperuserService))
     private usersService: RegularuserService,
     private superusersService: SuperuserService,
     private jwtTokenService: JwtService,

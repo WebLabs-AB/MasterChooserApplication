@@ -33,6 +33,11 @@ type StartingYear {
   startingYear: Int!
 }
 
+type LoggedUserOutput {
+  """Generated access_token of the user"""
+  access_token: String!
+}
+
 type Query {
   regularusers: [RegularUser!]!
   getRegularuser(email: String!): RegularUser!
@@ -48,6 +53,7 @@ type Mutation {
   createNewUniversity(createUniversityInput: CreateUniversityInput!): University!
   createNewEducation(createEducationInput: CreateEducationInput!): Education!
   createNewStartingYear(createStartingYearInput: CreateStartingYearInput!): StartingYear!
+  loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
 }
 
 input CreateRegularuserInput {
@@ -79,4 +85,12 @@ input CreateEducationInput {
 
 input CreateStartingYearInput {
   startingYear: Int!
+}
+
+input LoginUserInput {
+  """email of the user"""
+  email: String!
+
+  """password of the user"""
+  password: String!
 }

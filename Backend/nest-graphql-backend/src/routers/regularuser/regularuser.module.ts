@@ -15,5 +15,6 @@ import { RegularuserResolver } from './regularuser.resolver';
     EducationModule,
   ], // Allows us to use repository for regularuser, university and education.
   providers: [RegularuserService, RegularuserResolver],
+  exports: [RegularuserService],
 })
 export class RegularuserModule {}

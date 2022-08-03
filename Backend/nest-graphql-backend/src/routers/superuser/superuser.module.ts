@@ -9,5 +9,6 @@ import { SuperuserResolver } from './superuser.resolver';
 @Module({
   imports: [TypeOrmModule.forFeature([SuperUser])],
   providers: [SuperuserService, SuperuserResolver],
+  exports: [SuperuserService],
 })
 export class SuperuserModule {}

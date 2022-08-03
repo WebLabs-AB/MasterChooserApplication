@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from 'src/config/config.module';
 import { AuthService } from './auth.services';
 import { JwtModule } from '@nestjs/jwt';
@@ -10,8 +10,8 @@ import { AuthResolver } from './auth.resolver';
 @Module({
   imports: [
     ConfigModule,
-    forwardRef(() => RegularuserModule),
-    forwardRef(() => SuperuserModule),
+    RegularuserModule,
+    SuperuserModule,
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
@@ -21,6 +21,5 @@ import { AuthResolver } from './auth.resolver';
     }),
   ],
   providers: [AuthService, AuthResolver],
-  exports: [AuthService],
 })
 export class AuthModule {}

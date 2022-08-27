@@ -16,7 +16,7 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<any> {
     const regularUser = await this.usersService.findOne(email);
-    console.log(regularUser);
+
     if (regularUser) {
       if (await bcrypt.compare(password, regularUser.password)) {
         delete regularUser.password;
@@ -54,10 +54,10 @@ export class AuthService {
       loginUserInput.password,
     );
 
-    if (!user) {
-      throw new BadRequestException(`Email or password are invalid`);
-    } else {
+    if (user) {
       return this.generateUserCredentials(user);
+    } else {
+      throw new BadRequestException(`Email or password are invalid`);
     }
   }
 }

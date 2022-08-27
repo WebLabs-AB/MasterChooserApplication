@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { RegularuserModule } from 'src/routers/regularuser/regularuser.module';
 import { SuperuserModule } from 'src/routers/superuser/superuser.module';
 import { AuthResolver } from './auth.resolver';
+import { JwtStrategy } from '../auth/jwt.strategy';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AuthResolver } from './auth.resolver';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService, AuthResolver],
+  providers: [AuthService, AuthResolver, JwtStrategy],
+  exports: [AuthService],
 })
 export class AuthModule {}

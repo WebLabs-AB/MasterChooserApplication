@@ -12,7 +12,7 @@ import { UniversityModule } from './routers/university/university.module';
 import { EducationModule } from './routers/education/education.module';
 import { StartingYearModule } from './routers/starting-year/starting-year.module';
 import { SuperuserModule } from './routers/superuser/superuser.module';
-import { AuthModule } from './services/auth.module';
+import { AuthModule } from './common/services/auth.module';
 
 @Module({
   imports: [

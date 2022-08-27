@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 // Own files.
-import { StartingYear } from 'src/entities/StartingYear';
-import { createStartingYearInput } from 'src/inputTypes/create-startingYear.input';
+import { StartingYear } from 'src/entities/NormalTypes/StartingYear.entity';
+import { CreateStartingYearInput } from 'src/inputTypes/create-startingYear.input';
 
 @Injectable()
 export class StartingYearService {
@@ -14,7 +14,7 @@ export class StartingYearService {
   ) {}
 
   async createStartingYear(
-    createStartingYearInput: createStartingYearInput,
+    createStartingYearInput: CreateStartingYearInput,
   ): Promise<StartingYear> {
     const newStartingYear = this.startingYearRepository.create(
       createStartingYearInput,

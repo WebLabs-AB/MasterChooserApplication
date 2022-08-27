@@ -8,8 +8,8 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { University } from './University';
-import { RegularUser } from './RegularUser';
+import { University } from './University.entity';
+import { RegularUser } from './RegularUser.entity';
 
 @Entity('Education')
 @ObjectType()

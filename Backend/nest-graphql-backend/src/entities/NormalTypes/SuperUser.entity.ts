@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Entity, Column } from 'typeorm';
 
-import { User } from './SuperTypes/User';
+import { User } from '../SuperTypes/User.entity';
 
 @Entity('SuperUser')
 @ObjectType()

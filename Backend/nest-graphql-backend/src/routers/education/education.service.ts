@@ -3,10 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 // Own files.
-import { Education } from 'src/entities/Education';
-import { createEducationInput } from 'src/inputTypes/create-education.input';
-import { UniversityService } from 'src/university/university.service';
-import { University } from 'src/entities/University';
+import { Education } from 'src/entities/NormalTypes/Education.entity';
+import { CreateEducationInput } from 'src/inputTypes/create-education.input';
+import { UniversityService } from 'src/routers/university/university.service';
+import { University } from 'src/entities/NormalTypes/University.entity';
 
 @Injectable()
 export class EducationService {
@@ -18,7 +18,7 @@ export class EducationService {
 
   // Creates a new education and saves it in the database.
   async createEducation(
-    createEducationInput: createEducationInput,
+    createEducationInput: CreateEducationInput,
   ): Promise<Education> {
     const newEducation = this.educationRepository.create(createEducationInput);
 

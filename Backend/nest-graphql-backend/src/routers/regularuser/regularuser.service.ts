@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 // Own files
-import { RegularUser } from 'src/entities/RegularUser';
-import { createRegularuserInput } from 'src/inputTypes/create-regularuser.input';
-import { UniversityService } from 'src/university/university.service';
-import { University } from 'src/entities/University';
-import { Education } from 'src/entities/Education';
-import { EducationService } from 'src/education/education.service';
+import { RegularUser } from 'src/entities/NormalTypes/RegularUser.entity';
+import { CreateRegularuserInput } from 'src/inputTypes/create-regularuser.input';
+import { UniversityService } from 'src/routers/university/university.service';
+import { University } from 'src/entities/NormalTypes/University.entity';
+import { Education } from 'src/entities/NormalTypes/Education.entity';
+import { EducationService } from 'src/routers/education/education.service';
+import { UserInputError } from 'apollo-server-express';
 
 @Injectable()
 export class RegularuserService {
@@ -19,10 +21,22 @@ export class RegularuserService {
     private educationService: EducationService,
   ) {}
 
-  // Creates a new regularuser and saves it in the datanbase.
+  // Creates a new regularuser and saves it in the database.
   async createRegularuser(
-    createRegularuserInput: createRegularuserInput,
+    createRegularuserInput: CreateRegularuserInput,
   ): Promise<RegularUser> {
+    if (await this.doesUserExists(createRegularuserInput.email)) {
+      throw new UserInputError('User already exists');
+    }
+
+    const password = createRegularuserInput.password;
+    const email = createRegularuserInput.email;
+
+    const SALT = await bcrypt.genSalt(10);
+
+    createRegularuserInput.password = await bcrypt.hash(password, SALT);
+    createRegularuserInput.email = email;
+
     const newRegularuser = this.regularusersRepository.create(
       createRegularuserInput,
     );
@@ -43,9 +57,11 @@ export class RegularuserService {
     return this.regularusersRepository.find(); // SELECT * FROM regularuser;
   }
 
-  // Finds a specific regularuser or fails.
+  // Finds a specific regularuser or returns null.
   async findOne(email: string): Promise<RegularUser> {
-    return this.regularusersRepository.findOneByOrFail({ email });
+    return await this.regularusersRepository.findOne({
+      where: { email: email },
+    });
   }
 
   // Gets a specific university.
@@ -56,5 +72,18 @@ export class RegularuserService {
   // Gets a specific education.
   async getEducation(educationName: string): Promise<Education> {
     return this.educationService.findOne(educationName);
+  }
+
+  // Checks if an user exists from email.
+  async doesUserExists(email: string): Promise<boolean> {
+    const user = await this.regularusersRepository.findOne({
+      where: { email: email },
+    });
+
+    if (!user) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

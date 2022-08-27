@@ -6,12 +6,12 @@ import {
   Parent,
   ResolveField,
 } from '@nestjs/graphql';
-import { Education } from 'src/entities/Education';
+import { Education } from 'src/entities/NormalTypes/Education.entity';
 
 // Own files.
-import { RegularUser } from 'src/entities/RegularUser';
-import { University } from 'src/entities/University';
-import { createRegularuserInput } from 'src/inputTypes/create-regularuser.input';
+import { RegularUser } from 'src/entities/NormalTypes/RegularUser.entity';
+import { University } from 'src/entities/NormalTypes/University.entity';
+import { CreateRegularuserInput } from 'src/inputTypes/create-regularuser.input';
 import { RegularuserService } from './regularuser.service';
 
 @Resolver((of) => RegularUser)
@@ -43,7 +43,7 @@ export class RegularuserResolver {
   @Mutation((returns) => RegularUser)
   async createNewRegularuser(
     @Args('createRegularuserInput')
-    createRegularuserInput: createRegularuserInput,
+    createRegularuserInput: CreateRegularuserInput,
   ): Promise<RegularUser> {
     return this.regularuserService.createRegularuser(createRegularuserInput);
   }

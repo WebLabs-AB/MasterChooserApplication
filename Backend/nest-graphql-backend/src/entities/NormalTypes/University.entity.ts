@@ -1,7 +1,7 @@
 import { Entity, BaseEntity, PrimaryColumn, OneToMany } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { RegularUser } from './RegularUser';
-import { Education } from './Education';
+import { RegularUser } from './RegularUser.entity';
+import { Education } from './Education.entity';
 
 @Entity('University')
 @ObjectType()

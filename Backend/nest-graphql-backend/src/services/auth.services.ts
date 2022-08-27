@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { RegularUser } from 'src/entities/RegularUser.entity';
+import { RegularUser } from 'src/entities/NormalTypes/RegularUser.entity';
 import { LoginUserInput } from 'src/inputTypes/login-user.input';
 import { RegularuserService } from 'src/routers/regularuser/regularuser.service';
 import { SuperuserService } from 'src/routers/superuser/superuser.service';
@@ -16,6 +16,7 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<any> {
     const regularUser = await this.usersService.findOne(email);
+    console.log(regularUser);
     if (regularUser) {
       if (await bcrypt.compare(password, regularUser.password)) {
         delete regularUser.password;

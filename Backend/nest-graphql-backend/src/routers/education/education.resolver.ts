@@ -8,10 +8,10 @@ import {
 } from '@nestjs/graphql';
 
 // Own files.
-import { Education } from 'src/entities/Education.entity';
+import { Education } from 'src/entities/NormalTypes/Education.entity';
 import { EducationService } from './education.service';
 import { CreateEducationInput } from 'src/inputTypes/create-education.input';
-import { University } from 'src/entities/University.entity';
+import { University } from 'src/entities/NormalTypes/University.entity';
 
 @Resolver((of) => Education)
 export class EducationResolver {

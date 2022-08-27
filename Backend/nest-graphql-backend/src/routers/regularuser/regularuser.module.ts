@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 //Own files.
-import { RegularUser } from 'src/entities/RegularUser.entity';
+import { RegularUser } from 'src/entities/NormalTypes/RegularUser.entity';
 import { UniversityModule } from 'src/routers/university/university.module';
 import { EducationModule } from 'src/routers/education/education.module';
 import { RegularuserService } from './regularuser.service';

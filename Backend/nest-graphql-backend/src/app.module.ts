@@ -32,7 +32,7 @@ import { AuthModule } from './services/auth.module';
         username: configService.get<string>('MYSQL_USER'),
         password: configService.get<string>('MYSQL_PASSWORD'),
         database: configService.get<string>('DATABASE'),
-        entities: [__dirname + '/**/!(SuperTypes)*.entity{.ts,.js}'],
+        entities: [__dirname + '/**/NormalTypes/*.entity{.ts,.js}'],
         synchronize: true,
       }),
       inject: [ConfigService],

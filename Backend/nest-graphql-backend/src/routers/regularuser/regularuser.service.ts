@@ -4,11 +4,11 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 // Own files
-import { RegularUser } from 'src/entities/RegularUser.entity';
+import { RegularUser } from 'src/entities/NormalTypes/RegularUser.entity';
 import { CreateRegularuserInput } from 'src/inputTypes/create-regularuser.input';
 import { UniversityService } from 'src/routers/university/university.service';
-import { University } from 'src/entities/University.entity';
-import { Education } from 'src/entities/Education.entity';
+import { University } from 'src/entities/NormalTypes/University.entity';
+import { Education } from 'src/entities/NormalTypes/Education.entity';
 import { EducationService } from 'src/routers/education/education.service';
 import { UserInputError } from 'apollo-server-express';
 
@@ -29,12 +29,13 @@ export class RegularuserService {
       throw new UserInputError('User already exists');
     }
 
-    const saltOrRounds = 10;
     const password = createRegularuserInput.password;
     const email = createRegularuserInput.email;
 
-    createRegularuserInput.password = await bcrypt.hash(password, saltOrRounds);
-    createRegularuserInput.email = await bcrypt.hash(email, saltOrRounds);
+    const SALT = await bcrypt.genSalt(10);
+
+    createRegularuserInput.password = await bcrypt.hash(password, SALT);
+    createRegularuserInput.email = email;
 
     const newRegularuser = this.regularusersRepository.create(
       createRegularuserInput,
@@ -58,7 +59,7 @@ export class RegularuserService {
 
   // Finds a specific regularuser or returns null.
   async findOne(email: string): Promise<RegularUser> {
-    return this.regularusersRepository.findOne({
+    return await this.regularusersRepository.findOne({
       where: { email: email },
     });
   }

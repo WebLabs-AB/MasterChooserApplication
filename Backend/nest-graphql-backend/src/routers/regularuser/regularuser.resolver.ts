@@ -6,11 +6,11 @@ import {
   Parent,
   ResolveField,
 } from '@nestjs/graphql';
-import { Education } from 'src/entities/Education.entity';
+import { Education } from 'src/entities/NormalTypes/Education.entity';
 
 // Own files.
-import { RegularUser } from 'src/entities/RegularUser.entity';
-import { University } from 'src/entities/University.entity';
+import { RegularUser } from 'src/entities/NormalTypes/RegularUser.entity';
+import { University } from 'src/entities/NormalTypes/University.entity';
 import { CreateRegularuserInput } from 'src/inputTypes/create-regularuser.input';
 import { RegularuserService } from './regularuser.service';
 

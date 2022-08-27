@@ -3,10 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 // Own files.
-import { Education } from 'src/entities/Education.entity';
+import { Education } from 'src/entities/NormalTypes/Education.entity';
 import { CreateEducationInput } from 'src/inputTypes/create-education.input';
 import { UniversityService } from 'src/routers/university/university.service';
-import { University } from 'src/entities/University.entity';
+import { University } from 'src/entities/NormalTypes/University.entity';
 
 @Injectable()
 export class EducationService {

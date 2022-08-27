@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 // Own files
-import { SuperUser } from 'src/entities/SuperUser.entity';
+import { SuperUser } from 'src/entities/NormalTypes/SuperUser.entity';
 
 @Injectable()
 export class SuperuserService {

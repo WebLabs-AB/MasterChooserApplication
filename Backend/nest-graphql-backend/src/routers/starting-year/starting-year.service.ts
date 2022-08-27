@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 // Own files.
-import { StartingYear } from 'src/entities/StartingYear.entity';
+import { StartingYear } from 'src/entities/NormalTypes/StartingYear.entity';
 import { CreateStartingYearInput } from 'src/inputTypes/create-startingYear.input';
 
 @Injectable()

@@ -5,7 +5,6 @@ import { RegularUser } from 'src/entities/NormalTypes/RegularUser.entity';
 import { LoginUserInput } from 'src/inputTypes/login-user.input';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.services';
-import { BadRequestException } from '@nestjs/common';
 
 describe('AuthResolver', () => {
   let authResolver: AuthResolver;
@@ -103,7 +102,6 @@ describe('AuthResolver', () => {
         password: 'wrongPassword',
       });
 
-      console.log(result);
       expect(result).toEqual({
         access_token: 'failed',
       });

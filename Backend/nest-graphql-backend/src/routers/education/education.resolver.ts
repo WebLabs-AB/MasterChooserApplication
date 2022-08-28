@@ -24,20 +24,21 @@ export class EducationResolver {
     return this.educationService.findAll();
   }
 
-  // Query that returns all students stuying specific education.
+  // Query that returns all students studying a specific education.
   @Query((returns) => [Student]) // Returns an array of educations.
   async students(
     @Args('educationName') educationName: string,
+    @Args('universityName') universityName: string,
   ): Promise<Student[]> {
-    return this.educationService.getAllStudents(educationName);
+    return this.educationService.getAllStudents(educationName, universityName);
   }
 
   // Query that returns all educations that belongs to a specific university..
   @Query((returns) => [Education]) // Returns an array of educations.
-  async educationFromUniversity(
+  async educationsFromUniversity(
     @Args('universityName') universityName: string,
   ): Promise<Education[]> {
-    return this.educationService.findEducationFromUniversity(universityName);
+    return this.educationService.findEducationsFromUniversity(universityName);
   }
 
   @ResolveField((returns) => University) // Used to find what university the education belongs to.

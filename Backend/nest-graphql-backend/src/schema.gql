@@ -43,8 +43,8 @@ type Query {
   universities: [University!]!
   findOne(universityName: String!): University!
   educations: [Education!]!
-  students(educationName: String!): [Student!]!
-  educationFromUniversity(universityName: String!): [Education!]!
+  students(educationName: String!, universityName: String!): [Student!]!
+  educationsFromUniversity(universityName: String!): [Education!]!
   startingYears: [StartingYear!]!
 }
 

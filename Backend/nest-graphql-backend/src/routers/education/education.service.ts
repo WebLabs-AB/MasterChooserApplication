@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -21,13 +21,21 @@ export class EducationService {
   async createEducation(
     createEducationInput: CreateEducationInput,
   ): Promise<Education> {
+    const education = await this.findOne(
+      createEducationInput.educationName,
+      createEducationInput.universityName,
+    );
+    if (education) {
+      throw new BadRequestException(
+        `Education already exists at that university`,
+      );
+    }
+
     const newEducation = this.educationRepository.create(createEducationInput);
 
-    const university = await this.getUniversity(
+    const university = await this.universityService.findOne(
       createEducationInput.universityName,
-    ); // Check if university already exists.
-    university.universityName = createEducationInput.universityName;
-
+    );
     if (!university.Educations) {
       university.Educations = [newEducation];
     } else {
@@ -44,7 +52,7 @@ export class EducationService {
   }
 
   // Find all programs from the education table that matches string.
-  async findEducationFromUniversity(
+  async findEducationsFromUniversity(
     universityName: string,
   ): Promise<Education[]> {
     const university = await this.universityService.findOne(universityName);
@@ -52,8 +60,17 @@ export class EducationService {
   }
 
   // Finds a specific education or fails.
-  async findOne(educationName: string): Promise<Education> {
-    return this.educationRepository.findOneByOrFail({ educationName });
+  async findOne(
+    educationName: string,
+    universityName: string,
+  ): Promise<Education> {
+    const university = await this.universityService.findOne(universityName);
+
+    let result = null;
+    university.Educations.forEach((education) => {
+      if (education.educationName === educationName) result = education;
+    });
+    return result;
   }
 
   // Gets a specific university.
@@ -62,8 +79,11 @@ export class EducationService {
   }
 
   // Retrieves all students that studies a specific education.
-  async getAllStudents(educationName: string): Promise<Student[]> {
-    const education = await this.findOne(educationName);
+  async getAllStudents(
+    educationName: string,
+    universityName: string,
+  ): Promise<Student[]> {
+    const education = await this.findOne(educationName, universityName);
     return education.Students;
   }
 }

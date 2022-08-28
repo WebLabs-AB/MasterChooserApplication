@@ -31,13 +31,16 @@ export class StudentResolver {
   }
 
   @ResolveField((returns) => University) // Used to find what university a student goes to.
-  async university(@Parent() regularuser: Student): Promise<University> {
-    return this.studentService.getUniversity(regularuser.universityName);
+  async university(@Parent() student: Student): Promise<University> {
+    return this.studentService.getUniversity(student.universityName);
   }
 
   @ResolveField((returns) => Education) // Used to find what education a student studies.
-  async education(@Parent() regularuser: Student): Promise<Education> {
-    return this.studentService.getEducation(regularuser.educationName);
+  async education(@Parent() student: Student): Promise<Education> {
+    return this.studentService.getEducation(
+      student.educationName,
+      student.education.educationName,
+    );
   }
 
   @Mutation((returns) => Student)

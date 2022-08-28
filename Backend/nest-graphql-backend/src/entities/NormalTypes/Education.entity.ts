@@ -1,11 +1,11 @@
 import {
   Entity,
   BaseEntity,
-  PrimaryColumn,
   Column,
   ManyToOne,
   JoinColumn,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { University } from './University.entity';
@@ -14,7 +14,10 @@ import { Student } from './Student.entity';
 @Entity('Education')
 @ObjectType()
 export class Education extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column()
   @Field()
   educationName: string;
 

@@ -55,6 +55,7 @@ export class StudentService {
 
     const education = await this.getEducation(
       createRegularuserInput.educationName,
+      createRegularuserInput.universityName,
     ); // Check if education already exists.
 
     if (!education.Students) {
@@ -85,8 +86,11 @@ export class StudentService {
   }
 
   // Gets a specific education.
-  async getEducation(educationName: string): Promise<Education> {
-    return this.educationService.findOne(educationName);
+  async getEducation(
+    educationName: string,
+    universityName: string,
+  ): Promise<Education> {
+    return this.educationService.findOne(educationName, universityName);
   }
 
   // Checks if an user exists from email.

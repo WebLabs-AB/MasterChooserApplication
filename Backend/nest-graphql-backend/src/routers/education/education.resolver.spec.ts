@@ -9,11 +9,10 @@ import { EducationService } from './education.service';
 describe('EducationResolver', () => {
   let educationResolver: EducationResolver;
 
-  function mockFindEducationFromUniversity(universityName: string): Education {
+  function mockFindEducationsFromUniversity(universityName: string): Education {
     const education = new Education();
     education.educationName = 'Datateknik';
     education.symbol = 'D';
-    education.universityName = universityName;
     return education;
   }
 
@@ -49,7 +48,7 @@ describe('EducationResolver', () => {
               },
             ]),
             findEducationFromUniversity: jest.fn((universityName: string) =>
-              mockFindEducationFromUniversity(universityName),
+              mockFindEducationsFromUniversity(universityName),
             ),
             getUniversity: jest.fn((universityName: string) =>
               mockGetUniversity(universityName),
@@ -91,7 +90,7 @@ describe('EducationResolver', () => {
     });
 
     it('returns all educations that belong to a specific university', async () => {
-      const educationsList = await educationResolver.educationFromUniversity(
+      const educationsList = await educationResolver.educationsFromUniversity(
         'Chalmers',
       );
       expect(educationsList).toEqual({
@@ -105,8 +104,8 @@ describe('EducationResolver', () => {
       const university = await educationResolver.university({
         educationName: 'Datateknik',
         symbol: 'D',
-        universityName: 'Chalmers',
         university: new University(),
+        id: '',
         hasId: function (): boolean {
           throw new Error('Function not implemented.');
         },

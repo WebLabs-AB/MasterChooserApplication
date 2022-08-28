@@ -9,7 +9,7 @@ import { EducationService } from './education.service';
 describe('EducationResolver', () => {
   let educationResolver: EducationResolver;
 
-  function findEducationFromUniversity(universityName: string): Education {
+  function mockFindEducationFromUniversity(universityName: string): Education {
     const education = new Education();
     education.educationName = 'Datateknik';
     education.symbol = 'D';
@@ -17,10 +17,10 @@ describe('EducationResolver', () => {
     return education;
   }
 
-  function getUniversity(universityName: string): University {
-    const education = new University();
-    education.universityName = universityName;
-    return education;
+  function mockGetUniversity(universityName: string): University {
+    const university = new University();
+    university.universityName = universityName;
+    return university;
   }
 
   beforeEach(async () => {
@@ -49,10 +49,10 @@ describe('EducationResolver', () => {
               },
             ]),
             findEducationFromUniversity: jest.fn((universityName: string) =>
-              findEducationFromUniversity(universityName),
+              mockFindEducationFromUniversity(universityName),
             ),
             getUniversity: jest.fn((universityName: string) =>
-              getUniversity(universityName),
+              mockGetUniversity(universityName),
             ),
           }),
         },
@@ -101,7 +101,7 @@ describe('EducationResolver', () => {
       });
     });
 
-    it('Find out what univiersity the education belongs to', async () => {
+    it('find out what univiersity the education belongs to', async () => {
       const university = await educationResolver.university({
         educationName: 'Datateknik',
         symbol: 'D',

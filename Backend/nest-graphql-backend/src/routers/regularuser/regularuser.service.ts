@@ -47,7 +47,7 @@ export class RegularuserService {
 
     const education = new Education();
     education.educationName = createRegularuserInput.educationName;
-    newRegularuser.education = education; // Set forign key.
+    newRegularuser.education = education; // Set foreign key.
 
     return this.regularusersRepository.save(newRegularuser);
   }

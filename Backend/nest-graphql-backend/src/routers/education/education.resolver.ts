@@ -12,6 +12,7 @@ import { Education } from 'src/entities/NormalTypes/Education.entity';
 import { EducationService } from './education.service';
 import { CreateEducationInput } from 'src/inputTypes/create-education.input';
 import { University } from 'src/entities/NormalTypes/University.entity';
+import { Student } from 'src/entities/NormalTypes/Student.entity';
 
 @Resolver((of) => Education)
 export class EducationResolver {
@@ -21,6 +22,14 @@ export class EducationResolver {
   @Query((returns) => [Education]) // Returns an array of educations.
   async educations(): Promise<Education[]> {
     return this.educationService.findAll();
+  }
+
+  // Query that returns all students stuying specific education.
+  @Query((returns) => [Student]) // Returns an array of educations.
+  async students(
+    @Args('educationName') educationName: string,
+  ): Promise<Student[]> {
+    return this.educationService.getAllStudents(educationName);
   }
 
   // Query that returns all educations that belongs to a specific university..

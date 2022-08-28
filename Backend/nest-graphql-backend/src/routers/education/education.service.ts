@@ -7,6 +7,7 @@ import { Education } from 'src/entities/NormalTypes/Education.entity';
 import { CreateEducationInput } from 'src/inputTypes/create-education.input';
 import { UniversityService } from 'src/routers/university/university.service';
 import { University } from 'src/entities/NormalTypes/University.entity';
+import { Student } from 'src/entities/NormalTypes/Student.entity';
 
 @Injectable()
 export class EducationService {
@@ -58,5 +59,11 @@ export class EducationService {
   // Gets a specific university.
   async getUniversity(universityName: string): Promise<University> {
     return this.universityService.findOne(universityName);
+  }
+
+  // Retrieves all students that studies a specific education.
+  async getAllStudents(educationName: string): Promise<Student[]> {
+    const education = await this.findOne(educationName);
+    return education.Students;
   }
 }

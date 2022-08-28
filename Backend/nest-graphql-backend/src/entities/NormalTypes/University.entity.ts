@@ -11,13 +11,13 @@ export class University extends BaseEntity {
   universityName: string;
 
   @OneToMany(() => Student, (student) => student.university, {
-    cascade: ['insert', 'update'],
+    eager: true,
   }) // Shows which students goes to the university.
   @Field((type) => [Student])
   Students?: Student[];
 
   @OneToMany(() => Education, (education) => education.university, {
-    cascade: ['insert', 'update'],
+    eager: true,
   }) // Shows what educations belongs to an university..
   @Field((type) => [Education])
   Educations?: Education[];

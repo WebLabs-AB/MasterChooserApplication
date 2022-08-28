@@ -45,7 +45,6 @@ export class StudentService {
       createRegularuserInput.universityName,
     ); // Check if university already exists.
 
-    university.universityName = createRegularuserInput.universityName;
     if (!university.Students) {
       university.Students = [newRegularuser];
     } else {
@@ -58,13 +57,11 @@ export class StudentService {
       createRegularuserInput.educationName,
     ); // Check if education already exists.
 
-    education.educationName = createRegularuserInput.educationName;
     if (!education.Students) {
       education.Students = [newRegularuser];
     } else {
       education.Students.push(newRegularuser); // Add the student to the studentslist.
     }
-
     newRegularuser.education = education; // Set foreign key.
 
     return this.regularusersRepository.save(newRegularuser);

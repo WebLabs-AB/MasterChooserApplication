@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import * as bcrypt from 'bcrypt';
 
-import { RegularUser } from 'src/entities/NormalTypes/RegularUser.entity';
+import { Student } from 'src/entities/NormalTypes/Student.entity';
 import { LoginUserInput } from 'src/inputTypes/login-user.input';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.services';
@@ -11,8 +11,8 @@ describe('AuthResolver', () => {
   const mockEmail = 'erikbirgersson98@gmail.com';
   const mockPassword = 'Brummer98';
 
-  async function mockRegularUserFindOne(): Promise<RegularUser> {
-    const user = new RegularUser();
+  async function mockRegularUserFindOne(): Promise<Student> {
+    const user = new Student();
     user.email = mockEmail;
 
     const SALT = await bcrypt.genSalt(10);
@@ -20,9 +20,7 @@ describe('AuthResolver', () => {
     return user;
   }
 
-  async function mockValidateUser(
-    password: string,
-  ): Promise<RegularUser | null> {
+  async function mockValidateUser(password: string): Promise<Student | null> {
     const regularUser = await mockRegularUserFindOne();
 
     if (regularUser) {

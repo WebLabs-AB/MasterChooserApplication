@@ -5,9 +5,9 @@ import { University } from './University.entity';
 import { Education } from './Education.entity';
 import { User } from '../SuperTypes/User.entity';
 
-@Entity('RegularUser')
+@Entity('Student')
 @ObjectType()
-export class RegularUser extends User {
+export class Student extends User {
   @Column()
   @Field((type) => Int)
   startingYear: number;
@@ -29,7 +29,7 @@ export class RegularUser extends User {
 
   @ManyToOne(() => Education, (education) => education.Students, {
     cascade: true,
-  }) // Shows which university a student goes
+  }) // Shows which education a student goes
   @Field((type) => Education)
   @JoinColumn({ name: 'educationName' })
   education: Education;

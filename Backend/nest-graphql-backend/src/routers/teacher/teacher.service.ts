@@ -3,25 +3,25 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 // Own files
-import { SuperUser } from 'src/entities/NormalTypes/SuperUser.entity';
+import { Teacher } from 'src/entities/NormalTypes/Teacher.entity';
 
 @Injectable()
-export class SuperuserService {
+export class TeacherService {
   constructor(
-    @InjectRepository(SuperUser)
-    private superusersRepository: Repository<SuperUser>,
+    @InjectRepository(Teacher)
+    private teacherRepository: Repository<Teacher>,
   ) {}
 
   // Finds a specific regularuser or null.
-  async findOne(email: string): Promise<SuperUser> {
-    return this.superusersRepository.findOne({
+  async findOne(email: string): Promise<Teacher> {
+    return this.teacherRepository.findOne({
       where: { email: email },
     });
   }
 
   // Checks if an user exists from email.
   async doesUserExists(email: string): Promise<boolean> {
-    const user = await this.superusersRepository.findOne({
+    const user = await this.teacherRepository.findOne({
       where: { email: email },
     });
 

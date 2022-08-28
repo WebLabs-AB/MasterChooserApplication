@@ -22,10 +22,18 @@ export class EducationService {
   ): Promise<Education> {
     const newEducation = this.educationRepository.create(createEducationInput);
 
-    const university = new University();
+    const university = await this.getUniversity(
+      createEducationInput.universityName,
+    ); // Check if university already exists.
     university.universityName = createEducationInput.universityName;
-    newEducation.university = university; // Set foreign key
 
+    if (!university.Educations) {
+      university.Educations = [newEducation];
+    } else {
+      university.Educations.push(newEducation); // Add the new education to the university.
+    }
+
+    newEducation.university = university; // Set foreign key.
     return this.educationRepository.save(newEducation);
   }
 
@@ -38,9 +46,8 @@ export class EducationService {
   async findEducationFromUniversity(
     universityName: string,
   ): Promise<Education[]> {
-    return this.educationRepository.find({
-      where: { universityName: universityName },
-    }); // SELECT * FROM education WHERE universitName = universityName;
+    const university = await this.universityService.findOne(universityName);
+    return university.Educations;
   }
 
   // Finds a specific education or fails.

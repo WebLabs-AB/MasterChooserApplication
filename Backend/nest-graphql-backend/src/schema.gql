@@ -5,18 +5,17 @@
 type Education {
   educationName: String!
   symbol: String!
-  universityName: String!
   university: University!
-  Students: [RegularUser!]
+  Students: [Student!]
 }
 
 type University {
   universityName: String!
-  Students: [RegularUser!]
-  Educations: [Education!]
+  Students: [Student!]!
+  Educations: [Education!]!
 }
 
-type RegularUser {
+type Student {
   """User email """
   email: String!
 
@@ -39,8 +38,8 @@ type LoggedUserOutput {
 }
 
 type Query {
-  regularusers: [RegularUser!]!
-  getRegularuser(email: String!): RegularUser!
+  regularusers: [Student!]!
+  getRegularuser(email: String!): Student!
   universities: [University!]!
   findOne(universityName: String!): University!
   educations: [Education!]!
@@ -49,14 +48,14 @@ type Query {
 }
 
 type Mutation {
-  createNewRegularuser(createRegularuserInput: CreateRegularuserInput!): RegularUser!
+  createNewRegularuser(createRegularuserInput: CreateStudentInput!): Student!
   createNewUniversity(createUniversityInput: CreateUniversityInput!): University!
   createNewEducation(createEducationInput: CreateEducationInput!): Education!
   createNewStartingYear(createStartingYearInput: CreateStartingYearInput!): StartingYear!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
 }
 
-input CreateRegularuserInput {
+input CreateStudentInput {
   """email of the user"""
   email: String!
 

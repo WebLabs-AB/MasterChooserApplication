@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { University } from './University.entity';
-import { RegularUser } from './RegularUser.entity';
+import { Student } from './Student.entity';
 
 @Entity('Education')
 @ObjectType()
@@ -22,10 +22,6 @@ export class Education extends BaseEntity {
   @Field()
   symbol: string;
 
-  @Column()
-  @Field()
-  universityName: string; // Used to find out what university the education belongs to.
-
   @ManyToOne(() => University, (university) => university.Educations, {
     cascade: true,
   }) // Shows which university an education belongs to.
@@ -33,9 +29,9 @@ export class Education extends BaseEntity {
   @JoinColumn({ name: 'universityName' })
   university: University;
 
-  @OneToMany(() => RegularUser, (regularuser) => regularuser.education, {
+  @OneToMany(() => Student, (student) => student.education, {
     cascade: ['insert'],
   }) // Shows which students studies that education.
-  @Field((type) => [RegularUser], { nullable: true })
-  Students?: RegularUser[];
+  @Field((type) => [Student], { nullable: true })
+  Students?: Student[];
 }

@@ -33,7 +33,9 @@ export class EducationResolver {
 
   @ResolveField((returns) => University) // Used to find what university the education belongs to.
   async university(@Parent() education: Education): Promise<University> {
-    return this.educationService.getUniversity(education.universityName);
+    return this.educationService.getUniversity(
+      education.university.universityName,
+    );
   }
 
   @Mutation((returns) => Education)

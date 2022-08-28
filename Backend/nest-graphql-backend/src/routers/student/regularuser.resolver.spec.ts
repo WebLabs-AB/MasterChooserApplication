@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Education } from 'src/entities/NormalTypes/Education.entity';
-import { RegularUser } from 'src/entities/NormalTypes/RegularUser.entity';
+import { Student } from 'src/entities/NormalTypes/Student.entity';
 import { University } from 'src/entities/NormalTypes/University.entity';
 
 import { CreateUniversityInput } from 'src/inputTypes/create-university.input';
 import { RemoveOptions, SaveOptions } from 'typeorm';
-import { RegularuserResolver } from './regularuser.resolver';
-import { RegularuserService } from './regularuser.service';
+import { StudentResolver } from './student.resolver';
+import { StudentService } from './student.service';
 
 describe('EducationResolver', () => {
-  let regularuserResolver: RegularuserResolver;
+  let studentResolver: StudentResolver;
 
   const mockUserEmail = 'erikbirgersson98@gmail.com';
   const mockUser1 = {
@@ -40,8 +40,8 @@ describe('EducationResolver', () => {
     return education;
   }
 
-  function mockFindOne(email: string): RegularUser {
-    const user = new RegularUser();
+  function mockFindOne(email: string): Student {
+    const user = new Student();
     user.email = email;
     user.password = 'Brummer98';
     user.startingYear = 2019;
@@ -53,9 +53,9 @@ describe('EducationResolver', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        RegularuserResolver,
+        StudentResolver,
         {
-          provide: RegularuserService,
+          provide: StudentService,
           useFactory: () => ({
             createRegularuser: jest.fn(
               (createUniversityInput: CreateUniversityInput) => ({
@@ -75,35 +75,33 @@ describe('EducationResolver', () => {
       ],
     }).compile();
 
-    regularuserResolver = module.get<RegularuserResolver>(RegularuserResolver);
+    studentResolver = module.get<StudentResolver>(StudentResolver);
   });
 
   describe('RegularuserResolver', () => {
     it('should be defined', () => {
-      expect(regularuserResolver).toBeDefined();
+      expect(studentResolver).toBeDefined();
     });
 
     it('should find and return a list of universities', async () => {
-      const regularusersList = await regularuserResolver.regularusers();
+      const regularusersList = await studentResolver.regularusers();
       expect(regularusersList).toContainEqual(mockUser2);
     });
 
     it('should find a specific regularuser', async () => {
-      const regularuser = await regularuserResolver.getRegularuser(
-        mockUserEmail,
-      );
+      const regularuser = await studentResolver.getRegularuser(mockUserEmail);
       expect(regularuser).toEqual(mockUser1);
     });
 
     it('should create a new regularuser', async () => {
-      const newRegularuser = await regularuserResolver.createNewRegularuser(
+      const newRegularuser = await studentResolver.createNewRegularuser(
         mockUser1,
       );
       expect(newRegularuser).toEqual(mockUser1);
     });
 
     it('should find what university a regularuser goes to', async () => {
-      const university = await regularuserResolver.university({
+      const university = await studentResolver.university({
         email: mockUserEmail,
         password: 'Brummer98',
         startingYear: 2019,
@@ -115,16 +113,16 @@ describe('EducationResolver', () => {
         hasId: function (): boolean {
           throw new Error('Function not implemented.');
         },
-        save: function (options?: SaveOptions): Promise<RegularUser> {
+        save: function (options?: SaveOptions): Promise<Student> {
           throw new Error('Function not implemented.');
         },
-        remove: function (options?: RemoveOptions): Promise<RegularUser> {
+        remove: function (options?: RemoveOptions): Promise<Student> {
           throw new Error('Function not implemented.');
         },
-        softRemove: function (options?: SaveOptions): Promise<RegularUser> {
+        softRemove: function (options?: SaveOptions): Promise<Student> {
           throw new Error('Function not implemented.');
         },
-        recover: function (options?: SaveOptions): Promise<RegularUser> {
+        recover: function (options?: SaveOptions): Promise<Student> {
           throw new Error('Function not implemented.');
         },
         reload: function (): Promise<void> {
@@ -135,7 +133,7 @@ describe('EducationResolver', () => {
     });
 
     it('should find what education a regularuser goes to', async () => {
-      const education = await regularuserResolver.education({
+      const education = await studentResolver.education({
         email: mockUserEmail,
         password: 'Brummer98',
         startingYear: 2019,
@@ -147,16 +145,16 @@ describe('EducationResolver', () => {
         hasId: function (): boolean {
           throw new Error('Function not implemented.');
         },
-        save: function (options?: SaveOptions): Promise<RegularUser> {
+        save: function (options?: SaveOptions): Promise<Student> {
           throw new Error('Function not implemented.');
         },
-        remove: function (options?: RemoveOptions): Promise<RegularUser> {
+        remove: function (options?: RemoveOptions): Promise<Student> {
           throw new Error('Function not implemented.');
         },
-        softRemove: function (options?: SaveOptions): Promise<RegularUser> {
+        softRemove: function (options?: SaveOptions): Promise<Student> {
           throw new Error('Function not implemented.');
         },
-        recover: function (options?: SaveOptions): Promise<RegularUser> {
+        recover: function (options?: SaveOptions): Promise<Student> {
           throw new Error('Function not implemented.');
         },
         reload: function (): Promise<void> {

@@ -1,6 +1,6 @@
 import { Entity, BaseEntity, PrimaryColumn, OneToMany } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { RegularUser } from './RegularUser.entity';
+import { Student } from './Student.entity';
 import { Education } from './Education.entity';
 
 @Entity('University')
@@ -10,15 +10,15 @@ export class University extends BaseEntity {
   @Field()
   universityName: string;
 
-  @OneToMany(() => RegularUser, (regularuser) => regularuser.university, {
-    cascade: ['insert'],
+  @OneToMany(() => Student, (student) => student.university, {
+    cascade: ['insert', 'update'],
   }) // Shows which students goes to the university.
-  @Field((type) => [RegularUser], { nullable: true })
-  Students?: RegularUser[];
+  @Field((type) => [Student])
+  Students?: Student[];
 
   @OneToMany(() => Education, (education) => education.university, {
-    cascade: ['insert'],
+    cascade: ['insert', 'update'],
   }) // Shows what educations belongs to an university..
-  @Field((type) => [Education], { nullable: true })
+  @Field((type) => [Education])
   Educations?: Education[];
 }

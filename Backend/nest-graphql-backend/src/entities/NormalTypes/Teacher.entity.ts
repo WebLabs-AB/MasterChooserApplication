@@ -3,13 +3,9 @@ import { Entity, Column } from 'typeorm';
 
 import { User } from '../SuperTypes/User.entity';
 
-@Entity('SuperUser')
+@Entity('Teacher')
 @ObjectType()
-export class SuperUser extends User {
-  @Column()
-  @Field()
-  liuId: string;
-
+export class Teacher extends User {
   @Column()
   @Field()
   firstName: string;

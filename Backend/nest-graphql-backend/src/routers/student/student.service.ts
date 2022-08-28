@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 // Own files
-import { RegularUser } from 'src/entities/NormalTypes/RegularUser.entity';
-import { CreateRegularuserInput } from 'src/inputTypes/create-regularuser.input';
+import { Student } from 'src/entities/NormalTypes/Student.entity';
+import { CreateStudentInput } from 'src/inputTypes/create-regularuser.input';
 import { UniversityService } from 'src/routers/university/university.service';
 import { University } from 'src/entities/NormalTypes/University.entity';
 import { Education } from 'src/entities/NormalTypes/Education.entity';
@@ -13,18 +13,18 @@ import { EducationService } from 'src/routers/education/education.service';
 import { UserInputError } from 'apollo-server-express';
 
 @Injectable()
-export class RegularuserService {
+export class StudentService {
   constructor(
-    @InjectRepository(RegularUser)
-    private regularusersRepository: Repository<RegularUser>,
+    @InjectRepository(Student)
+    private regularusersRepository: Repository<Student>,
     private universityService: UniversityService,
     private educationService: EducationService,
   ) {}
 
   // Creates a new regularuser and saves it in the database.
   async createRegularuser(
-    createRegularuserInput: CreateRegularuserInput,
-  ): Promise<RegularUser> {
+    createRegularuserInput: CreateStudentInput,
+  ): Promise<Student> {
     if (await this.doesUserExists(createRegularuserInput.email)) {
       throw new UserInputError('User already exists');
     }
@@ -41,24 +41,42 @@ export class RegularuserService {
       createRegularuserInput,
     );
 
-    const university = new University();
+    const university = await this.getUniversity(
+      createRegularuserInput.universityName,
+    ); // Check if university already exists.
+
     university.universityName = createRegularuserInput.universityName;
+    if (!university.Students) {
+      university.Students = [newRegularuser];
+    } else {
+      university.Students.push(newRegularuser); // Add the student to the studentslist.
+    }
+
     newRegularuser.university = university; // Set foreign key.
 
-    const education = new Education();
+    const education = await this.getEducation(
+      createRegularuserInput.educationName,
+    ); // Check if education already exists.
+
     education.educationName = createRegularuserInput.educationName;
+    if (!education.Students) {
+      education.Students = [newRegularuser];
+    } else {
+      education.Students.push(newRegularuser); // Add the student to the studentslist.
+    }
+
     newRegularuser.education = education; // Set foreign key.
 
     return this.regularusersRepository.save(newRegularuser);
   }
 
   // Find all users from the regularuser table.
-  async findAll(): Promise<RegularUser[]> {
+  async findAll(): Promise<Student[]> {
     return this.regularusersRepository.find(); // SELECT * FROM regularuser;
   }
 
   // Finds a specific regularuser or returns null.
-  async findOne(email: string): Promise<RegularUser> {
+  async findOne(email: string): Promise<Student> {
     return await this.regularusersRepository.findOne({
       where: { email: email },
     });

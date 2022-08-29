@@ -2,6 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { Entity, Column, OneToMany } from 'typeorm';
 
 import { User } from '../SuperTypes/User.entity';
+import { Course } from './Course.entity';
 import { MasterProfile } from './MasterProfile.entity';
 
 @Entity('Teacher')
@@ -17,7 +18,13 @@ export class Teacher extends User {
 
   @OneToMany(() => MasterProfile, (masterprofile) => masterprofile.teacher, {
     eager: true,
-  }) // Shows which students studies that education.
+  }) // Shows which masterprofiles was created by a teacher.
   @Field((type) => [MasterProfile])
   MasterProfiles?: MasterProfile[];
+
+  @OneToMany(() => Course, (course) => course.teacher, {
+    eager: true,
+  }) // Shows which courses was created by a teacher.
+  @Field((type) => [Course])
+  courses?: Course[];
 }

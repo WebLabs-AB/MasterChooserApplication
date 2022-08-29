@@ -1,9 +1,10 @@
-import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 import { University } from './University.entity';
 import { Education } from './Education.entity';
 import { User } from '../SuperTypes/User.entity';
+import { MasterSchema } from './MasterSchema.entity';
 
 @Entity('Student')
 @ObjectType()
@@ -33,4 +34,10 @@ export class Student extends User {
   @Field((type) => Education)
   @JoinColumn({ name: 'educationName' })
   education: Education;
+
+  @OneToMany(() => MasterSchema, (masterschema) => masterschema.student, {
+    eager: true,
+  }) // Shows what masterschemas a student has created.
+  @Field((type) => [MasterSchema])
+  masterSchemas?: MasterSchema[];
 }

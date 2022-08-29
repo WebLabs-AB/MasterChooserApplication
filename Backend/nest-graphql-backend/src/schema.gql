@@ -2,6 +2,44 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type MasterSchema {
+  finished: Boolean!
+
+  """Time when masterschema was created """
+  createdAt: String!
+  student: Student!
+  masterProfile: MasterProfile!
+}
+
+type MasterProfile {
+  masterName: String!
+  university: University!
+  teacher: University!
+  masterSchemas: [MasterSchema!]!
+}
+
+type Teacher {
+  """User email """
+  email: String!
+
+  """User time created """
+  createdAt: String!
+  firstName: String!
+  lastName: String!
+  MasterProfiles: [MasterProfile!]!
+  courses: [Course!]!
+}
+
+type Course {
+  courseId: String!
+  courseName: String!
+
+  """Time when course was created """
+  createdAt: String!
+  teacher: Teacher!
+  university: University!
+}
+
 type Education {
   educationName: String!
   symbol: String!
@@ -9,17 +47,12 @@ type Education {
   Students: [Student!]!
 }
 
-type MasterProfile {
-  masterName: String!
-  university: University!
-  teacher: University!
-}
-
 type University {
   universityName: String!
   Students: [Student!]!
   Educations: [Education!]!
   MasterProfiles: [MasterProfile!]!
+  courses: [Course!]!
 }
 
 type Student {
@@ -33,6 +66,7 @@ type Student {
   educationName: String!
   university: University!
   education: Education!
+  masterSchemas: [MasterSchema!]!
 }
 
 type StartingYear {

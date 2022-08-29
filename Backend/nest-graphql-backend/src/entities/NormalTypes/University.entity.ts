@@ -2,6 +2,7 @@ import { Entity, BaseEntity, PrimaryColumn, OneToMany } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Student } from './Student.entity';
 import { Education } from './Education.entity';
+import { MasterProfile } from './MasterProfile.entity';
 
 @Entity('University')
 @ObjectType()
@@ -21,4 +22,10 @@ export class University extends BaseEntity {
   }) // Shows what educations belongs to an university..
   @Field((type) => [Education])
   Educations?: Education[];
+
+  @OneToMany(() => MasterProfile, (masterprofile) => masterprofile.university, {
+    eager: true,
+  }) // Shows what masterprofiles belongs to an university..
+  @Field((type) => [MasterProfile])
+  MasterProfiles?: MasterProfile[];
 }

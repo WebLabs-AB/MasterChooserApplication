@@ -35,6 +35,6 @@ export class Education extends BaseEntity {
   @OneToMany(() => Student, (student) => student.education, {
     eager: true,
   }) // Shows which students studies that education.
-  @Field((type) => [Student], { nullable: true })
+  @Field((type) => [Student])
   Students?: Student[];
 }

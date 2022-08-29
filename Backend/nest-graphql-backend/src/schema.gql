@@ -6,13 +6,20 @@ type Education {
   educationName: String!
   symbol: String!
   university: University!
-  Students: [Student!]
+  Students: [Student!]!
+}
+
+type MasterProfile {
+  masterName: String!
+  university: University!
+  teacher: University!
 }
 
 type University {
   universityName: String!
   Students: [Student!]!
   Educations: [Education!]!
+  MasterProfiles: [MasterProfile!]!
 }
 
 type Student {

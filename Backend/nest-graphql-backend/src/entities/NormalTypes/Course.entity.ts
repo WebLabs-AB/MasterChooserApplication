@@ -8,8 +8,10 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryColumn,
 } from 'typeorm';
+import { CourseToStartingYear } from './CourseToStartingYear.entity';
 import { Education } from './Education.entity';
 import { MainArea } from './MainArea.entity';
 import { Period } from './Period.entity';
@@ -32,6 +34,15 @@ export class Course extends BaseEntity {
   @Field(() => String, { description: 'Time when course was created ' })
   @CreateDateColumn()
   createdAt: Date;
+
+  @OneToMany(
+    () => CourseToStartingYear,
+    (courseToStartingYear) => courseToStartingYear.course,
+    {
+      eager: true,
+    },
+  )
+  public courseToStartingYear!: CourseToStartingYear[];
 
   @ManyToOne(() => Teacher, (teacher) => teacher.courses, {
     cascade: true,

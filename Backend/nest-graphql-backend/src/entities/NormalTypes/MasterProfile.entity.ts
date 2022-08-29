@@ -9,12 +9,12 @@ import {
   OneToMany,
   PrimaryColumn,
 } from 'typeorm';
+
+//
 import { Course } from './Course.entity';
 import { MasterSchema } from './MasterSchema.entity';
 import { Teacher } from './Teacher.entity';
 import { University } from './University.entity';
-
-// Own files.
 
 @Entity('MasterProfile')
 @ObjectType()

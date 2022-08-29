@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type StartingYear {
+  startingYear: Int!
+}
+
 type MasterSchema {
   finished: Boolean!
 
@@ -67,10 +71,6 @@ type Student {
   university: University!
   education: Education!
   masterSchemas: [MasterSchema!]!
-}
-
-type StartingYear {
-  startingYear: Int!
 }
 
 type LoggedUserOutput {

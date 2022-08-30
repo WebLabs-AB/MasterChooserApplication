@@ -8,19 +8,19 @@ import { RemoveOptions, SaveOptions } from 'typeorm';
 import { StudentResolver } from './student.resolver';
 import { StudentService } from './student.service';
 
-describe('EducationResolver', () => {
+describe('StudentResolver', () => {
   let studentResolver: StudentResolver;
 
-  const mockUserEmail = 'erikbirgersson98@gmail.com';
-  const mockUser1 = {
-    email: mockUserEmail,
+  const mockStudentEmail = 'erikbirgersson98@gmail.com';
+  const mockStudent1 = {
+    email: mockStudentEmail,
     password: 'Brummer98',
     startingYear: 2019,
     universityName: 'Chalmers',
     educationName: 'Datateknik',
   };
 
-  const mockUser2 = {
+  const mockStudent2 = {
     email: 'erikbirgersson@live.se',
     password: 'Brummer',
     startingYear: 2019,
@@ -34,20 +34,34 @@ describe('EducationResolver', () => {
     return university;
   }
 
-  function mockGetEducation(educationName: string): University {
+  function mockGetEducation(
+    educationName: string,
+    universityName: string,
+  ): Education {
+    const university = new University();
+    university.universityName = universityName;
+
     const education = new Education();
     education.educationName = educationName;
+    education.university = university;
+    education.symbol = 'D';
     return education;
   }
 
   function mockFindOne(email: string): Student {
-    const user = new Student();
-    user.email = email;
-    user.password = 'Brummer98';
-    user.startingYear = 2019;
-    user.universityName = 'Chalmers';
-    user.educationName = 'Datateknik';
-    return user;
+    const university = new University();
+    university.universityName = mockStudent1.universityName;
+
+    const education = new Education();
+    education.educationName = mockStudent1.educationName;
+
+    const student = new Student();
+    student.email = email;
+    student.password = mockStudent1.password;
+    student.startingYear = mockStudent1.startingYear;
+    student.education = education;
+    student.university = university;
+    return student;
   }
 
   beforeEach(async () => {
@@ -62,13 +76,14 @@ describe('EducationResolver', () => {
                 ...createUniversityInput,
               }),
             ),
-            findAll: jest.fn(() => [mockUser1, mockUser2]),
+            findAll: jest.fn(() => [mockStudent1, mockStudent2]),
             findOne: jest.fn((email: string) => mockFindOne(email)),
             getUniversity: jest.fn((universityName: string) =>
               mockGetUniversity(universityName),
             ),
-            getEducation: jest.fn((educationName: string) =>
-              mockGetEducation(educationName),
+            getEducation: jest.fn(
+              (educationName: string, universityName: string) =>
+                mockGetEducation(educationName, universityName),
             ),
           }),
         },
@@ -83,30 +98,41 @@ describe('EducationResolver', () => {
       expect(studentResolver).toBeDefined();
     });
 
-    it('should find and return a list of universities', async () => {
-      const regularusersList = await studentResolver.regularusers();
-      expect(regularusersList).toContainEqual(mockUser2);
+    it('should find and return a list of students', async () => {
+      const university = new University();
+      university.universityName = mockStudent2.universityName;
+
+      const education = new Education();
+      education.educationName = mockStudent2.educationName;
+
+      const student = new Student();
+      student.email = mockStudent2.email;
+      student.password = mockStudent2.password;
+      student.startingYear = mockStudent2.startingYear;
+      student.education = education;
+      student.university = university;
+
+      const regularusersList = await studentResolver.students();
+      expect(regularusersList[0]).toEqual(student);
     });
 
-    it('should find a specific regularuser', async () => {
-      const regularuser = await studentResolver.getRegularuser(mockUserEmail);
-      expect(regularuser).toEqual(mockUser1);
+    it('should find a specific student', async () => {
+      const regularuser = await studentResolver.getStudent(mockStudentEmail);
+      expect(regularuser).toEqual(mockStudent1);
     });
 
-    it('should create a new regularuser', async () => {
+    it('should create a new student', async () => {
       const newRegularuser = await studentResolver.createNewRegularuser(
-        mockUser1,
+        mockStudent1,
       );
-      expect(newRegularuser).toEqual(mockUser1);
+      expect(newRegularuser).toEqual(mockStudent1);
     });
 
-    it('should find what university a regularuser goes to', async () => {
+    it('should find what university a student goes to', async () => {
       const university = await studentResolver.university({
-        email: mockUserEmail,
+        email: mockStudentEmail,
         password: 'Brummer98',
         startingYear: 2019,
-        universityName: 'Chalmers',
-        educationName: 'Datateknik',
         university: new University(),
         education: new Education(),
         createdAt: undefined,
@@ -133,12 +159,16 @@ describe('EducationResolver', () => {
     });
 
     it('should find what education a regularuser goes to', async () => {
+      const newUniversity = new University();
+      newUniversity.universityName = 'Chalmers';
+
+      const newEducation = new Education();
+      newEducation.educationName = 'Datateknik';
+
       const education = await studentResolver.education({
-        email: mockUserEmail,
+        email: mockStudentEmail,
         password: 'Brummer98',
         startingYear: 2019,
-        universityName: 'Chalmers',
-        educationName: 'Datateknik',
         university: new University(),
         education: new Education(),
         createdAt: undefined,
@@ -161,7 +191,11 @@ describe('EducationResolver', () => {
           throw new Error('Function not implemented.');
         },
       });
-      expect(education).toEqual({ educationName: 'Datateknik' });
+      expect(education).toEqual({
+        educationName: 'Datateknik',
+        Symbol: 'D',
+        universityName: 'Chalmers',
+      });
     });
   });
 });

@@ -47,9 +47,9 @@ export class AuthService {
 
     if (user instanceof Student) {
       payload = {
-        educationName: user.educationName,
+        educationName: user.education.educationName,
         startingYear: user.startingYear,
-        universityName: user.universityName,
+        universityName: user.university.universityName,
       };
     } else {
       payload = {

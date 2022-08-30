@@ -46,7 +46,10 @@ beforeAll(async () => {
 });
 
 afterEach(() => {
+  universityRepository.save.mockClear();
   universityRepository.findOneByOrFail.mockClear();
+  universityRepository.find.mockClear();
+  universityRepository.create.mockClear();
 });
 
 describe('EducationService', () => {

@@ -11,12 +11,12 @@ import {
   OneToMany,
   PrimaryColumn,
 } from 'typeorm';
+
+// Own files.
 import { CourseToStartingYear } from './CourseToStartingYear.entity';
 import { Education } from './Education.entity';
 import { MainArea } from './MainArea.entity';
 import { Period } from './Period.entity';
-
-// Own files.
 import { Teacher } from './Teacher.entity';
 import { University } from './University.entity';
 
@@ -30,6 +30,10 @@ export class Course extends BaseEntity {
   @Column()
   @Field()
   courseName: string;
+
+  @Column()
+  @Field()
+  courseLink: string;
 
   @Field(() => String, { description: 'Time when course was created ' })
   @CreateDateColumn()

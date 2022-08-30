@@ -7,7 +7,6 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   ManyToMany,
-  JoinTable,
 } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { University } from './University.entity';

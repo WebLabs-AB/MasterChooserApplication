@@ -37,6 +37,7 @@ type Teacher {
 type Course {
   courseId: String!
   courseName: String!
+  courseLink: String!
 
   """Time when course was created """
   createdAt: String!
@@ -48,15 +49,15 @@ type Education {
   educationName: String!
   symbol: String!
   university: University!
-  Students: [Student!]!
+  Students: [Student!]
 }
 
 type University {
   universityName: String!
-  Students: [Student!]!
-  Educations: [Education!]!
-  MasterProfiles: [MasterProfile!]!
-  courses: [Course!]!
+  Students: [Student!]
+  Educations: [Education!]
+  MasterProfiles: [MasterProfile!]
+  courses: [Course!]
 }
 
 type Student {
@@ -66,8 +67,6 @@ type Student {
   """User time created """
   createdAt: String!
   startingYear: Int!
-  universityName: String!
-  educationName: String!
   university: University!
   education: Education!
   masterSchemas: [MasterSchema!]!
@@ -79,12 +78,11 @@ type LoggedUserOutput {
 }
 
 type Query {
-  regularusers: [Student!]!
-  getRegularuser(email: String!): Student!
+  students(educationName: String!, universityName: String!): [Student!]!
+  getStudent(email: String!): Student!
   universities: [University!]!
   findOne(universityName: String!): University!
   educations: [Education!]!
-  students(educationName: String!, universityName: String!): [Student!]!
   educationsFromUniversity(universityName: String!): [Education!]!
   startingYears: [StartingYear!]!
 }

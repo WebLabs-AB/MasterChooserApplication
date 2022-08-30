@@ -16,13 +16,13 @@ import { UserInputError } from 'apollo-server-express';
 export class StudentService {
   constructor(
     @InjectRepository(Student)
-    private regularusersRepository: Repository<Student>,
+    private studentRepository: Repository<Student>,
     private universityService: UniversityService,
     private educationService: EducationService,
   ) {}
 
-  // Creates a new regularuser and saves it in the database.
-  async createRegularuser(
+  // Creates a new student and saves it in the database.
+  async createStudent(
     createRegularuserInput: CreateStudentInput,
   ): Promise<Student> {
     if (await this.doesUserExists(createRegularuserInput.email)) {
@@ -37,45 +37,30 @@ export class StudentService {
     createRegularuserInput.password = await bcrypt.hash(password, SALT);
     createRegularuserInput.email = email;
 
-    const newRegularuser = this.regularusersRepository.create(
-      createRegularuserInput,
-    );
+    const newStudent = this.studentRepository.create(createRegularuserInput);
 
     const university = await this.getUniversity(
       createRegularuserInput.universityName,
     ); // Check if university already exists.
-
-    if (!university.Students) {
-      university.Students = [newRegularuser];
-    } else {
-      university.Students.push(newRegularuser); // Add the student to the studentslist.
-    }
-
-    newRegularuser.university = university; // Set foreign key.
 
     const education = await this.getEducation(
       createRegularuserInput.educationName,
       createRegularuserInput.universityName,
     ); // Check if education already exists.
 
-    if (!education.Students) {
-      education.Students = [newRegularuser];
-    } else {
-      education.Students.push(newRegularuser); // Add the student to the studentslist.
-    }
-    newRegularuser.education = education; // Set foreign key.
-
-    return this.regularusersRepository.save(newRegularuser);
+    newStudent.university = university; // Set foreign key.
+    newStudent.education = education; // Set foreign key.
+    return this.studentRepository.save(newStudent);
   }
 
   // Find all users from the regularuser table.
   async findAll(): Promise<Student[]> {
-    return this.regularusersRepository.find(); // SELECT * FROM regularuser;
+    return this.studentRepository.find(); // SELECT * FROM regularuser;
   }
 
   // Finds a specific regularuser or returns null.
   async findOne(email: string): Promise<Student> {
-    return await this.regularusersRepository.findOne({
+    return await this.studentRepository.findOne({
       where: { email: email },
     });
   }
@@ -95,7 +80,7 @@ export class StudentService {
 
   // Checks if an user exists from email.
   async doesUserExists(email: string): Promise<boolean> {
-    const user = await this.regularusersRepository.findOne({
+    const user = await this.studentRepository.findOne({
       where: { email: email },
     });
 

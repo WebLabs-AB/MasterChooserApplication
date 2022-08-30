@@ -36,11 +36,6 @@ export class EducationService {
     const university = await this.universityService.findOne(
       createEducationInput.universityName,
     );
-    if (!university.Educations) {
-      university.Educations = [newEducation];
-    } else {
-      university.Educations.push(newEducation); // Add the new education to the university.
-    }
 
     newEducation.university = university; // Set foreign key.
     return this.educationRepository.save(newEducation);

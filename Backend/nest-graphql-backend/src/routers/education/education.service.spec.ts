@@ -1,7 +1,8 @@
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import exp from 'constants';
+
+// Own files.
 import { Education } from 'src/entities/NormalTypes/Education.entity';
 import { Student } from 'src/entities/NormalTypes/Student.entity';
 import { University } from 'src/entities/NormalTypes/University.entity';

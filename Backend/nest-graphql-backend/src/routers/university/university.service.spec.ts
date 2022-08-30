@@ -3,7 +3,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { NotFoundError } from 'rxjs';
 
 // Own files.
-import { StartingYear } from 'src/entities/NormalTypes/StartingYear.entity';
 import { University } from 'src/entities/NormalTypes/University.entity';
 import { Repository } from 'typeorm';
 import { UniversityService } from './university.service';

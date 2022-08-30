@@ -48,6 +48,6 @@ export class StudentResolver {
     @Args('createRegularuserInput')
     createRegularuserInput: CreateStudentInput,
   ): Promise<Student> {
-    return this.studentService.createRegularuser(createRegularuserInput);
+    return this.studentService.createStudent(createRegularuserInput);
   }
 }

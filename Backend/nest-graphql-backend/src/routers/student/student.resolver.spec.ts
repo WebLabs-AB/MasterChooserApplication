@@ -1,201 +1,128 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
+
+// Own files.
 import { Education } from 'src/entities/NormalTypes/Education.entity';
 import { Student } from 'src/entities/NormalTypes/Student.entity';
 import { University } from 'src/entities/NormalTypes/University.entity';
-
-import { CreateUniversityInput } from 'src/inputTypes/create-university.input';
-import { RemoveOptions, SaveOptions } from 'typeorm';
-import { StudentResolver } from './student.resolver';
+import { Repository } from 'typeorm';
+import { EducationService } from '../education/education.service';
+import { UniversityService } from '../university/university.service';
 import { StudentService } from './student.service';
 
-describe('StudentResolver', () => {
-  let studentResolver: StudentResolver;
+type MockType<T> = {
+  [P in keyof T]?: jest.Mock<{}>;
+};
 
-  const mockStudentEmail = 'erikbirgersson98@gmail.com';
-  const mockStudent1 = {
-    email: mockStudentEmail,
-    password: 'Brummer98',
-    startingYear: 2019,
-    universityName: 'Chalmers',
-    educationName: 'Datateknik',
-  };
+let studentService: StudentService;
+const studentRepository: MockType<Repository<Student>> = {
+  save: jest.fn(),
+  findOne: jest.fn(),
+  find: jest.fn(),
+  create: jest.fn(),
+};
 
-  const mockStudent2 = {
-    email: 'erikbirgersson@live.se',
-    password: 'Brummer',
-    startingYear: 2019,
-    universityName: 'Linköpings universitet',
-    educationName: 'Datateknik',
-  };
+const universityRepository: MockType<Repository<University>> = {
+  find: jest.fn(),
+  findOneByOrFail: jest.fn(),
+};
 
-  function mockGetUniversity(universityName: string): University {
+const educationRepository: MockType<Repository<Education>> = {
+  save: jest.fn(),
+  findOne: jest.fn(),
+  find: jest.fn(),
+  create: jest.fn(),
+};
+
+beforeEach(async () => {
+  const module: TestingModule = await Test.createTestingModule({
+    providers: [
+      StudentService,
+      {
+        provide: getRepositoryToken(Student),
+        useValue: studentRepository,
+      },
+      UniversityService,
+      {
+        provide: getRepositoryToken(University),
+        useValue: universityRepository,
+      },
+
+      EducationService,
+      {
+        provide: getRepositoryToken(Education),
+        useValue: educationRepository,
+      },
+    ],
+  }).compile();
+
+  studentService = module.get(StudentService);
+});
+
+afterEach(() => {
+  studentRepository.save.mockClear();
+  studentRepository.findOne.mockClear();
+  studentRepository.find.mockClear();
+  studentRepository.create.mockClear();
+
+  educationRepository.save.mockClear();
+  educationRepository.findOne.mockClear();
+  educationRepository.find.mockClear();
+  educationRepository.create.mockClear();
+
+  universityRepository.findOneByOrFail.mockClear();
+  universityRepository.find.mockClear();
+});
+
+describe('UniversityService', () => {
+  test('should be defined', () => {
+    expect(studentService).toBeDefined();
+  });
+});
+
+describe('Test createStudent', () => {
+  test('should create a new student', async () => {
     const university = new University();
-    university.universityName = universityName;
-    return university;
-  }
-
-  function mockGetEducation(
-    educationName: string,
-    universityName: string,
-  ): Education {
-    const university = new University();
-    university.universityName = universityName;
+    university.universityName = 'Chalmers';
+    university.Students = null;
 
     const education = new Education();
-    education.educationName = educationName;
-    education.university = university;
+    education.id = 'dhjadl-23';
+    education.educationName = 'Datateknik';
     education.symbol = 'D';
-    return education;
-  }
+    education.Students = [];
+    education.university = university;
 
-  function mockFindOne(email: string): Student {
-    const university = new University();
-    university.universityName = mockStudent1.universityName;
+    university.Educations = [education];
 
-    const education = new Education();
-    education.educationName = mockStudent1.educationName;
+    const SALT = await bcrypt.genSalt(10);
 
     const student = new Student();
-    student.email = email;
-    student.password = mockStudent1.password;
-    student.startingYear = mockStudent1.startingYear;
+    student.createdAt = new Date();
     student.education = education;
+    student.email = 'erikbirgersson@gmail.com';
+    student.password = await bcrypt.hash('password', SALT);
+    student.startingYear = 2019;
     student.university = university;
-    return student;
-  }
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        StudentResolver,
-        {
-          provide: StudentService,
-          useFactory: () => ({
-            createRegularuser: jest.fn(
-              (createUniversityInput: CreateUniversityInput) => ({
-                ...createUniversityInput,
-              }),
-            ),
-            findAll: jest.fn(() => [mockStudent1, mockStudent2]),
-            findOne: jest.fn((email: string) => mockFindOne(email)),
-            getUniversity: jest.fn((universityName: string) =>
-              mockGetUniversity(universityName),
-            ),
-            getEducation: jest.fn(
-              (educationName: string, universityName: string) =>
-                mockGetEducation(educationName, universityName),
-            ),
-          }),
-        },
-      ],
-    }).compile();
+    studentRepository.save.mockReturnValue(education);
+    studentRepository.create.mockReturnValue(education);
+    studentRepository.findOne.mockReturnValue(null);
 
-    studentResolver = module.get<StudentResolver>(StudentResolver);
-  });
+    universityRepository.findOneByOrFail.mockReturnValue(university);
 
-  describe('RegularuserResolver', () => {
-    it('should be defined', () => {
-      expect(studentResolver).toBeDefined();
+    const newStudent = await studentService.createStudent({
+      email: student.email,
+      password: student.password,
+      educationName: education.educationName,
+      universityName: university.universityName,
+      startingYear: 2019,
     });
 
-    it('should find and return a list of students', async () => {
-      const university = new University();
-      university.universityName = mockStudent2.universityName;
-
-      const education = new Education();
-      education.educationName = mockStudent2.educationName;
-
-      const student = new Student();
-      student.email = mockStudent2.email;
-      student.password = mockStudent2.password;
-      student.startingYear = mockStudent2.startingYear;
-      student.education = education;
-      student.university = university;
-
-      const regularusersList = await studentResolver.students();
-      expect(regularusersList[0]).toEqual(student);
-    });
-
-    it('should find a specific student', async () => {
-      const regularuser = await studentResolver.getStudent(mockStudentEmail);
-      expect(regularuser).toEqual(mockStudent1);
-    });
-
-    it('should create a new student', async () => {
-      const newRegularuser = await studentResolver.createNewRegularuser(
-        mockStudent1,
-      );
-      expect(newRegularuser).toEqual(mockStudent1);
-    });
-
-    it('should find what university a student goes to', async () => {
-      const university = await studentResolver.university({
-        email: mockStudentEmail,
-        password: 'Brummer98',
-        startingYear: 2019,
-        university: new University(),
-        education: new Education(),
-        createdAt: undefined,
-        hasId: function (): boolean {
-          throw new Error('Function not implemented.');
-        },
-        save: function (options?: SaveOptions): Promise<Student> {
-          throw new Error('Function not implemented.');
-        },
-        remove: function (options?: RemoveOptions): Promise<Student> {
-          throw new Error('Function not implemented.');
-        },
-        softRemove: function (options?: SaveOptions): Promise<Student> {
-          throw new Error('Function not implemented.');
-        },
-        recover: function (options?: SaveOptions): Promise<Student> {
-          throw new Error('Function not implemented.');
-        },
-        reload: function (): Promise<void> {
-          throw new Error('Function not implemented.');
-        },
-      });
-      expect(university).toEqual({ universityName: 'Chalmers' });
-    });
-
-    it('should find what education a regularuser goes to', async () => {
-      const newUniversity = new University();
-      newUniversity.universityName = 'Chalmers';
-
-      const newEducation = new Education();
-      newEducation.educationName = 'Datateknik';
-
-      const education = await studentResolver.education({
-        email: mockStudentEmail,
-        password: 'Brummer98',
-        startingYear: 2019,
-        university: new University(),
-        education: new Education(),
-        createdAt: undefined,
-        hasId: function (): boolean {
-          throw new Error('Function not implemented.');
-        },
-        save: function (options?: SaveOptions): Promise<Student> {
-          throw new Error('Function not implemented.');
-        },
-        remove: function (options?: RemoveOptions): Promise<Student> {
-          throw new Error('Function not implemented.');
-        },
-        softRemove: function (options?: SaveOptions): Promise<Student> {
-          throw new Error('Function not implemented.');
-        },
-        recover: function (options?: SaveOptions): Promise<Student> {
-          throw new Error('Function not implemented.');
-        },
-        reload: function (): Promise<void> {
-          throw new Error('Function not implemented.');
-        },
-      });
-      expect(education).toEqual({
-        educationName: 'Datateknik',
-        Symbol: 'D',
-        universityName: 'Chalmers',
-      });
-    });
+    expect(universityRepository.findOneByOrFail).toBeCalledTimes(2);
+    expect(studentRepository.create).toBeCalledTimes(1);
+    expect(studentRepository.save).toBeCalledTimes(1);
+    expect(newStudent).toEqual({});
   });
 });

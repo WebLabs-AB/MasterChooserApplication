@@ -67,6 +67,8 @@ export class EducationService {
     const university = await this.universityService.findOne(universityName);
 
     let result = null;
+    if (!university.Educations) return result;
+
     university.Educations.forEach((education) => {
       if (education.educationName === educationName) result = education;
     });

@@ -26,7 +26,7 @@ import { AuthModule } from './common/services/auth.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        type: 'mysql',
+        type: 'postgres',
         host: configService.get<string>('DATABASE_HOST'),
         port: parseInt(configService.get<string>('DATABASE_PORT')),
         username: configService.get<string>('MYSQL_USER'),

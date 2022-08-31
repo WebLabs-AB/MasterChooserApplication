@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { UserInputError } from 'apollo-server-express';
 import * as bcrypt from 'bcrypt';
 
 // Own files.
@@ -85,16 +86,12 @@ describe('Test createStudent', () => {
   test('should create a new student', async () => {
     const university = new University();
     university.universityName = 'Chalmers';
-    university.Students = null;
 
     const education = new Education();
     education.id = 'dhjadl-23';
     education.educationName = 'Datateknik';
     education.symbol = 'D';
-    education.Students = [];
     education.university = university;
-
-    university.Educations = [education];
 
     const SALT = await bcrypt.genSalt(10);
 
@@ -106,8 +103,8 @@ describe('Test createStudent', () => {
     student.startingYear = 2019;
     student.university = university;
 
-    studentRepository.save.mockReturnValue(education);
-    studentRepository.create.mockReturnValue(education);
+    studentRepository.save.mockReturnValue(student);
+    studentRepository.create.mockReturnValue(student);
     studentRepository.findOne.mockReturnValue(null);
 
     universityRepository.findOneByOrFail.mockReturnValue(university);
@@ -123,6 +120,41 @@ describe('Test createStudent', () => {
     expect(universityRepository.findOneByOrFail).toBeCalledTimes(2);
     expect(studentRepository.create).toBeCalledTimes(1);
     expect(studentRepository.save).toBeCalledTimes(1);
-    expect(newStudent).toEqual({});
+    expect(newStudent).toEqual(student);
+  });
+
+  test('should throw an error when creating student', async () => {
+    const university = new University();
+    university.universityName = 'Chalmers';
+
+    const education = new Education();
+    education.id = 'dhjadl-23';
+    education.educationName = 'Datateknik';
+    education.symbol = 'D';
+    education.university = university;
+
+    const SALT = await bcrypt.genSalt(10);
+
+    const student = new Student();
+    student.createdAt = new Date();
+    student.education = education;
+    student.email = 'erikbirgersson@gmail.com';
+    student.password = await bcrypt.hash('password', SALT);
+    student.startingYear = 2019;
+    student.university = university;
+
+    studentRepository.findOne.mockReturnValue(student);
+
+    await expect(
+      studentService.createStudent({
+        email: student.email,
+        password: student.password,
+        educationName: education.educationName,
+        universityName: university.universityName,
+        startingYear: 2019,
+      }),
+    ).rejects.toThrowError(UserInputError);
+
+    expect(studentRepository.findOne).toBeCalledTimes(1);
   });
 });

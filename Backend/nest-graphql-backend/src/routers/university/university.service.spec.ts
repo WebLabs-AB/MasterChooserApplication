@@ -97,6 +97,7 @@ describe('Test findOne func', () => {
     expect(universityRepository.findOneByOrFail).toBeCalledTimes(1);
     expect(foundUniversity).toEqual(university);
   });
+
   test('should throw an error when searching for a specific university', async () => {
     universityRepository.findOneByOrFail.mockReturnValue(NotFoundError);
 

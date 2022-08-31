@@ -47,10 +47,8 @@ beforeAll(async () => {
 });
 
 afterEach(() => {
-  universityRepository.save.mockClear();
   universityRepository.findOneByOrFail.mockClear();
   universityRepository.find.mockClear();
-  universityRepository.create.mockClear();
 });
 
 describe('EducationService', () => {
@@ -60,7 +58,7 @@ describe('EducationService', () => {
 });
 
 describe('Test createEducation func', () => {
-  test('should get create a new education', async () => {
+  test('should create a new education', async () => {
     const university = new University();
     university.universityName = 'Chalmers';
 
@@ -102,6 +100,8 @@ describe('Test createEducation func', () => {
       universityName: 'Chalmers',
     });
 
+    university.Educations = [education];
+
     await expect(
       educationService.createEducation({
         educationName: 'Datateknik',
@@ -109,64 +109,6 @@ describe('Test createEducation func', () => {
         universityName: 'Chalmers',
       }),
     ).rejects.toThrowError(BadRequestException);
-  });
-});
-
-describe('Test findEducationsFromUniversity func', () => {
-  test('should find 0 programs from the education table that matches an university name', async () => {
-    const university = new University();
-    university.universityName = 'Chalmers';
-    university.Educations = [];
-    universityRepository.findOneByOrFail.mockReturnValue(university);
-
-    const educations = await educationService.findEducationsFromUniversity(
-      university.universityName,
-    );
-
-    expect(universityRepository.findOneByOrFail).toBeCalledTimes(1);
-    expect(educations).toEqual([]);
-  });
-
-  test('should find 2 programs from the education table that matches an university name', async () => {
-    const university = new University();
-    university.universityName = 'Chalmers';
-
-    const education1 = new Education();
-    education1.educationName = 'Datateknik';
-    education1.symbol = 'D';
-    education1.university = university;
-
-    const education2 = new Education();
-    education2.educationName = 'Mjukvaruteknik';
-    education2.symbol = 'U';
-    education2.university = university;
-
-    university.Educations = [education1, education2];
-
-    universityRepository.findOneByOrFail.mockReturnValue(university);
-    const educations = await educationService.findEducationsFromUniversity(
-      university.universityName,
-    );
-
-    expect(universityRepository.findOneByOrFail).toBeCalledTimes(1);
-    expect(educations).toEqual([education1, education2]);
-  });
-});
-
-describe('Test getUniversity func', () => {
-  test('should get a specific university', async () => {
-    const university = new University();
-    university.universityName = 'Chalmers';
-
-    universityRepository.findOneByOrFail.mockReturnValue(university);
-
-    const foundUniversity = await educationService.getUniversity('Chalmers');
-
-    expect(universityRepository.findOneByOrFail).toHaveBeenCalledTimes(1);
-    expect(universityRepository.findOneByOrFail).toHaveBeenCalledWith(
-      university,
-    );
-    expect(foundUniversity).toEqual(university);
   });
 });
 

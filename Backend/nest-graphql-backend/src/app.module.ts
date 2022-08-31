@@ -25,16 +25,28 @@ import { AuthModule } from './common/services/auth.module';
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('DATABASE_HOST'),
-        port: parseInt(configService.get<string>('DATABASE_PORT')),
-        username: configService.get<string>('MYSQL_USER'),
-        password: configService.get<string>('MYSQL_PASSWORD'),
-        database: configService.get<string>('DATABASE'),
-        entities: [__dirname + '/**/NormalTypes/*.entity{.ts,.js}'],
-        synchronize: true, // Only use doing devleopment.
-      }),
+      useFactory: (configService: ConfigService) => {
+        if (configService.get<string>('NODE_ENV') === 'test') {
+          return {
+            type: 'postgres',
+            database: ':memory',
+            entities: [__dirname + '/**/NormalTypes/*.entity{.ts,.js}'],
+            synchronize: true, // Only use doing development.
+            dropSchema: true,
+          };
+        } else {
+          return {
+            type: 'postgres',
+            host: configService.get<string>('DATABASE_HOST'),
+            port: parseInt(configService.get<string>('DATABASE_PORT')),
+            username: configService.get<string>('MYSQL_USER'),
+            password: configService.get<string>('MYSQL_PASSWORD'),
+            database: configService.get<string>('DATABASE'),
+            entities: [__dirname + '/**/NormalTypes/*.entity{.ts,.js}'],
+            synchronize: true, // Only use doing development.
+          };
+        }
+      },
       inject: [ConfigService],
     }),
     StudentModule,

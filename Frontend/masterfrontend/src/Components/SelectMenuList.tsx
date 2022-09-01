@@ -1,5 +1,6 @@
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { SetStateAction } from "react";
 
 // Own files.
 import {Colors} from '../Assets/Colors';
@@ -11,9 +12,9 @@ interface Props {
   value: string;
   outlinedLabel: string;
   disabled: boolean;
-  valueList: any;
-  setValue: any;
-  setValueOk: any;
+  valueList: string[];
+  setValue: (value: SetStateAction<string>) => void;
+  setValueOk: (value: SetStateAction<boolean>) => void;
 }
 
 export const SelectMenuList: React.FC<Props> = ({ id, labelId, value, outlinedLabel, disabled, valueList, setValue, setValueOk}) => {

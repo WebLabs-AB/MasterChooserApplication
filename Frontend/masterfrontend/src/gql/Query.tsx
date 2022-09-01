@@ -10,7 +10,7 @@ query GetAllUniversities {
 
 export const GET_UNIVERSITY_EDUCATIONS = gql`
 query GetUnivsersityEducation($universityName: String!) {
-    educationFromUniversity(universityName: $universityName) {
+    educationsFromUniversity(universityName: $universityName) {
       educationName
     }
 }
@@ -25,8 +25,8 @@ query {
 `;
 
 export const CHECK_IF_REGULAR_USER_EXISTS = gql`
-query getRegularuser($email: String!) {
-  getRegularuser(email: $email) {
+query getStudent($email: String!) {
+  getStudent(email: $email) {
     email
   }
 }

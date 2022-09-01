@@ -6,7 +6,7 @@ import { useQuery, useLazyQuery } from '@apollo/client';
 
 // Own files.
 import { PasswordInputField } from '../Components/PasswordInputField';
-import { UsernameInputField } from '../Components/EmailInputField';
+import { EmailInputField } from '../Components/EmailInputField';
 import { SelectMenuList } from '../Components/SelectMenuList';
 import { Colors } from '../Assets/Colors';
 import { SNACKBAR_REGISTER_DUPLICATE_MSG, SNACKBAR_REGISTER_ERROR_MSG, SNACKBAR_USER_CREATED } from '../Assets/Constants';
@@ -29,7 +29,7 @@ export const RegistrationPage: React.FC = () => {
     const [emailErrorField, setEmailErrorField] = useState("");
     const [email, setEmail] = useState("");
     const [emailOk, setEmailOk] = useState(false);
-    const [duplicateEmail, setDuplicateEmail] = useState(false);
+    const [, setDuplicateEmail] = useState(false);
 
     // Hooks used for starting year selectmenulist.
     const [startingYear, setStartingYear] = useState("");
@@ -66,7 +66,7 @@ export const RegistrationPage: React.FC = () => {
     const [getUniversityEducation] = useLazyQuery(GET_UNIVERSITY_EDUCATIONS, {
         onCompleted: data => {
             const educationArray: string[] = [];
-            data.educationFromUniversity.map((education: educationJsonType) => educationArray.push(education.educationName));
+            data.educationsFromUniversity.map((education: educationJsonType) => educationArray.push(education.educationName));
             setEducations(educationArray);
         },
         onError: error => {
@@ -74,10 +74,11 @@ export const RegistrationPage: React.FC = () => {
         }
     });
 
-    const [getRegularuser] = useLazyQuery(CHECK_IF_REGULAR_USER_EXISTS, {
+    useLazyQuery(CHECK_IF_REGULAR_USER_EXISTS, {
         fetchPolicy: 'no-cache',
         onCompleted: () => { // Email does exist in the database.
             setDuplicateEmail(true);
+            openSnackBar(SNACKBAR_REGISTER_DUPLICATE_MSG);
         },
         notifyOnNetworkStatusChange: true, 
         onError: () => { // Email does not exist in the database.
@@ -85,7 +86,7 @@ export const RegistrationPage: React.FC = () => {
         }
     })
 
-    const { data } = useQuery(GET_ALL_STARTING_YEARS, {
+    useQuery(GET_ALL_STARTING_YEARS, {
         onCompleted: data => {
             const startingYearsArray: string[] = [];
             data.startingYears.map((year: startingYearJsonType) => startingYearsArray.push(year.startingYear));
@@ -180,7 +181,7 @@ export const RegistrationPage: React.FC = () => {
                 <InputLabel htmlFor={emailFieldId}>
                     Email
                 </InputLabel>
-                <UsernameInputField
+                <EmailInputField
                     id={emailFieldId}
                     email={email}
                     setEmailErrorField={setEmailErrorField}

@@ -9,7 +9,7 @@ import Stack from "@mui/material/Stack";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Colors } from "../Assets/Colors";
-import { UsernameInputField } from "../Components/EmailInputField";
+import { EmailInputField } from "../Components/EmailInputField";
 import { PasswordInputField } from "../Components/PasswordInputField";
 
 export const LoginPage: React.FC = () => {
@@ -22,7 +22,7 @@ export const LoginPage: React.FC = () => {
 
     // Used for snackbar.
     const [open, setOpen] = useState(false);
-    const [msg, setMsg] = useState("");
+    const [msg,] = useState("");
 
     // Constants
     const passwordFieldId = "outlined-adornment-password";
@@ -36,7 +36,6 @@ export const LoginPage: React.FC = () => {
     };
 
     const loginUser = async () => {
-
         console.log("Login is accepted")
     };
 
@@ -69,7 +68,7 @@ export const LoginPage: React.FC = () => {
                     <InputLabel htmlFor={emailFieldId}>
                         Email
                     </InputLabel>
-                    <UsernameInputField
+                    <EmailInputField
                         id={emailFieldId}
                         email={email}
                         setEmail={setEmail}

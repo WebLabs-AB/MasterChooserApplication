@@ -1,4 +1,4 @@
-import { useState} from 'react';
+import { SetStateAction, useState} from 'react';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
@@ -13,9 +13,9 @@ import { REG_PSWD_ERR_MSG, REQUIRED_PASSWORD_LENGTH } from '../Assets/Constants'
 interface Props {
     id: string;
     password: string;
-    setPasswordErrorField?: any;
-    setPassword: any;
-    setPasswordOk?: any;
+    setPasswordErrorField?: (value: SetStateAction<string>) => void;
+    setPassword: (value: SetStateAction<string>) => void;
+    setPasswordOk?: (value: SetStateAction<boolean>) => void;
 }
 
 export const PasswordInputField: React.FC<Props> = (props) => {
@@ -51,7 +51,7 @@ export const PasswordInputField: React.FC<Props> = (props) => {
         if (event.target.value.length === 0) {
             props.setPassword(event.target.value);
 
-            if (props.setPasswordErrorField !== "") {
+            if (props.setPasswordErrorField && props.setPasswordOk) {
                 props.setPasswordErrorField(""); // Null value was inputted, field is empty..
                 props.setPasswordOk(false); 
             }
@@ -60,7 +60,7 @@ export const PasswordInputField: React.FC<Props> = (props) => {
             if(isPasswordOk(event.target.value)) {
                 props.setPassword(event.target.value);
 
-                if (props.setPasswordErrorField) {
+                if (props.setPasswordErrorField && props.setPasswordOk) {
                     props.setPasswordErrorField("");
                     props.setPasswordOk(true);  
                 }
@@ -68,7 +68,7 @@ export const PasswordInputField: React.FC<Props> = (props) => {
             else {
                 props.setPassword(event.target.value);
 
-                if (props.setPasswordErrorField) {
+                if (props.setPasswordErrorField && props.setPasswordOk) {
                     props.setPasswordErrorField(REG_PSWD_ERR_MSG);
                     props.setPasswordOk(false);  
                 } 

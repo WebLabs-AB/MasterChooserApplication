@@ -22,11 +22,11 @@ jobs:
   unit-test-backend:
     docker:
         - image: cimg/node:16.13.2
-      steps:
-        - checkout
-        - run:
-            name: Run unit tests
-            command: cd Backend/nest-graphql && npm run test
+    steps:
+      - checkout
+      - run:
+          name: Run unit tests
+          command: cd Backend/nest-graphql && npm run test
   build-deploy-frontend:
     docker:
       - image: cimg/node:16.13.2

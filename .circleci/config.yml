@@ -13,8 +13,6 @@ workflows:
               only:
                 - main
       - deploy-backend:
-          jobs:
-            - heroku/deploy-via-git
           filters:
             branches:
               only:
@@ -45,6 +43,34 @@ jobs:
           key: app-build-cache-{{ .Branch }}
           paths:
             - Frontend/masterfrontend/build
+  build-backend:
+    docker:
+      - image: cimg/node:16.13.2
+    steps:
+      - run:
+          name: Update NPM
+          command: "sudo npm install -g npm"
+      - restore_cache:
+          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
+      - run:
+          name: Install Backend Dependencies
+          command: cd Backend/nest-graphql-backend/ && npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
+          paths:
+            - Backend/nest-graphql-backend/node_modules
+      - run:
+          name: Build Nest App
+          command: cd Backend/nest-graphql-backend/ && npm run build
+      - save_cache:
+          key: app-build-cache-{{ .Branch }}
+          paths:
+            - Backend/nest-graphql-backend/build
+  deploy-backend:
+    executor: heroku/default
+    steps:
+      - heroku/install
+      - heroku/deploy-via-git
   deploy-frontend:
     docker:
       - image: cimg/node:16.13.2

@@ -1,4 +1,5 @@
 import OutlinedInput from '@mui/material/OutlinedInput';
+import { SetStateAction } from 'react';
 
 // Own files.
 import {Colors} from '../Assets/Colors';
@@ -7,12 +8,12 @@ import { EMAIL_ERROR_MESSAGE } from '../Assets/Constants';
 interface Props {
     id: string;
     email: string;
-    setEmailErrorField?: any;
-    setEmail: any;
-    setEmailOk?: any;
+    setEmailErrorField?: (value: SetStateAction<string>) => void;
+    setEmail: (value: SetStateAction<string>) => void;
+    setEmailOk?: (value: SetStateAction<boolean>) => void;
 }
 
-export const UsernameInputField: React.FC<Props> = (props) => {
+export const EmailInputField: React.FC<Props> = (props) => {
 
     const isEmailOk = (inputtedEmail: string): boolean  => {
 
@@ -37,7 +38,7 @@ export const UsernameInputField: React.FC<Props> = (props) => {
         if (event.target.value.length === 0){
             props.setEmail(event.target.value);
 
-            if (props.setEmailErrorField) {
+            if (props.setEmailErrorField && props.setEmailOk) {
                 props.setEmailErrorField(""); // Null value was inputted, field is empty.
                 props.setEmailOk(false); 
             }
@@ -46,7 +47,7 @@ export const UsernameInputField: React.FC<Props> = (props) => {
             if(isEmailOk(event.target.value)) {
                 props.setEmail(event.target.value);
 
-                if (props.setEmailErrorField) {
+                if (props.setEmailErrorField && props.setEmailOk) {
                     props.setEmailErrorField("");
                     props.setEmailOk(true); 
                 }
@@ -54,7 +55,7 @@ export const UsernameInputField: React.FC<Props> = (props) => {
             else {
                 props.setEmail(event.target.value);
 
-                if (props.setEmailErrorField) {
+                if (props.setEmailErrorField && props.setEmailOk) {
                     props.setEmailErrorField(EMAIL_ERROR_MESSAGE);
                     props.setEmailOk(false); 
                 }

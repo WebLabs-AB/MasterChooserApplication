@@ -28,17 +28,17 @@ jobs:
           name: Update NPM
           command: "sudo npm install -g npm"
       - restore_cache:
-          key: dependency-cache-{{ checksum "Backend/nest-graphql/package-lock.json" }}
+          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
       - run:
-          name: Install Frontend Dependencies
-          command: cd Backend/nest-graphql && npm install
+          name: Install Backend Dependencies
+          command: cd Backend/nest-graphql-backend && npm install
       - save_cache:
-          key: dependency-cache-{{ checksum "Backend/nest-graphql/package-lock.json" }}
+          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
           paths:
-            - Backend/nest-graphql/node_modules
+            - Backend/nest-graphql-backend/node_modules
       - run:
           name: Run unit tests
-          command: cd Backend/nest-graphql && npm run test
+          command: cd Backend/nest-graphql-backend && npm run test
   build-deploy-frontend:
     docker:
       - image: cimg/node:16.13.2

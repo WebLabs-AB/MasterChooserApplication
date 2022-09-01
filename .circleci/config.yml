@@ -2,18 +2,21 @@ version: 2.1
 orbs:
   heroku: circleci/heroku@1.2.6
 workflows:
-  - build-frontend:
-  - build-backend:
-  - deploy-frontend:
-      filters:
-        branches:
-          only:
-            - main
-  - deploy-backend:
-      filters:
-        branches:
-          only:
-            - main
+  jobs:
+    - build-frontend
+    - build-backend
+    - deploy-frontend:
+        requires:
+        - build-frontend
+        filters:
+          branches:
+            only:
+              - main
+    - deploy-backend:
+        filters:
+          branches:
+            only:
+              - main
 
 jobs:
   build-frontend:

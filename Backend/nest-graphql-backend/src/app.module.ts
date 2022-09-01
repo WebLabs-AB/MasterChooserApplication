@@ -29,7 +29,11 @@ import { AuthModule } from './common/services/auth.module';
         if (configService.get<string>('NODE_ENV') === 'test') {
           return {
             type: 'postgres',
-            database: ':memory',
+            host: configService.get<string>('LOCAL_HOST'),
+            port: parseInt(configService.get<string>('LOCAL_PORT')),
+            username: configService.get<string>('LOCAL_POSTGRES_USER'),
+            password: configService.get<string>('LOCAL_POSTGRES_PASSWORD'),
+            database: configService.get<string>('LOCAL_DATABASE'),
             entities: [__dirname + '/**/NormalTypes/*.entity{.ts,.js}'],
             synchronize: true, // Only use doing development.
             dropSchema: true,
@@ -37,11 +41,11 @@ import { AuthModule } from './common/services/auth.module';
         } else {
           return {
             type: 'postgres',
-            host: configService.get<string>('DATABASE_HOST'),
-            port: parseInt(configService.get<string>('DATABASE_PORT')),
-            username: configService.get<string>('MYSQL_USER'),
-            password: configService.get<string>('MYSQL_PASSWORD'),
-            database: configService.get<string>('DATABASE'),
+            host: configService.get<string>('HEROKU_HOST'),
+            port: parseInt(configService.get<string>('HEROKU_PORT')),
+            username: configService.get<string>('HEROKU_USER'),
+            password: configService.get<string>('HEROKU_PASSWORD'),
+            database: configService.get<string>('HEROKU_DATABASE'),
             entities: [__dirname + '/**/NormalTypes/*.entity{.ts,.js}'],
             synchronize: true, // Only use doing development.
           };

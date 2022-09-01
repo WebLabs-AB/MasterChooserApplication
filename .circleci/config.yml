@@ -16,6 +16,7 @@ jobs:
       - image: cimg/node:16.13.2
     steps:
       - checkout
+      working_directory: ~/Frontend/masterfrontend
       - run:
           name: Update NPM
           command: "sudo npm install -g npm"

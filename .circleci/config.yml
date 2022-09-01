@@ -1,11 +1,12 @@
 version: 2.1
 jobs:
   build:
-    working_directory: Frontend/masterfrontend
+    working_directory: ~/Frontend/masterfrontend
     docker:
       - image: cimg/node:16.13.2
     steps:
-      - checkout
+      - checkout:
+          path: ~/Frontend/masterfrontend
       - run:
           name: Update NPM
           command: "sudo npm install -g npm"

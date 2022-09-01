@@ -20,7 +20,7 @@ jobs:
           name: Update NPM
           command: "sudo npm install -g npm"
       - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: cd Frontend/masterfrontend && dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Install Dependencies
           command: cd Frontend/masterfrontend && npm install
@@ -32,9 +32,9 @@ jobs:
           name: Build React App
           command: cd Frontend/masterfrontend && npm run build
       - save_cache:
-          key: app-build-cache-{{ .Branch }}
+          key: cd Frontend/masterfrontend && app-build-cache-{{ .Branch }}
           paths:
             - ./build
       - run:
           name: Deploy to Netlify
-          command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build
+          command: cd Frontend/masterfrontend && ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build

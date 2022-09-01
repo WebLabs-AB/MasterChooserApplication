@@ -48,6 +48,7 @@ jobs:
     docker:
       - image: cimg/node:16.13.2
     steps:
+      - checkout
       - run:
           name: Update NPM
           command: "sudo npm install -g npm"
@@ -70,12 +71,14 @@ jobs:
   deploy-backend:
     executor: heroku/default
     steps:
+      - checkout
       - heroku/install
       - heroku/deploy-via-git
   deploy-frontend:
     docker:
       - image: cimg/node:16.13.2
     steps:
+      - checkout
       - run:
           name: Deploy to Netlify
           command: cd Frontend/masterfrontend && ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build

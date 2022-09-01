@@ -2,19 +2,19 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 //Own files.
-import { RegularUser } from 'src/entities/NormalTypes/RegularUser.entity';
+import { Student } from 'src/entities/NormalTypes/Student.entity';
 import { UniversityModule } from 'src/routers/university/university.module';
 import { EducationModule } from 'src/routers/education/education.module';
-import { RegularuserService } from './regularuser.service';
-import { RegularuserResolver } from './regularuser.resolver';
+import { StudentService } from './student.service';
+import { StudentResolver } from './student.resolver';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([RegularUser]),
+    TypeOrmModule.forFeature([Student]),
     UniversityModule,
     EducationModule,
   ], // Allows us to use repository for regularuser, university and education.
-  providers: [RegularuserService, RegularuserResolver],
-  exports: [RegularuserService],
+  providers: [StudentService, StudentResolver],
+  exports: [StudentService],
 })
-export class RegularuserModule {}
+export class StudentModule {}

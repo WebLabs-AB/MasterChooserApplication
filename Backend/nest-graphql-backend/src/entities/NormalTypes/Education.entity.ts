@@ -1,30 +1,31 @@
 import {
   Entity,
   BaseEntity,
-  PrimaryColumn,
   Column,
   ManyToOne,
   JoinColumn,
   OneToMany,
+  PrimaryGeneratedColumn,
+  ManyToMany,
 } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { University } from './University.entity';
-import { RegularUser } from './RegularUser.entity';
+import { Student } from './Student.entity';
+import { Course } from './Course.entity';
 
 @Entity('Education')
 @ObjectType()
 export class Education extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column()
   @Field()
   educationName: string;
 
   @Column()
   @Field()
   symbol: string;
-
-  @Column()
-  @Field()
-  universityName: string; // Used to find out what university the education belongs to.
 
   @ManyToOne(() => University, (university) => university.Educations, {
     cascade: true,
@@ -33,9 +34,12 @@ export class Education extends BaseEntity {
   @JoinColumn({ name: 'universityName' })
   university: University;
 
-  @OneToMany(() => RegularUser, (regularuser) => regularuser.education, {
-    cascade: ['insert'],
+  @OneToMany(() => Student, (student) => student.education, {
+    eager: true,
   }) // Shows which students studies that education.
-  @Field((type) => [RegularUser], { nullable: true })
-  Students?: RegularUser[];
+  @Field((type) => [Student], { nullable: true })
+  Students?: Student[];
+
+  @ManyToMany(() => Course, (course) => course.educations)
+  courses: Course[];
 }

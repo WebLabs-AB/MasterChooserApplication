@@ -1,24 +1,17 @@
-import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 import { University } from './University.entity';
 import { Education } from './Education.entity';
 import { User } from '../SuperTypes/User.entity';
+import { MasterSchema } from './MasterSchema.entity';
 
-@Entity('RegularUser')
+@Entity('Student')
 @ObjectType()
-export class RegularUser extends User {
+export class Student extends User {
   @Column()
   @Field((type) => Int)
   startingYear: number;
-
-  @Column()
-  @Field()
-  universityName: string; // Used to find out what university the student goes to.
-
-  @Column()
-  @Field()
-  educationName: string; // Used to find out what education the student studies.
 
   @ManyToOne(() => University, (university) => university.Students, {
     cascade: true,
@@ -29,8 +22,14 @@ export class RegularUser extends User {
 
   @ManyToOne(() => Education, (education) => education.Students, {
     cascade: true,
-  }) // Shows which university a student goes
+  }) // Shows which education a student goes
   @Field((type) => Education)
   @JoinColumn({ name: 'educationName' })
   education: Education;
+
+  @OneToMany(() => MasterSchema, (masterschema) => masterschema.student, {
+    eager: true,
+  }) // Shows what masterschemas a student has created.
+  @Field((type) => [MasterSchema])
+  masterSchemas?: MasterSchema[];
 }

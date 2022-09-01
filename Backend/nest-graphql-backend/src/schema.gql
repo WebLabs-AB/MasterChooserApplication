@@ -2,35 +2,74 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type StartingYear {
+  startingYear: Int!
+}
+
+type MasterSchema {
+  finished: Boolean!
+
+  """Time when masterschema was created """
+  createdAt: String!
+  student: Student!
+  masterProfile: MasterProfile!
+}
+
+type MasterProfile {
+  masterName: String!
+  university: University!
+  teacher: University!
+  masterSchemas: [MasterSchema!]!
+}
+
+type Teacher {
+  """User email """
+  email: String!
+
+  """User time created """
+  createdAt: String!
+  firstName: String!
+  lastName: String!
+  MasterProfiles: [MasterProfile!]!
+  courses: [Course!]!
+}
+
+type Course {
+  courseId: String!
+  courseName: String!
+  courseLink: String!
+
+  """Time when course was created """
+  createdAt: String!
+  teacher: Teacher!
+  university: University!
+}
+
 type Education {
   educationName: String!
   symbol: String!
-  universityName: String!
   university: University!
-  Students: [RegularUser!]
+  Students: [Student!]
 }
 
 type University {
   universityName: String!
-  Students: [RegularUser!]
+  Students: [Student!]
   Educations: [Education!]
+  MasterProfiles: [MasterProfile!]
+  courses: [Course!]
 }
 
-type RegularUser {
+type Student {
   """User email """
   email: String!
 
   """User time created """
   createdAt: String!
   startingYear: Int!
-  universityName: String!
-  educationName: String!
   university: University!
   education: Education!
-}
-
-type StartingYear {
-  startingYear: Int!
+  masterSchemas: [MasterSchema!]!
 }
 
 type LoggedUserOutput {
@@ -39,24 +78,24 @@ type LoggedUserOutput {
 }
 
 type Query {
-  regularusers: [RegularUser!]!
-  getRegularuser(email: String!): RegularUser!
+  students(educationName: String!, universityName: String!): [Student!]!
+  getStudent(email: String!): Student!
   universities: [University!]!
   findOne(universityName: String!): University!
   educations: [Education!]!
-  educationFromUniversity(universityName: String!): [Education!]!
+  educationsFromUniversity(universityName: String!): [Education!]!
   startingYears: [StartingYear!]!
 }
 
 type Mutation {
-  createNewRegularuser(createRegularuserInput: CreateRegularuserInput!): RegularUser!
+  createNewRegularuser(createRegularuserInput: CreateStudentInput!): Student!
   createNewUniversity(createUniversityInput: CreateUniversityInput!): University!
   createNewEducation(createEducationInput: CreateEducationInput!): Education!
   createNewStartingYear(createStartingYearInput: CreateStartingYearInput!): StartingYear!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
 }
 
-input CreateRegularuserInput {
+input CreateStudentInput {
   """email of the user"""
   email: String!
 

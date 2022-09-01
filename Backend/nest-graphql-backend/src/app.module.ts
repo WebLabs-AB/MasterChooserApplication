@@ -7,11 +7,11 @@ import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config';
 
 // Own files
-import { RegularuserModule } from './routers/regularuser/regularuser.module';
+import { StudentModule } from './routers/student/student.module';
 import { UniversityModule } from './routers/university/university.module';
 import { EducationModule } from './routers/education/education.module';
 import { StartingYearModule } from './routers/starting-year/starting-year.module';
-import { SuperuserModule } from './routers/superuser/superuser.module';
+import { TeacherModule } from './routers/teacher/teacher.module';
 import { AuthModule } from './common/services/auth.module';
 
 @Module({
@@ -25,23 +25,39 @@ import { AuthModule } from './common/services/auth.module';
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'mysql',
-        host: configService.get<string>('DATABASE_HOST'),
-        port: parseInt(configService.get<string>('DATABASE_PORT')),
-        username: configService.get<string>('MYSQL_USER'),
-        password: configService.get<string>('MYSQL_PASSWORD'),
-        database: configService.get<string>('DATABASE'),
-        entities: [__dirname + '/**/NormalTypes/*.entity{.ts,.js}'],
-        synchronize: true,
-      }),
+      useFactory: (configService: ConfigService) => {
+        if (configService.get<string>('NODE_ENV') === 'test') {
+          return {
+            type: 'postgres',
+            host: configService.get<string>('LOCAL_HOST'),
+            port: parseInt(configService.get<string>('LOCAL_PORT')),
+            username: configService.get<string>('LOCAL_POSTGRES_USER'),
+            password: configService.get<string>('LOCAL_POSTGRES_PASSWORD'),
+            database: configService.get<string>('LOCAL_DATABASE'),
+            entities: [__dirname + '/**/NormalTypes/*.entity{.ts,.js}'],
+            synchronize: true, // Only use doing development.
+            dropSchema: true,
+          };
+        } else {
+          return {
+            type: 'postgres',
+            host: configService.get<string>('HEROKU_HOST'),
+            port: parseInt(configService.get<string>('HEROKU_PORT')),
+            username: configService.get<string>('HEROKU_USER'),
+            password: configService.get<string>('HEROKU_PASSWORD'),
+            database: configService.get<string>('HEROKU_DATABASE'),
+            entities: [__dirname + '/**/NormalTypes/*.entity{.ts,.js}'],
+            synchronize: true, // Only use doing development.
+          };
+        }
+      },
       inject: [ConfigService],
     }),
-    RegularuserModule,
+    StudentModule,
     UniversityModule,
     EducationModule,
     StartingYearModule,
-    SuperuserModule,
+    TeacherModule,
     AuthModule,
   ],
   controllers: [],

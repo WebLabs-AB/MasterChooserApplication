@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 // Own files
-import { RegularUser } from 'src/entities/NormalTypes/RegularUser.entity';
-import { CreateRegularuserInput } from 'src/inputTypes/create-regularuser.input';
+import { Student } from 'src/entities/NormalTypes/Student.entity';
+import { CreateStudentInput } from 'src/inputTypes/create-regularuser.input';
 import { UniversityService } from 'src/routers/university/university.service';
 import { University } from 'src/entities/NormalTypes/University.entity';
 import { Education } from 'src/entities/NormalTypes/Education.entity';
@@ -13,18 +13,18 @@ import { EducationService } from 'src/routers/education/education.service';
 import { UserInputError } from 'apollo-server-express';
 
 @Injectable()
-export class RegularuserService {
+export class StudentService {
   constructor(
-    @InjectRepository(RegularUser)
-    private regularusersRepository: Repository<RegularUser>,
+    @InjectRepository(Student)
+    private studentRepository: Repository<Student>,
     private universityService: UniversityService,
     private educationService: EducationService,
   ) {}
 
-  // Creates a new regularuser and saves it in the database.
-  async createRegularuser(
-    createRegularuserInput: CreateRegularuserInput,
-  ): Promise<RegularUser> {
+  // Creates a new student and saves it in the database.
+  async createStudent(
+    createRegularuserInput: CreateStudentInput,
+  ): Promise<Student> {
     if (await this.doesUserExists(createRegularuserInput.email)) {
       throw new UserInputError('User already exists');
     }
@@ -37,29 +37,30 @@ export class RegularuserService {
     createRegularuserInput.password = await bcrypt.hash(password, SALT);
     createRegularuserInput.email = email;
 
-    const newRegularuser = this.regularusersRepository.create(
-      createRegularuserInput,
-    );
+    const newStudent = this.studentRepository.create(createRegularuserInput);
 
-    const university = new University();
-    university.universityName = createRegularuserInput.universityName;
-    newRegularuser.university = university; // Set foreign key.
+    const university = await this.getUniversity(
+      createRegularuserInput.universityName,
+    ); // Check if university already exists.
 
-    const education = new Education();
-    education.educationName = createRegularuserInput.educationName;
-    newRegularuser.education = education; // Set foreign key.
+    const education = await this.getEducation(
+      createRegularuserInput.educationName,
+      createRegularuserInput.universityName,
+    ); // Check if education already exists.
 
-    return this.regularusersRepository.save(newRegularuser);
+    newStudent.university = university; // Set foreign key.
+    newStudent.education = education; // Set foreign key.
+    return this.studentRepository.save(newStudent);
   }
 
   // Find all users from the regularuser table.
-  async findAll(): Promise<RegularUser[]> {
-    return this.regularusersRepository.find(); // SELECT * FROM regularuser;
+  async findAll(): Promise<Student[]> {
+    return this.studentRepository.find(); // SELECT * FROM regularuser;
   }
 
   // Finds a specific regularuser or returns null.
-  async findOne(email: string): Promise<RegularUser> {
-    return await this.regularusersRepository.findOne({
+  async findOne(email: string): Promise<Student> {
+    return await this.studentRepository.findOne({
       where: { email: email },
     });
   }
@@ -70,13 +71,16 @@ export class RegularuserService {
   }
 
   // Gets a specific education.
-  async getEducation(educationName: string): Promise<Education> {
-    return this.educationService.findOne(educationName);
+  async getEducation(
+    educationName: string,
+    universityName: string,
+  ): Promise<Education> {
+    return this.educationService.findOne(educationName, universityName);
   }
 
   // Checks if an user exists from email.
   async doesUserExists(email: string): Promise<boolean> {
-    const user = await this.regularusersRepository.findOne({
+    const user = await this.studentRepository.findOne({
       where: { email: email },
     });
 

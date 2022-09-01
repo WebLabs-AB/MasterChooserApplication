@@ -16,7 +16,6 @@ jobs:
       - image: cimg/node:16.13.2
     steps:
       - checkout
-      working_directory: ~/Frontend/masterfrontend
       - run:
           name: Update NPM
           command: "sudo npm install -g npm"
@@ -24,14 +23,14 @@ jobs:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Install Dependencies
-          command: npm install
+          command: cd Frontend/masterfrontend && npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
       - run:
           name: Build React App
-          command: npm run build
+          command: cd Frontend/masterfrontend && npm run build
       - save_cache:
           key: app-build-cache-{{ .Branch }}
           paths:

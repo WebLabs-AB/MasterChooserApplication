@@ -1,8 +1,9 @@
 import {Stack} from '@mui/material';
 
 import './App.css';
-import { RegistrationPage } from './Screens/RegistrationPage';
+
 import {Colors} from './Assets/Colors';
+import Main from './Main';
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
         bgcolor: Colors.lightGreen, marginLeft: 0, marginRight: 0, padding: 0,
       }}
     >
-    <RegistrationPage/>
+    <Main/>
     </Stack>
   );
 }

@@ -1,19 +1,24 @@
 import { useEffect, useState } from 'react';
-import {Container, Paper, Button, FormHelperText, Snackbar, Alert} from '@mui/material';
+import {Container, Paper, Button, FormHelperText, Snackbar, Alert, Stack} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { useQuery, useLazyQuery } from '@apollo/client';
 
 // Own files.
 import { PasswordInputField } from '../Components/PasswordInputField';
-import { UsernameInputField } from '../Components/EmailInputField';
+import { EmailInputField } from '../Components/EmailInputField';
 import { SelectMenuList } from '../Components/SelectMenuList';
-import {Colors} from '../Assets/Colors';
-import { SNACKBAR_REGISTER_ERROR_MSG } from '../Assets/Constants';
-import { GET_ALL_UNIVERSITIES, GET_UNIVERSITY_EDUCATIONS } from '../gql/Query';
-import { educationJsonType, universityJsonType } from '../Assets/Interfaces';
+import { Colors } from '../Assets/Colors';
+import { SNACKBAR_REGISTER_DUPLICATE_MSG, SNACKBAR_REGISTER_ERROR_MSG, SNACKBAR_USER_CREATED } from '../Assets/Constants';
+import { CHECK_IF_REGULAR_USER_EXISTS, GET_ALL_STARTING_YEARS, GET_ALL_UNIVERSITIES, GET_UNIVERSITY_EDUCATIONS } from '../gql/Query';
+import { educationJsonType, startingYearJsonType, universityJsonType } from '../Assets/Interfaces';
+import { useNewRegularUserMutation } from '../gql/RegUserMut';
+import { useNavigate } from 'react-router-dom';
 
 export const RegistrationPage: React.FC = () => {
+
+    // Hook for creating new RegularUser
+    const setNewRegularUser = useNewRegularUserMutation();
     
     // Hooks used for password checks.
     const [passwordErrorField, setPasswordErrorField] = useState("");
@@ -24,10 +29,12 @@ export const RegistrationPage: React.FC = () => {
     const [emailErrorField, setEmailErrorField] = useState("");
     const [email, setEmail] = useState("");
     const [emailOk, setEmailOk] = useState(false);
+    const [, setDuplicateEmail] = useState(false);
 
     // Hooks used for starting year selectmenulist.
     const [startingYear, setStartingYear] = useState("");
     const [startingYearOk, setStartingYearOk] = useState(false);
+    const [startingYears, setStartingYears] = useState([""]);
 
     // Hooks used for university selectmenulist.
     const [chosenUniversity, setUniversity] = useState("");
@@ -41,13 +48,14 @@ export const RegistrationPage: React.FC = () => {
 
     // Used for snackbar.
     const [open, setOpen] = useState(false);
+    const [msg, setMsg] = useState("");
 
     // GraphQL hooks.
     const [getUniversities] = useLazyQuery(GET_ALL_UNIVERSITIES, {
         variables: { chosenUniversity }, // Execute query when chosenUniversity hook is changed.
         onCompleted: data => {
-            let universityArray: string[] = [];
-            data.universities.map((e: universityJsonType) => universityArray.push(e.universityName));
+            const universityArray: string[] = [];
+            data.universities.map((uni: universityJsonType) => universityArray.push(uni.universityName));
             setUniversities(universityArray);
         },
         onError: error => {
@@ -57,9 +65,8 @@ export const RegistrationPage: React.FC = () => {
 
     const [getUniversityEducation] = useLazyQuery(GET_UNIVERSITY_EDUCATIONS, {
         onCompleted: data => {
-            let educationArray: string[] = [];
-            console.log(data);
-            data.educationFromUniversity.map((e: educationJsonType) => educationArray.push(e.symbol));
+            const educationArray: string[] = [];
+            data.educationsFromUniversity.map((education: educationJsonType) => educationArray.push(education.educationName));
             setEducations(educationArray);
         },
         onError: error => {
@@ -67,6 +74,27 @@ export const RegistrationPage: React.FC = () => {
         }
     });
 
+    useLazyQuery(CHECK_IF_REGULAR_USER_EXISTS, {
+        fetchPolicy: 'no-cache',
+        onCompleted: () => { // Email does exist in the database.
+            setDuplicateEmail(true);
+            openSnackBar(SNACKBAR_REGISTER_DUPLICATE_MSG);
+        },
+        notifyOnNetworkStatusChange: true, 
+        onError: () => { // Email does not exist in the database.
+            setDuplicateEmail(false);
+        }
+    })
+
+    useQuery(GET_ALL_STARTING_YEARS, {
+        onCompleted: data => {
+            const startingYearsArray: string[] = [];
+            data.startingYears.map((year: startingYearJsonType) => startingYearsArray.push(year.startingYear));
+            setStartingYears(startingYearsArray);
+        }
+    });
+
+    // Updates the screen when choices are made.
     useEffect(() => {
         getUniversities();
         if(universityOk) getUniversityEducation({variables: {universityName: chosenUniversity}});
@@ -95,33 +123,33 @@ export const RegistrationPage: React.FC = () => {
     const educationOutlinedLabel= "Education";
     const educationInputLabelId = "simple-education-inputlabel"
 
-    const startingYearsList = [
-        '2019',
-        '2020',
-        '2021',
-        '2022',
-    ];
+    const navigate = useNavigate();
+    const handleGoToMainMenu = () => navigate("/");
 
     const handleClose = () => {
         setOpen(false);
     };
 
-    const openSnackBar = () => {
+    const openSnackBar = (msg: string) => {
         setOpen(true);
+        setMsg(msg);
     };
     
-    const registerUser = () => {
+    const registerUser = async () => {
 
         if(emailOk === false || passwordOk === false || startingYearOk === false || universityOk === false || educationOk === false) {
-            openSnackBar();
+            openSnackBar(SNACKBAR_REGISTER_ERROR_MSG);
         }
-        else {
-            // Send post-request to backend
-            console.log(email);
-            console.log(password);
-            console.log(startingYear);
-            console.log(chosenUniversity);
-            console.log(chosenEducation);
+        else {         
+            try {
+                await setNewRegularUser(email, password, Number(startingYear), chosenUniversity, chosenEducation)
+                openSnackBar(SNACKBAR_USER_CREATED);
+            } 
+            catch (err: unknown) {
+                if (err instanceof Error) {
+                    openSnackBar(err.message)
+                }
+            }    
         }
     };
 
@@ -133,7 +161,7 @@ export const RegistrationPage: React.FC = () => {
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{vertical: 'top', horizontal: 'center'}} sx={{marginTop: '7vh'}}
         >
             <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
-                {SNACKBAR_REGISTER_ERROR_MSG}
+                {msg}
             </Alert>
         </Snackbar>
 
@@ -153,7 +181,7 @@ export const RegistrationPage: React.FC = () => {
                 <InputLabel htmlFor={emailFieldId}>
                     Email
                 </InputLabel>
-                <UsernameInputField
+                <EmailInputField
                     id={emailFieldId}
                     email={email}
                     setEmailErrorField={setEmailErrorField}
@@ -194,7 +222,7 @@ export const RegistrationPage: React.FC = () => {
                     value={startingYear}
                     outlinedLabel={startingYearOutlinedLabel}
                     disabled={false}
-                    valueList={startingYearsList}
+                    valueList={startingYears}
                     setValue={setStartingYear}
                     setValueOk={setStartingYearOk}
                 />
@@ -239,15 +267,27 @@ export const RegistrationPage: React.FC = () => {
                 />
             </FormControl>
 
-            <Button 
-                onClick={registerUser}
-                variant="contained"
-                sx={{'width': '80vw', 'maxWidth': '400px',
-                'backgroundColor': Colors.cyan,
-                ':hover': {backgroundColor: Colors.cyan}}}
-            >
-                Register Account
-            </Button>
+            <Stack direction="row" spacing={2}>
+                <Button 
+                    onClick={registerUser}
+                    variant="contained"
+                    sx={{'width': '80vw', 'maxWidth': '200px',
+                    'backgroundColor': Colors.cyan,
+                    ':hover': {backgroundColor: Colors.cyan}}}
+                >
+                    Register Account
+                </Button>
+
+                <Button 
+                    onClick={handleGoToMainMenu}
+                    variant="contained"
+                    sx={{'width': '80vw', 'maxWidth': '200px',
+                    'backgroundColor': Colors.cyan,
+                    ':hover': {backgroundColor: Colors.cyan}}}
+                >
+                    Back
+                </Button>
+            </Stack>
         </Paper>
     </Container>
     );

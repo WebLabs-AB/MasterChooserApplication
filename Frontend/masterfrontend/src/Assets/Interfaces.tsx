@@ -4,5 +4,17 @@ export interface universityJsonType{
 }
 
 export interface educationJsonType{
-    symbol: string;
+    educationName: string;
 }
+
+export interface startingYearJsonType{
+    startingYear: string;
+}
+
+export interface createRegularuserInputJsonType {
+    email: string;
+    password: string;
+    startingYear: number;
+    universityName: string;
+    educationName: string;
+  }

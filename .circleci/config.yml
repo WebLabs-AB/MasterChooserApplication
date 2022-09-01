@@ -5,9 +5,9 @@ workflows:
   test-backend:
     jobs:
       - unit-test-backend
-  build-deploy:
+  build-eslint-deploy:
     jobs:
-      - build-deploy-frontend:
+      - build-eslint-deploy-frontend:
           filters:
             branches:
               only:
@@ -39,7 +39,7 @@ jobs:
       - run:
           name: Run unit tests
           command: cd Backend/nest-graphql-backend && npm run test
-  build-deploy-frontend:
+  build-eslint-deploy-frontend:
     docker:
       - image: cimg/node:16.13.2
     steps:
@@ -66,44 +66,6 @@ jobs:
           key: app-build-cache-{{ .Branch }}
           paths:
             - Frontend/masterfrontend/build
-  build-backend:
-    docker:
-      - image: cimg/node:16.13.2
-    steps:
-      - checkout
-      - run:
-          name: Update NPM
-          command: "sudo npm install -g npm"
-      - restore_cache:
-          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
-      - run:
-          name: Install Backend Dependencies
-          command: cd Backend/nest-graphql-backend && npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
-          paths:
-            - Backend/nest-graphql-backend/node_modules
-      - run:
-          name: Build Nest App
-          command: cd Backend/nest-graphql-backend && npm run build
-      - save_cache:
-          key: app-build-cache-{{ .Branch }}
-          paths:
-            - Backend/nest-graphql-backend/build
-  deploy-backend:
-    executor: heroku/default
-    steps:
-      - checkout
-      - heroku/install
-      - heroku/deploy-via-git
-  deploy-frontend:
-    docker:
-      - image: cimg/node:16.13.2
-    steps:
-      - checkout
-      - run:
-          name: Deploy to Netlify
-          command: cd Frontend/masterfrontend && ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build
   deploy-backend:
     executor: heroku/default
     steps:

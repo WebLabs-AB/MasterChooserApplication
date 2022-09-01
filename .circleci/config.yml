@@ -1,17 +1,27 @@
 version: 2.1
-
+orbs:
+  heroku: circleci/heroku@1.2.6
 workflows:
   version: 2
   build-deploy:
     jobs:
-      - build-and-deploy-frontend:
+      - build-frontend:
+      - build-backend:
+      - deploy-frontend:
+          filters:
+            branches:
+              only:
+                - main
+      - deploy-backend:
+          jobs:
+            - heroku/deploy-via-git
           filters:
             branches:
               only:
                 - main
 
 jobs:
-  build-and-deploy-frontend:
+  build-frontend:
     docker:
       - image: cimg/node:16.13.2
     steps:
@@ -22,7 +32,7 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "Frontend/masterfrontend/package-lock.json" }}
       - run:
-          name: Install Dependencies
+          name: Install Frontend Dependencies
           command: cd Frontend/masterfrontend && npm install
       - save_cache:
           key: dependency-cache-{{ checksum "Frontend/masterfrontend/package-lock.json" }}
@@ -35,6 +45,10 @@ jobs:
           key: app-build-cache-{{ .Branch }}
           paths:
             - Frontend/masterfrontend/build
+  deploy-frontend:
+    docker:
+      - image: cimg/node:16.13.2
+    steps:
       - run:
           name: Deploy to Netlify
           command: cd Frontend/masterfrontend && ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build

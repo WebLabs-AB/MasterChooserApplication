@@ -12,9 +12,9 @@ workflows:
 
 jobs:
   build-and-deploy-frontend:
-    working_directory: ./Frontend/masterfrontend
     docker:
       - image: cimg/node:16.13.2
+    working_directory: ./Frontend/masterfrontend
     steps:
       - checkout
       - run:

@@ -17,13 +17,13 @@ export class Teacher extends User {
   lastName: string;
 
   @OneToMany(() => MasterProfile, (masterprofile) => masterprofile.teacher, {
-    eager: true,
+    cascade: true,
   }) // Shows which masterprofiles was created by a teacher.
   @Field((type) => [MasterProfile])
   MasterProfiles?: MasterProfile[];
 
   @OneToMany(() => Course, (course) => course.teacher, {
-    eager: true,
+    cascade: true,
   }) // Shows which courses was created by a teacher.
   @Field((type) => [Course])
   courses?: Course[];

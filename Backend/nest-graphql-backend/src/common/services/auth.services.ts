@@ -46,6 +46,7 @@ export class AuthService {
     let payload: string | object | Buffer;
 
     if (user instanceof Student) {
+      console.log(user);
       payload = {
         educationName: user.education.educationName,
         startingYear: user.startingYear,

@@ -29,21 +29,25 @@ export class MasterSchema extends BaseEntity {
   createdAt: Date;
 
   @ManyToOne(() => Student, (student) => student.masterSchemas, {
-    cascade: true,
+    eager: true,
   }) // Shows which masterschemas belong to a student.
   @Field((type) => Student)
   @JoinColumn({ name: 'student' })
   student: Student;
 
-  @ManyToOne(() => MasterProfile, (student) => student.masterSchemas, {
-    cascade: true,
-  }) // Shows which masterschemas belong to a student.
+  @ManyToOne(
+    () => MasterProfile,
+    (masterprofile) => masterprofile.masterSchemas,
+    {
+      eager: true,
+    },
+  ) // Shows which masterschemas belong to a student.
   @Field((type) => MasterProfile)
   @JoinColumn({ name: 'masterprofile' })
   masterProfile: MasterProfile;
 
   @ManyToMany(() => Course, {
-    cascade: true,
+    eager: true,
   })
   @JoinTable() // Shows what courses have been chosen.
   courses: Course[];

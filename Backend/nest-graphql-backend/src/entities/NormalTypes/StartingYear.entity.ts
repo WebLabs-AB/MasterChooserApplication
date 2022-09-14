@@ -13,7 +13,7 @@ export class StartingYear extends BaseEntity {
     () => CourseToStartingYear,
     (courseToStartingYear) => courseToStartingYear.startingYear,
     {
-      eager: true,
+      cascade: true,
     },
   )
   public courseToStartingYear!: CourseToStartingYear[];

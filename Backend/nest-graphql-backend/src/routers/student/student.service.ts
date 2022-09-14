@@ -48,8 +48,8 @@ export class StudentService {
       createRegularuserInput.universityName,
     ); // Check if education already exists.
 
-    newStudent.university = university; // Set foreign key.
     newStudent.education = education; // Set foreign key.
+    newStudent.university = university; // Set foreign key.
     return this.studentRepository.save(newStudent);
   }
 

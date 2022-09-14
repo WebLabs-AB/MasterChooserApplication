@@ -14,21 +14,21 @@ export class Student extends User {
   startingYear: number;
 
   @ManyToOne(() => University, (university) => university.Students, {
-    cascade: true,
+    eager: true, // ManyToOne should always be eager to able to loaded when using find.
   }) // Shows which university a student goes
-  @Field((type) => University)
   @JoinColumn({ name: 'universityName' })
+  @Field((type) => University)
   university: University;
 
   @ManyToOne(() => Education, (education) => education.Students, {
-    cascade: true,
+    eager: true,
   }) // Shows which education a student goes
-  @Field((type) => Education)
   @JoinColumn({ name: 'educationName' })
+  @Field((type) => Education)
   education: Education;
 
   @OneToMany(() => MasterSchema, (masterschema) => masterschema.student, {
-    eager: true,
+    cascade: true,
   }) // Shows what masterschemas a student has created.
   @Field((type) => [MasterSchema])
   masterSchemas?: MasterSchema[];

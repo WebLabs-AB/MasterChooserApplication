@@ -43,20 +43,20 @@ export class Course extends BaseEntity {
     () => CourseToStartingYear,
     (courseToStartingYear) => courseToStartingYear.course,
     {
-      eager: true,
+      cascade: true,
     },
   )
   public courseToStartingYear!: CourseToStartingYear[];
 
   @ManyToOne(() => Teacher, (teacher) => teacher.courses, {
-    cascade: true,
+    eager: true,
   }) // Shows what teacher the course belongs to.
   @Field((type) => Teacher)
   @JoinColumn({ name: 'teacher' })
   teacher: Teacher;
 
   @ManyToOne(() => University, (university) => university.courses, {
-    cascade: true,
+    eager: true,
   }) // Shows what university the course belongs to.
   @Field((type) => University)
   @JoinColumn({ name: 'universityName' })
@@ -64,18 +64,21 @@ export class Course extends BaseEntity {
 
   @ManyToMany(() => Education, (education) => education.courses, {
     cascade: true,
+    eager: true,
   })
   @JoinTable() // Shows what educations the course belongs to.
   educations: Education[];
 
   @ManyToMany(() => Period, {
     cascade: true,
+    eager: true,
   })
   @JoinTable() // Shows what periods the course is being taught, could be 1 or more.
   period: Period[];
 
   @ManyToMany(() => MainArea, {
     cascade: true,
+    eager: true,
   })
   @JoinTable() // Shows what main areas the course belongs to, could be 1 or more.
   mainArea: MainArea[];

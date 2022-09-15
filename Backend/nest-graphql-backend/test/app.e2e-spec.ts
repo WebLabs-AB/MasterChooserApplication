@@ -96,8 +96,8 @@ describe('GraphQL AppController (e2e)', () => {
           })
           .expect(200)
           .expect((res) => {
-            expect(res).toEqual({
-              access_token: '',
+            expect(res.body.data.loginUser).toEqual({
+              access_token: res.body.data.loginUser.access_token,
             });
           });
       });

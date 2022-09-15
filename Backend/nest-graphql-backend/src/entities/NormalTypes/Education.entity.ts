@@ -28,7 +28,7 @@ export class Education extends BaseEntity {
   symbol: string;
 
   @ManyToOne(() => University, (university) => university.Educations, {
-    eager: true,
+    onDelete: 'CASCADE',
   }) // Shows which university an education belongs to.
   @Field((type) => University)
   @JoinColumn({ name: 'universityName' })

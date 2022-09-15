@@ -30,6 +30,7 @@ export class MasterSchema extends BaseEntity {
 
   @ManyToOne(() => Student, (student) => student.masterSchemas, {
     eager: true,
+    onDelete: 'CASCADE',
   }) // Shows which masterschemas belong to a student.
   @Field((type) => Student)
   @JoinColumn({ name: 'student' })
@@ -40,6 +41,7 @@ export class MasterSchema extends BaseEntity {
     (masterprofile) => masterprofile.masterSchemas,
     {
       eager: true,
+      onDelete: 'CASCADE',
     },
   ) // Shows which masterschemas belong to a student.
   @Field((type) => MasterProfile)

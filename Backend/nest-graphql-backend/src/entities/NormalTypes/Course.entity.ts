@@ -50,6 +50,7 @@ export class Course extends BaseEntity {
 
   @ManyToOne(() => Teacher, (teacher) => teacher.courses, {
     eager: true,
+    onDelete: 'CASCADE',
   }) // Shows what teacher the course belongs to.
   @Field((type) => Teacher)
   @JoinColumn({ name: 'teacher' })
@@ -57,6 +58,7 @@ export class Course extends BaseEntity {
 
   @ManyToOne(() => University, (university) => university.courses, {
     eager: true,
+    onDelete: 'CASCADE',
   }) // Shows what university the course belongs to.
   @Field((type) => University)
   @JoinColumn({ name: 'universityName' })

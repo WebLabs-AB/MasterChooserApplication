@@ -32,6 +32,7 @@ export class CourseToStartingYear extends BaseEntity {
 
   @ManyToOne(() => Course, (course) => course.courseToStartingYear, {
     eager: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'course' })
   public course!: Course;
@@ -41,6 +42,7 @@ export class CourseToStartingYear extends BaseEntity {
     (startingYear) => startingYear.courseToStartingYear,
     {
       eager: true,
+      onDelete: 'CASCADE',
     },
   )
   @JoinColumn({ name: 'startingyear' })

@@ -25,6 +25,7 @@ export class MasterProfile extends BaseEntity {
 
   @ManyToOne(() => University, (university) => university.MasterProfiles, {
     eager: true,
+    onDelete: 'CASCADE',
   }) // Shows which university a masterprofile belongs to.
   @Field((type) => University)
   @JoinColumn({ name: 'universityName' })
@@ -32,6 +33,7 @@ export class MasterProfile extends BaseEntity {
 
   @ManyToOne(() => Teacher, (teacher) => teacher.MasterProfiles, {
     eager: true,
+    onDelete: 'CASCADE',
   }) // Shows which teacher a masterprofile belongs to.
   @Field((type) => University)
   @JoinColumn({ name: 'teacher' })

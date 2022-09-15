@@ -15,6 +15,7 @@ export class Student extends User {
 
   @ManyToOne(() => University, (university) => university.Students, {
     eager: true, // ManyToOne should always be eager to able to loaded when using find.
+    onDelete: 'CASCADE',
   }) // Shows which university a student goes
   @JoinColumn({ name: 'universityName' })
   @Field((type) => University)
@@ -22,6 +23,7 @@ export class Student extends User {
 
   @ManyToOne(() => Education, (education) => education.Students, {
     eager: true,
+    onDelete: 'CASCADE',
   }) // Shows which education a student goes
   @JoinColumn({ name: 'educationName' })
   @Field((type) => Education)

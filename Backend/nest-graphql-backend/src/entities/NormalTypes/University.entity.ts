@@ -13,25 +13,26 @@ export class University extends BaseEntity {
   universityName: string;
 
   @OneToMany(() => Student, (student) => student.university, {
-    eager: true,
+    cascade: true,
   }) // Shows which students goes to the university.
   @Field((type) => [Student], { nullable: true })
   Students?: Student[];
 
   @OneToMany(() => Education, (education) => education.university, {
-    eager: true,
+    eager: true, // Dont remove this.
+    cascade: true,
   }) // Shows what educations belongs to an university..
   @Field((type) => [Education], { nullable: true })
   Educations?: Education[];
 
   @OneToMany(() => MasterProfile, (masterprofile) => masterprofile.university, {
-    eager: true,
+    cascade: true,
   }) // Shows what masterprofiles belongs to an university..
   @Field((type) => [MasterProfile], { nullable: true })
   MasterProfiles?: MasterProfile[];
 
   @OneToMany(() => Course, (course) => course.university, {
-    eager: true,
+    cascade: true,
   }) // Shows what courses belongs to an university..
   @Field((type) => [Course], { nullable: true })
   courses?: Course[];

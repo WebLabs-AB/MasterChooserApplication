@@ -24,45 +24,51 @@ export class MasterProfile extends BaseEntity {
   masterName: string;
 
   @ManyToOne(() => University, (university) => university.MasterProfiles, {
-    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
   }) // Shows which university a masterprofile belongs to.
   @Field((type) => University)
   @JoinColumn({ name: 'universityName' })
   university: University;
 
   @ManyToOne(() => Teacher, (teacher) => teacher.MasterProfiles, {
-    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
   }) // Shows which teacher a masterprofile belongs to.
   @Field((type) => University)
   @JoinColumn({ name: 'teacher' })
   teacher: Teacher;
 
   @OneToMany(() => MasterSchema, (masterschema) => masterschema.masterProfile, {
-    eager: true,
+    cascade: true,
   }) // Shows what masterschemas belongs to an master profile..
   @Field((type) => [MasterSchema])
   masterSchemas?: MasterSchema[];
 
   @ManyToMany(() => Course, {
     cascade: true,
+    eager: true,
   })
   @JoinTable()
   availableCourses: Course[];
 
   @ManyToMany(() => Course, {
     cascade: true,
+    eager: true,
   })
   @JoinTable()
   optionalCourses: Course[];
 
   @ManyToMany(() => Course, {
     cascade: true,
+    eager: true,
   })
   @JoinTable()
   requiredCourses: Course[];
 
   @ManyToMany(() => Course, {
     cascade: true,
+    eager: true,
   })
   @JoinTable()
   recommendedCourses: Course[];

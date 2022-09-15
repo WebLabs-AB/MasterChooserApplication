@@ -28,14 +28,14 @@ export class Education extends BaseEntity {
   symbol: string;
 
   @ManyToOne(() => University, (university) => university.Educations, {
-    cascade: true,
+    onDelete: 'CASCADE',
   }) // Shows which university an education belongs to.
   @Field((type) => University)
   @JoinColumn({ name: 'universityName' })
   university: University;
 
   @OneToMany(() => Student, (student) => student.education, {
-    eager: true,
+    cascade: true,
   }) // Shows which students studies that education.
   @Field((type) => [Student], { nullable: true })
   Students?: Student[];

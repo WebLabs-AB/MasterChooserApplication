@@ -31,7 +31,8 @@ export class CourseToStartingYear extends BaseEntity {
   schemaBlock: string;
 
   @ManyToOne(() => Course, (course) => course.courseToStartingYear, {
-    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'course' })
   public course!: Course;
@@ -40,7 +41,8 @@ export class CourseToStartingYear extends BaseEntity {
     () => StartingYear,
     (startingYear) => startingYear.courseToStartingYear,
     {
-      cascade: true,
+      eager: true,
+      onDelete: 'CASCADE',
     },
   )
   @JoinColumn({ name: 'startingyear' })

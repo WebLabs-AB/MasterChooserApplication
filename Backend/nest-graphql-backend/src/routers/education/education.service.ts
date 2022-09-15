@@ -27,7 +27,7 @@ export class EducationService {
     );
     if (education) {
       throw new BadRequestException(
-        `Education already exists at that university`,
+        `That education already exists at that university`,
       );
     }
 

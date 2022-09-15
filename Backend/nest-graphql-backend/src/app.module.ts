@@ -13,6 +13,7 @@ import { EducationModule } from './routers/education/education.module';
 import { StartingYearModule } from './routers/starting-year/starting-year.module';
 import { TeacherModule } from './routers/teacher/teacher.module';
 import { AuthModule } from './common/services/auth.module';
+import { MainAreaModule } from './routers/main-area/main-area.module';
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { AuthModule } from './common/services/auth.module';
     EducationModule,
     StartingYearModule,
     TeacherModule,
+    MainAreaModule,
     AuthModule,
   ],
   controllers: [],

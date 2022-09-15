@@ -12,14 +12,14 @@ export class TeacherService {
     private teacherRepository: Repository<Teacher>,
   ) {}
 
-  // Finds a specific regularuser or null.
+  // Finds a specific teacher or null.
   async findOne(email: string): Promise<Teacher> {
     return this.teacherRepository.findOne({
       where: { email: email },
     });
   }
 
-  // Checks if an user exists from email.
+  // Checks if an teacher exists from email.
   async doesUserExists(email: string): Promise<boolean> {
     const user = await this.teacherRepository.findOne({
       where: { email: email },

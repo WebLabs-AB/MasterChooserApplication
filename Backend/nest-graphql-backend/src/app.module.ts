@@ -14,6 +14,7 @@ import { StartingYearModule } from './routers/starting-year/starting-year.module
 import { TeacherModule } from './routers/teacher/teacher.module';
 import { AuthModule } from './common/services/auth.module';
 import { MainAreaModule } from './routers/main-area/main-area.module';
+import { PeriodModule } from './routers/period/period.module';
 
 @Module({
   imports: [
@@ -60,6 +61,7 @@ import { MainAreaModule } from './routers/main-area/main-area.module';
     StartingYearModule,
     TeacherModule,
     MainAreaModule,
+    PeriodModule,
     AuthModule,
   ],
   controllers: [],

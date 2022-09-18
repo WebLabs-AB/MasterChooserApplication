@@ -10,7 +10,7 @@ export class MainAreaResolver {
   constructor(private mainAreaService: MainAreaService) {}
 
   // Query that returns all educations from the database.
-  @Query((returns) => [MainArea]) // Returns an array of educations.
+  @Query((returns) => [MainArea]) // Returns an array of mainareas.
   async mainareas(): Promise<MainArea[]> {
     return this.mainAreaService.findAll();
   }

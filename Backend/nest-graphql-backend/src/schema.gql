@@ -10,6 +10,10 @@ type MainArea {
   type: String!
 }
 
+type Period {
+  value: Int!
+}
+
 type MasterSchema {
   finished: Boolean!
 
@@ -90,6 +94,7 @@ type Query {
   educationsFromUniversity(universityName: String!): [Education!]!
   startingYears: [StartingYear!]!
   mainareas: [MainArea!]!
+  periods: [Period!]!
 }
 
 type Mutation {
@@ -98,6 +103,7 @@ type Mutation {
   createNewEducation(createEducationInput: CreateEducationInput!): Education!
   createNewStartingYear(createStartingYearInput: CreateStartingYearInput!): StartingYear!
   createNewMainArea(createMainAreaInput: CreateMainAreaInput!): MainArea!
+  createNewPeriod(createPeriodInput: CreatePeriodInput!): Period!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
 }
 
@@ -134,6 +140,10 @@ input CreateStartingYearInput {
 
 input CreateMainAreaInput {
   type: String!
+}
+
+input CreatePeriodInput {
+  value: Int!
 }
 
 input LoginUserInput {

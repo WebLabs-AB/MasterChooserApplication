@@ -24,7 +24,6 @@ export class AuthService {
     if (student) {
       if (await bcrypt.compare(password, student.password)) {
         delete student.password;
-        delete student.email;
         return student;
       }
     }
@@ -33,7 +32,6 @@ export class AuthService {
     if (teacher) {
       if (await bcrypt.compare(password, teacher.password)) {
         delete teacher.password;
-        delete teacher.email;
         return teacher;
       }
     }
@@ -47,12 +45,14 @@ export class AuthService {
 
     if (user instanceof Student) {
       payload = {
+        email: user.email,
         educationName: user.education.educationName,
         startingYear: user.startingYear,
         universityName: user.university.universityName,
       };
     } else {
       payload = {
+        email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
       };

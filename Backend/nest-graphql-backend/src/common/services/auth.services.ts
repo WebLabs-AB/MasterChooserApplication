@@ -19,22 +19,22 @@ export class AuthService {
     email: string,
     password: string,
   ): Promise<Student | null | Teacher> {
-    const regularUser = await this.studentService.findOne(email);
+    const student = await this.studentService.findOne(email);
 
-    if (regularUser) {
-      if (await bcrypt.compare(password, regularUser.password)) {
-        delete regularUser.password;
-        delete regularUser.email;
-        return regularUser;
+    if (student) {
+      if (await bcrypt.compare(password, student.password)) {
+        delete student.password;
+        delete student.email;
+        return student;
       }
     }
 
-    const superUser = await this.teacherService.findOne(email);
-    if (superUser) {
-      if (await bcrypt.compare(password, superUser.password)) {
-        delete superUser.password;
-        delete superUser.email;
-        return superUser;
+    const teacher = await this.teacherService.findOne(email);
+    if (teacher) {
+      if (await bcrypt.compare(password, teacher.password)) {
+        delete teacher.password;
+        delete teacher.email;
+        return teacher;
       }
     }
     return null;

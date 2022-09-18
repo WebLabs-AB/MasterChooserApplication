@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 
 // Own files
 import { Student } from 'src/entities/NormalTypes/Student.entity';
-import { CreateStudentInput } from 'src/inputTypes/create-regularuser.input';
+import { CreateStudentInput } from 'src/inputTypes/create-student.input';
 import { UniversityService } from 'src/routers/university/university.service';
 import { University } from 'src/entities/NormalTypes/University.entity';
 import { Education } from 'src/entities/NormalTypes/Education.entity';
@@ -25,7 +25,7 @@ export class StudentService {
   async createStudent(
     createRegularuserInput: CreateStudentInput,
   ): Promise<Student> {
-    if (await this.doesUserExists(createRegularuserInput.email)) {
+    if (await this.doesStudentExists(createRegularuserInput.email)) {
       throw new UserInputError('User already exists');
     }
 
@@ -78,8 +78,8 @@ export class StudentService {
     return this.educationService.findOne(educationName, universityName);
   }
 
-  // Checks if an user exists from email.
-  async doesUserExists(email: string): Promise<boolean> {
+  // Checks if an student exists from email.
+  async doesStudentExists(email: string): Promise<boolean> {
     const user = await this.studentRepository.findOne({
       where: { email: email },
     });

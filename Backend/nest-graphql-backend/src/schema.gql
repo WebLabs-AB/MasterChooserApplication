@@ -98,7 +98,7 @@ type Query {
 }
 
 type Mutation {
-  createNewRegularuser(createRegularuserInput: CreateStudentInput!): Student!
+  createNewStudent(createStudentInput: CreateStudentInput!): Student!
   createNewUniversity(createUniversityInput: CreateUniversityInput!): University!
   createNewEducation(createEducationInput: CreateEducationInput!): Education!
   createNewStartingYear(createStartingYearInput: CreateStartingYearInput!): StartingYear!

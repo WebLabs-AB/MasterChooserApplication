@@ -24,7 +24,7 @@ export class StudentResolver {
     return this.studentService.findAll();
   }
 
-  // Query that returns if an regularuser exists in the database.
+  // Query that returns an student if it exists in the database.
   @Query((returns) => Student)
   async getStudent(@Args('email') email: string): Promise<Student> {
     return this.studentService.findOne(email);

@@ -87,7 +87,7 @@ type LoggedUserOutput {
 
 type Query {
   students(educationName: String!, universityName: String!): [Student!]!
-  getStudent(email: String!): Student!
+  getStudent(email: String!): Teacher!
   universities: [University!]!
   findOne(universityName: String!): University!
   educations: [Education!]!
@@ -102,6 +102,7 @@ type Mutation {
   createNewUniversity(createUniversityInput: CreateUniversityInput!): University!
   createNewEducation(createEducationInput: CreateEducationInput!): Education!
   createNewStartingYear(createStartingYearInput: CreateStartingYearInput!): StartingYear!
+  createNewTeacher(createTeacherInput: CreateTeacherInput!): Teacher!
   createNewMainArea(createMainAreaInput: CreateMainAreaInput!): MainArea!
   createNewPeriod(createPeriodInput: CreatePeriodInput!): Period!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
@@ -136,6 +137,20 @@ input CreateEducationInput {
 
 input CreateStartingYearInput {
   startingYear: Int!
+}
+
+input CreateTeacherInput {
+  """email of the teacher"""
+  email: String!
+
+  """password of the teacher"""
+  password: String!
+
+  """firstname of the teacher"""
+  firstName: String!
+
+  """lastname of the teacher"""
+  lastName: String!
 }
 
 input CreateMainAreaInput {

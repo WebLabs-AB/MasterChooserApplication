@@ -24,7 +24,6 @@ export class CourseEducationsService {
     ) {
       throw new UserInputError('Course educations already exists');
     }
-    console.log(createCourseEducationsInput);
 
     const newCourseEducations = this.courseEducationsRepository.create(
       createCourseEducationsInput,

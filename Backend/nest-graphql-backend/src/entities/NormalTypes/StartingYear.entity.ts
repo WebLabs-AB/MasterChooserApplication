@@ -1,6 +1,6 @@
 import { Entity, BaseEntity, PrimaryColumn, OneToMany } from 'typeorm';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { CourseToStartingYear } from './CourseToStartingYear.entity';
+import { CourseStartingYears } from './CourseStartingYears.entity';
 
 @Entity('StartingYear')
 @ObjectType()
@@ -10,11 +10,11 @@ export class StartingYear extends BaseEntity {
   startingYear: number;
 
   @OneToMany(
-    () => CourseToStartingYear,
-    (courseToStartingYear) => courseToStartingYear.startingYear,
+    () => CourseStartingYears,
+    (courseToStartingYear) => courseToStartingYear.year,
     {
       cascade: true,
     },
   )
-  public courseToStartingYear!: CourseToStartingYear[];
+  public courseToStartingYear!: CourseStartingYears[];
 }

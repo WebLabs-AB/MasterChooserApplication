@@ -6,6 +6,14 @@ type StartingYear {
   startingYear: Int!
 }
 
+type CourseStartingYears {
+  courseId: String!
+  yearTaught: Int!
+  hp: Float!
+  level: String!
+  schemaBlock: String!
+}
+
 type MasterSchema {
   finished: Boolean!
 
@@ -127,6 +135,9 @@ type Query {
   coursePeriods: [CoursePeriods!]!
   coursesFromPeriod(periodValue: Float!): [CoursePeriods!]!
   periodsFromCourse(courseId: String!): [CoursePeriods!]!
+  courseStartingYears: [CourseStartingYears!]!
+  coursesFromStartingYears(yearTaught: Float!): [CourseStartingYears!]!
+  startingYearsFromCourse(courseId: String!): [CourseStartingYears!]!
 }
 
 type Mutation {
@@ -137,8 +148,8 @@ type Mutation {
   createNewTeacher(createTeacherInput: CreateTeacherInput!): Teacher!
   createNewMainArea(createMainAreaInput: CreateMainAreaInput!): MainArea!
   createNewPeriod(createPeriodInput: CreatePeriodInput!): Period!
-  createNewCourse(createCourseInput: CreateCourseInput!, createCourseEducationsInput: [CreateCourseEducationsInput!]!, createCoursePeriodsInput: [CreateCoursePeriodsInput!]!, createCourseMainAreasInput: [CreateCourseMainAreasInput!]!): Course!
-  createNewCourseEducations(createCourseMainAreasInput: CreateCourseMainAreasInput!): CourseMainAreas!
+  createNewCourse(createCourseInput: CreateCourseInput!, createCourseEducationsInput: [CreateCourseEducationsInput!]!, createCoursePeriodsInput: [CreateCoursePeriodsInput!]!, createCourseMainAreasInput: [CreateCourseMainAreasInput!]!, createCourseStartingYearsInput: [CreateCourseStartingYearsInput!]!): Course!
+  createNewCourseEducations(createCourseStartingYearsInput: CreateCourseStartingYearsInput!): CourseStartingYears!
   createNewCoursePeriods(createCoursePeriodsInput: CreateCoursePeriodsInput!): CoursePeriods!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
 }
@@ -235,6 +246,23 @@ input CreateCourseMainAreasInput {
 
   """type of main area"""
   type: String!
+}
+
+input CreateCourseStartingYearsInput {
+  """course Id of the course"""
+  courseId: String!
+
+  """year the course is being taught"""
+  yearTaught: Int!
+
+  """hp of the course"""
+  hp: Int!
+
+  """level of the course"""
+  level: String!
+
+  """schema block of the course"""
+  schemaBlock: String!
 }
 
 input LoginUserInput {

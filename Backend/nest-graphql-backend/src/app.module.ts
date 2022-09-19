@@ -19,6 +19,7 @@ import { CourseModule } from './routers/course/course.module';
 import { CourseEducationsModule } from './routers/course-educations/course-educations.module';
 import { CoursePeriodsModule } from './routers/course-periods/course-periods.module';
 import { CourseMainareasModule } from './routers/course-mainareas/course-mainareas.module';
+import { CourseStartingYears } from './entities/NormalTypes/CourseStartingYears.entity';
 
 @Module({
   imports: [
@@ -70,6 +71,7 @@ import { CourseMainareasModule } from './routers/course-mainareas/course-mainare
     CourseEducationsModule,
     CoursePeriodsModule,
     CourseMainareasModule,
+    CourseStartingYears,
     AuthModule,
   ],
   controllers: [],

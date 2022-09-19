@@ -3,6 +3,7 @@ import { Course } from 'src/entities/NormalTypes/Course.entity';
 import { CreateCourseEducationsInput } from 'src/inputTypes/create-course-educations.input';
 import { CreateCourseMainAreasInput } from 'src/inputTypes/create-course-mainArea.input';
 import { CreateCoursePeriodsInput } from 'src/inputTypes/create-course-periods.input';
+import { CreateCourseStartingYearsInput } from 'src/inputTypes/create-course-startingYears.input';
 import { CreateCourseInput } from 'src/inputTypes/create-course.input';
 import { CourseService } from './course.service';
 
@@ -35,12 +36,18 @@ export class CourseResolver {
       type: () => [CreateCourseMainAreasInput],
     })
     createCourseMainAreasInput: CreateCourseMainAreasInput[],
+    @Args({
+      name: 'createCourseStartingYearsInput',
+      type: () => [CreateCourseStartingYearsInput],
+    })
+    createCourseStartingYearsInput: CreateCourseStartingYearsInput[],
   ): Promise<Course> {
     return this.courseService.createCourse(
       createCourseInput,
       createCourseEducationsInput,
       createCoursePeriodsInput,
       createCourseMainAreasInput,
+      createCourseStartingYearsInput,
     );
   }
 }

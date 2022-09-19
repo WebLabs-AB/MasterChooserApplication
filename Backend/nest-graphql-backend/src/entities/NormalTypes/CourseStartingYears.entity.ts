@@ -1,22 +1,27 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import {
   BaseEntity,
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from 'typeorm';
 
 // Own files.
 import { Course } from './Course.entity';
 import { StartingYear } from './StartingYear.entity';
 
-@Entity('CourseToStartingYear')
+@Entity('CourseStartingYears')
 @ObjectType()
-export class CourseToStartingYear extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  courseToStartingYearId: string;
+export class CourseStartingYears extends BaseEntity {
+  @PrimaryColumn()
+  @Field()
+  courseId: string;
+
+  @PrimaryColumn()
+  @Field((type) => Int)
+  yearTaught: number;
 
   @Column()
   @Field()
@@ -34,7 +39,7 @@ export class CourseToStartingYear extends BaseEntity {
     eager: true,
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'course' })
+  @JoinColumn({ name: 'courseId' })
   public course!: Course;
 
   @ManyToOne(
@@ -45,6 +50,6 @@ export class CourseToStartingYear extends BaseEntity {
       onDelete: 'CASCADE',
     },
   )
-  @JoinColumn({ name: 'startingyear' })
-  public startingYear!: StartingYear;
+  @JoinColumn({ name: 'yearTaught' })
+  public year!: StartingYear;
 }

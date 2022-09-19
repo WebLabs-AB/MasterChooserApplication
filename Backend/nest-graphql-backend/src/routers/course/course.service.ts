@@ -5,11 +5,13 @@ import { Course } from 'src/entities/NormalTypes/Course.entity';
 import { CreateCourseEducationsInput } from 'src/inputTypes/create-course-educations.input';
 import { CreateCourseMainAreasInput } from 'src/inputTypes/create-course-mainArea.input';
 import { CreateCoursePeriodsInput } from 'src/inputTypes/create-course-periods.input';
+import { CreateCourseStartingYearsInput } from 'src/inputTypes/create-course-startingYears.input';
 import { CreateCourseInput } from 'src/inputTypes/create-course.input';
 import { Repository } from 'typeorm';
 import { CourseEducationsService } from '../course-educations/course-educations.service';
 import { CourseMainareasService } from '../course-mainareas/course-mainareas.service';
 import { CoursePeriodsService } from '../course-periods/course-periods.service';
+import { CourseStartingYearsService } from '../course-starting-years/course-starting-years.service';
 import { StudentService } from '../student/student.service';
 import { TeacherService } from '../teacher/teacher.service';
 
@@ -23,6 +25,7 @@ export class CourseService {
     private courseEducationsService: CourseEducationsService,
     private coursePeriodsService: CoursePeriodsService,
     private courseMainAreasService: CourseMainareasService,
+    private courseStartingYears: CourseStartingYearsService,
   ) {}
 
   // Creates a new course and saves it in the database.
@@ -31,6 +34,7 @@ export class CourseService {
     educationsList: CreateCourseEducationsInput[],
     periodsList: CreateCoursePeriodsInput[],
     mainAreasList: CreateCourseMainAreasInput[],
+    yearTaughtList: CreateCourseStartingYearsInput[],
   ): Promise<Course> {
     if (await this.doesCourseExists(createCourseInput.courseId)) {
       throw new UserInputError('That course already exists');
@@ -59,6 +63,10 @@ export class CourseService {
 
     mainAreasList.forEach((mainAreaInput) => {
       this.courseMainAreasService.createCourseMainAreas(mainAreaInput);
+    });
+
+    yearTaughtList.forEach((yearTaughtInput) => {
+      this.courseStartingYears.createCourseStartingYears(yearTaughtInput);
     });
 
     return await this.courseRepository.save(newCourse); // Updates the course and returns it.

@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 
 // Own files.
-import { CourseToStartingYear } from './CourseToStartingYear.entity';
+import { CourseStartingYears } from './CourseStartingYears.entity';
 import { Teacher } from './Teacher.entity';
 import { University } from './University.entity';
 import { CourseEducations } from './CourseEducations.entity';
@@ -38,13 +38,13 @@ export class Course extends BaseEntity {
   createdAt: Date;
 
   @OneToMany(
-    () => CourseToStartingYear,
+    () => CourseStartingYears,
     (courseToStartingYear) => courseToStartingYear.course,
     {
       cascade: true,
     },
   )
-  public courseToStartingYear!: CourseToStartingYear[];
+  public courseToStartingYear!: CourseStartingYears[];
 
   @OneToMany(
     () => CourseEducations,

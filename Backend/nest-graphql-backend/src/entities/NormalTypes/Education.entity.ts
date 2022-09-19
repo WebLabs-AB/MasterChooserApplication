@@ -6,17 +6,17 @@ import {
   JoinColumn,
   OneToMany,
   PrimaryGeneratedColumn,
-  ManyToMany,
 } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { University } from './University.entity';
 import { Student } from './Student.entity';
-import { Course } from './Course.entity';
+import { CourseEducations } from './CourseEducations.entity';
 
 @Entity('Education')
 @ObjectType()
 export class Education extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
+  @Field()
   id: string;
 
   @Column()
@@ -40,6 +40,9 @@ export class Education extends BaseEntity {
   @Field((type) => [Student], { nullable: true })
   Students?: Student[];
 
-  @ManyToMany(() => Course, (course) => course.educations)
-  courses: Course[];
+  @OneToMany(
+    () => CourseEducations,
+    (courseEducations) => courseEducations.educationId,
+  )
+  public courseConnection: CourseEducations[];
 }

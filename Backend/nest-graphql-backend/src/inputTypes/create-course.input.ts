@@ -1,31 +1,19 @@
 import { Field, InputType } from '@nestjs/graphql';
 
-// Own files.
-import { MainArea } from 'src/entities/NormalTypes/MainArea.entity';
-import { Period } from 'src/entities/NormalTypes/Period.entity';
-import { Teacher } from 'src/entities/NormalTypes/Teacher.entity';
-import { University } from 'src/entities/NormalTypes/University.entity';
-
 @InputType()
 export class CreateCourseInput {
-  @Field()
+  @Field(() => String, { description: 'courseId of the course' })
   courseId: string;
 
-  @Field()
+  @Field(() => String, { description: 'courseName of the uscourseer' })
   courseName: string;
 
-  @Field()
+  @Field(() => String, { description: 'courseLink of the course' })
   courseLink: string;
 
-  @Field()
-  teacher: Teacher; // Foreign key to teacher table.
+  @Field(() => String, { description: 'teacher of the course' })
+  teacherEmail: string; // Foreign key to teacher table.
 
-  @Field()
-  university: University; // Foreign key to university table.
-
-  @Field()
-  period: Period; // In ManyToMany relationship.
-
-  @Field()
-  mainArea: MainArea; // In ManyToMany relationship.
+  @Field(() => String, { description: 'university of the course' })
+  universityName: string; // Foreign key to university table.
 }

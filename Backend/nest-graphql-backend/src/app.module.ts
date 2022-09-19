@@ -15,6 +15,10 @@ import { TeacherModule } from './routers/teacher/teacher.module';
 import { AuthModule } from './common/services/auth.module';
 import { MainAreaModule } from './routers/main-area/main-area.module';
 import { PeriodModule } from './routers/period/period.module';
+import { CourseModule } from './routers/course/course.module';
+import { CourseEducationsModule } from './routers/course-educations/course-educations.module';
+import { CoursePeriodsModule } from './routers/course-periods/course-periods.module';
+import { CourseMainareasModule } from './routers/course-mainareas/course-mainareas.module';
 
 @Module({
   imports: [
@@ -62,6 +66,10 @@ import { PeriodModule } from './routers/period/period.module';
     TeacherModule,
     MainAreaModule,
     PeriodModule,
+    CourseModule,
+    CourseEducationsModule,
+    CoursePeriodsModule,
+    CourseMainareasModule,
     AuthModule,
   ],
   controllers: [],

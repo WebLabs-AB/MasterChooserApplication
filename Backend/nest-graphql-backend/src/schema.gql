@@ -6,14 +6,6 @@ type StartingYear {
   startingYear: Int!
 }
 
-type MainArea {
-  type: String!
-}
-
-type Period {
-  value: Int!
-}
-
 type MasterSchema {
   finished: Boolean!
 
@@ -42,6 +34,28 @@ type Teacher {
   courses: [Course!]!
 }
 
+type MainArea {
+  type: String!
+}
+
+type CourseMainAreas {
+  courseId: String!
+  type: String!
+  course: Course!
+  mainArea: MainArea!
+}
+
+type Period {
+  value: Int!
+}
+
+type CoursePeriods {
+  courseId: String!
+  periodValue: Int!
+  course: Course!
+  period: Period!
+}
+
 type Course {
   courseId: String!
   courseName: String!
@@ -53,7 +67,15 @@ type Course {
   university: University!
 }
 
+type CourseEducations {
+  courseId: String!
+  educationId: String!
+  course: Course!
+  education: Education!
+}
+
 type Education {
+  id: String!
   educationName: String!
   symbol: String!
   university: University!
@@ -95,6 +117,16 @@ type Query {
   startingYears: [StartingYear!]!
   mainareas: [MainArea!]!
   periods: [Period!]!
+  courses: [Course!]!
+  courseEducations: [CourseEducations!]!
+  coursesFromEducation(educationId: String!): [CourseEducations!]!
+  educationsFromCourse(courseId: String!): [CourseEducations!]!
+  courseMainAreas: [CourseMainAreas!]!
+  coursesFromMainArea(type: String!): [CourseMainAreas!]!
+  mainAreasFromCourse(courseId: String!): [CourseMainAreas!]!
+  coursePeriods: [CoursePeriods!]!
+  coursesFromPeriod(periodValue: Float!): [CoursePeriods!]!
+  periodsFromCourse(courseId: String!): [CoursePeriods!]!
 }
 
 type Mutation {
@@ -105,6 +137,9 @@ type Mutation {
   createNewTeacher(createTeacherInput: CreateTeacherInput!): Teacher!
   createNewMainArea(createMainAreaInput: CreateMainAreaInput!): MainArea!
   createNewPeriod(createPeriodInput: CreatePeriodInput!): Period!
+  createNewCourse(createCourseInput: CreateCourseInput!, createCourseEducationsInput: [CreateCourseEducationsInput!]!, createCoursePeriodsInput: [CreateCoursePeriodsInput!]!, createCourseMainAreasInput: [CreateCourseMainAreasInput!]!): Course!
+  createNewCourseEducations(createCourseMainAreasInput: CreateCourseMainAreasInput!): CourseMainAreas!
+  createNewCoursePeriods(createCoursePeriodsInput: CreateCoursePeriodsInput!): CoursePeriods!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
 }
 
@@ -159,6 +194,47 @@ input CreateMainAreaInput {
 
 input CreatePeriodInput {
   value: Int!
+}
+
+input CreateCourseInput {
+  """courseId of the course"""
+  courseId: String!
+
+  """courseName of the uscourseer"""
+  courseName: String!
+
+  """courseLink of the course"""
+  courseLink: String!
+
+  """teacher of the course"""
+  teacherEmail: String!
+
+  """university of the course"""
+  universityName: String!
+}
+
+input CreateCourseEducationsInput {
+  """course Id of the course"""
+  courseId: String!
+
+  """education id of the education"""
+  educationId: String!
+}
+
+input CreateCoursePeriodsInput {
+  """course Id of the course"""
+  courseId: String!
+
+  """value of the period"""
+  periodValue: Int!
+}
+
+input CreateCourseMainAreasInput {
+  """course Id of the course"""
+  courseId: String!
+
+  """type of main area"""
+  type: String!
 }
 
 input LoginUserInput {

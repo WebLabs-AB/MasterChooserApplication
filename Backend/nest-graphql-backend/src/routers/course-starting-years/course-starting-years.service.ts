@@ -13,21 +13,19 @@ export class CourseStartingYearsService {
   ) {}
 
   async createCourseStartingYears(
-    createCourseEducationsInput: CreateCourseStartingYearsInput,
+    createCourseStartingYearsInput: CreateCourseStartingYearsInput,
   ): Promise<CourseStartingYears> {
     if (
       await this.doesCourseStartingYearsExists(
-        createCourseEducationsInput.courseId,
-        createCourseEducationsInput.yearTaught,
+        createCourseStartingYearsInput.courseId,
+        createCourseStartingYearsInput.yearTaught,
       )
     ) {
-      throw new UserInputError(
-        'That year already belongs already to that course',
-      );
+      throw new UserInputError('That year already belongs to that course');
     }
 
     const newCourseEducations = this.courseStartingYearsRepository.create(
-      createCourseEducationsInput,
+      createCourseStartingYearsInput,
     );
     return this.courseStartingYearsRepository.save(newCourseEducations);
   }

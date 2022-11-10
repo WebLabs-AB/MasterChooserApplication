@@ -22,7 +22,9 @@ export class CourseEducationsService {
         createCourseEducationsInput.educationId,
       )
     ) {
-      throw new UserInputError('Course educations already exists');
+      throw new UserInputError(
+        'That course is already connected to that education',
+      );
     }
 
     const newCourseEducations = this.courseEducationsRepository.create(

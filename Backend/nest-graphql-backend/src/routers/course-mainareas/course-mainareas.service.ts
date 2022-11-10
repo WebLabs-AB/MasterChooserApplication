@@ -12,27 +12,27 @@ export class CourseMainareasService {
     private courseMainAreasRepository: Repository<CourseMainAreas>,
   ) {}
 
-  // Creates a ManyToMany connection between Course and Education.
+  // Creates a ManyToMany connection between Course and MainArea.
   async createCourseMainAreas(
-    createCourseEducationsInput: CreateCourseMainAreasInput,
+    createCourseMainAreasInput: CreateCourseMainAreasInput,
   ): Promise<CourseMainAreas> {
     if (
       await this.doesCourseMainAreasExists(
-        createCourseEducationsInput.courseId,
-        createCourseEducationsInput.type,
+        createCourseMainAreasInput.courseId,
+        createCourseMainAreasInput.type,
       )
     ) {
-      throw new UserInputError('Course educations already exists');
+      throw new UserInputError('Course main area already exists');
     }
 
     const newCourseEducations = this.courseMainAreasRepository.create(
-      createCourseEducationsInput,
+      createCourseMainAreasInput,
     );
     return this.courseMainAreasRepository.save(newCourseEducations);
   }
 
   async findAll(): Promise<CourseMainAreas[]> {
-    return this.courseMainAreasRepository.find(); // SELECT * FROM courseeducations;
+    return this.courseMainAreasRepository.find(); // SELECT * FROM coursemainareas;
   }
 
   async findAllCoursesConnectedToMainArea(

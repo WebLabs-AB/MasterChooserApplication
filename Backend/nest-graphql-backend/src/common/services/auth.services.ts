@@ -19,22 +19,20 @@ export class AuthService {
     email: string,
     password: string,
   ): Promise<Student | null | Teacher> {
-    const regularUser = await this.studentService.findOne(email);
+    const student = await this.studentService.findOne(email);
 
-    if (regularUser) {
-      if (await bcrypt.compare(password, regularUser.password)) {
-        delete regularUser.password;
-        delete regularUser.email;
-        return regularUser;
+    if (student) {
+      if (await bcrypt.compare(password, student.password)) {
+        delete student.password;
+        return student;
       }
     }
 
-    const superUser = await this.teacherService.findOne(email);
-    if (superUser) {
-      if (await bcrypt.compare(password, superUser.password)) {
-        delete superUser.password;
-        delete superUser.email;
-        return superUser;
+    const teacher = await this.teacherService.findOne(email);
+    if (teacher) {
+      if (await bcrypt.compare(password, teacher.password)) {
+        delete teacher.password;
+        return teacher;
       }
     }
     return null;
@@ -47,12 +45,14 @@ export class AuthService {
 
     if (user instanceof Student) {
       payload = {
+        email: user.email,
         educationName: user.education.educationName,
         startingYear: user.startingYear,
         universityName: user.university.universityName,
       };
     } else {
       payload = {
+        email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
       };

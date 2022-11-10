@@ -75,12 +75,12 @@ describe('GraphQL AppController (e2e)', () => {
           .post(gql)
           .send({
             query:
-              'mutation {createNewRegularuser(createRegularuserInput: { email: "erikbirgersson98@gmail.com", password: "Brummer98", universityName: "Chalmers", educationName: "Mjukvaruteknik", startingYear: 2019}) {email, startingYear, createdAt }}',
+              'mutation {createNewStudent(createStudentInput: { email: "erikbirgersson98@gmail.com", password: "Brummer98", universityName: "Chalmers", educationName: "Mjukvaruteknik", startingYear: 2019}) {email, startingYear, createdAt }}',
           })
           .expect(200)
           .expect((res) => {
-            expect(res.body.data.createNewRegularuser).toEqual({
-              createdAt: res.body.data.createNewRegularuser.createdAt,
+            expect(res.body.data.createNewStudent).toEqual({
+              createdAt: res.body.data.createNewStudent.createdAt,
               email: 'erikbirgersson98@gmail.com',
               startingYear: 2019,
             });

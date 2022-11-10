@@ -5,20 +5,18 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryColumn,
 } from 'typeorm';
 
 // Own files.
-import { CourseToStartingYear } from './CourseToStartingYear.entity';
-import { Education } from './Education.entity';
-import { MainArea } from './MainArea.entity';
-import { Period } from './Period.entity';
+import { CourseStartingYears } from './CourseStartingYears.entity';
 import { Teacher } from './Teacher.entity';
 import { University } from './University.entity';
+import { CourseEducations } from './CourseEducations.entity';
+import { CourseMainAreas } from './CourseMainAreas.entity';
+import { CoursePeriods } from './CoursePeriods.entity';
 
 @Entity('Course')
 @ObjectType()
@@ -40,13 +38,28 @@ export class Course extends BaseEntity {
   createdAt: Date;
 
   @OneToMany(
-    () => CourseToStartingYear,
+    () => CourseStartingYears,
     (courseToStartingYear) => courseToStartingYear.course,
     {
       cascade: true,
     },
   )
-  public courseToStartingYear!: CourseToStartingYear[];
+  public courseToStartingYear!: CourseStartingYears[];
+
+  @OneToMany(
+    () => CourseEducations,
+    (courseEducations) => courseEducations.courseId,
+  )
+  public educationConnection: CourseEducations[];
+
+  @OneToMany(() => CoursePeriods, (coursePeriods) => coursePeriods.courseId)
+  public periodConnection: CoursePeriods[];
+
+  @OneToMany(
+    () => CourseMainAreas,
+    (courseMainAreas) => courseMainAreas.courseId,
+  )
+  public mainAreaConnection: CourseMainAreas[];
 
   @ManyToOne(() => Teacher, (teacher) => teacher.courses, {
     eager: true,
@@ -63,25 +76,4 @@ export class Course extends BaseEntity {
   @Field((type) => University)
   @JoinColumn({ name: 'universityName' })
   university: University;
-
-  @ManyToMany(() => Education, (education) => education.courses, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinTable() // Shows what educations the course belongs to.
-  educations: Education[];
-
-  @ManyToMany(() => Period, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinTable() // Shows what periods the course is being taught, could be 1 or more.
-  period: Period[];
-
-  @ManyToMany(() => MainArea, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinTable() // Shows what main areas the course belongs to, could be 1 or more.
-  mainArea: MainArea[];
 }

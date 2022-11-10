@@ -11,7 +11,7 @@ import { Education } from 'src/entities/NormalTypes/Education.entity';
 // Own files.
 import { Student } from 'src/entities/NormalTypes/Student.entity';
 import { University } from 'src/entities/NormalTypes/University.entity';
-import { CreateStudentInput } from 'src/inputTypes/create-regularuser.input';
+import { CreateStudentInput } from 'src/inputTypes/create-student.input';
 import { StudentService } from './student.service';
 
 @Resolver((of) => Student)
@@ -24,7 +24,7 @@ export class StudentResolver {
     return this.studentService.findAll();
   }
 
-  // Query that returns if an regularuser exists in the database.
+  // Query that returns an student if it exists in the database.
   @Query((returns) => Student)
   async getStudent(@Args('email') email: string): Promise<Student> {
     return this.studentService.findOne(email);
@@ -44,10 +44,10 @@ export class StudentResolver {
   }
 
   @Mutation((returns) => Student)
-  async createNewRegularuser(
-    @Args('createRegularuserInput')
-    createRegularuserInput: CreateStudentInput,
+  async createNewStudent(
+    @Args('createStudentInput')
+    createStudentInput: CreateStudentInput,
   ): Promise<Student> {
-    return this.studentService.createStudent(createRegularuserInput);
+    return this.studentService.createStudent(createStudentInput);
   }
 }

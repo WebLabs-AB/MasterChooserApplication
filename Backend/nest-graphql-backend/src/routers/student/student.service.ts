@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 
 // Own files
 import { Student } from 'src/entities/NormalTypes/Student.entity';
-import { CreateStudentInput } from 'src/inputTypes/create-regularuser.input';
+import { CreateStudentInput } from 'src/inputTypes/create-student.input';
 import { UniversityService } from 'src/routers/university/university.service';
 import { University } from 'src/entities/NormalTypes/University.entity';
 import { Education } from 'src/entities/NormalTypes/Education.entity';
@@ -23,30 +23,30 @@ export class StudentService {
 
   // Creates a new student and saves it in the database.
   async createStudent(
-    createRegularuserInput: CreateStudentInput,
+    createStudentInput: CreateStudentInput,
   ): Promise<Student> {
-    if (await this.doesUserExists(createRegularuserInput.email)) {
+    if (await this.doesStudentExists(createStudentInput.email)) {
       throw new UserInputError('User already exists');
     }
 
-    const password = createRegularuserInput.password;
-    const email = createRegularuserInput.email;
+    const password = createStudentInput.password;
+    const email = createStudentInput.email;
 
     const SALT = await bcrypt.genSalt(10);
 
-    createRegularuserInput.password = await bcrypt.hash(password, SALT);
-    createRegularuserInput.email = email;
+    createStudentInput.password = await bcrypt.hash(password, SALT);
+    createStudentInput.email = email;
 
-    const newStudent = this.studentRepository.create(createRegularuserInput);
+    const newStudent = this.studentRepository.create(createStudentInput);
 
     const university = await this.getUniversity(
-      createRegularuserInput.universityName,
-    ); // Check if university already exists.
+      createStudentInput.universityName,
+    );
 
     const education = await this.getEducation(
-      createRegularuserInput.educationName,
-      createRegularuserInput.universityName,
-    ); // Check if education already exists.
+      createStudentInput.educationName,
+      createStudentInput.universityName,
+    );
 
     newStudent.university = university; // Set foreign key.
     newStudent.education = education; // Set foreign key.
@@ -78,8 +78,8 @@ export class StudentService {
     return this.educationService.findOne(educationName, universityName);
   }
 
-  // Checks if an user exists from email.
-  async doesUserExists(email: string): Promise<boolean> {
+  // Checks if an student exists from email.
+  async doesStudentExists(email: string): Promise<boolean> {
     const user = await this.studentRepository.findOne({
       where: { email: email },
     });

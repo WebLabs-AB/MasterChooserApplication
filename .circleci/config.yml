@@ -43,7 +43,7 @@ jobs:
   e2e-test-backend:
     docker:
         - image: cimg/node:16.13.2
-        - image: cimg/postgres:15.1.0
+        - image: cimg/postgres:15.1
     environment:
       NODE_ENV: test
       DB_PORT: 5432

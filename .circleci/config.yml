@@ -44,13 +44,6 @@ jobs:
     docker:
         - image: cimg/node:16.13.2
         - image: cimg/postgres:15.1.0
-        environment:
-          DB_HOST: db
-          DB_PORT: 5432
-          DB_USER: postgres
-          DB_PASSWORD: SuperSecret!23
-          DB_NAME: db_name
-          POSTGRES_HOST_AUTH_METHOD: "trust"
     environment:
       NODE_ENV: test
       DB_PORT: 5432

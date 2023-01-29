@@ -36,11 +36,11 @@ import { CourseStartingYears } from './entities/NormalTypes/CourseStartingYears.
         if (configService.get<string>('NODE_ENV') === 'test') {
           return {
             type: 'postgres',
-            host: configService.get<string>('LOCAL_HOST'),
-            port: parseInt(configService.get<string>('LOCAL_PORT')),
-            username: configService.get<string>('LOCAL_POSTGRES_USER'),
-            password: configService.get<string>('LOCAL_POSTGRES_PASSWORD'),
-            database: configService.get<string>('LOCAL_DATABASE'),
+            host: configService.get<string>('DB_HOST'),
+            port: parseInt(configService.get<string>('DB_PORT')),
+            username: configService.get<string>('DB_USER'),
+            password: configService.get<string>('DB_PASSWORD'),
+            database: configService.get<string>('DB_NAME'),
             entities: [__dirname + '/**/NormalTypes/*.entity{.ts,.js}'],
             synchronize: true, // Only use doing development.
             dropSchema: true,

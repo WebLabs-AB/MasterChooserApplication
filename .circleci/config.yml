@@ -5,6 +5,7 @@ workflows:
   test-backend:
     jobs:
       - unit-test-backend
+      - e2e-test-backend
   build-eslint-deploy:
     jobs:
       - build-eslint-deploy-frontend:
@@ -39,6 +40,44 @@ jobs:
       - run:
           name: Run unit tests
           command: cd Backend/nest-graphql-backend && npm run test
+  e2e-test-backend:
+    docker:
+        - image: cimg/node:16.13.2
+        - image: cimg/postgres:15.1.0
+        environment:
+          DB_HOST: db
+          DB_PORT: 5432
+          DB_USER: postgres
+          DB_PASSWORD: SuperSecret!23
+          DB_NAME: db_name
+          POSTGRES_HOST_AUTH_METHOD: "trust"
+    environment:
+      NODE_ENV: test
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: SuperSecret!23
+      DB_NAME: db_name
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    steps:
+      - run:
+          name: Waiting for Postgres to be ready
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - checkout
+      - run:
+          name: Update NPM
+          command: "sudo npm install -g npm"
+      - restore_cache:
+          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
+      - run:
+          name: Install Backend Dependencies
+          command: cd Backend/nest-graphql-backend && npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
+          paths:
+            - Backend/nest-graphql-backend/node_modules
+      - run:
+          name: Run e2e tests
+          command: cd Backend/nest-graphql-backend && npm run test:e2e
   build-eslint-deploy-frontend:
     docker:
       - image: cimg/node:16.13.2

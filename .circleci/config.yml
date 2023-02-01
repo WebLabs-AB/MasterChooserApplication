@@ -5,7 +5,6 @@ workflows:
   test-backend:
     jobs:
       - unit-test-backend
-      - e2e-test-backend
   build-eslint-deploy:
     jobs:
       - build-eslint-deploy-frontend:

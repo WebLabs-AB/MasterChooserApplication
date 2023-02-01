@@ -1,17 +1,30 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
+import { PostgreSqlContainer } from 'testcontainers';
+import { environment } from 'src/environments/environment';
 
 describe('GraphQL AppController (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
+    const pg = await new PostgreSqlContainer('postgres')
+      .withExposedPorts(5432)
+      .withDatabase('nest')
+      .withUsername('root')
+      .withPassword('secret')
+      .start();
+
+    environment.dbPort = pg.getMappedPort(5432);
+    environment.logging = false;
+
+    const moduleFixture = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
+
     await app.init();
   });
 

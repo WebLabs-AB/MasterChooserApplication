@@ -20,6 +20,7 @@ import { CourseEducationsModule } from './routers/course-educations/course-educa
 import { CoursePeriodsModule } from './routers/course-periods/course-periods.module';
 import { CourseMainareasModule } from './routers/course-mainareas/course-mainareas.module';
 import { CourseStartingYears } from './entities/NormalTypes/CourseStartingYears.entity';
+import { environment } from './environments/environment';
 
 @Module({
   imports: [
@@ -33,7 +34,7 @@ import { CourseStartingYears } from './entities/NormalTypes/CourseStartingYears.
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
-        if (configService.get<string>('NODE_ENV') === 'test') {
+        if (configService.get<string>('NODE_ENV') === 'local') {
           return {
             type: 'postgres',
             host: configService.get<string>('DB_HOST'),
@@ -44,6 +45,20 @@ import { CourseStartingYears } from './entities/NormalTypes/CourseStartingYears.
             entities: [__dirname + '/**/NormalTypes/*.entity{.ts,.js}'],
             synchronize: true, // Only use doing development.
             dropSchema: true,
+          };
+        } else if (configService.get<string>('NODE_ENV') === 'test') {
+          return {
+            type: 'postgres',
+            dialect: 'postgres',
+            host: environment.dbHost,
+            port: environment.dbPort,
+            username: environment.dbUsername,
+            password: environment.dbPassword,
+            database: environment.dbName,
+            logging: environment.logging,
+            entities: [__dirname + '/**/NormalTypes/*.entity{.ts,.js}'],
+            autoLoadModels: true,
+            synchronize: true,
           };
         } else {
           return {

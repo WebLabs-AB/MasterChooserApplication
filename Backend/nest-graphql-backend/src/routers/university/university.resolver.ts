@@ -15,10 +15,16 @@ export class UniversityResolver {
     return this.universityService.findAll();
   }
 
-  // Query that finds on university from the database.
+  // Query that finds an university from the database.
   @Query(() => University, {})
   async findOne(@Args('universityName') universityName: string) {
     return this.universityService.findOne(universityName);
+  }
+
+  // Query that finds an university from the database and deletes it.
+  @Mutation((returns) => University, {})
+  async deleteUniversity(@Args('universityName') universityName: string) {
+    return this.universityService.deleteUniversity(universityName);
   }
 
   @Mutation((returns) => University)

@@ -21,6 +21,7 @@ import { CoursePeriodsModule } from './routers/course-periods/course-periods.mod
 import { CourseMainareasModule } from './routers/course-mainareas/course-mainareas.module';
 import { CourseStartingYears } from './entities/NormalTypes/CourseStartingYears.entity';
 import { environment } from './environments/environment';
+import entities from './entities';
 
 @Module({
   imports: [
@@ -42,7 +43,7 @@ import { environment } from './environments/environment';
             username: configService.get<string>('DB_USER'),
             password: configService.get<string>('DB_PASSWORD'),
             database: configService.get<string>('DB_NAME'),
-            entities: [__dirname + '/**/NormalTypes/*.entity{.ts,.js}'],
+            entities: entities,
             synchronize: true, // Only use doing development.
             dropSchema: true,
           };
@@ -56,7 +57,7 @@ import { environment } from './environments/environment';
             password: environment.dbPassword,
             database: environment.dbName,
             logging: environment.logging,
-            entities: [__dirname + '/**/NormalTypes/*.entity{.ts,.js}'],
+            entities: entities,
             autoLoadModels: true,
             synchronize: true,
           };
@@ -68,7 +69,7 @@ import { environment } from './environments/environment';
             username: configService.get<string>('HEROKU_USER'),
             password: configService.get<string>('HEROKU_PASSWORD'),
             database: configService.get<string>('HEROKU_DATABASE'),
-            entities: [__dirname + '/**/NormalTypes/*.entity{.ts,.js}'],
+            entities: entities,
             synchronize: true, // Only use doing development.
           };
         }

@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 // Own files.
 import { University } from 'src/entities/NormalTypes/University.entity';
 import { CreateUniversityInput } from 'src/inputTypes/create-university.input';
+import { UserInputError } from 'apollo-server-express';
 
 @Injectable()
 export class UniversityService {
@@ -31,5 +32,18 @@ export class UniversityService {
   // Finds a specific university or fails.
   async findOne(universityName: string): Promise<University> {
     return this.universityRepository.findOneByOrFail({ universityName });
+  }
+
+  // Finds a specific university and deletes it.
+  async deleteUniversity(universityName: string): Promise<University> {
+    const university = await this.universityRepository.findOne({
+      where: { universityName: universityName },
+    });
+    if (university) {
+      await this.universityRepository.delete(universityName);
+      return university;
+    } else {
+      throw new UserInputError('No university with that name was found');
+    }
   }
 }

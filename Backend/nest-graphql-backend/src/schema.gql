@@ -115,11 +115,16 @@ type LoggedUserOutput {
   access_token: String!
 }
 
+type GeneralRequirements {
+  A1XHp: Int!
+  MainAreaHp: Int!
+}
+
 type Query {
   students(educationName: String!, universityName: String!): [Student!]!
   getStudent(email: String!): Teacher!
   universities: [University!]!
-  findOne(universityName: String!): University!
+  findOne(universityName: String!): GeneralRequirements!
   educations: [Education!]!
   educationsFromUniversity(universityName: String!): [Education!]!
   startingYears: [StartingYear!]!
@@ -138,10 +143,12 @@ type Query {
   courseStartingYears: [CourseStartingYears!]!
   coursesFromStartingYears(yearTaught: Float!): [CourseStartingYears!]!
   startingYearsFromCourse(courseId: String!): [CourseStartingYears!]!
+  generalRequirements: [GeneralRequirements!]!
 }
 
 type Mutation {
   createNewStudent(createStudentInput: CreateStudentInput!): Student!
+  deleteUniversity(universityName: String!): University!
   createNewUniversity(createUniversityInput: CreateUniversityInput!): University!
   createNewEducation(createEducationInput: CreateEducationInput!): Education!
   createNewStartingYear(createStartingYearInput: CreateStartingYearInput!): StartingYear!
@@ -152,6 +159,8 @@ type Mutation {
   createNewCourseEducations(createCourseStartingYearsInput: CreateCourseStartingYearsInput!): CourseStartingYears!
   createNewCoursePeriods(createCoursePeriodsInput: CreateCoursePeriodsInput!): CoursePeriods!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
+  deleteGeneralRequirements(universityName: String!): GeneralRequirements!
+  createNewGeneralRequirement(createGeneralRequirementsInput: CreateGeneralRequirementsInput!): GeneralRequirements!
 }
 
 input CreateStudentInput {
@@ -271,4 +280,15 @@ input LoginUserInput {
 
   """password of the user"""
   password: String!
+}
+
+input CreateGeneralRequirementsInput {
+  """Required hp that is from advanced courses"""
+  A1XHp: Int!
+
+  """Required hp in the education main area"""
+  MainAreaHp: Int!
+
+  """The name of the university that has these general requirements"""
+  universityName: String!
 }

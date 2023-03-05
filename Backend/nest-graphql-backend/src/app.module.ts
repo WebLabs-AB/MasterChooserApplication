@@ -21,6 +21,7 @@ import { CoursePeriodsModule } from './routers/course-periods/course-periods.mod
 import { CourseMainareasModule } from './routers/course-mainareas/course-mainareas.module';
 import { CourseStartingYears } from './entities/NormalTypes/CourseStartingYears.entity';
 import { environment } from './environments/environment';
+import { GeneralRequirementsModule } from './routers/general-requirements/general-requirements.module';
 import entities from './entities';
 
 @Module({
@@ -89,6 +90,7 @@ import entities from './entities';
     CourseMainareasModule,
     CourseStartingYears,
     AuthModule,
+    GeneralRequirementsModule,
   ],
   controllers: [],
 })

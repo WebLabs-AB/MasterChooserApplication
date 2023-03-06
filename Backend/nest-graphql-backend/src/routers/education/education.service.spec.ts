@@ -1,6 +1,6 @@
-import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { UserInputError } from 'apollo-server-express';
 
 // Own files.
 import { Education } from 'src/entities/NormalTypes/Education.entity';
@@ -108,7 +108,7 @@ describe('Test createEducation func', () => {
         symbol: 'D',
         universityName: 'Chalmers',
       }),
-    ).rejects.toThrowError(BadRequestException);
+    ).rejects.toThrowError(UserInputError);
   });
 });
 

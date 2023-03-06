@@ -96,3 +96,104 @@ describe('Test createCoursePeriods func', () => {
     ).rejects.toThrowError(UserInputError);
   });
 });
+
+describe('Test findAllCoursesConnectedToPeriod func', () => {
+  test('should return all courses connected to a specific period', async () => {
+    const course = new Course();
+    course.courseId = 'TDDD97';
+    course.courseName = 'Webbprogrammering';
+    course.courseLink = 'https://www.ida.liu.se/~TDDD97/';
+
+    const course2 = new Course();
+    course2.courseId = 'TDDD20';
+    course2.courseName = 'Avancerad Webbprogrammering';
+    course2.courseLink = 'https://www.ida.liu.se/~TDDD97/';
+
+    const period = new Period();
+    period.value = 1;
+
+    const coursePeriod = new CoursePeriods();
+    coursePeriod.course = course;
+    coursePeriod.period = period;
+    coursePeriod.courseId = course.courseId;
+    coursePeriod.periodValue = period.value;
+
+    const coursePeriod2 = new CoursePeriods();
+    coursePeriod2.course = course2;
+    coursePeriod2.period = period;
+    coursePeriod2.courseId = course2.courseId;
+    coursePeriod2.periodValue = period.value;
+
+    coursePeriodsRepository.find.mockReturnValue([course, course2]);
+
+    const allCourses =
+      await coursePeriodsService.findAllCoursesConnectedToPeriod(period.value);
+
+    expect(allCourses).toEqual([course, course2]);
+  });
+});
+
+describe('Test findAllPeriodsConnectedToCourse func', () => {
+  test('should return all periods connected to a specific course', async () => {
+    const course = new Course();
+    course.courseId = 'TDDD97';
+    course.courseName = 'Webbprogrammering';
+    course.courseLink = 'https://www.ida.liu.se/~TDDD97/';
+
+    const period = new Period();
+    period.value = 1;
+
+    const period2 = new Period();
+    period.value = 2;
+
+    const coursePeriod = new CoursePeriods();
+    coursePeriod.course = course;
+    coursePeriod.period = period;
+    coursePeriod.courseId = course.courseId;
+    coursePeriod.periodValue = period.value;
+
+    coursePeriodsRepository.find.mockReturnValue([period, period2]);
+
+    const allCourses =
+      await coursePeriodsService.findAllPeriodsConnectedToCourse(
+        course.courseId,
+      );
+
+    expect(allCourses).toEqual([period, period2]);
+  });
+});
+
+describe('Test findAll func', () => {
+  test('should return all course-periods', async () => {
+    const course = new Course();
+    course.courseId = 'TDDD97';
+    course.courseName = 'Webbprogrammering';
+    course.courseLink = 'https://www.ida.liu.se/~TDDD97/';
+
+    const course2 = new Course();
+    course2.courseId = 'TDDD20';
+    course2.courseName = 'Avancerad Webbprogrammering';
+    course2.courseLink = 'https://www.ida.liu.se/~TDDD97/';
+
+    const period = new Period();
+    period.value = 1;
+
+    const coursePeriod = new CoursePeriods();
+    coursePeriod.course = course;
+    coursePeriod.period = period;
+    coursePeriod.courseId = course.courseId;
+    coursePeriod.periodValue = period.value;
+
+    const coursePeriod2 = new CoursePeriods();
+    coursePeriod2.course = course2;
+    coursePeriod2.period = period;
+    coursePeriod2.courseId = course2.courseId;
+    coursePeriod2.periodValue = period.value;
+
+    coursePeriodsRepository.find.mockReturnValue([coursePeriod, coursePeriod2]);
+
+    const allCourses = await coursePeriodsService.findAll();
+
+    expect(allCourses).toEqual([coursePeriod, coursePeriod2]);
+  });
+});

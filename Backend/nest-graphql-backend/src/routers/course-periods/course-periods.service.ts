@@ -34,7 +34,7 @@ export class CoursePeriodsService {
   }
 
   async findAll(): Promise<CoursePeriods[]> {
-    return this.coursePeriodsRepository.find(); // SELECT * FROM courseperiods;
+    return await this.coursePeriodsRepository.find(); // SELECT * FROM courseperiods;
   }
 
   async findAllCoursesConnectedToPeriod(

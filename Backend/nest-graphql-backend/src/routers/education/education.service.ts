@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -8,6 +8,7 @@ import { CreateEducationInput } from 'src/inputTypes/create-education.input';
 import { UniversityService } from 'src/routers/university/university.service';
 import { University } from 'src/entities/NormalTypes/University.entity';
 import { Student } from 'src/entities/NormalTypes/Student.entity';
+import { UserInputError } from 'apollo-server-express';
 
 @Injectable()
 export class EducationService {
@@ -26,8 +27,9 @@ export class EducationService {
       createEducationInput.universityName,
     );
     if (education) {
-      throw new BadRequestException(
-        `That education already exists at that university`,
+      throw new UserInputError(
+        `That education already exists at ` +
+          createEducationInput.universityName,
       );
     }
 

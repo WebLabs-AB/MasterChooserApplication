@@ -24,7 +24,7 @@ export class GeneralRequirementsService {
       )
     ) {
       throw new UserInputError(
-        'General requirement already exists for' +
+        'General requirement already exists for ' +
           createGeneralRequirementsInput.universityName,
       );
     }
@@ -67,7 +67,7 @@ export class GeneralRequirementsService {
       return generalRequirements;
     } else {
       throw new UserInputError(
-        'No general requirement found for that university',
+        'No general requirement found for ' + universityName,
       );
     }
   }

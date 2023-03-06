@@ -78,7 +78,7 @@ describe('Test createGeneralRequirement func', () => {
     expect(newGeneralRequirements).toEqual(generalRequirement);
   });
 
-  test('should create a new general requirement', async () => {
+  test('should throw an error when creating a duplicate general requirement', async () => {
     const university = new University();
     university.universityName = 'Chalmers';
 

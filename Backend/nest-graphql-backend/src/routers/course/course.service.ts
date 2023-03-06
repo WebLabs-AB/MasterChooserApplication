@@ -37,7 +37,9 @@ export class CourseService {
     yearTaughtList: CreateCourseStartingYearsInput[],
   ): Promise<Course> {
     if (await this.doesCourseExists(createCourseInput.courseId)) {
-      throw new UserInputError('That course already exists');
+      throw new UserInputError(
+        'That course already exists at ' + createCourseInput.universityName,
+      );
     }
     const newCourse = this.courseRepository.create(createCourseInput);
 

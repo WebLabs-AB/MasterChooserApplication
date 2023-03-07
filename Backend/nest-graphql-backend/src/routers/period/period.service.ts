@@ -1,5 +1,6 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserInputError } from 'apollo-server-express';
 import { Period } from 'src/entities/NormalTypes/Period.entity';
 import { CreatePeriodInput } from 'src/inputTypes/create-period.input';
 import { Repository } from 'typeorm';
@@ -15,14 +16,14 @@ export class PeriodService {
   async createPeriod(createPeriod: CreatePeriodInput): Promise<Period> {
     const period = await this.findOne(createPeriod.value);
     if (period) {
-      throw new BadRequestException(`That period already exists`);
+      throw new UserInputError(`That period already exists`);
     }
 
     const newPeriod = this.periodRepository.create(createPeriod);
     return this.periodRepository.save(newPeriod);
   }
 
-  // Find all programs from the period table.
+  // Find all periods from the period table.
   async findAll(): Promise<Period[]> {
     return this.periodRepository.find(); // SELECT * FROM period;
   }

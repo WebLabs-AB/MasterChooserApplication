@@ -41,7 +41,7 @@ jobs:
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./reports/
       - store_artifacts:
-          path: ./Backend/nest-graphql-backend/coverage/lcov-report
+          path: ./Backend/nest-graphql-backend/coverage/lcov-report/index.html
       - store_test_results:
           path: ./Backend/nest-graphql-backend/reports
   build-eslint-deploy-frontend:

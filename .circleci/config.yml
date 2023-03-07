@@ -37,7 +37,7 @@ jobs:
             - node_modules
       - run:
           name: Run tests with JUnit as reporter
-          command: cd Backend/nest-graphql-backend && yarn run test
+          command: cd Backend/nest-graphql-backend && yarn run test | circleci tests split --split-by=timings
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./reports/
       - store_artifacts:

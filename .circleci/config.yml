@@ -38,7 +38,9 @@ jobs:
             - Backend/nest-graphql-backend/node_modules
       - run:
           name: Run unit tests
-          command: cd Backend/nest-graphql-backend && npm run test
+          command: cd Backend/nest-graphql-backend && npm run test:cov
+      - store_artifacts:
+          path: Backend/nest-graphql-backend/coverage
   build-eslint-deploy-frontend:
     docker:
       - image: cimg/node:16.13.2

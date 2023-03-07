@@ -21,12 +21,17 @@ workflows:
 
 jobs:
   unit-test-backend:
+    working_directory: ~/project/Backend/nest-graphql-backend
     docker:
         - image: cimg/node:16.13.2
     parallelism: 4
     steps:
       - checkout
+      - node/install-npm
       - node/install-packages:
+          app-dir: ~/project/Backend/nest-graphql-backend
+          cache-version: v1
+          cache-path: node_modules
           pkg-manager: npm
       - run: mkdir ~/junit
       - run:

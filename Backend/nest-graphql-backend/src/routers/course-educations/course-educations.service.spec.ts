@@ -34,6 +34,7 @@ beforeAll(async () => {
 
 afterEach(() => {
   courseEducationsRepository.findOne.mockReturnValue(null);
+  courseEducationsRepository.create.mockClear();
 });
 
 describe('CourseEducationsService', () => {
@@ -51,6 +52,7 @@ describe('Test createCourseEducations func', () => {
 
     const university = new University();
     university.universityName = 'LIU';
+
     const education = new Education();
     education.id = 'edd22';
     education.symbol = 'U';
@@ -191,6 +193,70 @@ describe('Test findAllEducationsConnectedToCourse func', () => {
 
     course.educationConnection = [courseEducation, courseEducation2];
     education.courseConnection = [courseEducation];
+    education2.courseConnection = [courseEducation2];
+
+    courseEducationsRepository.save.mockReturnValue(courseEducation);
+    courseEducationsRepository.create.mockReturnValue(courseEducation);
+
+    expect(
+      await courseEducationsService.createCourseEducations(courseEducation),
+    ).toEqual(courseEducation);
+    expect(courseEducationsRepository.create).toHaveBeenCalledTimes(1);
+
+    courseEducationsRepository.save.mockReturnValue(courseEducation2);
+    courseEducationsRepository.create.mockReturnValue(courseEducation2);
+
+    expect(
+      await courseEducationsService.createCourseEducations(courseEducation2),
+    ).toEqual(courseEducation2);
+    expect(courseEducationsRepository.create).toHaveBeenCalledTimes(2);
+
+    courseEducationsRepository.find.mockReturnValue([education, education2]);
+
+    const allCourseEducations =
+      await courseEducationsService.findAllEducationsConnectedToCourse(
+        course.courseId,
+      );
+
+    expect(allCourseEducations).toEqual([education, education2]);
+  });
+});
+
+describe('Test findall func', () => {
+  test('should retrieve all course-educations', async () => {
+    const course = new Course();
+    course.courseId = 'TDDD97';
+    course.courseName = 'Webbprogrammering';
+    course.courseLink = 'https://www.ida.liu.se/~TDDD97/';
+
+    const university = new University();
+    university.universityName = 'LIU';
+
+    const education = new Education();
+    education.id = 'edd22';
+    education.symbol = 'U';
+    education.university = university;
+
+    const education2 = new Education();
+    education.id = 'edd23';
+    education.symbol = 'D';
+    education.university = university;
+
+    const courseEducation = new CourseEducations();
+    courseEducation.course = course;
+    courseEducation.education = education;
+    courseEducation.courseId = course.courseId;
+    courseEducation.educationId = education.id;
+
+    const courseEducation2 = new CourseEducations();
+    courseEducation2.course = course;
+    courseEducation2.education = education2;
+    courseEducation2.courseId = course.courseId;
+    courseEducation2.educationId = education2.id;
+
+    course.educationConnection = [courseEducation, courseEducation2];
+    education.courseConnection = [courseEducation];
+    education2.courseConnection = [courseEducation2];
 
     courseEducationsRepository.save.mockReturnValue(courseEducation);
     courseEducationsRepository.create.mockReturnValue(courseEducation);
@@ -202,13 +268,13 @@ describe('Test findAllEducationsConnectedToCourse func', () => {
 
     await courseEducationsService.createCourseEducations(courseEducation2);
 
-    courseEducationsRepository.find.mockReturnValue([education, education2]);
+    courseEducationsRepository.find.mockReturnValue([
+      courseEducation,
+      courseEducation2,
+    ]);
 
-    const allCourseEducations =
-      await courseEducationsService.findAllEducationsConnectedToCourse(
-        course.courseId,
-      );
+    const allCourseEducations = await courseEducationsService.findAll();
 
-    expect(allCourseEducations).toEqual([education, education2]);
+    expect(allCourseEducations).toEqual([courseEducation, courseEducation2]);
   });
 });

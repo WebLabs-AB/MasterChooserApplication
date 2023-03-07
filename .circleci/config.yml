@@ -22,6 +22,7 @@ jobs:
   unit-test-backend:
     docker:
         - image: cimg/node:16.13.2
+    parallelism: 4
     steps:
       - checkout
       - run:
@@ -40,7 +41,7 @@ jobs:
           name: Run unit tests
           command: cd Backend/nest-graphql-backend && npm run test:cov
       - store_artifacts:
-          path: Backend/nest-graphql-backend/coverage
+          path: Backend/nest-graphql-backend/coverage/Icov-report/index.html
   build-eslint-deploy-frontend:
     docker:
       - image: cimg/node:16.13.2

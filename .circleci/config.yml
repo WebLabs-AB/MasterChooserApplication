@@ -44,6 +44,8 @@ jobs:
       - run:
           name: Run tests with JUnit as reporter
           command: cd Backend/nest-graphql-backend && npm run test
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/
       - run:
           name: Look for file 1
           command: cd Backend/nest-graphql-backend && ls -a

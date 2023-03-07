@@ -20,6 +20,7 @@ workflows:
 
 jobs:
   unit-test-backend:
+    working_directory: ~/Backend/nest-graphql-backend
     docker:
         - image: cimg/node:16.13.2
     parallelism: 4

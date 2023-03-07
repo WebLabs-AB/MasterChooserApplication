@@ -30,14 +30,14 @@ jobs:
           name: Update NPM
           command: "sudo npm install -g npm"
       - restore_cache:
-          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Install Backend Dependencies
           command: npm install
       - save_cache:
-          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
-            - Backend/nest-graphql-backend/node_modules
+            - node_modules
       - run:
           name: Install JUnit coverage reporter
           command: npm install --dev jest-junit
@@ -45,11 +45,11 @@ jobs:
           name: Run tests with JUnit as reporter
           command: npm run test --ci --runInBand --reporters=default --reporters=jest-junit
           environment:
-            JEST_JUNIT_OUTPUT_DIR: ./Backend/nest-graphql-backend/reports/
+            JEST_JUNIT_OUTPUT_DIR: ./reports/
       - store_test_results:
-          path: ./Backend/nest-graphql-backend/reports/
+          path: ./reports/
       - store_artifacts:
-          path: Backend/nest-graphql-backend/coverage
+          path: /coverage
   build-eslint-deploy-frontend:
     docker:
       - image: cimg/node:16.13.2

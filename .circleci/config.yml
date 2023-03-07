@@ -42,7 +42,7 @@ jobs:
           command: cd Backend/nest-graphql-backend && npm install --dev jest-junit
       - run:
           name: Run tests with JUnit as reporter
-          command: cd Backend/nest-graphql-backend && jest --ci --runInBand --reporters=default --reporters=jest-junit
+          command: cd Backend/nest-graphql-backend && npm run test --ci --runInBand --reporters=default --reporters=jest-junit
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./reports/
       - store_test_results:

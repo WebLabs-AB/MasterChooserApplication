@@ -44,7 +44,7 @@ jobs:
           name: Run tests with JUnit as reporter
           command: cd Backend/nest-graphql-backend && npm run test --ci --runInBand --reporters=default --reporters=jest-junit
           environment:
-            JEST_JUNIT_OUTPUT_DIR: ./reports/
+            JEST_JUNIT_OUTPUT_DIR: ./Backend/nest-graphql-backend/reports/
       - store_test_results:
           path: ./Backend/nest-graphql-backend/reports/
       - store_artifacts:

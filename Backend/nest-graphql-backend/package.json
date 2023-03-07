@@ -15,7 +15,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest --ci --runInBand --reporters=default --reporters=jest-junit",
+    "test": "jest --coverage --collectCoverageFrom=**/routers/**/*.service.ts --collectCoverageFrom **/services/**/*.resolver.ts --ci --runInBand --reporters=default --reporters=jest-junit",
     "test:watch": "NODE_ENV=test jest --watch",
     "test:cov": "NODE_ENV=test jest --coverage --collectCoverageFrom=**/routers/**/*.service.ts --collectCoverageFrom **/services/**/*.resolver.ts",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
@@ -96,8 +96,5 @@
     "moduleNameMapper": {
       "^src/(.*)$": "<rootDir>/$1"
     }
-  },
-  "jest-junit":{
-    "output": "./test-results/junit/results.xml"
   }
 }

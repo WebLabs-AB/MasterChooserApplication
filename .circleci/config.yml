@@ -53,6 +53,7 @@ jobs:
           command: ls -a
       - store_artifacts:
           path: ./Backend/nest-graphql-backend/reports
+          path: ./Backend/nest-graphql-backend/coverage
       - store_test_results:
           path: ./Backend/nest-graphql-backend/reports
   build-eslint-deploy-frontend:

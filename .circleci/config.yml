@@ -46,7 +46,7 @@ jobs:
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./reports/
       - store_test_results:
-          path: ./reports/
+          path: .Backend/nest-graphql-backend/reports/
       - store_artifacts:
           path: Backend/nest-graphql-backend/coverage
   build-eslint-deploy-frontend:

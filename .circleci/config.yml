@@ -40,7 +40,7 @@ jobs:
       - run: mkdir ~/junit
       - run:
           name: Run unit tests
-          command: |
+          command: cd Backend/nest-graphql-backend &&
               TEST=$(circleci tests glob "**/routers/**/*.service.ts" | circleci tests split --split-by=timings)
               npm test $TEST
       - run:

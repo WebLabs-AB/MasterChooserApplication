@@ -47,8 +47,7 @@ beforeAll(async () => {
 });
 
 afterEach(() => {
-  universityRepository.findOneByOrFail.mockClear();
-  universityRepository.find.mockClear();
+  jest.resetAllMocks();
 });
 
 describe('EducationService', () => {
@@ -77,11 +76,13 @@ describe('Test createEducation func', () => {
       universityName: 'Chalmers',
     });
 
+    university.Educations = [newEducation];
+
     expect(educationRepository.create).toHaveBeenCalledTimes(1);
     expect(newEducation).toEqual(education);
   });
 
-  test('should throw an error', async () => {
+  test('should throw an error when creating a duplicate education', async () => {
     const university = new University();
     university.universityName = 'Chalmers';
 
@@ -146,5 +147,36 @@ describe('Test getAllStudents func', () => {
       universityName: university.universityName,
     });
     expect(foundStudents).toContainEqual(student);
+  });
+});
+
+describe('Test getUniversity func', () => {
+  test('should retrieve what university a education belongs to', async () => {
+    const university = new University();
+    university.universityName = 'Chalmers';
+
+    const education = new Education();
+    education.id = 'dhjadl-23';
+    education.educationName = 'Datateknik';
+    education.symbol = 'D';
+    education.university = university;
+
+    educationRepository.save.mockReturnValue(education);
+    educationRepository.create.mockReturnValue(education);
+    universityRepository.findOneByOrFail.mockReturnValue(university);
+
+    const newEducation = await educationService.createEducation({
+      educationName: 'Datateknik',
+      symbol: 'D',
+      universityName: 'Chalmers',
+    });
+
+    university.Educations = [newEducation];
+
+    const foundUniversity = await educationService.getUniversity(
+      education.university.universityName,
+    );
+
+    expect(foundUniversity).toEqual(university);
   });
 });

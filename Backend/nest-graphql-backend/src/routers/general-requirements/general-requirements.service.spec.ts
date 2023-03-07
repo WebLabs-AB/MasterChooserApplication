@@ -46,7 +46,7 @@ beforeAll(async () => {
 });
 
 afterEach(() => {
-  universityRepository.findOne.mockClear();
+  jest.resetAllMocks();
 });
 
 describe('GeneralRequirementsService', () => {

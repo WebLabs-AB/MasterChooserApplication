@@ -34,8 +34,7 @@ beforeAll(async () => {
 });
 
 afterEach(() => {
-  courseStartingYearsRepository.findOne.mockReturnValue(null);
-  courseStartingYearsRepository.create.mockClear();
+  jest.resetAllMocks();
 });
 
 describe('CourseStartingYearsService', () => {

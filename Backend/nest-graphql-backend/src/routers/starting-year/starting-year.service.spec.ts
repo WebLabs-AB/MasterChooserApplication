@@ -30,6 +30,10 @@ beforeEach(async () => {
   startingYearService = module.get(StartingYearService);
 });
 
+afterEach(() => {
+  jest.resetAllMocks();
+});
+
 describe('StartingYearService', () => {
   test('should be defined', () => {
     expect(startingYearService).toBeDefined();

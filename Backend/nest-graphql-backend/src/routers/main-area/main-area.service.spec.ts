@@ -33,7 +33,7 @@ beforeAll(async () => {
 });
 
 afterEach(() => {
-  mainAreaRepository.findOne.mockReturnValue(null);
+  jest.resetAllMocks();
 });
 
 describe('MainAreaService', () => {

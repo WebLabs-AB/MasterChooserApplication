@@ -33,8 +33,7 @@ beforeAll(async () => {
 });
 
 afterEach(() => {
-  courseEducationsRepository.findOne.mockReturnValue(null);
-  courseEducationsRepository.create.mockClear();
+  jest.resetAllMocks();
 });
 
 describe('CourseEducationsService', () => {

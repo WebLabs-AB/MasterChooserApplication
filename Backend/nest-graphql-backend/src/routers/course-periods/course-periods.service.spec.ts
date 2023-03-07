@@ -34,7 +34,7 @@ beforeAll(async () => {
 });
 
 afterEach(() => {
-  coursePeriodsRepository.findOne.mockClear();
+  jest.resetAllMocks();
 });
 
 describe('CoursePeriodsService', () => {

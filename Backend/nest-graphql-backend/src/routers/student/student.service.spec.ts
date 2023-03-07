@@ -62,18 +62,7 @@ beforeEach(async () => {
 });
 
 afterEach(() => {
-  studentRepository.save.mockClear();
-  studentRepository.findOne.mockClear();
-  studentRepository.find.mockClear();
-  studentRepository.create.mockClear();
-
-  educationRepository.save.mockClear();
-  educationRepository.findOne.mockClear();
-  educationRepository.find.mockClear();
-  educationRepository.create.mockClear();
-
-  universityRepository.findOneByOrFail.mockClear();
-  universityRepository.find.mockClear();
+  jest.resetAllMocks();
 });
 
 describe('UniversityService', () => {

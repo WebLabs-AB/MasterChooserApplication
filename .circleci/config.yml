@@ -39,9 +39,11 @@ jobs:
             - Backend/nest-graphql-backend/node_modules
       - run:
           name: Run unit tests
-          command: cd Backend/nest-graphql-backend && npm run test:cov
+          command: cd Backend/nest-graphql-backend && npm run test:cov --ci --runInBand --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/
       - store_test_results:
-          path: test-results
+          path: ./reports/
       - store_artifacts:
           path: Backend/nest-graphql-backend/coverage/Icov-report
   build-eslint-deploy-frontend:

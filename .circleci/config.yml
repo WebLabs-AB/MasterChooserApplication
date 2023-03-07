@@ -34,7 +34,7 @@ jobs:
       - save_cache:
           key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
           paths:
-            - node_modules
+            - Backend/nest-graphql-backend/node_modules
       - run:
           name: Run tests with JUnit as reporter
           command: cd Backend/nest-graphql-backend && yarn run test | circleci tests split --split-by=timings

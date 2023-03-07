@@ -25,27 +25,21 @@ jobs:
     parallelism: 4
     steps:
       - checkout
-      - run:
-          name: Update NPM
-          command: "sudo npm install -g npm"
-      - restore_cache:
-          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
-      - run:
-          name: Install Backend Dependencies
-          command: cd Backend/nest-graphql-backend && npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
-          paths:
-            - Backend/nest-graphql-backend/node_modules
+      - node/install-packages:
+          pkg-manager: npm
+      - run: mkdir ~/junit
       - run:
           name: Run unit tests
-          command: cd Backend/nest-graphql-backend && npm run test:cov --ci --runInBand --reporters=default --reporters=jest-junit
-          environment:
-            JEST_JUNIT_OUTPUT_DIR: ./reports/
+          command: |
+              TEST=$(circleci tests glob "**/routers/**/*.service.ts" | circleci tests split --split-by=timings)
+              npm test $TEST
+      - run:
+          command: cp junit.xml ~/junit/
+          when: always
       - store_test_results:
-          path: ./reports/
+          path: ~/junit
       - store_artifacts:
-          path: Backend/nest-graphql-backend/coverage/Icov-report
+          path: Backend/nest-graphql-backend/coverage
   build-eslint-deploy-frontend:
     docker:
       - image: cimg/node:16.13.2

@@ -20,7 +20,6 @@ workflows:
 
 jobs:
   unit-test-backend:
-    working_directory: ~/Backend/nest-graphql-backend
     docker:
         - image: cimg/node:16.13.2
     parallelism: 4
@@ -33,21 +32,22 @@ jobs:
           key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
       - run:
           name: Install Backend Dependencies
-          command: npm install
+          command: cd Backend/nest-graphql-backend && npm install
       - save_cache:
           key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
           paths:
             - node_modules
       - run:
           name: Install JUnit coverage reporter
-          command: npm install --dev jest-junit
+          command: cd Backend/nest-graphql-backend && npm install --dev jest-junit
       - run:
           name: Run tests with JUnit as reporter
-          command: npm run test --ci --runInBand --reporters=default --reporters=jest-junit
-          environment:
-            JEST_JUNIT_OUTPUT_DIR: ./reports/
+          command: cd Backend/nest-graphql-backend && npm run test --ci --runInBand --reporters=default --reporters=jest-junit
+      - run:
+          command: cd Backend/nest-graphql-backend && cp junit.xml ~/junit/
+          when: always
       - store_test_results:
-          path: ./reports/
+          path: ~/junit
       - store_artifacts:
           path: /coverage
   build-eslint-deploy-frontend:

@@ -96,5 +96,8 @@
     "moduleNameMapper": {
       "^src/(.*)$": "<rootDir>/$1"
     }
+  },
+  "jest-junit":{
+    "output": "./test-results/junit/results.xml"
   }
 }

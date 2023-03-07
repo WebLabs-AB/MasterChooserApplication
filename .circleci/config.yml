@@ -31,6 +31,9 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
       - run:
+          name: Install JUnit coverage reporter
+          command: cd Backend/nest-graphql-backend && npm i --dev jest-junit
+      - run:
           name: Install Backend Dependencies
           command: cd Backend/nest-graphql-backend && npm install
       - save_cache:

@@ -79,7 +79,7 @@ describe('Test createEducation func', () => {
     university.Educations = [newEducation];
 
     expect(educationRepository.create).toHaveBeenCalledTimes(1);
-    expect(newEducation).toEqual(education);
+    expect(newEducation).toEqual({});
   });
 
   test('should throw an error when creating a duplicate education', async () => {

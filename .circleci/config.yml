@@ -40,10 +40,9 @@ jobs:
           key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
           paths:
             - node_modules
-      - run: mkdir -p ./test-results/junit
       - run:
           name: Run tests with JUnit as reporter
-          command: cd Backend/nest-graphql-backend && npm run test
+          command: cd Backend/nest-graphql-backend && yarn run test
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./reports/
       - run:
@@ -53,7 +52,7 @@ jobs:
           name: Look for file 2
           command: ls -a
       - store_artifacts:
-          path: ./test-results/junit
+          path: ./Backend/nest-graphql-backend/reports
       - store_test_results:
           path: ./Backend/nest-graphql-backend/reports
   build-eslint-deploy-frontend:

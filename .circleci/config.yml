@@ -48,14 +48,14 @@ jobs:
             JEST_JUNIT_OUTPUT_DIR: ./reports/
       - run:
           name: Look for file 1
-          command: cd Backend/nest-graphql-backend && ls -a
+          command: cd Backend/nest-graphql-backend/reports && ls -a
       - run:
           name: Look for file 2
           command: ls -a
       - store_artifacts:
           path: ./test-results/junit
       - store_test_results:
-          path: ./test-results
+          path: ./Backend/nest-graphql-backend/reports
   build-eslint-deploy-frontend:
     docker:
       - image: cimg/node:16.13.2

@@ -124,6 +124,10 @@ describe('Test findAllCoursesConnectedToPeriod func', () => {
     coursePeriod2.courseId = course2.courseId;
     coursePeriod2.periodValue = period.value;
 
+    period.courseConnection = [coursePeriod, coursePeriod2];
+    course.periodConnection = [coursePeriod];
+    course2.periodConnection = [coursePeriod2];
+
     coursePeriodsRepository.find.mockReturnValue([course, course2]);
 
     const allCourses =

@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
   heroku: circleci/heroku@2.0
-  node: circleci/node@4.7
 workflows:
   test-backend:
     jobs:
@@ -21,18 +20,23 @@ workflows:
 
 jobs:
   unit-test-backend:
-    working_directory: ~/project/Backend/nest-graphql-backend
     docker:
         - image: cimg/node:16.13.2
     parallelism: 4
     steps:
       - checkout
-      - node/install-npm
-      - node/install-packages:
-          app-dir: ~/project/Backend/nest-graphql-backend
-          cache-version: v1
-          cache-path: node_modules
-          pkg-manager: npm
+      - run:
+          name: Update NPM
+          command: "sudo npm install -g npm"
+      - restore_cache:
+          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
+      - run:
+          name: Install Backend Dependencies
+          command: cd Backend/nest-graphql-backend && npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
+          paths:
+            - Backend/nest-graphql-backend/node_modules
       - run: mkdir ~/junit
       - run:
           name: Run unit tests

@@ -26,11 +26,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Update NPM
-          command: "sudo npm install -g npm"
-      - restore_cache:
-          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
-      - run:
           name: Install JUnit coverage reporter
           command: cd Backend/nest-graphql-backend && npm i --dev jest-junit
       - run:
@@ -45,14 +40,8 @@ jobs:
           command: cd Backend/nest-graphql-backend && yarn run test
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./reports/
-      - run:
-          name: Look for file 1
-          command: cd Backend/nest-graphql-backend/reports && ls -a
-      - run:
-          name: Look for file 2
-          command: ls -a
       - store_artifacts:
-          path: ./Backend/nest-graphql-backend/coverage
+          path: ./Backend/nest-graphql-backend/coverage/lcov-report
       - store_test_results:
           path: ./Backend/nest-graphql-backend/reports
   build-eslint-deploy-frontend:

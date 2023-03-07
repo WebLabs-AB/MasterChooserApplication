@@ -81,7 +81,7 @@ describe('Test findall func', () => {
     periodsRepository.save.mockReturnValue(period);
     periodsRepository.create.mockReturnValue(period);
 
-    await periodsService.createPeriod(period);
+    const newPeriod = await periodsService.createPeriod(period);
 
     const period2 = new Period();
     period2.value = 2;
@@ -89,11 +89,11 @@ describe('Test findall func', () => {
     periodsRepository.save.mockReturnValue(period2);
     periodsRepository.create.mockReturnValue(period2);
 
-    await periodsService.createPeriod(period2);
+    const newPeriod2 = await periodsService.createPeriod(period2);
 
-    periodsRepository.find.mockReturnValue([period, period2]);
+    periodsRepository.find.mockReturnValue([newPeriod, newPeriod2]);
 
     const allPeriods = await periodsService.findAll();
-    expect(allPeriods).toEqual([period, period2]);
+    expect(allPeriods).toEqual([newPeriod, newPeriod2]);
   });
 });

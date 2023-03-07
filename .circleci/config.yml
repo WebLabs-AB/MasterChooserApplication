@@ -30,12 +30,12 @@ jobs:
           name: Update NPM
           command: "sudo npm install -g npm"
       - restore_cache:
-          key: dependency-cache-{{ checksum "/Backend/nest-graphql-backend/package-lock.json" }}
+          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
       - run:
           name: Install Backend Dependencies
           command: npm install
       - save_cache:
-          key: dependency-cache-{{ checksum "/Backend/nest-graphql-backend/package-lock.json" }}
+          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
           paths:
             - node_modules
       - run:

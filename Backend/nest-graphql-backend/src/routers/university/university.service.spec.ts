@@ -54,6 +54,7 @@ describe('Test createUniversity func', () => {
     const newUniversity = await universityService.createUniversity({
       universityName: university.universityName,
     });
+
     expect(universityRepository.save).toBeCalledTimes(1);
     expect(universityRepository.create).toBeCalledTimes(1);
     expect(newUniversity).toEqual(university);
@@ -96,6 +97,29 @@ describe('Test findOne func', () => {
   });
 
   test('should throw an error when searching for a specific university', async () => {
+    universityRepository.findOneByOrFail.mockReturnValue(NotFoundError);
+
+    const university = await universityService.findOne('Chalmers');
+
+    expect(universityRepository.findOneByOrFail).toBeCalledTimes(1);
+    expect(university).toEqual(NotFoundError);
+  });
+});
+
+describe('Test deleteUniversity func', () => {
+  test('should find a specific university and delete it', async () => {
+    const university = new University();
+    university.universityName = 'Chalmers';
+
+    universityRepository.findOneByOrFail.mockReturnValue(university);
+
+    const foundUniversity = await universityService.findOne('Chalmers');
+
+    expect(universityRepository.findOneByOrFail).toBeCalledTimes(1);
+    expect(foundUniversity).toEqual(university);
+  });
+
+  test('should throw an error when searching for a specific university to delete it', async () => {
     universityRepository.findOneByOrFail.mockReturnValue(NotFoundError);
 
     const university = await universityService.findOne('Chalmers');

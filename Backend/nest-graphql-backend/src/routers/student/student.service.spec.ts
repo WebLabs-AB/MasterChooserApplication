@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserInputError } from 'apollo-server-express';
 import * as bcrypt from 'bcrypt';
+import { NotFoundError } from 'rxjs';
 
 // Own files.
 import { Education } from 'src/entities/NormalTypes/Education.entity';
@@ -202,5 +203,33 @@ describe('Test findOne func', () => {
     const foundStudent = await studentService.findOne(student.email);
 
     expect(foundStudent).toEqual(student);
+  });
+
+  test('should throw an error when searching for a specific student', async () => {
+    const university = new University();
+    university.universityName = 'Chalmers';
+
+    const education = new Education();
+    education.id = 'dhjadl-23';
+    education.educationName = 'Datateknik';
+    education.symbol = 'D';
+    education.university = university;
+
+    const SALT = await bcrypt.genSalt(10);
+
+    const student = new Student();
+    student.createdAt = new Date();
+    student.education = education;
+    student.email = 'erikbirgersson@gmail.com';
+    student.password = await bcrypt.hash('password', SALT);
+    student.startingYear = 2019;
+    student.university = university;
+
+    studentRepository.findOne.mockReturnValue(null);
+
+    const foundStudent = await studentService.findOne(student.email);
+
+    expect(studentRepository.findOne).toBeCalledTimes(1);
+    expect(foundStudent).toEqual(null);
   });
 });

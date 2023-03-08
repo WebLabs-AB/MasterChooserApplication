@@ -70,7 +70,7 @@ describe('test findAll func', () => {
     startingYearRepository.find.mockReturnValue(startingYears);
     const foundStartingYears = await startingYearService.findAll();
 
-    expect(foundStartingYears).toContainEqual(startingYear2019);
+    expect(foundStartingYears).toEqual([startingYear2019, startingYear2020]);
     expect(startingYearRepository.find).toHaveBeenCalledTimes(1);
   });
 });

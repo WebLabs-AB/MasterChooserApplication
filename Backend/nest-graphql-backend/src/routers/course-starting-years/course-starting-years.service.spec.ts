@@ -43,8 +43,8 @@ describe('CourseStartingYearsService', () => {
   });
 });
 
-describe('Test createCourseEducations func', () => {
-  test('should create a new course-education', async () => {
+describe('Test createCourseStartingYears func', () => {
+  test('should create a new ', async () => {
     const course = new Course();
     course.courseId = 'TDDD97';
     course.courseName = 'Webbprogrammering';
@@ -53,31 +53,31 @@ describe('Test createCourseEducations func', () => {
     const startingYear = new StartingYear();
     startingYear.startingYear = 2019;
 
-    const courseStartingYears = new CourseStartingYears();
-    courseStartingYears.course = course;
-    courseStartingYears.year = startingYear;
-    courseStartingYears.hp = 6;
-    courseStartingYears.level = 'A1X';
-    courseStartingYears.schemaBlock = 'A';
-    courseStartingYears.courseId = course.courseId;
-    courseStartingYears.yearTaught = startingYear.startingYear;
+    const courseStartingYear = new CourseStartingYears();
+    courseStartingYear.course = course;
+    courseStartingYear.year = startingYear;
+    courseStartingYear.hp = 6;
+    courseStartingYear.level = 'A1X';
+    courseStartingYear.schemaBlock = 'A';
+    courseStartingYear.courseId = course.courseId;
+    courseStartingYear.yearTaught = startingYear.startingYear;
 
-    startingYear.courseToStartingYear = [courseStartingYears];
-    course.courseToStartingYear = [courseStartingYears];
+    startingYear.courseToStartingYear = [courseStartingYear];
+    course.courseToStartingYear = [courseStartingYear];
 
-    courseStartingYearsRepository.save.mockReturnValue(courseStartingYears);
-    courseStartingYearsRepository.create.mockReturnValue(courseStartingYears);
+    courseStartingYearsRepository.save.mockReturnValue(courseStartingYear);
+    courseStartingYearsRepository.create.mockReturnValue(courseStartingYear);
 
-    const newCourseEducation =
+    const newCourseStartingYear =
       await courseStartingYearsService.createCourseStartingYears(
-        courseStartingYears,
+        courseStartingYear,
       );
 
     expect(courseStartingYearsRepository.create).toHaveBeenCalledTimes(1);
-    expect(newCourseEducation).toEqual(courseStartingYears);
+    expect(newCourseStartingYear).toEqual(courseStartingYear);
   });
 
-  test('should throw an error when creating a duplicate course-education', async () => {
+  test('should throw an error when creating a duplicate course-starting-years', async () => {
     const course = new Course();
     course.courseId = 'TDDD97';
     course.courseName = 'Webbprogrammering';
@@ -86,29 +86,29 @@ describe('Test createCourseEducations func', () => {
     const startingYear = new StartingYear();
     startingYear.startingYear = 2019;
 
-    const courseStartingYears = new CourseStartingYears();
-    courseStartingYears.course = course;
-    courseStartingYears.year = startingYear;
-    courseStartingYears.hp = 6;
-    courseStartingYears.level = 'A1X';
-    courseStartingYears.schemaBlock = 'A';
-    courseStartingYears.courseId = course.courseId;
-    courseStartingYears.yearTaught = startingYear.startingYear;
+    const courseStartingYear = new CourseStartingYears();
+    courseStartingYear.course = course;
+    courseStartingYear.year = startingYear;
+    courseStartingYear.hp = 6;
+    courseStartingYear.level = 'A1X';
+    courseStartingYear.schemaBlock = 'A';
+    courseStartingYear.courseId = course.courseId;
+    courseStartingYear.yearTaught = startingYear.startingYear;
 
-    startingYear.courseToStartingYear = [courseStartingYears];
-    course.courseToStartingYear = [courseStartingYears];
+    startingYear.courseToStartingYear = [courseStartingYear];
+    course.courseToStartingYear = [courseStartingYear];
 
-    courseStartingYearsRepository.save.mockReturnValue(courseStartingYears);
-    courseStartingYearsRepository.create.mockReturnValue(courseStartingYears);
+    courseStartingYearsRepository.save.mockReturnValue(courseStartingYear);
+    courseStartingYearsRepository.create.mockReturnValue(courseStartingYear);
 
     await courseStartingYearsService.createCourseStartingYears(
-      courseStartingYears,
+      courseStartingYear,
     );
 
-    courseStartingYearsRepository.findOne.mockReturnValue(courseStartingYears);
+    courseStartingYearsRepository.findOne.mockReturnValue(courseStartingYear);
 
     await expect(
-      courseStartingYearsService.createCourseStartingYears(courseStartingYears),
+      courseStartingYearsService.createCourseStartingYears(courseStartingYear),
     ).rejects.toThrowError(UserInputError);
   });
 });
@@ -128,49 +128,49 @@ describe('Test findAllCoursesConnectedToStartingYear func', () => {
     const startingYear = new StartingYear();
     startingYear.startingYear = 2019;
 
-    const courseStartingYears = new CourseStartingYears();
-    courseStartingYears.course = course;
-    courseStartingYears.year = startingYear;
-    courseStartingYears.hp = 6;
-    courseStartingYears.level = 'A1X';
-    courseStartingYears.schemaBlock = 'A';
-    courseStartingYears.courseId = course.courseId;
-    courseStartingYears.yearTaught = startingYear.startingYear;
+    const courseStartingYear = new CourseStartingYears();
+    courseStartingYear.course = course;
+    courseStartingYear.year = startingYear;
+    courseStartingYear.hp = 6;
+    courseStartingYear.level = 'A1X';
+    courseStartingYear.schemaBlock = 'A';
+    courseStartingYear.courseId = course.courseId;
+    courseStartingYear.yearTaught = startingYear.startingYear;
 
-    const courseStartingYears2 = new CourseStartingYears();
-    courseStartingYears2.course = course2;
-    courseStartingYears2.year = startingYear;
-    courseStartingYears2.hp = 8;
-    courseStartingYears2.level = 'A1X';
-    courseStartingYears2.schemaBlock = 'B';
-    courseStartingYears2.courseId = course2.courseId;
-    courseStartingYears2.yearTaught = startingYear.startingYear;
+    const courseStartingYear2 = new CourseStartingYears();
+    courseStartingYear2.course = course2;
+    courseStartingYear2.year = startingYear;
+    courseStartingYear2.hp = 8;
+    courseStartingYear2.level = 'A1X';
+    courseStartingYear2.schemaBlock = 'B';
+    courseStartingYear2.courseId = course2.courseId;
+    courseStartingYear2.yearTaught = startingYear.startingYear;
 
-    course.courseToStartingYear = [courseStartingYears];
-    course2.courseToStartingYear = [courseStartingYears2];
+    course.courseToStartingYear = [courseStartingYear];
+    course2.courseToStartingYear = [courseStartingYear2];
     startingYear.courseToStartingYear = [
-      courseStartingYears,
-      courseStartingYears2,
+      courseStartingYear,
+      courseStartingYear2,
     ];
 
-    courseStartingYearsRepository.save.mockReturnValue(courseStartingYears);
-    courseStartingYearsRepository.create.mockReturnValue(courseStartingYears);
+    courseStartingYearsRepository.save.mockReturnValue(courseStartingYear);
+    courseStartingYearsRepository.create.mockReturnValue(courseStartingYear);
 
     expect(
       await courseStartingYearsService.createCourseStartingYears(
-        courseStartingYears,
+        courseStartingYear,
       ),
-    ).toEqual(courseStartingYears);
+    ).toEqual(courseStartingYear);
     expect(courseStartingYearsRepository.create).toHaveBeenCalledTimes(1);
 
-    courseStartingYearsRepository.save.mockReturnValue(courseStartingYears2);
-    courseStartingYearsRepository.create.mockReturnValue(courseStartingYears2);
+    courseStartingYearsRepository.save.mockReturnValue(courseStartingYear2);
+    courseStartingYearsRepository.create.mockReturnValue(courseStartingYear2);
 
     expect(
       await courseStartingYearsService.createCourseStartingYears(
-        courseStartingYears2,
+        courseStartingYear2,
       ),
-    ).toEqual(courseStartingYears2);
+    ).toEqual(courseStartingYear2);
     expect(courseStartingYearsRepository.create).toHaveBeenCalledTimes(2);
 
     courseStartingYearsRepository.find.mockReturnValue([course, course2]);
@@ -196,46 +196,46 @@ describe('Test findAllStartingYearsConnectedToCourse func', () => {
     const startingYear2 = new StartingYear();
     startingYear2.startingYear = 2020;
 
-    const courseStartingYears = new CourseStartingYears();
-    courseStartingYears.course = course;
-    courseStartingYears.year = startingYear;
-    courseStartingYears.hp = 6;
-    courseStartingYears.level = 'A1X';
-    courseStartingYears.schemaBlock = 'A';
-    courseStartingYears.courseId = course.courseId;
-    courseStartingYears.yearTaught = startingYear.startingYear;
+    const courseStartingYear = new CourseStartingYears();
+    courseStartingYear.course = course;
+    courseStartingYear.year = startingYear;
+    courseStartingYear.hp = 6;
+    courseStartingYear.level = 'A1X';
+    courseStartingYear.schemaBlock = 'A';
+    courseStartingYear.courseId = course.courseId;
+    courseStartingYear.yearTaught = startingYear.startingYear;
 
-    const courseStartingYears2 = new CourseStartingYears();
-    courseStartingYears2.course = course;
-    courseStartingYears2.year = startingYear2;
-    courseStartingYears2.hp = 6;
-    courseStartingYears2.level = 'A1X';
-    courseStartingYears2.schemaBlock = 'B';
-    courseStartingYears2.courseId = course.courseId;
-    courseStartingYears2.yearTaught = startingYear2.startingYear;
+    const courseStartingYear2 = new CourseStartingYears();
+    courseStartingYear2.course = course;
+    courseStartingYear2.year = startingYear2;
+    courseStartingYear2.hp = 6;
+    courseStartingYear2.level = 'A1X';
+    courseStartingYear2.schemaBlock = 'B';
+    courseStartingYear2.courseId = course.courseId;
+    courseStartingYear2.yearTaught = startingYear2.startingYear;
 
-    course.courseToStartingYear = [courseStartingYears, courseStartingYears2];
-    startingYear.courseToStartingYear = [courseStartingYears];
-    startingYear2.courseToStartingYear = [courseStartingYears2];
+    course.courseToStartingYear = [courseStartingYear, courseStartingYear2];
+    startingYear.courseToStartingYear = [courseStartingYear];
+    startingYear2.courseToStartingYear = [courseStartingYear2];
 
-    courseStartingYearsRepository.save.mockReturnValue(courseStartingYears);
-    courseStartingYearsRepository.create.mockReturnValue(courseStartingYears);
+    courseStartingYearsRepository.save.mockReturnValue(courseStartingYear);
+    courseStartingYearsRepository.create.mockReturnValue(courseStartingYear);
 
     expect(
       await courseStartingYearsService.createCourseStartingYears(
-        courseStartingYears,
+        courseStartingYear,
       ),
-    ).toEqual(courseStartingYears);
+    ).toEqual(courseStartingYear);
     expect(courseStartingYearsRepository.create).toHaveBeenCalledTimes(1);
 
-    courseStartingYearsRepository.save.mockReturnValue(courseStartingYears2);
-    courseStartingYearsRepository.create.mockReturnValue(courseStartingYears2);
+    courseStartingYearsRepository.save.mockReturnValue(courseStartingYear2);
+    courseStartingYearsRepository.create.mockReturnValue(courseStartingYear2);
 
     expect(
       await courseStartingYearsService.createCourseStartingYears(
-        courseStartingYears2,
+        courseStartingYear2,
       ),
-    ).toEqual(courseStartingYears2);
+    ).toEqual(courseStartingYear2);
     expect(courseStartingYearsRepository.create).toHaveBeenCalledTimes(2);
 
     courseStartingYearsRepository.find.mockReturnValue([
@@ -264,52 +264,52 @@ describe('Test findall func', () => {
     const startingYear2 = new StartingYear();
     startingYear2.startingYear = 2020;
 
-    const courseStartingYears = new CourseStartingYears();
-    courseStartingYears.course = course;
-    courseStartingYears.year = startingYear;
-    courseStartingYears.hp = 6;
-    courseStartingYears.level = 'A1X';
-    courseStartingYears.schemaBlock = 'A';
-    courseStartingYears.courseId = course.courseId;
-    courseStartingYears.yearTaught = startingYear.startingYear;
+    const courseStartingYear = new CourseStartingYears();
+    courseStartingYear.course = course;
+    courseStartingYear.year = startingYear;
+    courseStartingYear.hp = 6;
+    courseStartingYear.level = 'A1X';
+    courseStartingYear.schemaBlock = 'A';
+    courseStartingYear.courseId = course.courseId;
+    courseStartingYear.yearTaught = startingYear.startingYear;
 
-    const courseStartingYears2 = new CourseStartingYears();
-    courseStartingYears2.course = course;
-    courseStartingYears2.year = startingYear2;
-    courseStartingYears2.hp = 6;
-    courseStartingYears2.level = 'A1X';
-    courseStartingYears2.schemaBlock = 'B';
-    courseStartingYears2.courseId = course.courseId;
-    courseStartingYears2.yearTaught = startingYear2.startingYear;
+    const courseStartingYear2 = new CourseStartingYears();
+    courseStartingYear2.course = course;
+    courseStartingYear2.year = startingYear2;
+    courseStartingYear2.hp = 6;
+    courseStartingYear2.level = 'A1X';
+    courseStartingYear2.schemaBlock = 'B';
+    courseStartingYear2.courseId = course.courseId;
+    courseStartingYear2.yearTaught = startingYear2.startingYear;
 
-    course.courseToStartingYear = [courseStartingYears, courseStartingYears2];
-    startingYear.courseToStartingYear = [courseStartingYears];
-    startingYear2.courseToStartingYear = [courseStartingYears2];
+    course.courseToStartingYear = [courseStartingYear, courseStartingYear2];
+    startingYear.courseToStartingYear = [courseStartingYear];
+    startingYear2.courseToStartingYear = [courseStartingYear2];
 
-    courseStartingYearsRepository.save.mockReturnValue(courseStartingYears);
-    courseStartingYearsRepository.create.mockReturnValue(courseStartingYears);
+    courseStartingYearsRepository.save.mockReturnValue(courseStartingYear);
+    courseStartingYearsRepository.create.mockReturnValue(courseStartingYear);
 
     await courseStartingYearsService.createCourseStartingYears(
-      courseStartingYears,
+      courseStartingYear,
     );
 
-    courseStartingYearsRepository.save.mockReturnValue(courseStartingYears2);
-    courseStartingYearsRepository.create.mockReturnValue(courseStartingYears2);
+    courseStartingYearsRepository.save.mockReturnValue(courseStartingYear2);
+    courseStartingYearsRepository.create.mockReturnValue(courseStartingYear2);
 
     await courseStartingYearsService.createCourseStartingYears(
-      courseStartingYears2,
+      courseStartingYear2,
     );
 
     courseStartingYearsRepository.find.mockReturnValue([
-      courseStartingYears,
-      courseStartingYears2,
+      courseStartingYear,
+      courseStartingYear2,
     ]);
 
     const allCourseStartingYears = await courseStartingYearsService.findAll();
 
     expect(allCourseStartingYears).toEqual([
-      courseStartingYears,
-      courseStartingYears2,
+      courseStartingYear,
+      courseStartingYear2,
     ]);
   });
 });

@@ -94,7 +94,6 @@ describe('Test createStudent', () => {
 
     studentRepository.save.mockReturnValue(student);
     studentRepository.create.mockReturnValue(student);
-    studentRepository.findOne.mockReturnValue(null);
 
     universityRepository.findOneByOrFail.mockReturnValue(university);
 
@@ -145,5 +144,63 @@ describe('Test createStudent', () => {
     ).rejects.toThrowError(UserInputError);
 
     expect(studentRepository.findOne).toBeCalledTimes(1);
+  });
+});
+
+describe('Test findall func', () => {
+  test('should retrieve all students', async () => {
+    const university = new University();
+    university.universityName = 'Chalmers';
+
+    const education = new Education();
+    education.id = 'dhjadl-23';
+    education.educationName = 'Datateknik';
+    education.symbol = 'D';
+    education.university = university;
+
+    const SALT = await bcrypt.genSalt(10);
+
+    const student = new Student();
+    student.createdAt = new Date();
+    student.education = education;
+    student.email = 'erikbirgersson@gmail.com';
+    student.password = await bcrypt.hash('password', SALT);
+    student.startingYear = 2019;
+    student.university = university;
+
+    studentRepository.find.mockReturnValue([student]);
+
+    const allStudents = await studentService.findAll();
+
+    expect(allStudents).toEqual([student]);
+  });
+});
+
+describe('Test findOne func', () => {
+  test('should retrieve a specific student', async () => {
+    const university = new University();
+    university.universityName = 'Chalmers';
+
+    const education = new Education();
+    education.id = 'dhjadl-23';
+    education.educationName = 'Datateknik';
+    education.symbol = 'D';
+    education.university = university;
+
+    const SALT = await bcrypt.genSalt(10);
+
+    const student = new Student();
+    student.createdAt = new Date();
+    student.education = education;
+    student.email = 'erikbirgersson@gmail.com';
+    student.password = await bcrypt.hash('password', SALT);
+    student.startingYear = 2019;
+    student.university = university;
+
+    studentRepository.findOne.mockReturnValue(student);
+
+    const foundStudent = await studentService.findOne(student.email);
+
+    expect(foundStudent).toEqual(student);
   });
 });

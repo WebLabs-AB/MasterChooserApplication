@@ -3,6 +3,10 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Stack from "@mui/material/Stack";
 
+import { CourseTable } from "../Components/CourseTable";
+import { ProfileReq } from "../Components/ProfileReq";
+import { GeneralReq } from "../Components/GeneralReq";
+
 export const CreateMasterPage: React.FC = () => {
   const tabs = ["Create master schema", "See your master schema", "Profile"];
   return (
@@ -36,7 +40,12 @@ export const CreateMasterPage: React.FC = () => {
       <Stack direction="row">
         <Stack direction="column">
           <h2>Termin 7 HT 2022</h2>
-          <h3>Inriktining: Spelprogrammering</h3>
+          <h3>Inriktning: Spelprogrammering</h3>
+          <CourseTable />
+        </Stack>
+        <Stack direction="column">
+          <ProfileReq />
+          <GeneralReq />
         </Stack>
       </Stack>
     </Container>

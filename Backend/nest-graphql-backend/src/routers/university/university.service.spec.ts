@@ -6,6 +6,7 @@ import { NotFoundError } from 'rxjs';
 import { University } from 'src/entities/NormalTypes/University.entity';
 import { Repository } from 'typeorm';
 import { UniversityService } from './university.service';
+import { UserInputError } from 'apollo-server-express';
 
 type MockType<T> = {
   [P in keyof T]?: jest.Mock<{}>;
@@ -15,8 +16,10 @@ let universityService: UniversityService;
 const universityRepository: MockType<Repository<University>> = {
   save: jest.fn(),
   findOneByOrFail: jest.fn(),
+  findOne: jest.fn(),
   find: jest.fn(),
   create: jest.fn(),
+  delete: jest.fn(),
 };
 
 beforeEach(async () => {
@@ -111,20 +114,21 @@ describe('Test deleteUniversity func', () => {
     const university = new University();
     university.universityName = 'Chalmers';
 
-    universityRepository.findOneByOrFail.mockReturnValue(university);
+    universityRepository.findOne.mockReturnValue(university);
 
-    const foundUniversity = await universityService.findOne('Chalmers');
+    const foundUniversity = await universityService.deleteUniversity(
+      'Chalmers',
+    );
 
-    expect(universityRepository.findOneByOrFail).toBeCalledTimes(1);
+    expect(universityRepository.findOne).toBeCalledTimes(1);
     expect(foundUniversity).toEqual(university);
   });
 
-  test('should throw an error when searching for a specific university to delete it', async () => {
-    universityRepository.findOneByOrFail.mockReturnValue(NotFoundError);
+  test('should throw an error when trying to delete an university that does not exist', async () => {
+    await expect(
+      universityService.deleteUniversity('Chalmers'),
+    ).rejects.toThrowError(UserInputError);
 
-    const university = await universityService.findOne('Chalmers');
-
-    expect(universityRepository.findOneByOrFail).toBeCalledTimes(1);
-    expect(university).toEqual(NotFoundError);
+    expect(universityRepository.findOne).toBeCalledTimes(1);
   });
 });

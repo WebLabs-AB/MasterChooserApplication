@@ -631,8 +631,8 @@ describe('Test findOne function', () => {
     expect(courseRepository.create).toHaveBeenCalledTimes(1);
     expect(newCourse).toEqual(course);
 
-    courseRepository.find.mockReturnValue(course);
-    const foundCourse = courseService.findOne(course.courseId);
+    courseRepository.findOne.mockReturnValue(course);
+    const foundCourse = await courseService.findOne(course.courseId);
 
     expect(foundCourse).toEqual(course);
   });

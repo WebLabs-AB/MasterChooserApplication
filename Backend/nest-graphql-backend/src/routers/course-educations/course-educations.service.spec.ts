@@ -114,9 +114,9 @@ describe('Test findAllCoursesConnectedToEducation func', () => {
     course.courseLink = 'https://www.ida.liu.se/~TDDD97/';
 
     const course2 = new Course();
-    course.courseId = 'TDDD20';
-    course.courseName = 'Avancerad Webbprogrammering';
-    course.courseLink = 'https://www.ida.liu.se/~TDDD97/';
+    course2.courseId = 'TDDD20';
+    course2.courseName = 'Avancerad Webbprogrammering';
+    course2.courseLink = 'https://www.ida.liu.se/~TDDD97/';
 
     const university = new University();
     university.universityName = 'LIU';
@@ -174,9 +174,9 @@ describe('Test findAllEducationsConnectedToCourse func', () => {
     education.university = university;
 
     const education2 = new Education();
-    education.id = 'edd23';
-    education.symbol = 'D';
-    education.university = university;
+    education2.id = 'edd23';
+    education2.symbol = 'D';
+    education2.university = university;
 
     const courseEducation = new CourseEducations();
     courseEducation.course = course;
@@ -237,9 +237,9 @@ describe('Test findall func', () => {
     education.university = university;
 
     const education2 = new Education();
-    education.id = 'edd23';
-    education.symbol = 'D';
-    education.university = university;
+    education2.id = 'edd23';
+    education2.symbol = 'D';
+    education2.university = university;
 
     const courseEducation = new CourseEducations();
     courseEducation.course = course;

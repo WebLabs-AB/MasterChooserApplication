@@ -121,9 +121,9 @@ describe('Test findAllCoursesConnectedToStartingYear func', () => {
     course.courseLink = 'https://www.ida.liu.se/~TDDD97/';
 
     const course2 = new Course();
-    course.courseId = 'TDDD20';
-    course.courseName = 'Avancerad Webbprogrammering';
-    course.courseLink = 'https://www.ida.liu.se/~TDDD97/';
+    course2.courseId = 'TDDD20';
+    course2.courseName = 'Avancerad Webbprogrammering';
+    course2.courseLink = 'https://www.ida.liu.se/~TDDD97/';
 
     const startingYear = new StartingYear();
     startingYear.startingYear = 2019;

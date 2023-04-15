@@ -148,7 +148,7 @@ describe('Test findAllPeriodsConnectedToCourse func', () => {
     period.value = 1;
 
     const period2 = new Period();
-    period.value = 2;
+    period2.value = 2;
 
     const coursePeriod = new CoursePeriods();
     coursePeriod.course = course;

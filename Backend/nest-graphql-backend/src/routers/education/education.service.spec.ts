@@ -194,10 +194,10 @@ describe('Test findall func', () => {
     education.university = university;
 
     const education2 = new Education();
-    education.id = 'dha233';
-    education.educationName = 'Mjukvaruteknik';
-    education.symbol = 'U';
-    education.university = university;
+    education2.id = 'dha233';
+    education2.educationName = 'Mjukvaruteknik';
+    education2.symbol = 'U';
+    education2.university = university;
 
     educationRepository.save.mockReturnValue(education);
     educationRepository.create.mockReturnValue(education);
@@ -242,10 +242,10 @@ describe('Test findEducationsFromUniversity func', () => {
     education.university = university;
 
     const education2 = new Education();
-    education.id = 'dha233';
-    education.educationName = 'Mjukvaruteknik';
-    education.symbol = 'U';
-    education.university = university;
+    education2.id = 'dha233';
+    education2.educationName = 'Mjukvaruteknik';
+    education2.symbol = 'U';
+    education2.university = university;
 
     educationRepository.save.mockReturnValue(education);
     educationRepository.create.mockReturnValue(education);

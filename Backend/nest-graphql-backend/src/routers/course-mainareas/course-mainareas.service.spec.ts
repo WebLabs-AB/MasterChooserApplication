@@ -128,10 +128,10 @@ describe('Test findAllCoursesConnectedToMainArea func', () => {
     courseMainArea.type = mainArea.type;
 
     const courseMainArea2 = new CourseMainAreas();
-    courseMainArea.course = course2;
-    courseMainArea.courseId = course2.courseId;
-    courseMainArea.mainArea = mainArea;
-    courseMainArea.type = mainArea.type;
+    courseMainArea2.course = course2;
+    courseMainArea2.courseId = course2.courseId;
+    courseMainArea2.mainArea = mainArea;
+    courseMainArea2.type = mainArea.type;
 
     course.mainAreaConnection = [courseMainArea];
     course2.mainAreaConnection = [courseMainArea2];
@@ -176,10 +176,10 @@ describe('Test findAllMainAreasConnectedToCourse func', () => {
     courseMainArea.type = mainArea.type;
 
     const courseMainArea2 = new CourseMainAreas();
-    courseMainArea.course = course;
-    courseMainArea.courseId = course.courseId;
-    courseMainArea.mainArea = mainArea2;
-    courseMainArea.type = mainArea2.type;
+    courseMainArea2.course = course;
+    courseMainArea2.courseId = course.courseId;
+    courseMainArea2.mainArea = mainArea2;
+    courseMainArea2.type = mainArea2.type;
 
     course.mainAreaConnection = [courseMainArea, courseMainArea2];
     mainArea.courseConnection = [courseMainArea];
@@ -224,10 +224,10 @@ describe('Test findall func', () => {
     courseMainArea.type = mainArea.type;
 
     const courseMainArea2 = new CourseMainAreas();
-    courseMainArea.course = course;
-    courseMainArea.courseId = course.courseId;
-    courseMainArea.mainArea = mainArea2;
-    courseMainArea.type = mainArea2.type;
+    courseMainArea2.course = course;
+    courseMainArea2.courseId = course.courseId;
+    courseMainArea2.mainArea = mainArea2;
+    courseMainArea2.type = mainArea2.type;
 
     course.mainAreaConnection = [courseMainArea, courseMainArea2];
     mainArea.courseConnection = [courseMainArea];

@@ -15,7 +15,6 @@ export class TeacherService {
     private teacherRepository: Repository<Teacher>,
   ) {}
 
-  // Creates a new student and saves it in the database.
   async createTeacher(
     createTeacherInput: CreateTeacherInput,
   ): Promise<Teacher> {
@@ -42,7 +41,7 @@ export class TeacherService {
     });
   }
 
-  // Checks if an teacher exists from email.
+  // Checks if a teacher exists from email.
   async doesTeacherExists(email: string): Promise<boolean> {
     const teacher = await this.teacherRepository.findOne({
       where: { email: email },

@@ -22,13 +22,12 @@ jobs:
   unit-test-backend:
     docker:
         - image: cimg/node:16.13.2
+    parallelism: 4
     steps:
       - checkout
       - run:
-          name: Update NPM
-          command: "sudo npm install -g npm"
-      - restore_cache:
-          key: dependency-cache-{{ checksum "Backend/nest-graphql-backend/package-lock.json" }}
+          name: Install JUnit coverage reporter
+          command: cd Backend/nest-graphql-backend && npm i --dev jest-junit
       - run:
           name: Install Backend Dependencies
           command: cd Backend/nest-graphql-backend && npm install
@@ -37,8 +36,20 @@ jobs:
           paths:
             - Backend/nest-graphql-backend/node_modules
       - run:
-          name: Run unit tests
-          command: cd Backend/nest-graphql-backend && npm run test
+          name: Run tests with JUnit as reporter
+          command: cd Backend/nest-graphql-backend && yarn run test | circleci tests split --split-by=timings
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/
+      - store_artifacts:
+          path: ./Backend/nest-graphql-backend/coverage/lcov-report/index.html
+      - store_artifacts:
+          path: ./Backend/nest-graphql-backend/coverage/lcov-report/base.css
+      - store_artifacts:
+          path: ./Backend/nest-graphql-backend/coverage/lcov-report/prettify.css
+      - store_artifacts:
+          path: ./Backend/nest-graphql-backend/coverage/lcov-report/favicon.png
+      - store_test_results:
+          path: ./Backend/nest-graphql-backend/reports
   build-eslint-deploy-frontend:
     docker:
       - image: cimg/node:16.13.2

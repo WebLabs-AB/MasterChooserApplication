@@ -47,8 +47,7 @@ beforeAll(async () => {
 });
 
 afterEach(() => {
-  universityRepository.findOneByOrFail.mockClear();
-  universityRepository.find.mockClear();
+  jest.resetAllMocks();
 });
 
 describe('EducationService', () => {
@@ -77,11 +76,13 @@ describe('Test createEducation func', () => {
       universityName: 'Chalmers',
     });
 
+    university.Educations = [newEducation];
+
     expect(educationRepository.create).toHaveBeenCalledTimes(1);
     expect(newEducation).toEqual(education);
   });
 
-  test('should throw an error', async () => {
+  test('should throw an error when creating a duplicate education', async () => {
     const university = new University();
     university.universityName = 'Chalmers';
 
@@ -146,5 +147,135 @@ describe('Test getAllStudents func', () => {
       universityName: university.universityName,
     });
     expect(foundStudents).toContainEqual(student);
+  });
+});
+
+describe('Test getUniversity func', () => {
+  test('should retrieve what university a education belongs to', async () => {
+    const university = new University();
+    university.universityName = 'Chalmers';
+
+    const education = new Education();
+    education.id = 'dhjadl-23';
+    education.educationName = 'Datateknik';
+    education.symbol = 'D';
+    education.university = university;
+
+    educationRepository.save.mockReturnValue(education);
+    educationRepository.create.mockReturnValue(education);
+    universityRepository.findOneByOrFail.mockReturnValue(university);
+
+    const newEducation = await educationService.createEducation({
+      educationName: 'Datateknik',
+      symbol: 'D',
+      universityName: 'Chalmers',
+    });
+
+    university.Educations = [newEducation];
+
+    const foundUniversity = await educationService.getUniversity(
+      education.university.universityName,
+    );
+
+    expect(foundUniversity).toEqual(university);
+    expect(foundUniversity.Educations).toEqual([newEducation]);
+  });
+});
+
+describe('Test findall func', () => {
+  test('should retrieve all educations', async () => {
+    const university = new University();
+    university.universityName = 'Chalmers';
+
+    const education = new Education();
+    education.id = 'dhjadl-23';
+    education.educationName = 'Datateknik';
+    education.symbol = 'D';
+    education.university = university;
+
+    const education2 = new Education();
+    education2.id = 'dha233';
+    education2.educationName = 'Mjukvaruteknik';
+    education2.symbol = 'U';
+    education2.university = university;
+
+    educationRepository.save.mockReturnValue(education);
+    educationRepository.create.mockReturnValue(education);
+    universityRepository.findOneByOrFail.mockReturnValue(university);
+
+    const newEducation = await educationService.createEducation({
+      educationName: 'Datateknik',
+      symbol: 'D',
+      universityName: 'Chalmers',
+    });
+    expect(educationRepository.create).toHaveBeenCalledTimes(1);
+    expect(newEducation).toEqual(education);
+
+    educationRepository.save.mockReturnValue(education2);
+    educationRepository.create.mockReturnValue(education2);
+
+    const newEducation2 = await educationService.createEducation({
+      educationName: 'Mjuvkaruteknik',
+      symbol: 'U',
+      universityName: 'Chalmers',
+    });
+    expect(educationRepository.create).toHaveBeenCalledTimes(2);
+    expect(newEducation2).toEqual(education2);
+
+    university.Educations = [newEducation, newEducation2];
+
+    educationRepository.find.mockReturnValue([newEducation, newEducation2]);
+    const allEducations = await educationService.findAll();
+    expect(allEducations).toEqual([newEducation, newEducation2]);
+  });
+});
+
+describe('Test findEducationsFromUniversity func', () => {
+  test('should retrieve all educations from an university', async () => {
+    const university = new University();
+    university.universityName = 'Chalmers';
+
+    const education = new Education();
+    education.id = 'dhjadl-23';
+    education.educationName = 'Datateknik';
+    education.symbol = 'D';
+    education.university = university;
+
+    const education2 = new Education();
+    education2.id = 'dha233';
+    education2.educationName = 'Mjukvaruteknik';
+    education2.symbol = 'U';
+    education2.university = university;
+
+    educationRepository.save.mockReturnValue(education);
+    educationRepository.create.mockReturnValue(education);
+    universityRepository.findOneByOrFail.mockReturnValue(university);
+
+    const newEducation = await educationService.createEducation({
+      educationName: 'Datateknik',
+      symbol: 'D',
+      universityName: 'Chalmers',
+    });
+    expect(educationRepository.create).toHaveBeenCalledTimes(1);
+    expect(newEducation).toEqual(education);
+
+    educationRepository.save.mockReturnValue(education2);
+    educationRepository.create.mockReturnValue(education2);
+
+    const newEducation2 = await educationService.createEducation({
+      educationName: 'Mjuvkaruteknik',
+      symbol: 'U',
+      universityName: 'Chalmers',
+    });
+    expect(educationRepository.create).toHaveBeenCalledTimes(2);
+    expect(newEducation2).toEqual(education2);
+
+    university.Educations = [newEducation, newEducation2];
+    universityRepository.findOneByOrFail.mockReturnValue(university);
+
+    const allEducations = await educationService.findEducationsFromUniversity(
+      university.universityName,
+    );
+    expect(allEducations).toEqual([newEducation, newEducation2]);
   });
 });

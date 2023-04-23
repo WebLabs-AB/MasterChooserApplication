@@ -5,6 +5,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
+import { courseData } from "../Assets/Interfaces";
+
 function createData(
   code: string,
   name: string,
@@ -31,7 +33,11 @@ const rows = [
   createData("TDDE02", names[3], 6, "A1X", 2, 2, "V"),
 ];
 
-export const CourseTable: React.FC = () => {
+interface Props {
+  courses: courseData[];
+}
+
+export const CourseTable: React.FC<Props> = (props) => {
   return (
     <TableContainer>
       <Table>
@@ -47,7 +53,18 @@ export const CourseTable: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {/* {rows.map((row) => (
+            <TableRow>
+              <TableCell>{row.code}</TableCell>
+              <TableCell>{row.name}</TableCell>
+              <TableCell>{row.hp}</TableCell>
+              <TableCell>{row.level}</TableCell>
+              <TableCell>{row.period}</TableCell>
+              <TableCell>{row.block}</TableCell>
+              <TableCell>{row.vof}</TableCell>
+            </TableRow>
+          ))} */}
+          {props.courses.map((row) => (
             <TableRow>
               <TableCell>{row.code}</TableCell>
               <TableCell>{row.name}</TableCell>

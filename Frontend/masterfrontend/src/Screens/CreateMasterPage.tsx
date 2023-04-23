@@ -9,55 +9,43 @@ import { ProfileReq } from "../Components/ProfileReq";
 import { GeneralReq } from "../Components/GeneralReq";
 import { courseData } from "../Assets/Interfaces";
 
-function createCourseData(
-  code: string,
-  name: string,
-  hp: number,
-  level: string,
-  period: number,
-  block: number,
-  vof: string
-) {
-  return { code, name, hp, level, period, block, vof };
-}
-
-const date = "Termin 7 HT 2022";
-const tabs = ["Create master schema", "See your master schema", "Profile"];
-const specialisations = [
-  "All",
-  "AI och maskininlärning",
-  "Industriell ekonomi",
-  "International Software Engineering",
-  "Medicinsk informatik",
-  "Programmering och algoritmer",
-  "Spelprogrammering",
-  "Storskalig mjukvaruutveckling",
-  "Säkra system",
-];
-const currentSpec = 6;
-const fields = [
-  "All",
-  "Computer Science",
-  "Computer Science and Engineering",
-  "Information Technology",
-];
-const currentField = 0;
-
-const courseNames = [
-  "Design och programmering av datorspel",
-  "Avancerad interaktionsdesign",
-  "Interaktionsprogrammering",
-  "Mjukvarutekniskt entreprenörskap",
-];
-
-const courseFields = [
-  ["TDDD23", courseNames[0], "6", "A1X", "1", "2", "O"],
-  ["TDDD53", courseNames[1], "6", "A1X", "1", "1", "V"],
-  ["TDDC73", courseNames[2], "6", "G2X", "2", "2", "O"],
-  ["TDDE02", courseNames[3], "6", "A1X", "2", "2", "V"],
-];
-
 export const CreateMasterPage: React.FC = () => {
+  const date = "Termin 7 HT 2022";
+  const tabs = ["Create master schema", "See your master schema", "Profile"];
+  const specialisations = [
+    "All",
+    "AI och maskininlärning",
+    "Industriell ekonomi",
+    "International Software Engineering",
+    "Medicinsk informatik",
+    "Programmering och algoritmer",
+    "Spelprogrammering",
+    "Storskalig mjukvaruutveckling",
+    "Säkra system",
+  ];
+  const currentSpec = 6;
+  const fields = [
+    "All",
+    "Computer Science",
+    "Computer Science and Engineering",
+    "Information Technology",
+  ];
+  const currentField = 0;
+
+  const courseNames = [
+    "Design och programmering av datorspel",
+    "Avancerad interaktionsdesign",
+    "Interaktionsprogrammering",
+    "Mjukvarutekniskt entreprenörskap",
+  ];
+
+  const courseFields = [
+    ["TDDD23", courseNames[0], "6", "A1X", "1", "2", "O"],
+    ["TDDD53", courseNames[1], "6", "A1X", "1", "1", "V"],
+    ["TDDC73", courseNames[2], "6", "G2X", "2", "2", "O"],
+    ["TDDE02", courseNames[3], "6", "A1X", "2", "2", "V"],
+  ];
+
   const courses: courseData[] = courseFields.map((e) => {
     const data: courseData = {
       code: e[0],
@@ -70,6 +58,7 @@ export const CreateMasterPage: React.FC = () => {
     };
     return data;
   });
+
   return (
     <Container>
       <Tabs value={0}>

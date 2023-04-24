@@ -1,8 +1,10 @@
+import { useState } from "react";
 import Container from "@mui/material/Container";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Stack from "@mui/material/Stack";
-import { InputLabel, MenuItem, Select } from "@mui/material";
+import { InputLabel, MenuItem } from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import { CourseTable } from "../Components/CourseTable";
 import { ProfileReq } from "../Components/ProfileReq";
@@ -23,14 +25,14 @@ export const CreateMasterPage: React.FC = () => {
     "Storskalig mjukvaruutveckling",
     "Säkra system",
   ];
-  const currentSpec = 6;
+  const [currentSpec, setCurrentSpec] = useState("All");
   const fields = [
     "All",
     "Computer Science",
     "Computer Science and Engineering",
     "Information Technology",
   ];
-  const currentField = 0;
+  const [currentField, setCurrentField] = useState("All");
 
   const courseNames = [
     "Design och programmering av datorspel",
@@ -59,6 +61,14 @@ export const CreateMasterPage: React.FC = () => {
     return data;
   });
 
+  const handleSpecChange = (e: SelectChangeEvent) => {
+    setCurrentSpec(e.target.value);
+  };
+
+  const handleFieldChange = (e: SelectChangeEvent) => {
+    setCurrentField(e.target.value);
+  };
+
   return (
     <Container>
       <Tabs value={0}>
@@ -73,17 +83,22 @@ export const CreateMasterPage: React.FC = () => {
             labelId="spec-label"
             label="Specialisation"
             value={currentSpec}
+            onChange={handleSpecChange}
           >
-            {specialisations.map((e, i) => (
-              <MenuItem value={i}>{e}</MenuItem>
+            {specialisations.map((e) => (
+              <MenuItem value={e}>{e}</MenuItem>
             ))}
           </Select>
         </Stack>
         <Stack direction="column">
           <InputLabel>Field of study</InputLabel>
-          <Select label="Field of study" value={currentField}>
-            {fields.map((e, i) => (
-              <MenuItem value={i}>{e}</MenuItem>
+          <Select
+            label="Field of study"
+            value={currentField}
+            onChange={handleFieldChange}
+          >
+            {fields.map((e) => (
+              <MenuItem value={e}>{e}</MenuItem>
             ))}
           </Select>
         </Stack>
@@ -91,7 +106,7 @@ export const CreateMasterPage: React.FC = () => {
       <Stack direction="row">
         <Stack direction="column">
           <h2>{date}</h2>
-          <h3>Specialisation: {specialisations[currentSpec]}</h3>
+          <h3>Specialisation: {currentSpec}</h3>
           <CourseTable courses={courses} />
         </Stack>
         <Stack direction="column">

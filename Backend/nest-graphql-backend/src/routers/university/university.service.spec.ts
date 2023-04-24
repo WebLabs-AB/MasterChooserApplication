@@ -6,6 +6,7 @@ import { NotFoundError } from 'rxjs';
 import { University } from 'src/entities/NormalTypes/University.entity';
 import { Repository } from 'typeorm';
 import { UniversityService } from './university.service';
+import { UserInputError } from 'apollo-server-express';
 
 type MockType<T> = {
   [P in keyof T]?: jest.Mock<{}>;
@@ -15,8 +16,10 @@ let universityService: UniversityService;
 const universityRepository: MockType<Repository<University>> = {
   save: jest.fn(),
   findOneByOrFail: jest.fn(),
+  findOne: jest.fn(),
   find: jest.fn(),
   create: jest.fn(),
+  delete: jest.fn(),
 };
 
 beforeEach(async () => {
@@ -34,10 +37,7 @@ beforeEach(async () => {
 });
 
 afterEach(() => {
-  universityRepository.save.mockClear();
-  universityRepository.findOneByOrFail.mockClear();
-  universityRepository.find.mockClear();
-  universityRepository.create.mockClear();
+  jest.resetAllMocks();
 });
 
 describe('UniversityService', () => {
@@ -57,6 +57,7 @@ describe('Test createUniversity func', () => {
     const newUniversity = await universityService.createUniversity({
       universityName: university.universityName,
     });
+
     expect(universityRepository.save).toBeCalledTimes(1);
     expect(universityRepository.create).toBeCalledTimes(1);
     expect(newUniversity).toEqual(university);
@@ -105,5 +106,29 @@ describe('Test findOne func', () => {
 
     expect(universityRepository.findOneByOrFail).toBeCalledTimes(1);
     expect(university).toEqual(NotFoundError);
+  });
+});
+
+describe('Test deleteUniversity func', () => {
+  test('should find a specific university and delete it', async () => {
+    const university = new University();
+    university.universityName = 'Chalmers';
+
+    universityRepository.findOne.mockReturnValue(university);
+
+    const foundUniversity = await universityService.deleteUniversity(
+      'Chalmers',
+    );
+
+    expect(universityRepository.findOne).toBeCalledTimes(1);
+    expect(foundUniversity).toEqual(university);
+  });
+
+  test('should throw an error when trying to delete an university that does not exist', async () => {
+    await expect(
+      universityService.deleteUniversity('Chalmers'),
+    ).rejects.toThrowError(UserInputError);
+
+    expect(universityRepository.findOne).toBeCalledTimes(1);
   });
 });

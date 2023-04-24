@@ -33,7 +33,7 @@ beforeAll(async () => {
 });
 
 afterEach(() => {
-  mainAreaRepository.findOne.mockReturnValue(null);
+  jest.resetAllMocks();
 });
 
 describe('MainAreaService', () => {
@@ -73,7 +73,7 @@ describe('Test createMainArea func', () => {
 });
 
 describe('Test findall func', () => {
-  test('should retrieve all periods', async () => {
+  test('should retrieve all main-areas', async () => {
     const mainArea = new MainArea();
     mainArea.type = 'Datavetenskap';
 

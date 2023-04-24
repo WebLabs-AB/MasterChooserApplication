@@ -46,7 +46,7 @@ beforeAll(async () => {
 });
 
 afterEach(() => {
-  universityRepository.findOne.mockClear();
+  jest.resetAllMocks();
 });
 
 describe('GeneralRequirementsService', () => {
@@ -204,5 +204,34 @@ describe('Test deleteGeneralRequirements func', () => {
       ),
     ).rejects.toThrowError(UserInputError);
     expect(allGeneralRequirements).toEqual([generalRequirementLIU]);
+  });
+});
+
+describe('Test findOne func', () => {
+  test('should find a general requirement for an unviersity', async () => {
+    const university = new University();
+    university.universityName = 'Chalmers';
+
+    const generalRequirement = new GeneralRequirements();
+    generalRequirement.A1XHp = 60;
+    generalRequirement.MainAreaHp = 30;
+    generalRequirement.university = university;
+
+    generalRequirementsRepository.save.mockReturnValue(generalRequirement);
+    generalRequirementsRepository.create.mockReturnValue(generalRequirement);
+    universityRepository.findOne.mockReturnValue(university);
+
+    const newGeneralRequirement =
+      await generalRequirementsService.createGeneralRequirement(
+        generalRequirement,
+      );
+
+    generalRequirementsRepository.findOne.mockReturnValue(
+      newGeneralRequirement,
+    );
+    const foundGeneralRequirement = await generalRequirementsService.findOne(
+      university.universityName,
+    );
+    expect(foundGeneralRequirement).toEqual(newGeneralRequirement);
   });
 });

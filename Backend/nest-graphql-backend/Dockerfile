@@ -18,4 +18,4 @@ RUN npm install bcrypt --silent
 
 
 # Runs the dev npm script to build & start the server
-CMD npm run start:test_env
+CMD npm run start:local_env

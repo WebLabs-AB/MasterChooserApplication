@@ -9,7 +9,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { CourseTable } from "../Components/CourseTable";
 import { ProfileReq } from "../Components/ProfileReq";
 import { GeneralReq } from "../Components/GeneralReq";
-import { courseData } from "../Assets/Interfaces";
+import { CourseData } from "../Assets/Interfaces";
 
 export const CreateMasterPage: React.FC = () => {
   const date = "Termin 7 HT 2022";
@@ -48,8 +48,8 @@ export const CreateMasterPage: React.FC = () => {
     ["TDDE02", courseNames[3], "6", "A1X", "2", "2", "V"],
   ];
 
-  const courses: courseData[] = courseFields.map((e) => {
-    const data: courseData = {
+  const courses: CourseData[] = courseFields.map((e) => {
+    const data: CourseData = {
       code: e[0],
       name: e[1],
       hp: e[2],

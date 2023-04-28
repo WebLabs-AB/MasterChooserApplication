@@ -18,7 +18,7 @@ export interface createRegularuserInputJsonType {
   educationName: string;
 }
 
-export interface courseData {
+export interface CourseData {
   code: string;
   name: string;
   hp: string;

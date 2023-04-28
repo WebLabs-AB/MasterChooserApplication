@@ -1,81 +1,129 @@
+import * as React from "react";
 import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 
-import { courseData } from "../Assets/Interfaces";
+import { CourseData } from "../Assets/Interfaces";
 
-function createData(
-  code: string,
-  name: string,
-  hp: number,
-  level: string,
-  period: number,
-  block: number,
-  vof: string
-) {
-  return { code, name, hp, level, period, block, vof };
+interface HeadCell {
+  disablePadding: boolean;
+  id: keyof CourseData;
+  label: string;
+  numeric: boolean;
 }
 
-const names = [
-  "Design och programmering av datorspel",
-  "Avancerad interaktionsdesign",
-  "Interaktionsprogrammering",
-  "Mjukvarutekniskt entreprenörskap",
-];
+function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
 
-const rows = [
-  createData("TDDD23", names[0], 6, "A1X", 1, 2, "O"),
-  createData("TDDD53", names[1], 6, "A1X", 1, 1, "V"),
-  createData("TDDC73", names[2], 6, "G2X", 2, 2, "O"),
-  createData("TDDE02", names[3], 6, "A1X", 2, 2, "V"),
+type Order = "asc" | "desc";
+
+function getComparator<Key extends keyof any>(
+  order: Order,
+  orderBy: Key
+): (
+  a: { [key in Key]: number | string },
+  b: { [key in Key]: number | string }
+) => number {
+  return order === "desc"
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+const headCells: readonly HeadCell[] = [
+  {
+    id: "code",
+    numeric: false,
+    disablePadding: true,
+    label: "Course Code",
+  },
+  {
+    id: "name",
+    numeric: false,
+    disablePadding: false,
+    label: "Course Name",
+  },
+  {
+    id: "hp",
+    numeric: true,
+    disablePadding: false,
+    label: "HP",
+  },
+  {
+    id: "level",
+    numeric: false,
+    disablePadding: false,
+    label: "Level",
+  },
+  {
+    id: "block",
+    numeric: true,
+    disablePadding: false,
+    label: "Block",
+  },
+  {
+    id: "vof",
+    numeric: false,
+    disablePadding: false,
+    label: "VOF",
+  },
 ];
 
 interface Props {
-  courses: courseData[];
+  courses: CourseData[];
+  numSelected: number;
+  onRequestSort: (
+    event: React.MouseEvent<unknown>,
+    property: keyof CourseData
+  ) => void;
+  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  order: Order;
+  orderBy: string;
 }
 
 export const CourseTable: React.FC<Props> = (props) => {
+  const { onSelectAllClick, order, orderBy, numSelected, onRequestSort } =
+    props;
   return (
     <TableContainer>
       <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Course Code</TableCell>
-            <TableCell>Course Name</TableCell>
-            <TableCell>HP</TableCell>
-            <TableCell>Level</TableCell>
-            <TableCell>Period</TableCell>
-            <TableCell>Block</TableCell>
-            <TableCell>VOF</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {/* {rows.map((row) => (
-            <TableRow>
-              <TableCell>{row.code}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.hp}</TableCell>
-              <TableCell>{row.level}</TableCell>
-              <TableCell>{row.period}</TableCell>
-              <TableCell>{row.block}</TableCell>
-              <TableCell>{row.vof}</TableCell>
-            </TableRow>
-          ))} */}
+        <thead>
+          <tr>
+            <th
+              key={headCells.id}
+              aria-sort={
+                active
+                  ? ({ asc: "ascending", desc: "descending" } as const)[order]
+                  : undefined
+              }
+            ></th>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>HP</th>
+            <th>Level</th>
+            <th>Period</th>
+            <th>Block</th>
+            <th>VOF</th>
+          </tr>
+        </thead>
+        <tbody>
           {props.courses.map((row) => (
-            <TableRow>
-              <TableCell>{row.code}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.hp}</TableCell>
-              <TableCell>{row.level}</TableCell>
-              <TableCell>{row.period}</TableCell>
-              <TableCell>{row.block}</TableCell>
-              <TableCell>{row.vof}</TableCell>
-            </TableRow>
+            <tr>
+              <td>{row.code}</td>
+              <td>{row.name}</td>
+              <td>{row.hp}</td>
+              <td>{row.level}</td>
+              <td>{row.period}</td>
+              <td>{row.block}</td>
+              <td>{row.vof}</td>
+            </tr>
           ))}
-        </TableBody>
+        </tbody>
       </Table>
     </TableContainer>
   );

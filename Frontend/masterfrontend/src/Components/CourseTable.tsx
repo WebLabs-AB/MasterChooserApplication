@@ -76,6 +76,9 @@ const headCells: readonly HeadCell[] = [
 
 interface Props {
   courses: CourseData[];
+}
+
+interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
@@ -86,22 +89,141 @@ interface Props {
   orderBy: string;
 }
 
-export const CourseTable: React.FC<Props> = (props) => {
+function EnhancedTableHead(props: EnhancedTableProps) {
   const { onSelectAllClick, order, orderBy, numSelected, onRequestSort } =
     props;
   return (
-    <TableContainer>
-      <Table>
-        <thead>
-          <tr>
+    <thead>
+      <tr>
+        <th>
+          <Checkbox
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={rowCount > 0 && numSelected === rowCount}
+            onChange={onSelectAllClick}
+            slotProps={{
+              input: {
+                "aria-label": "select all desserts",
+              },
+            }}
+            sx={{ verticalAlign: "sub" }}
+          />
+        </th>
+        {headCells.map((headCell) => {
+          const active = orderBy === headCell.id;
+          return (
             <th
-              key={headCells.id}
+              key={headCell.id}
               aria-sort={
                 active
                   ? ({ asc: "ascending", desc: "descending" } as const)[order]
                   : undefined
               }
-            ></th>
+            >
+              <Link
+                underline="none"
+                color="neutral"
+                textColor={active ? "primary.plainColor" : undefined}
+                component="button"
+                onClick={createSortHandler(headCell.id)}
+                fontWeight="lg"
+                startDecorator={
+                  headCell.numeric ? (
+                    <ArrowDownwardIcon sx={{ opacity: active ? 1 : 0 }} />
+                  ) : null
+                }
+                endDecorator={
+                  !headCell.numeric ? (
+                    <ArrowDownwardIcon sx={{ opacity: active ? 1 : 0 }} />
+                  ) : null
+                }
+                sx={{
+                  "& svg": {
+                    transition: "0.2s",
+                    transform:
+                      active && order === "desc"
+                        ? "rotate(0deg)"
+                        : "rotate(180deg)",
+                  },
+                  "&:hover": { "& svg": { opacity: 1 } },
+                }}
+              >
+                {headCell.label}
+                {active ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
+                  </Box>
+                ) : null}
+              </Link>
+            </th>
+          );
+        })}
+      </tr>
+    </thead>
+  );
+}
+
+interface EnhancedTableToolbarProps {
+  numSelected: number;
+}
+
+function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
+  const { numSelected } = props;
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        py: 1,
+        pl: { sm: 2 },
+        pr: { xs: 1, sm: 1 },
+        ...(numSelected > 0 && {
+          bgcolor: "background.level1",
+        }),
+        borderTopLeftRadius: "var(--unstable_actionRadius)",
+        borderTopRightRadius: "var(--unstable_actionRadius)",
+      }}
+    >
+      {numSelected > 0 ? (
+        <Typography sx={{ flex: "1 1 100%" }} component="div">
+          {numSelected} selected
+        </Typography>
+      ) : (
+        <Typography
+          level="h6"
+          sx={{ flex: "1 1 100%" }}
+          id="tableTitle"
+          component="div"
+        >
+          Nutrition
+        </Typography>
+      )}
+
+      {numSelected > 0 ? (
+        <Tooltip title="Delete">
+          <IconButton size="sm" color="danger" variant="solid">
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Filter list">
+          <IconButton size="sm" variant="outlined" color="neutral">
+            <FilterListIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+    </Box>
+  );
+}
+
+export const CourseTable: React.FC<Props> = (props) => {
+  return (
+    <TableContainer>
+      <Table>
+        <thead>
+          <tr>
             <th>Course Code</th>
             <th>Course Name</th>
             <th>HP</th>

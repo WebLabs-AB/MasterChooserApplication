@@ -1,0 +1,21 @@
+Adding a starting year (Year when students started studying at the university):
+
+mutation {
+  createNewStartingYear(createStartingYearInput: {
+    startingYear: 2020
+  }) {
+    startingYear,
+  }
+}
+
+--------------------------------------------------------------------------------------------------------------------------
+
+Get all available starting years that exist in the (local) database.
+
+query {
+  startingYears {
+    startingYear
+  }
+}
+
+--------------------------------------------------------------------------------------------------------------------------

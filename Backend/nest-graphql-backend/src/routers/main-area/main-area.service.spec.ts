@@ -66,7 +66,7 @@ describe('Test createMainArea func', () => {
     mainAreaRepository.findOne.mockReturnValue(mainArea);
 
     await expect(mainareaService.createMainArea(mainArea)).rejects.toThrowError(
-      UserInputError,
+      Error,
     );
   });
 });

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -10,7 +10,6 @@ import { UniversityService } from 'src/routers/university/university.service';
 import { University } from 'src/entities/NormalTypes/University.entity';
 import { Education } from 'src/entities/NormalTypes/Education.entity';
 import { EducationService } from 'src/routers/education/education.service';
-import { UserInputError } from 'apollo-server-express';
 
 @Injectable()
 export class StudentService {
@@ -26,7 +25,7 @@ export class StudentService {
     createStudentInput: CreateStudentInput,
   ): Promise<Student> {
     if (await this.doesStudentExists(createStudentInput.email)) {
-      throw new UserInputError('User already exists');
+      throw new HttpException('User already exists', HttpStatus.CONFLICT);
     }
 
     const password = createStudentInput.password;

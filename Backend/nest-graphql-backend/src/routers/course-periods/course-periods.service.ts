@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserInputError } from 'apollo-server-express';
 import { CoursePeriods } from 'src/entities/NormalTypes/CoursePeriods.entity';
 import { CreateCoursePeriodsInput } from 'src/inputTypes/create-course-periods.input';
 import { Repository } from 'typeorm';
@@ -22,8 +21,9 @@ export class CoursePeriodsService {
         createCoursePeriodsInput.periodValue,
       )
     ) {
-      throw new UserInputError(
+      throw new HttpException(
         'That course is already being taught in that period already exists',
+        HttpStatus.CONFLICT,
       );
     }
 

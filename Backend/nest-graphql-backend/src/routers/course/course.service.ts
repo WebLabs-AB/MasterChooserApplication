@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserInputError } from 'apollo-server-express';
 import { Course } from 'src/entities/NormalTypes/Course.entity';
 import { CreateCourseEducationsInput } from 'src/inputTypes/create-course-educations.input';
 import { CreateCourseMainAreasInput } from 'src/inputTypes/create-course-mainArea.input';
@@ -37,8 +36,9 @@ export class CourseService {
     yearTaughtList: CreateCourseStartingYearsInput[],
   ): Promise<Course> {
     if (await this.doesCourseExists(createCourseInput.courseId)) {
-      throw new UserInputError(
+      throw new HttpException(
         'That course already exists at ' + createCourseInput.universityName,
+        HttpStatus.CONFLICT,
       );
     }
     const newCourse = this.courseRepository.create(createCourseInput);

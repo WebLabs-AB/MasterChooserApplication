@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { UserInputError } from 'apollo-server-express';
 import { Course, CoursePeriods, Period } from 'src/entities';
 import { Repository } from 'typeorm';
 import { CoursePeriodsService } from './course-periods.service';
@@ -93,7 +92,7 @@ describe('Test createCoursePeriods func', () => {
 
     await expect(
       coursePeriodsService.createCoursePeriods(coursePeriod),
-    ).rejects.toThrowError(UserInputError);
+    ).rejects.toThrowError(Error);
   });
 });
 

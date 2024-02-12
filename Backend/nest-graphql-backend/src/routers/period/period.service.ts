@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserInputError } from 'apollo-server-express';
 import { Period } from 'src/entities/NormalTypes/Period.entity';
 import { CreatePeriodInput } from 'src/inputTypes/create-period.input';
 import { Repository } from 'typeorm';
@@ -16,7 +15,10 @@ export class PeriodService {
   async createPeriod(createPeriod: CreatePeriodInput): Promise<Period> {
     const period = await this.findOne(createPeriod.value);
     if (period) {
-      throw new UserInputError(`That period already exists`);
+      throw new HttpException(
+        `That period already exists`,
+        HttpStatus.CONFLICT,
+      );
     }
 
     const newPeriod = this.periodRepository.create(createPeriod);

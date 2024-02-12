@@ -42,11 +42,29 @@ $ npm install
 $ docker-compose up
 ```
 
+## Using Graphql
+
+```bash
+
+# After starting the backend and postrgres server using docker-compose up.
+# One can populate the local database using graphql, use this link:
+$ http://localhost:4000/graphql
+
+# Go to the grapql-examples.tex file for examples for graphql mutations and queries.
+# File is here: Backend/nest-graphql-backend/grapql-examples.tex
+```
+
 ## Test
 
 ```bash
+
+# Must do docker-compose up before running tests.
+
 # unit tests
 $ npm run test
+
+# integration tests
+$ npm run test:int
 
 # e2e tests
 $ npm run test:e2e

@@ -1,11 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 // Own files.
 import { MainArea } from 'src/entities/NormalTypes/MainArea.entity';
 import { CreateMainAreaInput } from 'src/inputTypes/create-mainArea.input';
-import { UserInputError } from 'apollo-server-express';
 
 @Injectable()
 export class MainAreaService {
@@ -18,7 +17,10 @@ export class MainAreaService {
   async createMainArea(createMainArea: CreateMainAreaInput): Promise<MainArea> {
     const mainArea = await this.findOne(createMainArea.type);
     if (mainArea) {
-      throw new UserInputError(`That main area already exists`);
+      throw new HttpException(
+        `That main area already exists`,
+        HttpStatus.CONFLICT,
+      );
     }
 
     const newMainArea = this.mainAreaRepository.create(createMainArea);

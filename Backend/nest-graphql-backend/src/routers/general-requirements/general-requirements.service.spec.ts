@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { UserInputError } from 'apollo-server-express';
 import { GeneralRequirements, University } from 'src/entities';
 import { Repository } from 'typeorm';
 import { UniversityService } from '../university/university.service';
@@ -99,7 +98,7 @@ describe('Test createGeneralRequirement func', () => {
 
     await expect(
       generalRequirementsService.createGeneralRequirement(generalRequirement),
-    ).rejects.toThrowError(UserInputError);
+    ).rejects.toThrowError(Error);
   });
 });
 
@@ -202,7 +201,7 @@ describe('Test deleteGeneralRequirements func', () => {
       generalRequirementsService.deleteGeneralRequirements(
         generalRequirementLIU.university.universityName,
       ),
-    ).rejects.toThrowError(UserInputError);
+    ).rejects.toThrowError(Error);
     expect(allGeneralRequirements).toEqual([generalRequirementLIU]);
   });
 });

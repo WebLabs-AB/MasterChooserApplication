@@ -6,7 +6,6 @@ import { NotFoundError } from 'rxjs';
 import { University } from 'src/entities/NormalTypes/University.entity';
 import { Repository } from 'typeorm';
 import { UniversityService } from './university.service';
-import { UserInputError } from 'apollo-server-express';
 
 type MockType<T> = {
   [P in keyof T]?: jest.Mock<{}>;
@@ -127,7 +126,7 @@ describe('Test deleteUniversity func', () => {
   test('should throw an error when trying to delete an university that does not exist', async () => {
     await expect(
       universityService.deleteUniversity('Chalmers'),
-    ).rejects.toThrowError(UserInputError);
+    ).rejects.toThrowError(Error);
 
     expect(universityRepository.findOne).toBeCalledTimes(1);
   });

@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserInputError } from 'apollo-server-express';
 import { CourseMainAreas } from 'src/entities/NormalTypes/CourseMainAreas.entity';
 import { CreateCourseMainAreasInput } from 'src/inputTypes/create-course-mainArea.input';
 import { Repository } from 'typeorm';
@@ -22,7 +21,10 @@ export class CourseMainareasService {
         createCourseMainAreasInput.type,
       )
     ) {
-      throw new UserInputError('Course main area already exists');
+      throw new HttpException(
+        'Course main area already exists',
+        HttpStatus.CONFLICT,
+      );
     }
 
     const newCourseEducations = this.courseMainAreasRepository.create(

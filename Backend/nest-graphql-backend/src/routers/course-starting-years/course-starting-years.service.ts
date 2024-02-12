@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserInputError } from 'apollo-server-express';
 import { CourseStartingYears } from 'src/entities/NormalTypes/CourseStartingYears.entity';
 import { CreateCourseStartingYearsInput } from 'src/inputTypes/create-course-startingYears.input';
 import { Repository } from 'typeorm';
@@ -21,7 +20,10 @@ export class CourseStartingYearsService {
         createCourseStartingYearsInput.yearTaught,
       )
     ) {
-      throw new UserInputError('That year already belongs to that course');
+      throw new HttpException(
+        'That year already belongs to that course',
+        HttpStatus.CONFLICT,
+      );
     }
 
     const newCourseEducations = this.courseStartingYearsRepository.create(

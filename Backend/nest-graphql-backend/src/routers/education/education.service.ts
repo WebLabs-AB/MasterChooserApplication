@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -8,7 +8,6 @@ import { CreateEducationInput } from 'src/inputTypes/create-education.input';
 import { UniversityService } from 'src/routers/university/university.service';
 import { University } from 'src/entities/NormalTypes/University.entity';
 import { Student } from 'src/entities/NormalTypes/Student.entity';
-import { UserInputError } from 'apollo-server-express';
 
 @Injectable()
 export class EducationService {
@@ -27,9 +26,10 @@ export class EducationService {
       createEducationInput.universityName,
     );
     if (education) {
-      throw new UserInputError(
+      throw new HttpException(
         `That education already exists at ` +
           createEducationInput.universityName,
+        HttpStatus.CONFLICT,
       );
     }
 

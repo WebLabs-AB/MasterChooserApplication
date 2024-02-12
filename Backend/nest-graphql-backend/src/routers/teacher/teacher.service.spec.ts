@@ -5,7 +5,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Teacher } from 'src/entities';
 import { TeacherService } from './teacher.service';
-import { UserInputError } from 'apollo-server-express';
 
 type MockType<T> = {
   [P in keyof T]?: jest.Mock<{}>;
@@ -97,7 +96,7 @@ describe('Test createTeacher func', () => {
         firstName: teacher.firstName,
         lastName: teacher.lastName,
       }),
-    ).rejects.toThrowError(UserInputError);
+    ).rejects.toThrowError(Error);
 
     expect(teacherRepository.save).toBeCalledTimes(1);
     expect(teacherRepository.create).toBeCalledTimes(1);

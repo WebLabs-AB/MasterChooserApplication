@@ -1,8 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { UserInputError } from 'apollo-server-express';
 import * as bcrypt from 'bcrypt';
-import { NotFoundError } from 'rxjs';
 
 // Own files.
 import { Education } from 'src/entities/NormalTypes/Education.entity';
@@ -142,7 +140,7 @@ describe('Test createStudent', () => {
         universityName: university.universityName,
         startingYear: 2019,
       }),
-    ).rejects.toThrowError(UserInputError);
+    ).rejects.toThrowError(Error);
 
     expect(studentRepository.findOne).toBeCalledTimes(1);
   });

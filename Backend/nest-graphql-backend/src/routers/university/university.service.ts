@@ -1,11 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 // Own files.
 import { University } from 'src/entities/NormalTypes/University.entity';
 import { CreateUniversityInput } from 'src/inputTypes/create-university.input';
-import { UserInputError } from 'apollo-server-express';
 
 @Injectable()
 export class UniversityService {
@@ -43,7 +42,10 @@ export class UniversityService {
       await this.universityRepository.delete(universityName);
       return university;
     } else {
-      throw new UserInputError('No university with that name was found');
+      throw new HttpException(
+        'No university with that name was found',
+        HttpStatus.CONFLICT,
+      );
     }
   }
 }

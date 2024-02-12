@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { UserInputError } from 'apollo-server-express';
 import { MainArea } from 'src/entities/NormalTypes/MainArea.entity';
 import { Repository } from 'typeorm';
 import { MainAreaService } from './main-area.service';

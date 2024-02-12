@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserInputError } from 'apollo-server-express';
 import { GeneralRequirements } from 'src/entities';
 import { CreateGeneralRequirementsInput } from 'src/inputTypes/create-general-requirements.input';
 import { Repository } from 'typeorm';
@@ -23,9 +22,10 @@ export class GeneralRequirementsService {
         createGeneralRequirementsInput.universityName,
       )
     ) {
-      throw new UserInputError(
+      throw new HttpException(
         'General requirement already exists for ' +
           createGeneralRequirementsInput.universityName,
+        HttpStatus.CONFLICT,
       );
     }
 
@@ -66,8 +66,9 @@ export class GeneralRequirementsService {
       await this.generalRequirementsRepository.delete(universityName);
       return generalRequirements;
     } else {
-      throw new UserInputError(
+      throw new HttpException(
         'No general requirement found for ' + universityName,
+        HttpStatus.CONFLICT,
       );
     }
   }

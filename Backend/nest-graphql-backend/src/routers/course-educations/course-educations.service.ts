@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserInputError } from 'apollo-server-express';
 import { CourseEducations } from 'src/entities/NormalTypes/CourseEducations.entity';
 import { CreateCourseEducationsInput } from 'src/inputTypes/create-course-educations.input';
 import { Repository } from 'typeorm';
@@ -22,8 +21,9 @@ export class CourseEducationsService {
         createCourseEducationsInput.educationId,
       )
     ) {
-      throw new UserInputError(
+      throw new HttpException(
         'That course is already connected to that education',
+        HttpStatus.CONFLICT,
       );
     }
 

@@ -1,7 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserInputError } from 'apollo-server-express';
 import * as bcrypt from 'bcrypt';
 
 // Own files
@@ -19,7 +18,7 @@ export class TeacherService {
     createTeacherInput: CreateTeacherInput,
   ): Promise<Teacher> {
     if (await this.doesTeacherExists(createTeacherInput.email)) {
-      throw new UserInputError('Teacher already exists');
+      throw new HttpException('Teacher already exists', HttpStatus.CONFLICT);
     }
 
     const password = createTeacherInput.password;

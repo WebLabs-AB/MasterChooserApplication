@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { UserInputError } from 'apollo-server-express';
 import { Period } from 'src/entities';
 import { Repository } from 'typeorm';
 import { PeriodService } from './period.service';
@@ -68,7 +67,7 @@ describe('Test createPeriod func', () => {
     periodsRepository.findOne.mockReturnValue(period);
 
     await expect(periodsService.createPeriod(period)).rejects.toThrowError(
-      UserInputError,
+      Error,
     );
   });
 });

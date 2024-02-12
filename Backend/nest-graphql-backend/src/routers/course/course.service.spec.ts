@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { UserInputError } from 'apollo-server-express';
 import {
   Course,
   CourseEducations,
@@ -417,7 +416,7 @@ describe('Test createCourse func', () => {
           },
         ],
       ),
-    ).rejects.toThrowError(UserInputError);
+    ).rejects.toThrowError(Error);
   });
 });
 

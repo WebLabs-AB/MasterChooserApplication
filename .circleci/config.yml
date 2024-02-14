@@ -9,19 +9,13 @@ workflows:
     jobs:
       - build-eslint-deploy-frontend:
           filters:
-            branches:
-              only:
-                - main
       - deploy-backend:
           filters:
-            branches:
-              only:
-                - main
 
 jobs:
   unit-test-backend:
     docker:
-        - image: cimg/node:16.13.2
+        - image: cimg/node:20.5.0
     parallelism: 4
     steps:
       - checkout
@@ -52,7 +46,7 @@ jobs:
           path: ./Backend/nest-graphql-backend/reports
   build-eslint-deploy-frontend:
     docker:
-      - image: cimg/node:16.13.2
+      - image: cimg/node:20.5.0
     steps:
       - checkout
       - run:

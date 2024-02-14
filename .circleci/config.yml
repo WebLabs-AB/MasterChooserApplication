@@ -12,13 +12,11 @@ workflows:
             branches:
               only:
                 - main
-                - build-eslint-deploy-frontend-fail
       - deploy-backend:
           filters:
             branches:
               only:
                 - main
-                - build-eslint-deploy-frontend-fail
 
 jobs:
   unit-test-backend:

@@ -23,7 +23,7 @@ workflows:
 jobs:
   unit-test-backend:
     docker:
-        - image: cimg/node:20.5.0
+        - image: cimg/node:16.13.2
     parallelism: 4
     steps:
       - checkout

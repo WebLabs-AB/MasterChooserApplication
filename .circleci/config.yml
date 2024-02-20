@@ -52,7 +52,7 @@ jobs:
           path: ./Backend/nest-graphql-backend/reports
   build-eslint-deploy-frontend:
     docker:
-      - image: cimg/node:16.13.2
+      - image: cimg/node:20.5.0
     steps:
       - checkout
       - run:

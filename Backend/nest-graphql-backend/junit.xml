@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="73" failures="0" errors="0" time="49.177">
+  <testsuite name="CourseService" errors="0" failures="0" skipped="0" timestamp="2024-02-28T15:29:25" time="18.1" tests="5">
+    <testcase classname="CourseService should be defined" name="CourseService should be defined" time="0.003">
+    </testcase>
+    <testcase classname="Test createCourse func should create a new course" name="Test createCourse func should create a new course" time="0.004">
+    </testcase>
+    <testcase classname="Test createCourse func should throw an error when creating a duplicate course" name="Test createCourse func should throw an error when creating a duplicate course" time="0.02">
+    </testcase>
+    <testcase classname="Test findall func should retrieve all courses" name="Test findall func should retrieve all courses" time="0.001">
+    </testcase>
+    <testcase classname="Test findOne function should create a new course and find it and return it" name="Test findOne function should create a new course and find it and return it" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="CourseStartingYearsService" errors="0" failures="0" skipped="0" timestamp="2024-02-28T15:29:43" time="1.884" tests="6">
+    <testcase classname="CourseStartingYearsService should be defined" name="CourseStartingYearsService should be defined" time="0.001">
+    </testcase>
+    <testcase classname="Test createCourseStartingYears func should create a new " name="Test createCourseStartingYears func should create a new " time="0">
+    </testcase>
+    <testcase classname="Test createCourseStartingYears func should throw an error when creating a duplicate course-starting-years" name="Test createCourseStartingYears func should throw an error when creating a duplicate course-starting-years" time="0.013">
+    </testcase>
+    <testcase classname="Test findAllCoursesConnectedToStartingYear func should return all courses connected to a specific starting year" name="Test findAllCoursesConnectedToStartingYear func should return all courses connected to a specific starting year" time="0.001">
+    </testcase>
+    <testcase classname="Test findAllStartingYearsConnectedToCourse func should return all starting years connected to a specific course" name="Test findAllStartingYearsConnectedToCourse func should return all starting years connected to a specific course" time="0.001">
+    </testcase>
+    <testcase classname="Test findall func should retrieve all course-startingyears" name="Test findall func should retrieve all course-startingyears" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="CourseEducationsService" errors="0" failures="0" skipped="0" timestamp="2024-02-28T15:29:45" time="1.822" tests="6">
+    <testcase classname="CourseEducationsService should be defined" name="CourseEducationsService should be defined" time="0">
+    </testcase>
+    <testcase classname="Test createCourseEducations func should create a new course-education" name="Test createCourseEducations func should create a new course-education" time="0.001">
+    </testcase>
+    <testcase classname="Test createCourseEducations func should throw an error when creating a duplicate course-education" name="Test createCourseEducations func should throw an error when creating a duplicate course-education" time="0.015">
+    </testcase>
+    <testcase classname="Test findAllCoursesConnectedToEducation func should return all courses connected to a specific education" name="Test findAllCoursesConnectedToEducation func should return all courses connected to a specific education" time="0.008">
+    </testcase>
+    <testcase classname="Test findAllEducationsConnectedToCourse func should return all educations connected to a specific course" name="Test findAllEducationsConnectedToCourse func should return all educations connected to a specific course" time="0.001">
+    </testcase>
+    <testcase classname="Test findall func should retrieve all course-educations" name="Test findall func should retrieve all course-educations" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="EducationService" errors="0" failures="0" skipped="0" timestamp="2024-02-28T15:29:47" time="1.844" tests="7">
+    <testcase classname="EducationService should be defined" name="EducationService should be defined" time="0.001">
+    </testcase>
+    <testcase classname="Test createEducation func should create a new education" name="Test createEducation func should create a new education" time="0.002">
+    </testcase>
+    <testcase classname="Test createEducation func should throw an error when creating a duplicate education" name="Test createEducation func should throw an error when creating a duplicate education" time="0.021">
+    </testcase>
+    <testcase classname="Test getAllStudents func should retrieve all students that studies a specific education" name="Test getAllStudents func should retrieve all students that studies a specific education" time="0.003">
+    </testcase>
+    <testcase classname="Test getUniversity func should retrieve what university a education belongs to" name="Test getUniversity func should retrieve what university a education belongs to" time="0.001">
+    </testcase>
+    <testcase classname="Test findall func should retrieve all educations" name="Test findall func should retrieve all educations" time="0.002">
+    </testcase>
+    <testcase classname="Test findEducationsFromUniversity func should retrieve all educations from an university" name="Test findEducationsFromUniversity func should retrieve all educations from an university" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="CourseMainareasService" errors="0" failures="0" skipped="0" timestamp="2024-02-28T15:29:49" time="1.819" tests="6">
+    <testcase classname="CourseMainareasService should be defined" name="CourseMainareasService should be defined" time="0.001">
+    </testcase>
+    <testcase classname="Test createCourseMainAreas func should create a new course main area" name="Test createCourseMainAreas func should create a new course main area" time="0.001">
+    </testcase>
+    <testcase classname="Test createCourseMainAreas func should throw an error when creating a duplicate course period" name="Test createCourseMainAreas func should throw an error when creating a duplicate course period" time="0.021">
+    </testcase>
+    <testcase classname="Test findAllCoursesConnectedToMainArea func should return all courses connected to a main area" name="Test findAllCoursesConnectedToMainArea func should return all courses connected to a main area" time="0.001">
+    </testcase>
+    <testcase classname="Test findAllMainAreasConnectedToCourse func should return all main areas connected to a course" name="Test findAllMainAreasConnectedToCourse func should return all main areas connected to a course" time="0.001">
+    </testcase>
+    <testcase classname="Test findall func should retrieve all course-mainareas" name="Test findall func should retrieve all course-mainareas" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="GeneralRequirementsService" errors="0" failures="0" skipped="0" timestamp="2024-02-28T15:29:51" time="2.355" tests="7">
+    <testcase classname="GeneralRequirementsService should be defined" name="GeneralRequirementsService should be defined" time="0.001">
+    </testcase>
+    <testcase classname="Test createGeneralRequirement func should create a new general requirement" name="Test createGeneralRequirement func should create a new general requirement" time="0.001">
+    </testcase>
+    <testcase classname="Test createGeneralRequirement func should throw an error when creating a duplicate general requirement" name="Test createGeneralRequirement func should throw an error when creating a duplicate general requirement" time="0.012">
+    </testcase>
+    <testcase classname="Test findall func should retrieve all general requirements" name="Test findall func should retrieve all general requirements" time="0.001">
+    </testcase>
+    <testcase classname="Test deleteGeneralRequirements func should delete general requirement for LIU" name="Test deleteGeneralRequirements func should delete general requirement for LIU" time="0.001">
+    </testcase>
+    <testcase classname="Test deleteGeneralRequirements func should throw error when deleting general requirement for LIU" name="Test deleteGeneralRequirements func should throw error when deleting general requirement for LIU" time="0.002">
+    </testcase>
+    <testcase classname="Test findOne func should find a general requirement for an unviersity" name="Test findOne func should find a general requirement for an unviersity" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="UniversityService" errors="0" failures="0" skipped="0" timestamp="2024-02-28T15:29:53" time="2.426" tests="6">
+    <testcase classname="UniversityService should be defined" name="UniversityService should be defined" time="0.006">
+    </testcase>
+    <testcase classname="Test createStudent should create a new student" name="Test createStudent should create a new student" time="0.187">
+    </testcase>
+    <testcase classname="Test createStudent should throw an error when creating student" name="Test createStudent should throw an error when creating student" time="0.108">
+    </testcase>
+    <testcase classname="Test findall func should retrieve all students" name="Test findall func should retrieve all students" time="0.121">
+    </testcase>
+    <testcase classname="Test findOne func should retrieve a specific student" name="Test findOne func should retrieve a specific student" time="0.08">
+    </testcase>
+    <testcase classname="Test findOne func should throw an error when searching for a specific student" name="Test findOne func should throw an error when searching for a specific student" time="0.081">
+    </testcase>
+  </testsuite>
+  <testsuite name="CoursePeriodsService" errors="0" failures="0" skipped="0" timestamp="2024-02-28T15:29:55" time="1.933" tests="6">
+    <testcase classname="CoursePeriodsService should be defined" name="CoursePeriodsService should be defined" time="0.001">
+    </testcase>
+    <testcase classname="Test createCoursePeriods func should create a new course period" name="Test createCoursePeriods func should create a new course period" time="0.001">
+    </testcase>
+    <testcase classname="Test createCoursePeriods func should throw an error when creating a duplicate course period" name="Test createCoursePeriods func should throw an error when creating a duplicate course period" time="0.009">
+    </testcase>
+    <testcase classname="Test findAllCoursesConnectedToPeriod func should return all courses connected to a specific period" name="Test findAllCoursesConnectedToPeriod func should return all courses connected to a specific period" time="0.002">
+    </testcase>
+    <testcase classname="Test findAllPeriodsConnectedToCourse func should return all periods connected to a specific course" name="Test findAllPeriodsConnectedToCourse func should return all periods connected to a specific course" time="0.001">
+    </testcase>
+    <testcase classname="Test findAll func should return all course-periods" name="Test findAll func should return all course-periods" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="UniversityService" errors="0" failures="0" skipped="0" timestamp="2024-02-28T15:29:57" time="1.744" tests="7">
+    <testcase classname="UniversityService should be defined" name="UniversityService should be defined" time="0.005">
+    </testcase>
+    <testcase classname="Test createUniversity func should create and return an university" name="Test createUniversity func should create and return an university" time="0.003">
+    </testcase>
+    <testcase classname="Test findAll func should find all universities" name="Test findAll func should find all universities" time="0.003">
+    </testcase>
+    <testcase classname="Test findOne func should find a specific university" name="Test findOne func should find a specific university" time="0.003">
+    </testcase>
+    <testcase classname="Test findOne func should throw an error when searching for a specific university" name="Test findOne func should throw an error when searching for a specific university" time="0.006">
+    </testcase>
+    <testcase classname="Test deleteUniversity func should find a specific university and delete it" name="Test deleteUniversity func should find a specific university and delete it" time="0.002">
+    </testcase>
+    <testcase classname="Test deleteUniversity func should throw an error when trying to delete an university that does not exist" name="Test deleteUniversity func should throw an error when trying to delete an university that does not exist" time="0.013">
+    </testcase>
+  </testsuite>
+  <testsuite name="AuthResolver" errors="0" failures="0" skipped="0" timestamp="2024-02-28T15:29:59" time="4.485" tests="3">
+    <testcase classname="AuthResolver AuthResolver should be defined" name="AuthResolver AuthResolver should be defined" time="0.009">
+    </testcase>
+    <testcase classname="AuthResolver AuthResolver should logging in an user" name="AuthResolver AuthResolver should logging in an user" time="0.153">
+    </testcase>
+    <testcase classname="AuthResolver AuthResolver should throw an error when logging in an user" name="AuthResolver AuthResolver should throw an error when logging in an user" time="0.162">
+    </testcase>
+  </testsuite>
+  <testsuite name="TeacherService" errors="0" failures="0" skipped="0" timestamp="2024-02-28T15:30:04" time="2.131" tests="3">
+    <testcase classname="TeacherService should be defined" name="TeacherService should be defined" time="0.006">
+    </testcase>
+    <testcase classname="Test createTeacher func should create and return a teacher" name="Test createTeacher func should create and return a teacher" time="0.087">
+    </testcase>
+    <testcase classname="Test createTeacher func should create an error when creating a duplicate teacher" name="Test createTeacher func should create an error when creating a duplicate teacher" time="0.085">
+    </testcase>
+  </testsuite>
+  <testsuite name="MainAreaService" errors="0" failures="0" skipped="0" timestamp="2024-02-28T15:30:06" time="2.626" tests="4">
+    <testcase classname="MainAreaService should be defined" name="MainAreaService should be defined" time="0.001">
+    </testcase>
+    <testcase classname="Test createMainArea func should create a new main area" name="Test createMainArea func should create a new main area" time="0.001">
+    </testcase>
+    <testcase classname="Test createMainArea func should throw an error when creating a duplicate main area" name="Test createMainArea func should throw an error when creating a duplicate main area" time="0.007">
+    </testcase>
+    <testcase classname="Test findall func should retrieve all main-areas" name="Test findall func should retrieve all main-areas" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="PeriodsService" errors="0" failures="0" skipped="0" timestamp="2024-02-28T15:30:09" time="2.554" tests="4">
+    <testcase classname="PeriodsService should be defined" name="PeriodsService should be defined" time="0.001">
+    </testcase>
+    <testcase classname="Test createPeriod func should create a new period" name="Test createPeriod func should create a new period" time="0">
+    </testcase>
+    <testcase classname="Test createPeriod func should throw an error when creating a duplicate period" name="Test createPeriod func should throw an error when creating a duplicate period" time="0.007">
+    </testcase>
+    <testcase classname="Test findall func should retrieve all periods" name="Test findall func should retrieve all periods" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="StartingYearService" errors="0" failures="0" skipped="0" timestamp="2024-02-28T15:30:11" time="2.677" tests="3">
+    <testcase classname="StartingYearService should be defined" name="StartingYearService should be defined" time="0.005">
+    </testcase>
+    <testcase classname="Test createStartingYear func should create and return a starting year" name="Test createStartingYear func should create and return a starting year" time="0.003">
+    </testcase>
+    <testcase classname="test findAll func should find and return a list of starting-years" name="test findAll func should find and return a list of starting-years" time="0.002">
+    </testcase>
+  </testsuite>
+</testsuites>

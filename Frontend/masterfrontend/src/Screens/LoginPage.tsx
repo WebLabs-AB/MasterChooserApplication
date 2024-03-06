@@ -40,6 +40,10 @@ export const LoginPage: React.FC = () => {
     };
 
 
+    //Temp button for navigating to teacher start page
+    const goToTeacherPage = () => navigate("/teacher-page")
+
+
     return (
         <Container
             sx={{flex: 1, display: 'flex', flexDirection: 'column',
@@ -110,8 +114,21 @@ export const LoginPage: React.FC = () => {
                     >
                         Register
                     </Button>
-                </Stack>
+                </Stack> 
             </Paper>
+            
+
+            <Button 
+                onClick={goToTeacherPage} 
+                variant="contained"
+                sx={{'width': '80vw', 'maxWidth': '200px',
+                'backgroundColor': Colors.cyan,
+                ':hover': {backgroundColor: Colors.cyan}}}
+            >
+                Teacher page
+            </Button>
+
+
         </Container>
     );
 }

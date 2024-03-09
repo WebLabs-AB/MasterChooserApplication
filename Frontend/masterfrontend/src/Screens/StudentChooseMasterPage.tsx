@@ -11,7 +11,7 @@ import { ProfileReq } from "../Components/ProfileReq";
 import { GeneralReq } from "../Components/GeneralReq";
 import { CourseData } from "../Assets/Interfaces";
 
-export const CreateMasterPage: React.FC = () => {
+export const StudentChooseMasterPage: React.FC = () => {
   const date = "Termin 7 HT 2022";
   const tabs = ["Create master schema", "See your master schema", "Profile"];
   const specialisations = [

@@ -46,7 +46,7 @@ import entities from './entities';
             database: configService.get<string>('DB_NAME'),
             entities: entities,
             synchronize: true, // Only use doing development.
-            dropSchema: true,
+            //dropSchema: true,
           };
         } else if (configService.get<string>('NODE_ENV') === 'test') {
           return {

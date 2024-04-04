@@ -50,13 +50,13 @@ export const StudentChooseMasterPage: React.FC = () => {
 
   const courses: CourseData[] = courseFields.map((e) => {
     const data: CourseData = {
-      code: e[0],
-      name: e[1],
-      hp: e[2],
-      level: e[3],
-      period: e[4],
-      block: e[5],
-      vof: e[6],
+      "code": e[0],
+      "name": e[1],
+      "hp": e[2],
+      "level": e[3],
+      "period": e[4],
+      "block": e[5],
+      "vof": e[6],
     };
     return data;
   });

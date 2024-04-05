@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import { InputLabel, MenuItem } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
-import { CourseTable } from "../Components/CourseTable";
+import { CourseTable } from "../Components/CourseTableDataGrid";
 import { ProfileReq } from "../Components/ProfileReq";
 import { GeneralReq } from "../Components/GeneralReq";
 import { CourseData } from "../Assets/Interfaces";
@@ -50,13 +50,13 @@ export const StudentChooseMasterPage: React.FC = () => {
 
   const courses: CourseData[] = courseFields.map((e) => {
     const data: CourseData = {
-      "code": e[0],
-      "name": e[1],
-      "hp": e[2],
-      "level": e[3],
-      "period": e[4],
-      "block": e[5],
-      "vof": e[6],
+      code: e[0],
+      name: e[1],
+      hp: e[2],
+      level: e[3],
+      period: e[4],
+      block: e[5],
+      vof: e[6],
     };
     return data;
   });

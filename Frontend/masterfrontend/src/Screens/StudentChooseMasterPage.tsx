@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import { InputLabel, MenuItem } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
-import { CourseTable } from "../Components/CourseTableDataGrid";
+import { CourseTable } from "../Components/CourseTable";
 import { ProfileReq } from "../Components/ProfileReq";
 import { GeneralReq } from "../Components/GeneralReq";
 import { CourseData } from "../Assets/Interfaces";

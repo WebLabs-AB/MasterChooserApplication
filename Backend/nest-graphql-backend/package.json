@@ -23,6 +23,7 @@
     "test:e2e": "docker run -d -p 5432:5432 -e POSTGRES_DB=nest -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret postgres && NODE_ENV=test jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@apollo/client": "^3.9.10",
     "@apollo/server": "^4.10.0",
     "@hapi/boom": "^10.0.1",
     "@hapi/cryptiles": "^6.0.1",
@@ -46,7 +47,6 @@
     "class-validator": "^0.14.0",
     "dotenv": "^16.0.3",
     "graphql": "^16.8.1",
-    "graphql-tools": "^8.3.16",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",

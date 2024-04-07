@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 //Own files.
 import { Student } from 'src/entities/NormalTypes/deprecated/Student.entity';
-import { UniversityModule } from 'src/routers/university/university.module';
-import { EducationModule } from 'src/routers/education/education.module';
+import { UniversityModule } from 'src/routers/deprecated/university/university.module';
+import { EducationModule } from 'src/routers/deprecated/education/education.module';
 import { StudentService } from './student.service';
 import { StudentResolver } from './student.resolver';
 

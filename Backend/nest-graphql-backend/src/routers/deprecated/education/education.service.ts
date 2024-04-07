@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 // Own files.
 import { Education } from 'src/entities/NormalTypes/deprecated/Education.entity';
 import { CreateEducationInput } from 'src/inputTypes/create-education.input';
-import { UniversityService } from 'src/routers/university/university.service';
+import { UniversityService } from 'src/routers/deprecated/university/university.service';
 import { University } from 'src/entities/NormalTypes/deprecated/University.entity';
 import { Student } from 'src/entities/NormalTypes/deprecated/Student.entity';
 

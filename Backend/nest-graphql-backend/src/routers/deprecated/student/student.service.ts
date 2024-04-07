@@ -6,10 +6,10 @@ import * as bcrypt from 'bcrypt';
 // Own files
 import { Student } from 'src/entities/NormalTypes/deprecated/Student.entity';
 import { CreateStudentInput } from 'src/inputTypes/create-student.input';
-import { UniversityService } from 'src/routers/university/university.service';
+import { UniversityService } from 'src/routers/deprecated/university/university.service';
 import { University } from 'src/entities/NormalTypes/deprecated/University.entity';
 import { Education } from 'src/entities/NormalTypes/deprecated/Education.entity';
-import { EducationService } from 'src/routers/education/education.service';
+import { EducationService } from 'src/routers/deprecated/education/education.service';
 
 @Injectable()
 export class StudentService {

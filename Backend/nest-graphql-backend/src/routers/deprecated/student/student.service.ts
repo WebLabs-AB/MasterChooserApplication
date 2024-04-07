@@ -1,0 +1,92 @@
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+
+// Own files
+import { Student } from 'src/entities/NormalTypes/deprecated/Student.entity';
+import { CreateStudentInput } from 'src/inputTypes/create-student.input';
+import { UniversityService } from 'src/routers/deprecated/university/university.service';
+import { University } from 'src/entities/NormalTypes/deprecated/University.entity';
+import { Education } from 'src/entities/NormalTypes/deprecated/Education.entity';
+import { EducationService } from 'src/routers/deprecated/education/education.service';
+
+@Injectable()
+export class StudentService {
+  constructor(
+    @InjectRepository(Student)
+    private studentRepository: Repository<Student>,
+    private universityService: UniversityService,
+    private educationService: EducationService,
+  ) {}
+
+  // Creates a new student and saves it in the database.
+  async createStudent(
+    createStudentInput: CreateStudentInput,
+  ): Promise<Student> {
+    if (await this.doesStudentExists(createStudentInput.email)) {
+      throw new HttpException('User already exists', HttpStatus.CONFLICT);
+    }
+
+    const password = createStudentInput.password;
+    const email = createStudentInput.email;
+
+    const SALT = await bcrypt.genSalt(10);
+
+    createStudentInput.password = await bcrypt.hash(password, SALT);
+    createStudentInput.email = email;
+
+    const newStudent = this.studentRepository.create(createStudentInput);
+
+    const university = await this.getUniversity(
+      createStudentInput.universityName,
+    );
+
+    const education = await this.getEducation(
+      createStudentInput.educationName,
+      createStudentInput.universityName,
+    );
+
+    newStudent.university = university; // Set foreign key.
+    newStudent.education = education; // Set foreign key.
+    return this.studentRepository.save(newStudent);
+  }
+
+  // Find all users from the regularuser table.
+  async findAll(): Promise<Student[]> {
+    return this.studentRepository.find(); // SELECT * FROM regularuser;
+  }
+
+  // Finds a specific regularuser or returns null.
+  async findOne(email: string): Promise<Student> {
+    return await this.studentRepository.findOne({
+      where: { email: email },
+    });
+  }
+
+  // Gets a specific university.
+  async getUniversity(universityName: string): Promise<University> {
+    return this.universityService.findOne(universityName);
+  }
+
+  // Gets a specific education.
+  async getEducation(
+    educationName: string,
+    universityName: string,
+  ): Promise<Education> {
+    return this.educationService.findOne(educationName, universityName);
+  }
+
+  // Checks if an student exists from email.
+  async doesStudentExists(email: string): Promise<boolean> {
+    const user = await this.studentRepository.findOne({
+      where: { email: email },
+    });
+
+    if (!user) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+}

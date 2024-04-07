@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CourseEducations } from 'src/entities/NormalTypes/CourseEducations.entity';
+import { CourseEducations } from 'src/entities/NormalTypes/deprecated/CourseEducations.entity';
 import { CreateCourseEducationsInput } from 'src/inputTypes/create-course-educations.input';
 import { CourseEducationsService } from './course-educations.service';
 

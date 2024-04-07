@@ -3,7 +3,7 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 import { University } from './University.entity';
 import { Education } from './Education.entity';
-import { User } from '../SuperTypes/User.entity';
+import { User } from '../../SuperTypes/User.entity';
 import { MasterSchema } from './MasterSchema.entity';
 
 @Entity('Student')

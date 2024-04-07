@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 // Own files
-import { Teacher } from 'src/entities/NormalTypes/Teacher.entity';
+import { Teacher } from 'src/entities/NormalTypes/deprecated/Teacher.entity';
 import { CreateTeacherInput } from 'src/inputTypes/create-teacher.input';
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 // Own files.
-import { Teacher } from 'src/entities/NormalTypes/Teacher.entity';
+import { Teacher } from 'src/entities/NormalTypes/deprecated/Teacher.entity';
 import { CreateTeacherInput } from 'src/inputTypes/create-teacher.input';
 import { TeacherService } from './teacher.service';
 

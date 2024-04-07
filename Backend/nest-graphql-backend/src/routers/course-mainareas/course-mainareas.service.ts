@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CourseMainAreas } from 'src/entities/NormalTypes/CourseMainAreas.entity';
+import { CourseMainAreas } from 'src/entities/NormalTypes/deprecated/CourseMainAreas.entity';
 import { CreateCourseMainAreasInput } from 'src/inputTypes/create-course-mainArea.input';
 import { Repository } from 'typeorm';
 

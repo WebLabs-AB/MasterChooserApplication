@@ -3,9 +3,9 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 
 // Own files.
-import { Education } from 'src/entities/NormalTypes/Education.entity';
-import { Student } from 'src/entities/NormalTypes/Student.entity';
-import { University } from 'src/entities/NormalTypes/University.entity';
+import { Education } from 'src/entities/NormalTypes/deprecated/Education.entity';
+import { Student } from 'src/entities/NormalTypes/deprecated/Student.entity';
+import { University } from 'src/entities/NormalTypes/deprecated/University.entity';
 import { Repository } from 'typeorm';
 import { EducationService } from '../education/education.service';
 import { UniversityService } from '../university/university.service';

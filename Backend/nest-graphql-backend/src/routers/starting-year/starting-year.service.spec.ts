@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { StartingYear } from 'src/entities/NormalTypes/StartingYear.entity';
+import { StartingYear } from 'src/entities/NormalTypes/deprecated/StartingYear.entity';
 import { Repository } from 'typeorm';
 import { StartingYearService } from './starting-year.service';
 

@@ -19,7 +19,7 @@ import { CourseModule } from './routers/course/course.module';
 import { CourseEducationsModule } from './routers/course-educations/course-educations.module';
 import { CoursePeriodsModule } from './routers/course-periods/course-periods.module';
 import { CourseMainareasModule } from './routers/course-mainareas/course-mainareas.module';
-import { CourseStartingYears } from './entities/NormalTypes/CourseStartingYears.entity';
+import { CourseStartingYears } from './entities/NormalTypes/deprecated/CourseStartingYears.entity';
 import { environment } from './environments/environment';
 import { GeneralRequirementsModule } from './routers/general-requirements/general-requirements.module';
 import entities from './entities';

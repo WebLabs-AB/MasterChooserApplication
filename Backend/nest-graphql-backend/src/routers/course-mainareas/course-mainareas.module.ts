@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CourseMainareasService } from './course-mainareas.service';
 import { CourseMainareasResolver } from './course-mainareas.resolver';
-import { CourseMainAreas } from 'src/entities/NormalTypes/CourseMainAreas.entity';
+import { CourseMainAreas } from 'src/entities/NormalTypes/deprecated/CourseMainAreas.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({

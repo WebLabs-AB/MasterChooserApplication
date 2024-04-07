@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Period } from 'src/entities/NormalTypes/Period.entity';
+import { Period } from 'src/entities/NormalTypes/deprecated/Period.entity';
 import { CreatePeriodInput } from 'src/inputTypes/create-period.input';
 import { Repository } from 'typeorm';
 

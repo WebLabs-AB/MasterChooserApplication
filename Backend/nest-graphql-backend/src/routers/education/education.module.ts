@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 // Own files.
 import { EducationService } from './education.service';
 import { EducationResolver } from './education.resolver';
-import { Education } from 'src/entities/NormalTypes/Education.entity';
+import { Education } from 'src/entities/NormalTypes/deprecated/Education.entity';
 import { UniversityModule } from 'src/routers/university/university.module';
 
 @Module({

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 // Own files.
-import { MainArea } from 'src/entities/NormalTypes/MainArea.entity';
+import { MainArea } from 'src/entities/NormalTypes/deprecated/MainArea.entity';
 import { CreateMainAreaInput } from 'src/inputTypes/create-mainArea.input';
 
 @Injectable()

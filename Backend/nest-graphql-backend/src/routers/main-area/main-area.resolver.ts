@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { MainArea } from 'src/entities/NormalTypes/MainArea.entity';
+import { MainArea } from 'src/entities/NormalTypes/deprecated/MainArea.entity';
 import { CreateMainAreaInput } from 'src/inputTypes/create-mainArea.input';
 
 // Own files.

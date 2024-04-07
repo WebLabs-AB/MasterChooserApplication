@@ -4,11 +4,11 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 // Own files
-import { Student } from 'src/entities/NormalTypes/Student.entity';
+import { Student } from 'src/entities/NormalTypes/deprecated/Student.entity';
 import { CreateStudentInput } from 'src/inputTypes/create-student.input';
 import { UniversityService } from 'src/routers/university/university.service';
-import { University } from 'src/entities/NormalTypes/University.entity';
-import { Education } from 'src/entities/NormalTypes/Education.entity';
+import { University } from 'src/entities/NormalTypes/deprecated/University.entity';
+import { Education } from 'src/entities/NormalTypes/deprecated/Education.entity';
 import { EducationService } from 'src/routers/education/education.service';
 
 @Injectable()

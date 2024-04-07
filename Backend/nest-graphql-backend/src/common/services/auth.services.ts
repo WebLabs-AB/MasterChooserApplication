@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { Student } from 'src/entities/NormalTypes/Student.entity';
-import { Teacher } from 'src/entities/NormalTypes/Teacher.entity';
+import { Student } from 'src/entities/NormalTypes/deprecated/Student.entity';
+import { Teacher } from 'src/entities/NormalTypes/deprecated/Teacher.entity';
 import { LoginUserInput } from 'src/inputTypes/login-user.input';
 import { StudentService } from 'src/routers/student/student.service';
 import { TeacherService } from 'src/routers/teacher/teacher.service';

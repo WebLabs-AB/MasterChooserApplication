@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CourseStartingYears } from 'src/entities/NormalTypes/CourseStartingYears.entity';
+import { CourseStartingYears } from 'src/entities/NormalTypes/deprecated/CourseStartingYears.entity';
 import { CreateCourseStartingYearsInput } from 'src/inputTypes/create-course-startingYears.input';
 import { CourseStartingYearsService } from './course-starting-years.service';
 

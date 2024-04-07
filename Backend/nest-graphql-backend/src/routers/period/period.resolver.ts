@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Period } from 'src/entities/NormalTypes/Period.entity';
+import { Period } from 'src/entities/NormalTypes/deprecated/Period.entity';
 import { CreatePeriodInput } from 'src/inputTypes/create-period.input';
 import { PeriodService } from './period.service';
 

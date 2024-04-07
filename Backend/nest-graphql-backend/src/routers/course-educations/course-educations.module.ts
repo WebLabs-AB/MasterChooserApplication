@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CourseEducationsService } from './course-educations.service';
 import { CourseEducationsResolver } from './course-educations.resolver';
-import { CourseEducations } from 'src/entities/NormalTypes/CourseEducations.entity';
+import { CourseEducations } from 'src/entities/NormalTypes/deprecated/CourseEducations.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({

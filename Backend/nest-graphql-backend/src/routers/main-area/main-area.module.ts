@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 // Own files.
 import { MainAreaService } from './main-area.service';
 import { MainAreaResolver } from './main-area.resolver';
-import { MainArea } from 'src/entities/NormalTypes/MainArea.entity';
+import { MainArea } from 'src/entities/NormalTypes/deprecated/MainArea.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([MainArea])],

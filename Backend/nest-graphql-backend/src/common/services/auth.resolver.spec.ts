@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import * as bcrypt from 'bcrypt';
 
-import { Student } from 'src/entities/NormalTypes/Student.entity';
+import { Student } from 'src/entities/NormalTypes/deprecated/Student.entity';
 import { LoginUserInput } from 'src/inputTypes/login-user.input';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.services';

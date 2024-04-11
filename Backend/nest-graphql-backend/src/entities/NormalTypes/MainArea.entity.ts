@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Entity, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { MasterSchema } from './MasterSchema.entity';
 
 /**
  * Represents a main area. All courses are part of one or more
@@ -14,4 +15,18 @@ export class MainArea extends BaseEntity {
   @PrimaryColumn({ name: 'name' })
   @Field((type) => Int)
   name: number;
+
+  /**
+   * Contains all MasterSchemas that have chosen a specific MainArea.
+   * This is a one-to-many relationship where each mainArea can have multiple associated MasterSchema entities.
+   * The 'eager: true' option ensures that related MasterSchema entities are automatically loaded whenever the mainArea is queried.
+   * The 'cascade: true' option means any operations like insert, update, or delete on the mainArea will also be applied to the related MasterSchema entities.
+   * This property is nullable, meaning the mainArea may not always have associated MasterSchema entities.
+   */
+  @OneToMany(() => MasterSchema, (masterSchema) => masterSchema.mainArea, {
+    eager: true,
+    cascade: true,
+  })
+  @Field((type) => [MasterSchema], { nullable: true })
+  MasterSchemas?: MasterSchema[];
 }

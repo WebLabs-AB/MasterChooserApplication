@@ -11,6 +11,7 @@ import {
 import { Package } from './Package.entity';
 import { Teacher } from './Teacher.entity';
 import { Education } from './Education.entity';
+import { MasterSchema } from './MasterSchema.entity';
 
 /**
  * Represents a master profile, which is a specialization of
@@ -68,6 +69,20 @@ export class MasterProfile extends BaseEntity {
   })
   @Field((type) => [Package], { nullable: true })
   public Packages?: Package[];
+
+  /**
+   * Collection of MasterSchemas that have chosen a specific MasterProfile.
+   * This is a one-to-many relationship where each MasterProfile can have multiple associated MasterSchemas.
+   * The 'eager: true' option ensures that the MasterSchema entities are loaded automatically when the MasterProfile is fetched.
+   * The 'cascade: true' option allows changes to the MasterProfile to cascade to its related MasterSchemas,
+   * such as updates or deletions.
+   */
+  @OneToMany(() => MasterSchema, (masterSchema) => masterSchema.masterProfile, {
+    eager: true,
+    cascade: true,
+  })
+  @Field((type) => [MasterSchema], { nullable: true })
+  MasterSchemas?: MasterSchema[];
 
   /**
    * Represents the association of a MasterProfile with a single Teacher entity.

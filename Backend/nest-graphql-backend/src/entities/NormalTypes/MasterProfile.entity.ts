@@ -9,45 +9,45 @@ import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 @Entity('MasterProfile')
 @ObjectType()
 export class MasterProfile extends BaseEntity {
-    /**
-     * ID of the master profile, which uniquely identifies
-     * the master profile.
-     */
-    @PrimaryColumn({ name: 'master_profile_id' })
-    @Field((type) => Int)
-    masterProfileId: number;
+  /**
+   * ID of the master profile, which uniquely identifies
+   * the master profile.
+   */
+  @PrimaryColumn({ name: 'master_profile_id' })
+  @Field((type) => Int)
+  masterProfileId: number;
 
-    /**
-     * Name of the master profile.
-     */
-    @Column()
-    @Field()
-    name: string;
+  /**
+   * Name of the master profile.
+   */
+  @Column()
+  @Field()
+  name: string;
 
-    /**
-     * Number of ECTS (swe. HP) on advanced level required on
-     * the possible courses.
-     */
-    @Column()
-    @Field((type) => Int)
-    a1xHpRequirement: number;
-    
-    /**
-     * Total number of ECTS (swe. HP) required on
-     * the possible courses.
-     */
-    @Column()
-    @Field((type) => Int)
-    totalHpRequirement: number;
-    
-    /**
-     * Number of optional courses.
-     */
-    @Column()
-    @Field((type) => Int)
-    numOptionalCourses: number;
+  /**
+   * Number of ECTS (swe. HP) on advanced level required on
+   * the possible courses.
+   */
+  @Column()
+  @Field((type) => Int)
+  a1xHpRequirement: number;
 
-    // TODO: TeacherEmail
+  /**
+   * Total number of ECTS (swe. HP) required on
+   * the possible courses.
+   */
+  @Column()
+  @Field((type) => Int)
+  totalHpRequirement: number;
 
-    // TODO: EducationId
+  /**
+   * Number of optional courses.
+   */
+  @Column()
+  @Field((type) => Int)
+  numOptionalCourses: number;
+
+  // TODO: TeacherEmail
+
+  // TODO: EducationId
 }

@@ -10,17 +10,17 @@ import { User } from './User.entity';
 @Entity('Teacher')
 @ObjectType()
 export class Teacher extends User {
-    /**
-     * First name of the teacher.
-     */
-    @Column()
-    @Field()
-    firstName: string;
+  /**
+   * First name of the teacher.
+   */
+  @Column()
+  @Field()
+  firstName: string;
 
-    /**
-     * Last name of the teacher.
-     */
-    @Column()
-    @Field()
-    lastName: string;
+  /**
+   * Last name of the teacher.
+   */
+  @Column()
+  @Field()
+  lastName: string;
 }

@@ -10,5 +10,5 @@ import { User } from './User.entity';
 @Entity('Admin')
 @ObjectType()
 export class Admin extends User {
-    // TODO: UniversityId
+  // TODO: UniversityId
 }

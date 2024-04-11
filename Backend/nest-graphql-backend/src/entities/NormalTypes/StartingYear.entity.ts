@@ -7,10 +7,10 @@ import { BaseEntity, Entity, PrimaryColumn } from 'typeorm';
 @Entity('StartingYear')
 @ObjectType()
 export class StartingYear extends BaseEntity {
-    /**
-     * Year.
-     */
-    @PrimaryColumn({ name: 'year' })
-    @Field((type) => Int)
-    year: number;
+  /**
+   * Year.
+   */
+  @PrimaryColumn({ name: 'year' })
+  @Field((type) => Int)
+  year: number;
 }

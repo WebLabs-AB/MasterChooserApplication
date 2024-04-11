@@ -8,35 +8,35 @@ import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 @Entity('Education')
 @ObjectType()
 export class Education extends BaseEntity {
-    /**
-     * ID of the education, which uniquely identifies the education.
-     */
-    @PrimaryColumn({ name: 'education_id' })
-    @Field((type) => Int)
-    educationId: number;
+  /**
+   * ID of the education, which uniquely identifies the education.
+   */
+  @PrimaryColumn({ name: 'education_id' })
+  @Field((type) => Int)
+  educationId: number;
 
-    /**
-     * Full name of the education.
-     */
-    @Column()
-    @Field()
-    name: string;
+  /**
+   * Full name of the education.
+   */
+  @Column()
+  @Field()
+  name: string;
 
-    /**
-     * Number of ECTS (swe. HP) on advanced level required for the education.
-     */
-    @Column()
-    @Field((type) => Int)
-    totalA1X: number;
+  /**
+   * Number of ECTS (swe. HP) on advanced level required for the education.
+   */
+  @Column()
+  @Field((type) => Int)
+  totalA1X: number;
 
-    /**
-     * Short symbol for the education. For instance,
-     * - D -> data technology
-     * - U -> software development
-     */
-    @Column()
-    @Field()
-    symbol: string;
+  /**
+   * Short symbol for the education. For instance,
+   * - D -> data technology
+   * - U -> software development
+   */
+  @Column()
+  @Field()
+  symbol: string;
 
-    // TODO: UniversityId
+  // TODO: UniversityId
 }

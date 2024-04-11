@@ -8,10 +8,10 @@ import { BaseEntity, Entity, PrimaryColumn } from 'typeorm';
 @Entity('Period')
 @ObjectType()
 export class Period extends BaseEntity {
-    /**
-     * Period value.
-     */
-    @PrimaryColumn({ name: 'value' })
-    @Field()
-    value: number;
+  /**
+   * Period value.
+   */
+  @PrimaryColumn({ name: 'value' })
+  @Field()
+  value: number;
 }

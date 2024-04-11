@@ -8,10 +8,10 @@ import { BaseEntity, Entity, PrimaryColumn } from 'typeorm';
 @Entity('MainArea')
 @ObjectType()
 export class MainArea extends BaseEntity {
-    /**
-     * Name of the main area.
-     */
-    @PrimaryColumn({ name: 'name' })
-    @Field((type) => Int)
-    name: number;
+  /**
+   * Name of the main area.
+   */
+  @PrimaryColumn({ name: 'name' })
+  @Field((type) => Int)
+  name: number;
 }

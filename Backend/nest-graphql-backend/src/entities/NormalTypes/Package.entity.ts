@@ -12,27 +12,27 @@ import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 @Entity('Package')
 @ObjectType()
 export class Package extends BaseEntity {
-    /**
-     * ID of the package, which uniquely identifies the package.
-     */
-    @PrimaryColumn({ name: 'package_id' })
-    @Field((type) => Int)
-    packageId: number;
+  /**
+   * ID of the package, which uniquely identifies the package.
+   */
+  @PrimaryColumn({ name: 'package_id' })
+  @Field((type) => Int)
+  packageId: number;
 
-    /**
-     * Name of the package.
-     */
-    @Column()
-    @Field()
-    name: string;
+  /**
+   * Name of the package.
+   */
+  @Column()
+  @Field()
+  name: string;
 
-    /**
-     * The number of courses the student
-     * has to read.
-     */
-    @Column()
-    @Field((type) => Int)
-    numObligatoryCourses: number;
+  /**
+   * The number of courses the student
+   * has to read.
+   */
+  @Column()
+  @Field((type) => Int)
+  numObligatoryCourses: number;
 
-    // TODO: masterProfileId
+  // TODO: masterProfileId
 }

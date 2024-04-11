@@ -11,11 +11,8 @@ import { User } from './User.entity';
 @Entity('Student')
 @ObjectType()
 export class Student extends User {
-    // TODO: Year
-
-    // TODO: University
-
-    // TODO: EducationId
-
-    // TODO: StartingYear
+  // TODO: Year
+  // TODO: University
+  // TODO: EducationId
+  // TODO: StartingYear
 }

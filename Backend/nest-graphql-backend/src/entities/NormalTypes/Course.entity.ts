@@ -26,6 +26,7 @@ export class Course extends BaseEntity {
   /**
    * The number of credit points (HP - Högskolepoäng) the course provides.
    */
+  @Column()
   @Field((type) => Int)
   hp: number;
 

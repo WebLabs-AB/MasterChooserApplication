@@ -13,7 +13,7 @@ import { Period } from './NormalTypes/deprecated/Period.entity';
 import { StartingYear } from './NormalTypes/deprecated/StartingYear.entity';
 import { Student } from './NormalTypes/Student.entity';
 import { Teacher } from './NormalTypes/Teacher.entity';
-import { University } from './NormalTypes/deprecated/University.entity';
+import { University } from './NormalTypes/University.entity';
 
 const entities = [
   Admin,

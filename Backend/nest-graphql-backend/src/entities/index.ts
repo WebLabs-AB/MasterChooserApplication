@@ -8,7 +8,7 @@ import { Education } from './NormalTypes/Education.entity';
 import { GeneralRequirements } from './NormalTypes/deprecated/GeneralRequirements.entity';
 import { MainArea } from './NormalTypes/deprecated/MainArea.entity';
 import { MasterProfile } from './NormalTypes/MasterProfile.entity';
-import { MasterSchema } from './NormalTypes/deprecated/MasterSchema.entity';
+import { MasterSchema } from './NormalTypes/MasterSchema.entity';
 import { Period } from './NormalTypes/deprecated/Period.entity';
 import { StartingYear } from './NormalTypes/StartingYear.entity';
 import { Student } from './NormalTypes/Student.entity';

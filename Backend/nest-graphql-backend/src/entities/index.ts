@@ -9,7 +9,7 @@ import { GeneralRequirements } from './NormalTypes/deprecated/GeneralRequirement
 import { MainArea } from './NormalTypes/MainArea.entity';
 import { MasterProfile } from './NormalTypes/MasterProfile.entity';
 import { MasterSchema } from './NormalTypes/MasterSchema.entity';
-import { Period } from './NormalTypes/deprecated/Period.entity';
+import { Period } from './NormalTypes/Period.entity';
 import { StartingYear } from './NormalTypes/StartingYear.entity';
 import { Student } from './NormalTypes/Student.entity';
 import { Teacher } from './NormalTypes/Teacher.entity';

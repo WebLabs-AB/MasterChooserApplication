@@ -1,6 +1,16 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryColumn,
+} from 'typeorm';
 import { Package } from './Package.entity';
+import { Teacher } from './Teacher.entity';
+import { Education } from './Education.entity';
 
 /**
  * Represents a master profile, which is a specialization of
@@ -59,7 +69,27 @@ export class MasterProfile extends BaseEntity {
   @Field((type) => [Package], { nullable: true })
   public Packages?: Package[];
 
-  // TODO: TeacherEmail
+  /**
+   * Represents the association of a MasterProfile with a single Teacher entity.
+   * This is a many-to-one relationship where each MasterProfile references one Teacher.
+   * The 'eager: true' option automatically loads the Teacher entity when the MasterProfile is queried.
+   * The 'onDelete: "CASCADE"' option means that deleting the Teacher will result in the deletion of the MasterProfile.
+   * The 'JoinColumn' decorator specifies the column name that will be used as the foreign key in the database.
+   */
+  @ManyToOne(() => Teacher, (teacher) => teacher.MasterProfiles, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @Field((type) => Teacher)
+  @JoinColumn({ name: 'teacher' })
+  teacher: Teacher;
 
   // TODO: EducationId
+  @ManyToOne(() => Education, (education) => education.MasterProfiles, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @Field((type) => Education)
+  @JoinColumn({ name: 'education_id' })
+  education: Education;
 }

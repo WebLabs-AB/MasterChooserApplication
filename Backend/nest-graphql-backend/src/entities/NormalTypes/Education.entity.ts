@@ -5,9 +5,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryColumn,
 } from 'typeorm';
+
 import { University } from './University.entity';
+import { MasterProfile } from './MasterProfile.entity';
 
 /**
  * Represents an education which is offered at a university.
@@ -59,4 +62,11 @@ export class Education extends BaseEntity {
   @Field((type) => University)
   @JoinColumn({ name: 'university_id' })
   university: University;
+
+  @OneToMany(() => MasterProfile, (masterProfile) => masterProfile.education, {
+    eager: true,
+    cascade: true,
+  })
+  @Field((type) => [MasterProfile], { nullable: true })
+  MasterProfiles?: MasterProfile[];
 }

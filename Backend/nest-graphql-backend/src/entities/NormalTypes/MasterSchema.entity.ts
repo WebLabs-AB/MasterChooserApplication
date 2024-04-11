@@ -46,4 +46,6 @@ export class MasterSchema extends BaseEntity {
   // TODO: StudentEmail
 
   // TODO: MainAreaName
+
+  // TODO: MasterProfileId
 }

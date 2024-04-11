@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { BaseEntity, Entity, PrimaryColumn } from 'typeorm';
 
 /**
@@ -12,6 +12,6 @@ export class MainArea extends BaseEntity {
      * Name of the main area.
      */
     @PrimaryColumn({ name: 'name' })
-    @Field()
+    @Field((type) => Int)
     name: number;
 }

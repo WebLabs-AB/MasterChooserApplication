@@ -9,6 +9,7 @@ import { GeneralRequirements } from './NormalTypes/deprecated/GeneralRequirement
 import { MainArea } from './NormalTypes/MainArea.entity';
 import { MasterProfile } from './NormalTypes/MasterProfile.entity';
 import { MasterSchema } from './NormalTypes/MasterSchema.entity';
+import { Package } from './NormalTypes/Package.entity';
 import { Period } from './NormalTypes/Period.entity';
 import { StartingYear } from './NormalTypes/StartingYear.entity';
 import { Student } from './NormalTypes/Student.entity';
@@ -27,6 +28,7 @@ const entities = [
   MainArea,
   MasterProfile,
   MasterSchema,
+  Package,
   Period,
   StartingYear,
   Student,
@@ -46,6 +48,7 @@ export {
   MainArea,
   MasterProfile,
   MasterSchema,
+  Package,
   Period,
   StartingYear,
   Student,

@@ -1,6 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { Admin } from './Admin.entity';
+import { Education } from './Education.entity';
 
 /**
  * Represents an university, which offers courses for students.
@@ -31,4 +32,16 @@ export class University extends BaseEntity {
   @OneToMany(() => Admin, (admin) => admin.university, { cascade: true })
   @Field((type) => [Admin], { nullable: true })
   public Admins?: Admin[];
+
+  /**
+   * A list of Education entities linked to this university.
+   * This is a one-to-many relationship set to load eagerly and cascade persist and remove operations.
+   * It can be null if no Education entities are associated with the university.
+   */
+  @OneToMany(() => Education, (education) => education.university, {
+    eager: true,
+    cascade: true,
+  })
+  @Field((type) => [Education], { nullable: true })
+  Educations?: Education[];
 }

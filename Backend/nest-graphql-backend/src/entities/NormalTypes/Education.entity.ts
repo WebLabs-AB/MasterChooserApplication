@@ -1,5 +1,13 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
+import { University } from './University.entity';
 
 /**
  * Represents an education which is offered at a university.
@@ -38,5 +46,17 @@ export class Education extends BaseEntity {
   @Field()
   symbol: string;
 
-  // TODO: UniversityId
+  /**
+   * Links each admin to a specific university.
+   * Establishes a many-to-one relationship where multiple admins can be associated with a single university.
+   * This field is eagerly loaded and deletion will cascade, meaning if the university is deleted,
+   * the admin will also be removed.
+   */
+  @ManyToOne(() => University, (university) => university.Admins, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @Field((type) => University)
+  @JoinColumn({ name: 'university_id' })
+  university: University;
 }

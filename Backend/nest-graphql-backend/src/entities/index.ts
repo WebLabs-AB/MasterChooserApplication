@@ -1,4 +1,4 @@
-import { Admin } from './NormalTypes/deprecated/Admin.entity';
+import { Admin } from './NormalTypes/Admin.entity';
 import { Course } from './NormalTypes/deprecated/Course.entity';
 import { CourseEducations } from './NormalTypes/deprecated/CourseEducations.entity';
 import { CourseMainAreas } from './NormalTypes/deprecated/CourseMainAreas.entity';

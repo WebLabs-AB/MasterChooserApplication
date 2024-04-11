@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { Package } from './Package.entity';
 
 /**
  * Represents a master profile, which is a specialization of
@@ -46,6 +47,17 @@ export class MasterProfile extends BaseEntity {
   @Column()
   @Field((type) => Int)
   numOptionalCourses: number;
+
+  /**
+   * A collection of Package entities associated with the master profile.
+   * This establishes a one-to-many relationship and enables cascading operations
+   * such as update and delete to related Package entities.
+   */
+  @OneToMany(() => Package, (the_package) => the_package.masterProfile, {
+    cascade: true,
+  })
+  @Field((type) => [Package], { nullable: true })
+  public Packages?: Package[];
 
   // TODO: TeacherEmail
 

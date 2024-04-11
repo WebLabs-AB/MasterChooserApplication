@@ -1,5 +1,14 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
+
+import { MasterProfile } from './MasterProfile.entity';
 
 /**
  * Represents a course package, which is part
@@ -34,5 +43,16 @@ export class Package extends BaseEntity {
   @Field((type) => Int)
   numObligatoryCourses: number;
 
-  // TODO: masterProfileId
+  /**
+   * Links to a single MasterProfile entity that this entity belongs to.
+   * This is a many-to-one relationship where multiple instances of the package entity
+   * are connected to one MasterProfile. It is eager-loaded and set to cascade on delete.
+   */
+  @ManyToOne(() => MasterProfile, (masterProfile) => masterProfile.Packages, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @Field((type) => MasterProfile)
+  @JoinColumn({ name: 'master_profile_id' })
+  masterProfile: MasterProfile;
 }

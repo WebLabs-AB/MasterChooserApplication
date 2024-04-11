@@ -2,9 +2,8 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
 
 /**
- * Represents a master profile, which is a specialization of
- * an education. A master profile sets additional requirements
- * on possible courses.
+ * Represents a master schema, which students can create.
+ * A master schema represents planned master courses.
  */
 @Entity('MasterSchema')
 @ObjectType()

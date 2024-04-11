@@ -4,7 +4,7 @@ import { CourseEducations } from './NormalTypes/deprecated/CourseEducations.enti
 import { CourseMainAreas } from './NormalTypes/deprecated/CourseMainAreas.entity';
 import { CoursePeriods } from './NormalTypes/deprecated/CoursePeriods.entity';
 import { CourseStartingYears } from './NormalTypes/deprecated/CourseStartingYears.entity';
-import { Education } from './NormalTypes/deprecated/Education.entity';
+import { Education } from './NormalTypes/Education.entity';
 import { GeneralRequirements } from './NormalTypes/deprecated/GeneralRequirements.entity';
 import { MainArea } from './NormalTypes/deprecated/MainArea.entity';
 import { MasterProfile } from './NormalTypes/deprecated/MasterProfile.entity';

@@ -5,10 +5,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryColumn,
 } from 'typeorm';
 
 import { MasterProfile } from './MasterProfile.entity';
+import { PackageCourse } from './PackageCourse.entity';
 
 /**
  * Represents a course package, which is part
@@ -42,6 +44,15 @@ export class Package extends BaseEntity {
   @Column()
   @Field((type) => Int)
   numObligatoryCourses: number;
+
+  /**
+   * Collection of courses that belongs to this package.
+   * Establishes a one-to-many relationship with package.
+   */
+  @OneToMany(() => PackageCourse, (packageCourse) => packageCourse.course, {
+    cascade: true,
+  })
+  public courseBelongsToPackage?: PackageCourse[];
 
   /**
    * Links to a single MasterProfile entity that this entity belongs to.

@@ -12,6 +12,8 @@ import {
 import { University } from './University.entity';
 import { MasterProfile } from './MasterProfile.entity';
 import { Student } from './Student.entity';
+import { EducationCourse } from './EducationCourse.entity';
+import { EducationMainArea } from './EducationMainArea.entity';
 
 /**
  * Represents an education which is offered at a university.
@@ -73,6 +75,24 @@ export class Education extends BaseEntity {
   })
   @Field((type) => [Student], { nullable: true })
   Students?: Student[];
+
+  /**
+   * Collection of courses that is available for specific education.
+   * Defines a one-to-many relationship with education.
+   */
+  @OneToMany(
+    () => EducationCourse,
+    (educationCourse) => educationCourse.course,
+    { cascade: true },
+  )
+  public courseBelongsToEducation?: EducationCourse[];
+
+  @OneToMany(
+    () => EducationMainArea,
+    (educationMainArea) => educationMainArea.education,
+    { cascade: true },
+  )
+  public mainAreaBelongsToEducation?: EducationMainArea[];
 
   /**
    * Links each admin to a specific university.

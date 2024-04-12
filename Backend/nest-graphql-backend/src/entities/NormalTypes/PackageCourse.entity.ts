@@ -1,5 +1,7 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { BaseEntity, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Course } from './Course.entity';
+import { Package } from './Package.entity';
 
 /**
  * Represents a PackageCourse entity within the educational platform.
@@ -13,20 +15,17 @@ export class PackageCourse extends BaseEntity {
    * The course included in the package.
    * It establishes a many-to-one relationship with the Course entity.
    */
-  /*
-  @ManyToOne(() => Course, (course) => course.packageConnection)
+  @ManyToOne(() => Course, (course) => course.courseBelongsToPackage)
   @Field((type) => Course)
-  @JoinColumn({ name: 'courseId' })
+  @JoinColumn({ name: 'course_id' })
   course: Course;
-  */
+
   /**
    * The package containing the course.
    * It establishes a many-to-one relationship with the Package entity.
    */
-  /*
-  @ManyToOne(() => Package, (package) => package.courseConnection)
+  @ManyToOne(() => Package, (the_package) => the_package.courseBelongsToPackage)
   @Field((type) => Package)
-  @JoinColumn({ name: 'packageId' })
+  @JoinColumn({ name: 'package_id' })
   package: Package;
-  */
 }

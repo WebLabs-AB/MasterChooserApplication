@@ -6,11 +6,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryColumn,
 } from 'typeorm';
 import { Student } from './Student.entity';
 import { MainArea } from './MainArea.entity';
 import { MasterProfile } from './MasterProfile.entity';
+import { MasterSchemaCourse } from './MasterSchemaCourse.entity';
 
 /**
  * Represents a master schema, which students can create.
@@ -47,6 +49,17 @@ export class MasterSchema extends BaseEntity {
   @Column()
   @Field((type) => Int)
   firstYear: number;
+
+  /**
+   * Collection of courses that include this master schema.
+   * Represents a one-to-many relationship to the master schema.
+   */
+  @OneToMany(
+    () => MasterSchemaCourse,
+    (masterSchemaCourse) => masterSchemaCourse.masterSchema,
+    { cascade: true },
+  )
+  public courseBelongsToMasterSchema?: MasterSchemaCourse[];
 
   /**
    * Represents the association of this entity with a single Student entity.

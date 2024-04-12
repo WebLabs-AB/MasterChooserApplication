@@ -1,5 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Course } from './Course.entity';
+import { StartingYear } from './StartingYear.entity';
 
 /**
  * Represents a CourseStartingYear entity within the educational platform.
@@ -27,31 +29,27 @@ export class CourseStartingYear extends BaseEntity {
    * The course associated with the starting year.
    * It establishes a many-to-one relationship with the Course entity.
    */
-  /*
-  @ManyToOne(() => Course, (course) => course.startingYearConnection, {
-    eager: true, // Eagerly load the associated course
-    onDelete: 'CASCADE', // Cascade delete behavior
+  @ManyToOne(() => Course, (course) => course.courseBelongsToStartingYear, {
+    eager: true,
+    onDelete: 'CASCADE',
   })
   @Field((type) => Course)
-  @JoinColumn({ name: 'courseId' })
+  @JoinColumn({ name: 'course_id' })
   course: Course;
-  */
 
   /**
    * The starting year associated with the course.
    * It establishes a many-to-one relationship with the StartingYear entity.
    */
-  /*
   @ManyToOne(
     () => StartingYear,
-    (startingYear) => startingYear.courseConnection,
+    (startingYear) => startingYear.courseBelongsToStartingYear,
     {
-      eager: true, // Eagerly load the associated starting year
-      onDelete: 'CASCADE', // Cascade delete behavior
+      eager: true,
+      onDelete: 'CASCADE',
     },
   )
   @Field((type) => StartingYear)
-  @JoinColumn({ name: 'yearId' })
+  @JoinColumn({ name: 'year' })
   staringYear: StartingYear;
-  */
 }

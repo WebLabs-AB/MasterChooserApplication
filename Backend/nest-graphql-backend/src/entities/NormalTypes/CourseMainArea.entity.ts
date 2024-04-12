@@ -1,5 +1,7 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { BaseEntity, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Course } from './Course.entity';
+import { MainArea } from './MainArea.entity';
 
 /**
  * Represents a CourseMainArea entity within the educational platform.
@@ -13,20 +15,17 @@ export class CourseMainArea extends BaseEntity {
    * The course associated with the main area.
    * It establishes a many-to-one relationship with the Course entity.
    */
-  /*
-  @ManyToOne(() => Course, (course) => course.mainAreaConnection)
+  @ManyToOne(() => Course, (course) => course.courseBelongsToMainArea)
   @Field((type) => Course)
-  @JoinColumn({ name: 'courseId' })
+  @JoinColumn({ name: 'course_id' })
   course: Course;
-  */
+
   /**
    * The main area associated with the course.
    * It establishes a many-to-one relationship with the MainArea entity.
    */
-  /*
-  @ManyToOne(() => MainArea, (mainArea) => mainArea.courseConnection)
+  @ManyToOne(() => MainArea, (mainArea) => mainArea.courseBelongsToMainArea)
   @Field((type) => MainArea)
-  @JoinColumn({ name: 'mainAreaName' })
+  @JoinColumn({ name: 'main_area_name' })
   mainArea: MainArea;
-  */
 }

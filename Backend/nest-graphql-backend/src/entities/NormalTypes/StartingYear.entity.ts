@@ -1,6 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { BaseEntity, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { Student } from './Student.entity';
+import { CourseStartingYear } from './CourseStartingYear.entity';
 
 /**
  * Represents a year, which a student started studying.
@@ -28,4 +29,15 @@ export class StartingYear extends BaseEntity {
   })
   @Field((type) => [Student], { nullable: true })
   Students?: Student[];
+
+  /**
+   * Collection of courses that is available for this starting years.
+   * It maps a one-to-many relationship with starting years.
+   */
+  @OneToMany(
+    () => CourseStartingYear,
+    (courseStartingYear) => courseStartingYear.course,
+    { cascade: true },
+  )
+  public courseBelongsToStartingYear?: CourseStartingYear[];
 }

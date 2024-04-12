@@ -1,6 +1,8 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { BaseEntity, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { MasterSchema } from './MasterSchema.entity';
+import { CourseMainArea } from './CourseMainArea.entity';
+import { EducationMainArea } from './EducationMainArea.entity';
 
 /**
  * Represents a main area. All courses are part of one or more
@@ -29,4 +31,20 @@ export class MainArea extends BaseEntity {
   })
   @Field((type) => [MasterSchema], { nullable: true })
   MasterSchemas?: MasterSchema[];
+
+  /**
+   * Collection of courses that belongs to this main area.
+   * It indicates a one-to-many relationship with main areas.
+   */
+  @OneToMany(() => CourseMainArea, (courseMainArea) => courseMainArea.course, {
+    cascade: true,
+  })
+  public courseBelongsToMainArea?: CourseMainArea[];
+
+  @OneToMany(
+    () => EducationMainArea,
+    (educationMainArea) => educationMainArea.mainArea,
+    { cascade: true },
+  )
+  public mainAreaBelongsToEducation?: EducationMainArea[];
 }

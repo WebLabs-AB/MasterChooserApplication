@@ -12,6 +12,8 @@ import { Package } from './Package.entity';
 import { Teacher } from './Teacher.entity';
 import { Education } from './Education.entity';
 import { MasterSchema } from './MasterSchema.entity';
+import { MasterProfileCourseOptional } from './MasterProfileCourseOptional.entity';
+import { MasterProfileCourseRequired } from './MasterProfileCourseRequired.entity';
 
 /**
  * Represents a master profile, which is a specialization of
@@ -83,6 +85,28 @@ export class MasterProfile extends BaseEntity {
   })
   @Field((type) => [MasterSchema], { nullable: true })
   MasterSchemas?: MasterSchema[];
+
+  /**
+   * Collection of master profile that says this course is optional.
+   * It establishes a one-to-many relationship between the optional course and the master profile.
+   */
+  @OneToMany(
+    () => MasterProfileCourseOptional,
+    (masterProfileCourseOptional) => masterProfileCourseOptional.course,
+    { cascade: true },
+  )
+  public optionalMasterProfileCourses?: MasterProfileCourseOptional[];
+
+  /**
+   * Collection of master profile that says this course is required.
+   * It establishes a one-to-many relationship between the optional course and the master profile.
+   */
+  @OneToMany(
+    () => MasterProfileCourseRequired,
+    (requiredMasterProfileCourses) => requiredMasterProfileCourses.course,
+    { cascade: true },
+  )
+  public requiredMasterProfileCourses?: MasterProfileCourseRequired[];
 
   /**
    * Represents the association of a MasterProfile with a single Teacher entity.

@@ -1,5 +1,7 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { BaseEntity, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Course } from './Course.entity';
+import { Period } from './Period.entity';
 
 /**
  * Represents a CoursePeriod entity within the educational platform.
@@ -13,20 +15,17 @@ export class CoursePeriod extends BaseEntity {
    * The course associated with this period.
    * It establishes a many-to-one relationship with the Course entity.
    */
-  /*
-  @ManyToOne(() => Course, (course) => course.periodConnection)
+  @ManyToOne(() => Course, (course) => course.courseBelongsToPeriod)
   @Field((type) => Course)
   @JoinColumn({ name: 'courseId' })
   course: Course;
-  */
+
   /**
    * The period during which the course is taught.
    * It establishes a many-to-one relationship with the Period entity.
    */
-  /*
-  @ManyToOne(() => Period, (period) => period.courseConnection)
+  @ManyToOne(() => Period, (period) => period.courseBelongsToPeriod)
   @Field((type) => Period)
   @JoinColumn({ name: 'periodValue' })
   period: Period;
-  */
 }

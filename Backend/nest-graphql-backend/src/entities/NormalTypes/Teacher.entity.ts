@@ -3,6 +3,7 @@ import { Column, Entity, OneToMany } from 'typeorm';
 
 import { User } from './User.entity';
 import { MasterProfile } from './MasterProfile.entity';
+import { Course } from './Course.entity';
 
 /**
  * Represents a teacher, which is one type of extended user.
@@ -36,4 +37,10 @@ export class Teacher extends User {
   })
   @Field((type) => [MasterProfile], { nullable: true })
   public MasterProfiles?: MasterProfile[];
+
+  @OneToMany(() => Course, (course) => course.teacher, {
+    cascade: true,
+  })
+  @Field((type) => [Course], { nullable: true })
+  public Courses?: Course[];
 }

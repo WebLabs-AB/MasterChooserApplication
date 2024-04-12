@@ -1,8 +1,11 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Entity, OneToMany } from 'typeorm';
+import { Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 
 import { User } from './User.entity';
 import { MasterSchema } from './MasterSchema.entity';
+import { University } from './University.entity';
+import { Education } from './Education.entity';
+import { StartingYear } from './StartingYear.entity';
 
 /**
  * Represents a student, which is one type of extended user.
@@ -12,11 +15,6 @@ import { MasterSchema } from './MasterSchema.entity';
 @Entity('Student')
 @ObjectType()
 export class Student extends User {
-  // TODO: Year
-  // TODO: University
-  // TODO: EducationId
-  // TODO: StartingYear
-
   /**
    * Represents the number of MasterSchemas a student has created.
    * This is a one-to-many relationship, indicating that a student can be associated with multiple MasterSchemas.
@@ -30,4 +28,49 @@ export class Student extends User {
   })
   @Field((type) => [MasterSchema], { nullable: true })
   MasterSchemas?: MasterSchema[];
+
+  /**
+   * Represents that a Student can only go to one University.
+   * This is a many-to-one relationship where each Student references one University.
+   * The 'eager: true' option automatically loads the University entity when the Student is queried.
+   * The 'onDelete: "CASCADE"' option means that deleting the University will result in the deletion of related Students.
+   * The 'JoinColumn' decorator specifies 'university_id' as the foreign key in the database.
+   */
+  @ManyToOne(() => University, (university) => university.Students, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @Field((type) => University)
+  @JoinColumn({ name: 'university_id' })
+  university: University;
+
+  /**
+   * Represents that a Student can only study one Education.
+   * This is a many-to-one relationship where each Student is linked to one Education.
+   * The 'eager: true' option ensures the Education entity is loaded automatically when the Student is fetched.
+   * The 'onDelete: "CASCADE"' option will delete the Student records when the associated Education is deleted.
+   * The 'JoinColumn' decorator indicates 'education_id' as the foreign key column.
+   */
+  @ManyToOne(() => Education, (education) => education.Students, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @Field((type) => Education)
+  @JoinColumn({ name: 'education_id' })
+  education: Education;
+
+  /**
+   * Represents that a Student can only start studying a specific year.
+   * In this many-to-one relationship, each Student is linked to one StartingYear.
+   * The 'eager: true' option causes the StartingYear entity to be fetched immediately when querying the Student.
+   * The 'onDelete: "CASCADE"' option ensures that if the StartingYear is deleted, the linked Student will also be removed.
+   * The 'JoinColumn' decorator specifies 'year' as the foreign key in the Student's table.
+   */
+  @ManyToOne(() => StartingYear, (startingYear) => startingYear.Students, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @Field((type) => StartingYear)
+  @JoinColumn({ name: 'year' })
+  year: StartingYear;
 }

@@ -2,6 +2,7 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { Admin } from './Admin.entity';
 import { Education } from './Education.entity';
+import { Student } from './Student.entity';
 
 /**
  * Represents an university, which offers courses for students.
@@ -44,4 +45,11 @@ export class University extends BaseEntity {
   })
   @Field((type) => [Education], { nullable: true })
   Educations?: Education[];
+
+  @OneToMany(() => Student, (student) => student.university, {
+    eager: true,
+    cascade: true,
+  })
+  @Field((type) => [Student], { nullable: true })
+  Students?: Student[];
 }

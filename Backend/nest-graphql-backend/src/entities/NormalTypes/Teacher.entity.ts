@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Column, Entity, OneToMany } from 'typeorm';
 
-import { User } from './User.entity';
+import { User } from '../SuperTypes/User.entity';
 import { MasterProfile } from './MasterProfile.entity';
 import { Course } from './Course.entity';
 

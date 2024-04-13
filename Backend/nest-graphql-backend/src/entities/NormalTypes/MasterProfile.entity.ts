@@ -92,7 +92,7 @@ export class MasterProfile extends BaseEntity {
    */
   @OneToMany(
     () => MasterProfileCourseOptional,
-    (masterProfileCourseOptional) => masterProfileCourseOptional.course,
+    (masterProfileCourseOptional) => masterProfileCourseOptional.masterProfile,
     { cascade: true },
   )
   public optionalMasterProfileCourses?: MasterProfileCourseOptional[];
@@ -103,7 +103,8 @@ export class MasterProfile extends BaseEntity {
    */
   @OneToMany(
     () => MasterProfileCourseRequired,
-    (requiredMasterProfileCourses) => requiredMasterProfileCourses.course,
+    (requiredMasterProfileCourses) =>
+      requiredMasterProfileCourses.masterProfile,
     { cascade: true },
   )
   public requiredMasterProfileCourses?: MasterProfileCourseRequired[];

@@ -29,6 +29,6 @@ export class MasterProfileCourseOptional extends BaseEntity {
     (masterProfile) => masterProfile.optionalMasterProfileCourses,
   )
   @Field((type) => MasterProfile)
-  @JoinColumn({ name: 'masterProfileId' })
+  @JoinColumn({ name: 'master_profile_id' })
   masterProfile: MasterProfile;
 }

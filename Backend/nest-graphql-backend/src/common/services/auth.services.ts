@@ -1,14 +1,15 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { Student } from 'src/entities/NormalTypes/deprecated/Student.entity';
-import { Teacher } from 'src/entities/NormalTypes/deprecated/Teacher.entity';
+import { Student } from 'src/entities/NormalTypes/Student.entity';
+import { Teacher } from 'src/entities/NormalTypes/Teacher.entity';
 import { LoginUserInput } from 'src/inputTypes/login-user.input';
-import { StudentService } from 'src/routers/deprecated/student/student.service';
-import { TeacherService } from 'src/routers/deprecated/teacher/teacher.service';
+//import { StudentService } from 'src/routers/deprecated/student/student.service';
+//import { TeacherService } from 'src/routers/deprecated/teacher/teacher.service';
 
 @Injectable()
 export class AuthService {
+  /*
   constructor(
     private studentService: StudentService,
     private teacherService: TeacherService,
@@ -77,4 +78,5 @@ export class AuthService {
       throw new BadRequestException(`Email or password are invalid`);
     }
   }
+  */
 }

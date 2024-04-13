@@ -9,6 +9,7 @@ export class AuthResolver {
 
   @Mutation(() => LoggedUserOutput)
   loginUser(@Args('loginUserInput') loginUserInput: LoginUserInput) {
-    return this.authService.loginUser(loginUserInput);
+    return null;
+    //return this.authService.loginUser(loginUserInput);
   }
 }

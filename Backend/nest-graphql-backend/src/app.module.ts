@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 
 // Own files
 import { environment } from './environments/environment';
+import entities from './entities';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { environment } from './environments/environment';
             username: configService.get<string>('DB_USER'),
             password: configService.get<string>('DB_PASSWORD'),
             database: configService.get<string>('DB_NAME'),
-            entities: [],
+            entities: entities,
             synchronize: true, // Only use doing development.
             //dropSchema: true,
           };
@@ -43,7 +44,7 @@ import { environment } from './environments/environment';
             password: environment.dbPassword,
             database: environment.dbName,
             logging: environment.logging,
-            entities: [],
+            entities: entities,
             autoLoadModels: true,
             synchronize: true,
           };
@@ -55,7 +56,7 @@ import { environment } from './environments/environment';
             username: configService.get<string>('HEROKU_USER'),
             password: configService.get<string>('HEROKU_PASSWORD'),
             database: configService.get<string>('HEROKU_DATABASE'),
-            entities: [],
+            entities: entities,
             synchronize: true, // Only use doing development.
           };
         }

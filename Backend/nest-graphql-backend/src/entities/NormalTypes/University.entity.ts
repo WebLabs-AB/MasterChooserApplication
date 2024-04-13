@@ -31,7 +31,7 @@ export class University extends BaseEntity {
   name: string;
 
   /**
-   * This is an optional one-to-many relationship where multiple admins are associated to one university.
+   * This is an one-to-many relationship where multiple admins are associated to one university.
    * The 'cascade: true' option ensures that operations like updates and deletions on the University entity are also
    * applied to the its related Admins.
    */
@@ -40,7 +40,7 @@ export class University extends BaseEntity {
   public Admins?: Admin[];
 
   /**
-   * This is an optional one-to-many relationship where multiple educations are associated to one university.
+   * This is an one-to-many relationship where multiple educations are associated to one university.
    * The 'eager: true' option ensures the Education entity is loaded automatically when the Student is University.
    * The 'cascade: true' option ensures that operations like updates and deletions on the University entity are also
    * applied to the its related Education.
@@ -53,7 +53,7 @@ export class University extends BaseEntity {
   Educations?: Education[];
 
   /**
-   * This is an optional one-to-many relationship where multiple students are associated to one university.
+   * This is an one-to-many relationship where multiple students are associated to one university.
    * The one-to-many relationship comes with cascade options, implying that persisting or removing a University entity will affect its Students.
    * The 'cascade: true' option ensures that operations like updates and deletions on the University entity are also
    * applied to the its related Education

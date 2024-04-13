@@ -138,7 +138,6 @@ export class Course extends BaseEntity {
    * can be taught by the same teacher. The relationship is eagerly loaded and cascaded on delete.
    */
   @ManyToOne(() => Teacher, (teacher) => teacher.Courses, {
-    eager: true,
     onDelete: 'CASCADE',
   })
   @Field((type) => Teacher)

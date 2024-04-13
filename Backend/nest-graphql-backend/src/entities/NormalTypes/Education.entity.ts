@@ -70,7 +70,6 @@ export class Education extends BaseEntity {
    * Cascading is enabled for update and delete operations to be reflected on the associated Students.
    */
   @OneToMany(() => Student, (student) => student.education, {
-    eager: true,
     cascade: true,
   })
   @Field((type) => [Student], { nullable: true })
@@ -101,7 +100,6 @@ export class Education extends BaseEntity {
    * the admin will also be removed.
    */
   @ManyToOne(() => University, (university) => university.Admins, {
-    eager: true,
     onDelete: 'CASCADE',
   })
   @Field((type) => University)

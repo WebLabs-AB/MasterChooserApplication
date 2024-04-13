@@ -80,7 +80,6 @@ export class MasterProfile extends BaseEntity {
    * such as updates or deletions.
    */
   @OneToMany(() => MasterSchema, (masterSchema) => masterSchema.masterProfile, {
-    eager: true,
     cascade: true,
   })
   @Field((type) => [MasterSchema], { nullable: true })
@@ -118,7 +117,6 @@ export class MasterProfile extends BaseEntity {
    * The 'JoinColumn' decorator specifies the column name that will be used as the foreign key in the database.
    */
   @ManyToOne(() => Teacher, (teacher) => teacher.MasterProfiles, {
-    eager: true,
     onDelete: 'CASCADE',
   })
   @Field((type) => Teacher)
@@ -127,7 +125,6 @@ export class MasterProfile extends BaseEntity {
 
   // TODO: EducationId
   @ManyToOne(() => Education, (education) => education.MasterProfiles, {
-    eager: true,
     onDelete: 'CASCADE',
   })
   @Field((type) => Education)

@@ -24,7 +24,6 @@ export class StartingYear extends BaseEntity {
    * The relationship is also nullable, allowing for the possibility of an Education without any associated Students.
    */
   @OneToMany(() => Student, (student) => student.education, {
-    eager: true,
     cascade: true,
   })
   @Field((type) => [Student], { nullable: true })

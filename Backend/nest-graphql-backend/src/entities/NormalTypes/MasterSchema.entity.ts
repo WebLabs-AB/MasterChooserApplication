@@ -75,7 +75,6 @@ export class MasterSchema extends BaseEntity {
    * The 'JoinColumn' decorator sets 'student' as the name of the foreign key column in the database.
    */
   @ManyToOne(() => Student, (student) => student.MasterSchemas, {
-    eager: true,
     onDelete: 'CASCADE',
   })
   @Field((type) => Student)

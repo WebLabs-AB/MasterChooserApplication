@@ -47,7 +47,6 @@ export class University extends BaseEntity {
   Educations?: Education[];
 
   @OneToMany(() => Student, (student) => student.university, {
-    eager: true,
     cascade: true,
   })
   @Field((type) => [Student], { nullable: true })

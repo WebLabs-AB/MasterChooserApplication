@@ -33,12 +33,14 @@ export class Teacher extends User {
    * are cascaded to related MasterProfiles.
    */
   @OneToMany(() => MasterProfile, (masterProfile) => masterProfile.teacher, {
+    eager: true,
     cascade: true,
   })
   @Field((type) => [MasterProfile], { nullable: true })
   public MasterProfiles?: MasterProfile[];
 
   @OneToMany(() => Course, (course) => course.teacher, {
+    eager: true,
     cascade: true,
   })
   @Field((type) => [Course], { nullable: true })

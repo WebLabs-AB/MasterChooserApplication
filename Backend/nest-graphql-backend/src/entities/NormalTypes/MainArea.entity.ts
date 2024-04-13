@@ -21,12 +21,10 @@ export class MainArea extends BaseEntity {
   /**
    * Contains all MasterSchemas that have chosen a specific MainArea.
    * This is a one-to-many relationship where each mainArea can have multiple associated MasterSchema entities.
-   * The 'eager: true' option ensures that related MasterSchema entities are automatically loaded whenever the mainArea is queried.
    * The 'cascade: true' option means any operations like insert, update, or delete on the mainArea will also be applied to the related MasterSchema entities.
    * This property is nullable, meaning the mainArea may not always have associated MasterSchema entities.
    */
   @OneToMany(() => MasterSchema, (masterSchema) => masterSchema.mainArea, {
-    eager: true,
     cascade: true,
   })
   @Field((type) => [MasterSchema], { nullable: true })

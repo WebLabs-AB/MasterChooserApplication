@@ -84,7 +84,7 @@ type Education {
 }
 
 type University {
-  universityId: Int!
+  universityId: String!
   name: String!
   Admins: [Admin!]
   Educations: [Education!]

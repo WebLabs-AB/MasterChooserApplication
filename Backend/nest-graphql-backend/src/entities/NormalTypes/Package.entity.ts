@@ -46,8 +46,9 @@ export class Package extends BaseEntity {
   numObligatoryCourses: number;
 
   /**
-   * Collection of courses that belongs to this package.
-   * Establishes a one-to-many relationship with package.
+   * This is a one-to-many relationship where a specific package can have multiple associated courses.
+   * The 'cascade: true' option ensures that operations such as updates and deletions on the package
+   * are also applied to the related PackageCourse entities.
    */
   @OneToMany(() => PackageCourse, (packageCourse) => packageCourse.packageId, {
     cascade: true,
@@ -55,9 +56,9 @@ export class Package extends BaseEntity {
   public courseBelongsToPackage?: PackageCourse[];
 
   /**
-   * Links to a single MasterProfile entity that this entity belongs to.
-   * This is a many-to-one relationship where multiple instances of the package entity
-   * are connected to one MasterProfile. It is eager-loaded and set to cascade on delete.
+   * This is a many-to-one relationship where a package is linked to a specific master profile.
+   * The 'eager: true' option automatically loads the master profile when the package is queried.
+   * The 'onDelete: "CASCADE"' option ensures that deletion of the master profile will also result in the deletion of the linked package.
    */
   @ManyToOne(() => MasterProfile, (masterProfile) => masterProfile.Packages, {
     eager: true,

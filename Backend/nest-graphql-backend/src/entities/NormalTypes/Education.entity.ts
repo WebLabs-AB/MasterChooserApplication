@@ -53,9 +53,9 @@ export class Education extends BaseEntity {
   symbol: string;
 
   /**
-   * Collection of MasterProfiles related to this education entity. It's a one-to-many relationship,
-   * with the eager loading of MasterProfiles when the education entity is queried.
-   * Cascading is enabled, so operations like update and delete on the education entity will affect its associated MasterProfiles.
+   * This is a one-to-many relationship where an education entity can have multiple associated master profiles.
+   * The 'eager: true' option ensures that MasterProfiles are loaded automatically with the education entity.
+   * The 'cascade: true' option ensures that updates and deletions on the education entity are also applied to the associated master profiles.
    */
   @OneToMany(() => MasterProfile, (masterProfile) => masterProfile.education, {
     eager: true,
@@ -65,9 +65,8 @@ export class Education extends BaseEntity {
   MasterProfiles?: MasterProfile[];
 
   /**
-   * Collection of Students associated with this education entity. Similarly, it defines a one-to-many relationship,
-   * where eager loading is set to true to automatically include Students when fetching the education entity.
-   * Cascading is enabled for update and delete operations to be reflected on the associated Students.
+   * This is a one-to-many relationship where an education can have multiple associated students.
+   * The 'cascade: true' option ensures that updates and deletions on the education entity are also applied to the associated Students.
    */
   @OneToMany(() => Student, (student) => student.education, {
     cascade: true,
@@ -76,8 +75,8 @@ export class Education extends BaseEntity {
   Students?: Student[];
 
   /**
-   * Collection of courses that is available for specific education.
-   * Defines a one-to-many relationship with education.
+   * This is a one-to-many relationship where a specific education entity can have multiple associated courses.
+   * The 'cascade: true' option ensures that updates and deletions on the education entity are also applied to the associated courses.
    */
   @OneToMany(
     () => EducationCourse,
@@ -86,6 +85,10 @@ export class Education extends BaseEntity {
   )
   public courseBelongsToEducation?: EducationCourse[];
 
+  /**
+   * This is a one-to-many relationship where a specific education entity can have multiple associated main areas.
+   * The 'cascade: true' option ensures that updates and deletions on the education entity are also applied to the associated main areas.
+   */
   @OneToMany(
     () => EducationMainArea,
     (educationMainArea) => educationMainArea.educationId,
@@ -94,10 +97,8 @@ export class Education extends BaseEntity {
   public mainAreaBelongsToEducation?: EducationMainArea[];
 
   /**
-   * Links each admin to a specific university.
-   * Establishes a many-to-one relationship where multiple admins can be associated with a single university.
-   * This field is eagerly loaded and deletion will cascade, meaning if the university is deleted,
-   * the admin will also be removed.
+   * This is a many-to-one relationship where multiple admins can be associated with a single university.
+   * The 'onDelete: "CASCADE"' option ensures that the deletion of the university entity will also result in the deletion of the associated admins.
    */
   @ManyToOne(() => University, (university) => university.Admins, {
     onDelete: 'CASCADE',

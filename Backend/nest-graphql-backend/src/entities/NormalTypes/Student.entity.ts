@@ -17,7 +17,7 @@ import { StartingYear } from './StartingYear.entity';
 export class Student extends User {
   /**
    * This is a one-to-many relationship where a specific student can be associated with multiple master schemas.
-   * The 'eager: true' option indicates that the master schemas should be loaded automatically with the student entity.
+   * The 'eager: true' option ensures that the master schemas is loaded automatically with the student entity.
    * The 'cascade: true' option ensures that updates and deletions on the student entity are also applied to the master schemas associated with the student.
    */
   @OneToMany(() => MasterSchema, (masterSchema) => masterSchema.student, {
@@ -55,7 +55,7 @@ export class Student extends User {
 
   /**
    * This is a many-to-one relationship where each student is linked to one starting year.
-   * The 'eager: true' option causes the StartingYear entity to be fetched immediately when querying the Student.
+   * The 'eager: true' option ensures the StartingYear entity is loaded automatically when the Student is fetched.
    * The 'onDelete: "CASCADE"' option ensures that if the StartingYear is deleted, the linked Student will also be removed.
    */
   @ManyToOne(() => StartingYear, (startingYear) => startingYear.Students, {

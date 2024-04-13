@@ -31,18 +31,19 @@ export class University extends BaseEntity {
   name: string;
 
   /**
-   * Optional collection of Admin entities associated with the university.
-   * Defines a one-to-many relationship between an admin and an university, with cascading operations enabled
-   * which indicates that changes to the university will cascade to its Admins.
+   * This is an optional one-to-many relationship where multiple admins are associated to one university.
+   * The 'cascade: true' option ensures that operations like updates and deletions on the University entity are also
+   * applied to the its related Admins.
    */
   @OneToMany(() => Admin, (admin) => admin.university, { cascade: true })
   @Field((type) => [Admin], { nullable: true })
   public Admins?: Admin[];
 
   /**
-   * A list of Education entities linked to this university.
-   * This is a one-to-many relationship set to load eagerly and cascade persist and remove operations.
-   * It can be null if no Education entities are associated with the university.
+   * This is an optional one-to-many relationship where multiple educations are associated to one university.
+   * The 'eager: true' option ensures the Education entity is loaded automatically when the Student is University.
+   * The 'cascade: true' option ensures that operations like updates and deletions on the University entity are also
+   * applied to the its related Education.
    */
   @OneToMany(() => Education, (education) => education.university, {
     eager: true,
@@ -51,6 +52,12 @@ export class University extends BaseEntity {
   @Field((type) => [Education], { nullable: true })
   Educations?: Education[];
 
+  /**
+   * This is an optional one-to-many relationship where multiple students are associated to one university.
+   * The one-to-many relationship comes with cascade options, implying that persisting or removing a University entity will affect its Students.
+   * The 'cascade: true' option ensures that operations like updates and deletions on the University entity are also
+   * applied to the its related Education
+   */
   @OneToMany(() => Student, (student) => student.university, {
     cascade: true,
   })

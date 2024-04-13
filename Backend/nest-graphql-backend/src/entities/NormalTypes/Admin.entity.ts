@@ -12,9 +12,9 @@ import { University } from './University.entity';
 @ObjectType()
 export class Admin extends User {
   /**
-   * Establishes a many-to-one relationship with the University entity.
-   * Each Admin is linked to a single University, with the relationship eagerly loaded.
-   * On deletion of the University, related Admin entities will also be removed due to the CASCADE option.
+   * This is a many-to-one relationship where each Admin entity is associated with a single University entity.
+   * The 'eager: true' option ensures that the University entity is automatically loaded whenever the Admin entity is fetched.
+   * The 'onDelete: "CASCADE"' option indicates that the deletion of a University entity will result in the removal of the associated Admin entities.
    */
   @ManyToOne(() => University, (university) => university.Admins, {
     eager: true,

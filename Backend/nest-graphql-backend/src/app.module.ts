@@ -8,7 +8,6 @@ import { ConfigService } from '@nestjs/config';
 
 // Own files
 import { environment } from './environments/environment';
-import entities, { CoursePeriod } from './entities';
 import { StudentModule } from './routers/student/student.module';
 import { UniversityModule } from './routers/university/university.module';
 import { EducationModule } from './routers/education/education.module';
@@ -52,7 +51,7 @@ import { PackageCourseModule } from './routers/package-course/package-course.mod
             username: configService.get<string>('DB_USER'),
             password: configService.get<string>('DB_PASSWORD'),
             database: configService.get<string>('DB_NAME'),
-            entities: entities,
+            autoLoadEntities: true,
             synchronize: true, // Only use doing development.
             //dropSchema: true,
           };
@@ -66,8 +65,8 @@ import { PackageCourseModule } from './routers/package-course/package-course.mod
             password: environment.dbPassword,
             database: environment.dbName,
             logging: environment.logging,
-            entities: entities,
             autoLoadModels: true,
+            autoLoadEntities: true,
             synchronize: true,
           };
         } else {
@@ -78,7 +77,7 @@ import { PackageCourseModule } from './routers/package-course/package-course.mod
             username: configService.get<string>('HEROKU_USER'),
             password: configService.get<string>('HEROKU_PASSWORD'),
             database: configService.get<string>('HEROKU_DATABASE'),
-            entities: entities,
+            autoLoadEntities: true,
             synchronize: true, // Only use doing development.
           };
         }

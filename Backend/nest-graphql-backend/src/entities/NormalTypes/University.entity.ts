@@ -1,5 +1,11 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { Field, ObjectType } from '@nestjs/graphql';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Admin } from './Admin.entity';
 import { Education } from './Education.entity';
 import { Student } from './Student.entity';
@@ -11,12 +17,11 @@ import { Student } from './Student.entity';
 @ObjectType()
 export class University extends BaseEntity {
   /**
-   * ID of the university, which is used to uniquely
-   * identify a university.
+   * UUID of the university, which is auto-generated, which uniquely identifies the university.
    */
-  @PrimaryColumn({ name: 'university_id' })
-  @Field((type) => Int)
-  universityId: number;
+  @PrimaryGeneratedColumn('uuid', { name: 'university_id' })
+  @Field()
+  universityId: string;
 
   /**
    * Name of the university.

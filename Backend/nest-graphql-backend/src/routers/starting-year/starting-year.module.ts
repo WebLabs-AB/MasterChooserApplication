@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { StartingYearController } from './starting-year.controller';
 import { StartingYearService } from './starting-year.service';
+import { StartingYearResolver } from './starting-year.resolver';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { StartingYear } from 'src/entities';
 
 @Module({
-  controllers: [StartingYearController],
-  providers: [StartingYearService]
+  imports: [TypeOrmModule.forFeature([StartingYear])],
+  providers: [StartingYearService, StartingYearResolver],
+  exports: [StartingYearService],
 })
 export class StartingYearModule {}

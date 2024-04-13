@@ -1,9 +1,15 @@
 import { Module } from '@nestjs/common';
-import { MasterProfileCourseOptionalController } from './master-profile-course-optional.controller';
 import { MasterProfileCourseOptionalService } from './master-profile-course-optional.service';
+import { MasterProfileCourseOptionalResolver } from './master-profile-course-optional.resolver';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { MasterProfileCourseOptional } from 'src/entities';
 
 @Module({
-  controllers: [MasterProfileCourseOptionalController],
-  providers: [MasterProfileCourseOptionalService]
+  imports: [TypeOrmModule.forFeature([MasterProfileCourseOptional])],
+  providers: [
+    MasterProfileCourseOptionalService,
+    MasterProfileCourseOptionalResolver,
+  ],
+  exports: [MasterProfileCourseOptionalService],
 })
 export class MasterProfileCourseOptionalModule {}

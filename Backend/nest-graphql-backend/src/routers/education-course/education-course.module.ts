@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { EducationCourseController } from './education-course.controller';
 import { EducationCourseService } from './education-course.service';
+import { EducationCourseResolver } from './education-course.resolver';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { EducationCourse } from 'src/entities';
 
 @Module({
-  controllers: [EducationCourseController],
-  providers: [EducationCourseService]
+  imports: [TypeOrmModule.forFeature([EducationCourse])],
+  providers: [EducationCourseService, EducationCourseResolver],
+  exports: [EducationCourseService],
 })
 export class EducationCourseModule {}

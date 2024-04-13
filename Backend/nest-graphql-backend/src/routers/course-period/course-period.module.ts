@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { CoursePeriodController } from './course-period.controller';
 import { CoursePeriodService } from './course-period.service';
+import { CoursePeriodResolver } from './course-period.resolver';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { CoursePeriod } from 'src/entities';
 
 @Module({
-  controllers: [CoursePeriodController],
-  providers: [CoursePeriodService]
+  imports: [TypeOrmModule.forFeature([CoursePeriod])],
+  providers: [CoursePeriodService, CoursePeriodResolver],
+  exports: [CoursePeriodService],
 })
 export class CoursePeriodModule {}

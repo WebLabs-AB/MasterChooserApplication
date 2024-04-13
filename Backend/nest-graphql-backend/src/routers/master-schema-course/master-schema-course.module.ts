@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { MasterSchemaCourseController } from './master-schema-course.controller';
 import { MasterSchemaCourseService } from './master-schema-course.service';
+import { MasterSchemaCourseResolver } from './master-schema-course.resolver';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { MasterSchemaCourse } from 'src/entities';
 
 @Module({
-  controllers: [MasterSchemaCourseController],
-  providers: [MasterSchemaCourseService]
+  imports: [TypeOrmModule.forFeature([MasterSchemaCourse])],
+  providers: [MasterSchemaCourseService, MasterSchemaCourseResolver],
+  exports: [MasterSchemaCourseService],
 })
 export class MasterSchemaCourseModule {}

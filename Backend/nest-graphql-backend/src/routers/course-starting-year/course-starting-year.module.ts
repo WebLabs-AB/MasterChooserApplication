@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { CourseStartingYearController } from './course-starting-year.controller';
 import { CourseStartingYearService } from './course-starting-year.service';
+import { CourseStartingYearResolver } from './course-starting-year.resolver';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { CourseStartingYear } from 'src/entities';
 
 @Module({
-  controllers: [CourseStartingYearController],
-  providers: [CourseStartingYearService]
+  imports: [TypeOrmModule.forFeature([CourseStartingYear])],
+  providers: [CourseStartingYearService, CourseStartingYearResolver],
+  exports: [CourseStartingYearService],
 })
 export class CourseStartingYearModule {}

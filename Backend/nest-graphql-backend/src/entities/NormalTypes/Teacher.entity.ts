@@ -27,10 +27,9 @@ export class Teacher extends User {
   lastName: string;
 
   /**
-   * Optional collection of MasterProfile entities that are associated with a single Teacher entity.
-   * It's a one-to-many relationship where each Teacher can be linked to multiple MasterProfiles.
-   * The 'cascade: true' option ensures that operations like save and delete on the Teacher entity
-   * are cascaded to related MasterProfiles.
+   * This is a one-to-many relationship where a teacher can have multiple associated master profiles.
+   * The 'cascade: true' option ensures that operations like updates and deletions on the teacher entity
+   * are also applied to the master profiles associated with this teacher.
    */
   @OneToMany(() => MasterProfile, (masterProfile) => masterProfile.teacher, {
     eager: true,
@@ -39,6 +38,11 @@ export class Teacher extends User {
   @Field((type) => [MasterProfile], { nullable: true })
   public MasterProfiles?: MasterProfile[];
 
+  /**
+   * This is a one-to-many relationship where a teacher can be associated with multiple courses.
+   * The 'cascade: true' option ensures that any updates and deletions on the teacher entity are
+   * cascaded to the courses that the teacher is associated with.
+   */
   @OneToMany(() => Course, (course) => course.teacher, {
     eager: true,
     cascade: true,

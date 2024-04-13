@@ -19,10 +19,8 @@ export class MainArea extends BaseEntity {
   name: string;
 
   /**
-   * Contains all MasterSchemas that have chosen a specific MainArea.
-   * This is a one-to-many relationship where each mainArea can have multiple associated MasterSchema entities.
-   * The 'cascade: true' option means any operations like insert, update, or delete on the mainArea will also be applied to the related MasterSchema entities.
-   * This property is nullable, meaning the mainArea may not always have associated MasterSchema entities.
+   * This is a one-to-many relationship where a specific MainArea can be associated with multiple master schemas.
+   * The 'cascade: true' option ensures that operations like insert, update, or delete on the MainArea are also applied to the related MasterSchema entities.
    */
   @OneToMany(() => MasterSchema, (masterSchema) => masterSchema.mainArea, {
     cascade: true,
@@ -31,8 +29,8 @@ export class MainArea extends BaseEntity {
   MasterSchemas?: MasterSchema[];
 
   /**
-   * Collection of courses that belongs to this main area.
-   * It indicates a one-to-many relationship with main areas.
+   * This is a one-to-many relationship where a specific MainArea can have multiple associated CourseMainArea entities.
+   * The 'cascade: true' option ensures that operations on the MainArea are also applied to the related CourseMainArea entities.
    */
   @OneToMany(
     () => CourseMainArea,
@@ -43,6 +41,10 @@ export class MainArea extends BaseEntity {
   )
   public courseBelongsToMainArea?: CourseMainArea[];
 
+  /**
+   * This is a one-to-many relationship where a specific MainArea can have multiple associated EducationMainArea entities.
+   * The 'cascade: true' option ensures that operations on the MainArea are also applied to the related EducationMainArea entities.
+   */
   @OneToMany(
     () => EducationMainArea,
     (educationMainArea) => educationMainArea.mainAreaName,

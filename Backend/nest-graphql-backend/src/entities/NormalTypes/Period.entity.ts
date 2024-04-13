@@ -17,8 +17,9 @@ export class Period extends BaseEntity {
   value: number;
 
   /**
-   * Collection of courses that is being taught for this specific period.
-   * It represents a one-to-many relationship with period.
+   * This is a one-to-many relationship where a specific course can be associated with multiple periods.
+   * The 'cascade: true' option ensures that operations like updates and deletions on the course are also
+   * applied to the course periods that include this course.
    */
   @OneToMany(() => CoursePeriod, (coursePeriod) => coursePeriod.periodValue, {
     cascade: true,

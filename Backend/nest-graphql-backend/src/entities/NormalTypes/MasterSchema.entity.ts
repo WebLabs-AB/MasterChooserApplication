@@ -57,8 +57,8 @@ export class MasterSchema extends BaseEntity {
   firstYear: number;
 
   /**
-   * Collection of courses that include this master schema.
-   * Represents a one-to-many relationship to the master schema.
+   * This is a one-to-many relationship where a specific master schema can have multiple associated courses.
+   * The 'cascade: true' option ensures that operations like update and delete on the master schema will be reflected in the related courses.
    */
   @OneToMany(
     () => MasterSchemaCourse,
@@ -68,11 +68,8 @@ export class MasterSchema extends BaseEntity {
   public courseBelongsToMasterSchema?: MasterSchemaCourse[];
 
   /**
-   * Represents the association of this entity with a single Student entity.
-   * This is a many-to-one relationship, where each instance of the current entity refers to one Student.
-   * The 'eager: true' option means the Student entity will be automatically loaded when the current entity is queried.
-   * The 'onDelete: "CASCADE"' option specifies that deletion of the Student will result in the deletion of the current entity.
-   * The 'JoinColumn' decorator sets 'student' as the name of the foreign key column in the database.
+   * This is a many-to-one relationship where each instance of the current entity is associated with a single Student entity.
+   * The 'onDelete: "CASCADE"' option ensures that when a Student is deleted, the associated entity instance is also removed from the database.
    */
   @ManyToOne(() => Student, (student) => student.MasterSchemas, {
     onDelete: 'CASCADE',
@@ -82,11 +79,9 @@ export class MasterSchema extends BaseEntity {
   student: Student;
 
   /**
-   * Represents the association of this entity with a single MainArea entity.
-   * It establishes a many-to-one relationship, with each instance of the current entity referencing one MainArea.
-   * The 'eager: true' option automatically loads the MainArea entity when the current entity is fetched.
-   * The 'onDelete: "CASCADE"' option indicates that deleting the MainArea will lead to the deletion of the current entity.
-   * The 'JoinColumn' decorator defines 'main_area_name' as the foreign key column in the database.
+   * This is a many-to-one relationship where each instance of the current entity is associated with a single MainArea entity.
+   * The 'eager: true' option means that the MainArea entity is automatically loaded when the current entity is fetched.
+   * The 'onDelete: "CASCADE"' option ensures that deleting the MainArea results in the deletion of the associated entity instance.
    */
   @ManyToOne(() => MainArea, (mainArea) => mainArea.MasterSchemas, {
     eager: true,
@@ -97,11 +92,9 @@ export class MasterSchema extends BaseEntity {
   mainArea: MainArea;
 
   /**
-   * Represents the association of this entity with a single MasterProfile entity.
-   * This many-to-one relationship implies that each instance of the current entity is linked to one MasterProfile.
-   * With 'eager: true', the MasterProfile entity is automatically loaded when querying the current entity.
-   * The 'onDelete: "CASCADE"' option means that the removal of the MasterProfile will also remove this entity.
-   * The 'JoinColumn' specifies that 'master_profile_id' is the foreign key column in the database.
+   * This is a many-to-one relationship where each instance of the current entity is associated with a single MasterProfile entity.
+   * With 'eager: true', the MasterProfile is loaded automatically when the current entity is fetched.
+   * The 'onDelete: "CASCADE"' option ensures that removal of the MasterProfile will propagate the deletion to the associated entity instance.
    */
   @ManyToOne(
     () => MasterProfile,

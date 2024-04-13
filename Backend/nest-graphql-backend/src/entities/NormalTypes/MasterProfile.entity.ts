@@ -18,8 +18,7 @@ import { MasterProfileCourseRequired } from './MasterProfileCourseRequired.entit
 
 /**
  * Represents a master profile, which is a specialization of
- * an education. A master profile sets additional requirements
- * on possible courses.
+ * an education. A master profile sets additional requirements on possible courses.
  */
 @Entity('MasterProfile')
 @ObjectType()
@@ -62,9 +61,8 @@ export class MasterProfile extends BaseEntity {
   numOptionalCourses: number;
 
   /**
-   * A collection of Package entities associated with the master profile.
-   * This establishes a one-to-many relationship and enables cascading operations
-   * such as update and delete to related Package entities.
+   * This is a one-to-many relationship where a specific MasterProfile can offer multiple Packages.
+   * The 'cascade: true' option ensures that updates and deletions on the master profile are also applied to associated course packages.
    */
   @OneToMany(() => Package, (the_package) => the_package.masterProfile, {
     cascade: true,
@@ -73,11 +71,9 @@ export class MasterProfile extends BaseEntity {
   public Packages?: Package[];
 
   /**
-   * Collection of MasterSchemas that have chosen a specific MasterProfile.
-   * This is a one-to-many relationship where each MasterProfile can have multiple associated MasterSchemas.
-   * The 'eager: true' option ensures that the MasterSchema entities are loaded automatically when the MasterProfile is fetched.
-   * The 'cascade: true' option allows changes to the MasterProfile to cascade to its related MasterSchemas,
-   * such as updates or deletions.
+   * This is a one-to-many relationship where a specific master profile can belong to multiple master schemas.
+   * The 'cascade: true' option ensures that updates and deletions on the master profile are also applied to the master schemas that have chosen
+   * this master profile.
    */
   @OneToMany(() => MasterSchema, (masterSchema) => masterSchema.masterProfile, {
     cascade: true,
@@ -86,8 +82,9 @@ export class MasterProfile extends BaseEntity {
   MasterSchemas?: MasterSchema[];
 
   /**
-   * Collection of master profile that says this course is optional.
-   * It establishes a one-to-many relationship between the optional course and the master profile.
+   * This is a one-to-many relationship where the master profile can have multiple optional courses.
+   * The 'cascade: true' option ensures that updates and deletions on the master profile are also applied to the optional courses
+   * that belongs to associated master profile.
    */
   @OneToMany(
     () => MasterProfileCourseOptional,
@@ -98,8 +95,8 @@ export class MasterProfile extends BaseEntity {
   public optionalMasterProfileCourses?: MasterProfileCourseOptional[];
 
   /**
-   * Collection of master profile that says this course is required.
-   * It establishes a one-to-many relationship between the optional course and the master profile.
+   * This is a one-to-many relationship, where a master profile can specify multiple required courses.
+   * The 'cascade: true' option allows for updates and deletions on the master profile to affect its required courses.
    */
   @OneToMany(
     () => MasterProfileCourseRequired,
@@ -110,11 +107,8 @@ export class MasterProfile extends BaseEntity {
   public requiredMasterProfileCourses?: MasterProfileCourseRequired[];
 
   /**
-   * Represents the association of a MasterProfile with a single Teacher entity.
-   * This is a many-to-one relationship where each MasterProfile references one Teacher.
-   * The 'eager: true' option automatically loads the Teacher entity when the MasterProfile is queried.
-   * The 'onDelete: "CASCADE"' option means that deleting the Teacher will result in the deletion of the MasterProfile.
-   * The 'JoinColumn' decorator specifies the column name that will be used as the foreign key in the database.
+   * This is a many-to-one relationship where multiple master profiles can belong to a single teacher.
+   * The 'onDelete: "CASCADE"' option means that deleting a teacher will result in the deletion of the it's associated master profiles.
    */
   @ManyToOne(() => Teacher, (teacher) => teacher.MasterProfiles, {
     onDelete: 'CASCADE',
@@ -123,7 +117,10 @@ export class MasterProfile extends BaseEntity {
   @JoinColumn({ name: 'teacher' })
   teacher: Teacher;
 
-  // TODO: EducationId
+  /**
+   * This is a many-to-one relationship where multiple master profiles can be offered for an education.
+   * The 'onDelete: "CASCADE"' option means that deleting the education will result in the deletion of it's associated master profiles.
+   */
   @ManyToOne(() => Education, (education) => education.MasterProfiles, {
     onDelete: 'CASCADE',
   })

@@ -48,8 +48,8 @@ export class Course extends BaseEntity {
   hp: number;
 
   /**
-   * Collection of master profile that requires this course.
-   * It defines a one-to-many relationship between the required course and the master profile.
+   * This is a one-to-many relationship where a course may be required by multiple master profiles.
+   * The 'cascade: true' option ensures that updates and deletions on the course are also applied to the master profiles that require this course.
    */
   @OneToMany(
     () => MasterProfileCourseRequired,
@@ -59,8 +59,8 @@ export class Course extends BaseEntity {
   public requiredMasterProfileCourses?: MasterProfileCourseRequired[];
 
   /**
-   * Collection of master profile that says this course is optional.
-   * It establishes a one-to-many relationship between the optional course and the master profile.
+   * This is a one-to-many relationship where a course may be optional for multiple master profiles.
+   * The 'cascade: true' option ensures that updates and deletions on the course are also applied to the master profiles that have this course as optional.
    */
   @OneToMany(
     () => MasterProfileCourseOptional,
@@ -70,8 +70,8 @@ export class Course extends BaseEntity {
   public optionalMasterProfileCourses?: MasterProfileCourseOptional[];
 
   /**
-   * Collection of master schemas that include this course.
-   * Represents a one-to-many relationship to the master schema.
+   * This is a one-to-many relationship where a course can be included in multiple master schemas.
+   * The 'cascade: true' option ensures that updates and deletions on the course are also applied to the master schemas including this course.
    */
   @OneToMany(
     () => MasterSchemaCourse,
@@ -81,21 +81,19 @@ export class Course extends BaseEntity {
   public courseBelongsToMasterSchema?: MasterSchemaCourse[];
 
   /**
-   * Collection of main areas to which this course belongs to.
-   * It indicates a one-to-many relationship with main areas.
+   * This is a one-to-many relationship where a course can belong to multiple main areas.
+   * The 'cascade: true' option ensures that updates and deletions on the course are also applied to the main areas to which this course belongs.
    */
   @OneToMany(
     () => CourseMainArea,
     (courseMainArea) => courseMainArea.courseId,
-    {
-      cascade: true,
-    },
+    { cascade: true },
   )
   public courseBelongsToMainArea?: CourseMainArea[];
 
   /**
-   * Collection of education programs that offers this course.
-   * Defines a one-to-many relationship with education.
+   * This is a one-to-many relationship where a course may be offered by multiple education programs.
+   * The 'cascade: true' option ensures that updates and deletions on the course are also applied to the education programs that offer this course.
    */
   @OneToMany(
     () => EducationCourse,
@@ -105,8 +103,8 @@ export class Course extends BaseEntity {
   public courseBelongsToEducation?: EducationCourse[];
 
   /**
-   * Collection of starting years when this course is available.
-   * It maps a one-to-many relationship with starting years.
+   * This is a one-to-many relationship where a course may be available for multiple starting years.
+   * The 'cascade: true' option ensures that updates and deletions on the course are also applied to the starting years in which this course is available.
    */
   @OneToMany(
     () => CourseStartingYear,
@@ -116,8 +114,8 @@ export class Course extends BaseEntity {
   public courseBelongsToStartingYear?: CourseStartingYear[];
 
   /**
-   * Collection of packages that include this course.
-   * Establishes a one-to-many relationship with package.
+   * This is a one-to-many relationship where a course may be included in multiple packages.
+   * The 'cascade: true' option ensures that updates and deletions on the course are also applied to the packages that include this course.
    */
   @OneToMany(() => PackageCourse, (packageCourse) => packageCourse.courseId, {
     cascade: true,
@@ -125,8 +123,8 @@ export class Course extends BaseEntity {
   public courseBelongsToPackage?: PackageCourse[];
 
   /**
-   * Collection of periods during which this course is taught.
-   * It represents a one-to-many relationship with period.
+   * This is a one-to-many relationship where a course may be taught during multiple periods.
+   * The 'cascade: true' option ensures that updates and deletions on the course are also applied to the periods during which this course is taught.
    */
   @OneToMany(() => CoursePeriod, (coursePeriod) => coursePeriod.courseId, {
     cascade: true,
@@ -134,8 +132,8 @@ export class Course extends BaseEntity {
   public courseBelongsToPeriod?: CoursePeriod[];
 
   /**
-   * The teacher responsible for the course. This is a many-to-one relationship as multiple courses
-   * can be taught by the same teacher. The relationship is eagerly loaded and cascaded on delete.
+   * This is a many-to-one relationship where multiple courses can be taught by a single teacher.
+   * The 'onDelete: "CASCADE"' option means that deleting the teacher will result in the deletion of the courses they are responsible for.
    */
   @ManyToOne(() => Teacher, (teacher) => teacher.Courses, {
     onDelete: 'CASCADE',

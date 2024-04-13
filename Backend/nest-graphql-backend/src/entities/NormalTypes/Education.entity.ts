@@ -6,7 +6,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import { University } from './University.entity';
@@ -23,11 +23,11 @@ import { EducationMainArea } from './EducationMainArea.entity';
 @ObjectType()
 export class Education extends BaseEntity {
   /**
-   * ID of the education, which uniquely identifies the education.
+   * UUID of the education, which is auto-generated, which uniquely identifies the education.
    */
-  @PrimaryColumn({ name: 'education_id' })
-  @Field((type) => Int)
-  educationId: number;
+  @PrimaryGeneratedColumn('uuid', { name: 'education_id' })
+  @Field()
+  educationId: string;
 
   /**
    * Full name of the education.

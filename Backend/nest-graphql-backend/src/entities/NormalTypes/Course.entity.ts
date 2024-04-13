@@ -64,7 +64,7 @@ export class Course extends BaseEntity {
    */
   @OneToMany(
     () => MasterProfileCourseOptional,
-    (masterProfileCourseOptional) => masterProfileCourseOptional.course,
+    (masterProfileCourseOptional) => masterProfileCourseOptional.courseId,
     { cascade: true },
   )
   public optionalMasterProfileCourses?: MasterProfileCourseOptional[];

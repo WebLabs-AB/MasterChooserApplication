@@ -1,5 +1,11 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import {
+  BaseEntity,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { Course } from './Course.entity';
 import { MasterSchema } from './MasterSchema.entity';
 
@@ -11,6 +17,14 @@ import { MasterSchema } from './MasterSchema.entity';
 @Entity('MasterSchemaCourse')
 @ObjectType()
 export class MasterSchemaCourse extends BaseEntity {
+  @PrimaryColumn({ name: 'course_id' })
+  @Field()
+  courseId: string;
+
+  @PrimaryColumn({ name: 'master_schema_id' })
+  @Field()
+  masterSchemaId: string;
+
   /**
    * The course included in the master schema.
    * It establishes a many-to-one relationship with the Course entity.

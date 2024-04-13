@@ -82,14 +82,14 @@ export class Education extends BaseEntity {
    */
   @OneToMany(
     () => EducationCourse,
-    (educationCourse) => educationCourse.course,
+    (educationCourse) => educationCourse.educationId,
     { cascade: true },
   )
   public courseBelongsToEducation?: EducationCourse[];
 
   @OneToMany(
     () => EducationMainArea,
-    (educationMainArea) => educationMainArea.education,
+    (educationMainArea) => educationMainArea.educationId,
     { cascade: true },
   )
   public mainAreaBelongsToEducation?: EducationMainArea[];

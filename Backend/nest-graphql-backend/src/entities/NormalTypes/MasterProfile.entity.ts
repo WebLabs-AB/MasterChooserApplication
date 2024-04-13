@@ -7,6 +7,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Package } from './Package.entity';
 import { Teacher } from './Teacher.entity';
@@ -24,12 +25,11 @@ import { MasterProfileCourseRequired } from './MasterProfileCourseRequired.entit
 @ObjectType()
 export class MasterProfile extends BaseEntity {
   /**
-   * ID of the master profile, which uniquely identifies
-   * the master profile.
+   * UUID of the master profile, which is auto-generated, which uniquely identifies the master profile.
    */
-  @PrimaryColumn({ name: 'master_profile_id' })
-  @Field((type) => Int)
-  masterProfileId: number;
+  @PrimaryGeneratedColumn('uuid', { name: 'master_profile_id' })
+  @Field()
+  masterProfileId: string;
 
   /**
    * Name of the master profile.
@@ -105,7 +105,7 @@ export class MasterProfile extends BaseEntity {
   @OneToMany(
     () => MasterProfileCourseRequired,
     (requiredMasterProfileCourses) =>
-      requiredMasterProfileCourses.masterProfile,
+      requiredMasterProfileCourses.masterProfileId,
     { cascade: true },
   )
   public requiredMasterProfileCourses?: MasterProfileCourseRequired[];

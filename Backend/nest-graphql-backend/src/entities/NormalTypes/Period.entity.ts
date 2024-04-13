@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { BaseEntity, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { CoursePeriod } from './CoursePeriod.entity';
 
@@ -13,14 +13,14 @@ export class Period extends BaseEntity {
    * Period value.
    */
   @PrimaryColumn({ name: 'value' })
-  @Field()
+  @Field((type) => Int)
   value: number;
 
   /**
    * Collection of courses that is being taught for this specific period.
    * It represents a one-to-many relationship with period.
    */
-  @OneToMany(() => CoursePeriod, (coursePeriod) => coursePeriod.course, {
+  @OneToMany(() => CoursePeriod, (coursePeriod) => coursePeriod.periodValue, {
     cascade: true,
   })
   public courseBelongsToPeriod?: CoursePeriod[];

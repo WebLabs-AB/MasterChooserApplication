@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseEntity, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { MasterSchema } from './MasterSchema.entity';
 import { CourseMainArea } from './CourseMainArea.entity';
@@ -15,8 +15,8 @@ export class MainArea extends BaseEntity {
    * Name of the main area.
    */
   @PrimaryColumn({ name: 'name' })
-  @Field((type) => Int)
-  name: number;
+  @Field()
+  name: string;
 
   /**
    * Contains all MasterSchemas that have chosen a specific MainArea.
@@ -36,14 +36,18 @@ export class MainArea extends BaseEntity {
    * Collection of courses that belongs to this main area.
    * It indicates a one-to-many relationship with main areas.
    */
-  @OneToMany(() => CourseMainArea, (courseMainArea) => courseMainArea.course, {
-    cascade: true,
-  })
+  @OneToMany(
+    () => CourseMainArea,
+    (courseMainArea) => courseMainArea.mainAreaName,
+    {
+      cascade: true,
+    },
+  )
   public courseBelongsToMainArea?: CourseMainArea[];
 
   @OneToMany(
     () => EducationMainArea,
-    (educationMainArea) => educationMainArea.mainArea,
+    (educationMainArea) => educationMainArea.mainAreaName,
     { cascade: true },
   )
   public mainAreaBelongsToEducation?: EducationMainArea[];

@@ -1,5 +1,12 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { Course } from './Course.entity';
 import { StartingYear } from './StartingYear.entity';
 
@@ -11,6 +18,17 @@ import { StartingYear } from './StartingYear.entity';
 @Entity('CourseStartingYear')
 @ObjectType()
 export class CourseStartingYear extends BaseEntity {
+  @PrimaryColumn({ name: 'course_id' })
+  @Field()
+  courseId: string;
+
+  /**
+   * Name of the main area.
+   */
+  @PrimaryColumn({ name: 'start_year' })
+  @Field((type) => Int)
+  startYear: number;
+
   /**
    * The level of the course starting year.
    */
@@ -51,5 +69,5 @@ export class CourseStartingYear extends BaseEntity {
   )
   @Field((type) => StartingYear)
   @JoinColumn({ name: 'year' })
-  staringYear: StartingYear;
+  startingYear: StartingYear;
 }

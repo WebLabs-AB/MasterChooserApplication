@@ -6,7 +6,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import { MasterProfile } from './MasterProfile.entity';
@@ -24,11 +24,11 @@ import { PackageCourse } from './PackageCourse.entity';
 @ObjectType()
 export class Package extends BaseEntity {
   /**
-   * ID of the package, which uniquely identifies the package.
+   * UUID of the package, which is auto-generated, which uniquely identifies the package.
    */
-  @PrimaryColumn({ name: 'package_id' })
-  @Field((type) => Int)
-  packageId: number;
+  @PrimaryGeneratedColumn('uuid', { name: 'package_id' })
+  @Field()
+  packageId: string;
 
   /**
    * Name of the package.
@@ -49,7 +49,7 @@ export class Package extends BaseEntity {
    * Collection of courses that belongs to this package.
    * Establishes a one-to-many relationship with package.
    */
-  @OneToMany(() => PackageCourse, (packageCourse) => packageCourse.course, {
+  @OneToMany(() => PackageCourse, (packageCourse) => packageCourse.packageId, {
     cascade: true,
   })
   public courseBelongsToPackage?: PackageCourse[];

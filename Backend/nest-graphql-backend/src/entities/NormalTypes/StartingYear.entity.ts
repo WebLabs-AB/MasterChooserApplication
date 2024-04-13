@@ -36,7 +36,7 @@ export class StartingYear extends BaseEntity {
    */
   @OneToMany(
     () => CourseStartingYear,
-    (courseStartingYear) => courseStartingYear.course,
+    (courseStartingYear) => courseStartingYear.startYear,
     { cascade: true },
   )
   public courseBelongsToStartingYear?: CourseStartingYear[];

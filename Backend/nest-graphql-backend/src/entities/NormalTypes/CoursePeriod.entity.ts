@@ -1,5 +1,11 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
+import {
+  BaseEntity,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { Course } from './Course.entity';
 import { Period } from './Period.entity';
 
@@ -11,13 +17,24 @@ import { Period } from './Period.entity';
 @Entity('CoursePeriod')
 @ObjectType()
 export class CoursePeriod extends BaseEntity {
+  @PrimaryColumn({ name: 'course_id' })
+  @Field()
+  courseId: string;
+
+  /**
+   * Name of the main area.
+   */
+  @PrimaryColumn({ name: 'period_value' })
+  @Field((type) => Int)
+  periodValue: number;
+
   /**
    * The course associated with this period.
    * It establishes a many-to-one relationship with the Course entity.
    */
   @ManyToOne(() => Course, (course) => course.courseBelongsToPeriod)
   @Field((type) => Course)
-  @JoinColumn({ name: 'courseId' })
+  @JoinColumn({ name: 'course_id' })
   course: Course;
 
   /**
@@ -26,6 +43,6 @@ export class CoursePeriod extends BaseEntity {
    */
   @ManyToOne(() => Period, (period) => period.courseBelongsToPeriod)
   @Field((type) => Period)
-  @JoinColumn({ name: 'periodValue' })
+  @JoinColumn({ name: 'period_value' })
   period: Period;
 }

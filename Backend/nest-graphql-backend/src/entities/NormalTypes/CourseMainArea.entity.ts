@@ -1,5 +1,11 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
+import {
+  BaseEntity,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { Course } from './Course.entity';
 import { MainArea } from './MainArea.entity';
 
@@ -11,6 +17,17 @@ import { MainArea } from './MainArea.entity';
 @Entity('CourseMainArea')
 @ObjectType()
 export class CourseMainArea extends BaseEntity {
+  @PrimaryColumn({ name: 'course_id' })
+  @Field()
+  courseId: string;
+
+  /**
+   * Name of the main area.
+   */
+  @PrimaryColumn({ name: 'main_area_name' })
+  @Field((type) => Int)
+  mainAreaName: number;
+
   /**
    * The course associated with the main area.
    * It establishes a many-to-one relationship with the Course entity.

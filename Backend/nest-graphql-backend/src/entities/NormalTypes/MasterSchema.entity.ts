@@ -7,7 +7,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Student } from './Student.entity';
 import { MainArea } from './MainArea.entity';
@@ -22,17 +22,23 @@ import { MasterSchemaCourse } from './MasterSchemaCourse.entity';
 @ObjectType()
 export class MasterSchema extends BaseEntity {
   /**
-   * ID of the master schema, which uniquely identifies
-   * the master schema.
+   * UUID of the master profile, which is auto-generated, which uniquely identifies the master profile.
    */
-  @PrimaryColumn({ name: 'master_schema_id' })
-  @Field((type) => Int)
-  masterSchemaId: number;
+  @PrimaryGeneratedColumn('uuid', { name: 'master_schema_id' })
+  @Field()
+  masterSchemaId: string;
+
+  /**
+   * Name.
+   */
+  @Column()
+  @Field()
+  name: string;
 
   /**
    * Date of when the schema was created.
    */
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_date' })
   @Field()
   createdDate: string;
 
@@ -44,9 +50,9 @@ export class MasterSchema extends BaseEntity {
   finished: boolean;
 
   /**
-   * Year of when the first master coures will be studied.
+   * Year of when the first master course will be studied.
    */
-  @Column()
+  @Column({ name: 'first_year' })
   @Field((type) => Int)
   firstYear: number;
 
@@ -56,7 +62,7 @@ export class MasterSchema extends BaseEntity {
    */
   @OneToMany(
     () => MasterSchemaCourse,
-    (masterSchemaCourse) => masterSchemaCourse.masterSchema,
+    (masterSchemaCourse) => masterSchemaCourse.masterSchemaId,
     { cascade: true },
   )
   public courseBelongsToMasterSchema?: MasterSchemaCourse[];

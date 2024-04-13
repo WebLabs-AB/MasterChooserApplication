@@ -21,9 +21,9 @@ export class MasterProfileCourseOptional extends BaseEntity {
   @Field()
   courseId: string;
 
-  @PrimaryColumn({ name: 'master_profile_id' })
-  @Field((type) => Int)
-  masterProfileId: number;
+  @PrimaryColumn({ name: 'master_profile_id', type: 'uuid' })
+  @Field()
+  masterProfileId: string;
 
   /**
    * The course that is optional for a master profile.

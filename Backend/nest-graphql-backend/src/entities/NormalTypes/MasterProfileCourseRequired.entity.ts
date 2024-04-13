@@ -1,5 +1,11 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
+import {
+  BaseEntity,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { MasterProfile } from './MasterProfile.entity';
 import { Course } from './Course.entity';
 
@@ -11,6 +17,14 @@ import { Course } from './Course.entity';
 @Entity('MasterProfileCourseRequired')
 @ObjectType()
 export class MasterProfileCourseRequired extends BaseEntity {
+  @PrimaryColumn({ name: 'course_id' })
+  @Field()
+  courseId: string;
+
+  @PrimaryColumn({ name: 'master_profile_id', type: 'uuid' })
+  @Field()
+  masterProfileId: string;
+
   /**
    * The course that is required for a master profile.
    * It establishes a many-to-one relationship with the Course entity.

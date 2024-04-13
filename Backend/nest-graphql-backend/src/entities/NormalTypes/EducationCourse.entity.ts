@@ -1,5 +1,11 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import {
+  BaseEntity,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { Course } from './Course.entity';
 import { Education } from './Education.entity';
 
@@ -11,6 +17,14 @@ import { Education } from './Education.entity';
 @Entity('EducationCourse')
 @ObjectType()
 export class EducationCourse extends BaseEntity {
+  @PrimaryColumn({ name: 'courseId' })
+  @Field()
+  courseId: string;
+
+  @PrimaryColumn({ name: 'education_id', type: 'uuid' })
+  @Field()
+  educationId: string;
+
   /**
    * The education program offering the course.
    * It establishes a many-to-one relationship with the Education entity.

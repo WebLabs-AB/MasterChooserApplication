@@ -53,7 +53,7 @@ export class Course extends BaseEntity {
    */
   @OneToMany(
     () => MasterProfileCourseRequired,
-    (masterProfileCourseRequired) => masterProfileCourseRequired.course,
+    (masterProfileCourseRequired) => masterProfileCourseRequired.courseId,
     { cascade: true },
   )
   public requiredMasterProfileCourses?: MasterProfileCourseRequired[];
@@ -75,7 +75,7 @@ export class Course extends BaseEntity {
    */
   @OneToMany(
     () => MasterSchemaCourse,
-    (masterSchemaCourse) => masterSchemaCourse.course,
+    (masterSchemaCourse) => masterSchemaCourse.courseId,
     { cascade: true },
   )
   public courseBelongsToMasterSchema?: MasterSchemaCourse[];
@@ -84,9 +84,13 @@ export class Course extends BaseEntity {
    * Collection of main areas to which this course belongs to.
    * It indicates a one-to-many relationship with main areas.
    */
-  @OneToMany(() => CourseMainArea, (courseMainArea) => courseMainArea.course, {
-    cascade: true,
-  })
+  @OneToMany(
+    () => CourseMainArea,
+    (courseMainArea) => courseMainArea.courseId,
+    {
+      cascade: true,
+    },
+  )
   public courseBelongsToMainArea?: CourseMainArea[];
 
   /**
@@ -95,7 +99,7 @@ export class Course extends BaseEntity {
    */
   @OneToMany(
     () => EducationCourse,
-    (educationCourse) => educationCourse.course,
+    (educationCourse) => educationCourse.courseId,
     { cascade: true },
   )
   public courseBelongsToEducation?: EducationCourse[];
@@ -106,7 +110,7 @@ export class Course extends BaseEntity {
    */
   @OneToMany(
     () => CourseStartingYear,
-    (courseStartingYear) => courseStartingYear.course,
+    (courseStartingYear) => courseStartingYear.courseId,
     { cascade: true },
   )
   public courseBelongsToStartingYear?: CourseStartingYear[];
@@ -115,7 +119,7 @@ export class Course extends BaseEntity {
    * Collection of packages that include this course.
    * Establishes a one-to-many relationship with package.
    */
-  @OneToMany(() => PackageCourse, (packageCourse) => packageCourse.course, {
+  @OneToMany(() => PackageCourse, (packageCourse) => packageCourse.courseId, {
     cascade: true,
   })
   public courseBelongsToPackage?: PackageCourse[];
@@ -124,7 +128,7 @@ export class Course extends BaseEntity {
    * Collection of periods during which this course is taught.
    * It represents a one-to-many relationship with period.
    */
-  @OneToMany(() => CoursePeriod, (coursePeriod) => coursePeriod.course, {
+  @OneToMany(() => CoursePeriod, (coursePeriod) => coursePeriod.courseId, {
     cascade: true,
   })
   public courseBelongsToPeriod?: CoursePeriod[];

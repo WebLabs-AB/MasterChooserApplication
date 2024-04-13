@@ -1,4 +1,9 @@
-import { Resolver } from '@nestjs/graphql';
+import { Query, Resolver } from '@nestjs/graphql';
 
 @Resolver()
-export class MasterProfileCourseOptionalResolver {}
+export class MasterProfileCourseOptionalResolver {
+  @Query(() => String)
+  sayHello(): string {
+    return 'Hello World!';
+  }
+}

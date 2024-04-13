@@ -3,111 +3,99 @@
 # ------------------------------------------------------
 
 type StartingYear {
-  startingYear: Int!
+  year: Int!
+  Students: [Student!]
 }
 
-type CourseStartingYears {
-  courseId: String!
-  yearTaught: Int!
-  hp: Float!
-  level: String!
-  schemaBlock: String!
-}
-
-type MasterSchema {
-  finished: Boolean!
-
-  """Time when masterschema was created """
-  createdAt: String!
-  student: Student!
-  masterProfile: MasterProfile!
-}
-
-type MasterProfile {
-  masterName: String!
-  university: University!
-  teacher: University!
-  masterSchemas: [MasterSchema!]!
-}
-
-type Teacher {
-  """User email """
+type Student {
   email: String!
-
-  """User time created """
-  createdAt: String!
-  firstName: String!
-  lastName: String!
-  MasterProfiles: [MasterProfile!]!
-  courses: [Course!]!
+  password: String!
+  salt: String!
+  MasterSchemas: [MasterSchema!]
+  university: University!
+  education: Education!
+  year: StartingYear!
 }
 
 type MainArea {
-  type: String!
+  name: String!
+  MasterSchemas: [MasterSchema!]
 }
 
-type CourseMainAreas {
-  courseId: String!
-  type: String!
-  course: Course!
+type MasterSchema {
+  masterSchemaId: String!
+  name: String!
+  createdDate: String!
+  finished: Boolean!
+  firstYear: Int!
+  student: Student!
   mainArea: MainArea!
+  masterProfile: MasterProfile!
 }
 
 type Period {
   value: Int!
 }
 
-type CoursePeriods {
-  courseId: String!
-  periodValue: Int!
-  course: Course!
-  period: Period!
+type Teacher {
+  email: String!
+  password: String!
+  salt: String!
+  firstName: String!
+  lastName: String!
+  MasterProfiles: [MasterProfile!]
+  Courses: [Course!]
 }
 
 type Course {
   courseId: String!
-  courseName: String!
-  courseLink: String!
-
-  """Time when course was created """
-  createdAt: String!
+  name: String!
+  hp: Int!
   teacher: Teacher!
-  university: University!
 }
 
-type CourseEducations {
-  courseId: String!
-  educationId: String!
-  course: Course!
+type Package {
+  packageId: String!
+  name: String!
+  numObligatoryCourses: Int!
+  masterProfile: MasterProfile!
+}
+
+type MasterProfile {
+  masterProfileId: String!
+  name: String!
+  a1xHpRequirement: Int!
+  totalHpRequirement: Int!
+  numOptionalCourses: Int!
+  Packages: [Package!]
+  MasterSchemas: [MasterSchema!]
+  teacher: Teacher!
   education: Education!
 }
 
 type Education {
-  id: String!
-  educationName: String!
+  educationId: String!
+  name: String!
+  totalA1X: Int!
   symbol: String!
-  university: University!
+  MasterProfiles: [MasterProfile!]
   Students: [Student!]
+  university: University!
 }
 
 type University {
-  universityName: String!
-  Students: [Student!]
+  universityId: Int!
+  name: String!
+  Admins: [Admin!]
   Educations: [Education!]
-  MasterProfiles: [MasterProfile!]
-  courses: [Course!]
+  Students: [Student!]
 }
 
-type Student {
-  """User email """
+type Admin {
   email: String!
-
-  """User time created """
-  createdAt: String!
-  startingYear: Int!
+  password: String!
+  salt: String!
   university: University!
-  education: Education!
-  masterSchemas: [MasterSchema!]!
 }
 
 type LoggedUserOutput {
@@ -115,163 +103,12 @@ type LoggedUserOutput {
   access_token: String!
 }
 
-type GeneralRequirements {
-  A1XHp: Int!
-  MainAreaHp: Int!
-}
-
 type Query {
-  students(educationName: String!, universityName: String!): [Student!]!
-  getStudent(email: String!): Teacher!
-  universities: [University!]!
-  findOne(universityName: String!): GeneralRequirements!
-  educations: [Education!]!
-  educationsFromUniversity(universityName: String!): [Education!]!
-  startingYears: [StartingYear!]!
-  mainareas: [MainArea!]!
-  periods: [Period!]!
-  courses: [Course!]!
-  courseEducations: [CourseEducations!]!
-  coursesFromEducation(educationId: String!): [CourseEducations!]!
-  educationsFromCourse(courseId: String!): [CourseEducations!]!
-  courseMainAreas: [CourseMainAreas!]!
-  coursesFromMainArea(type: String!): [CourseMainAreas!]!
-  mainAreasFromCourse(courseId: String!): [CourseMainAreas!]!
-  coursePeriods: [CoursePeriods!]!
-  coursesFromPeriod(periodValue: Float!): [CoursePeriods!]!
-  periodsFromCourse(courseId: String!): [CoursePeriods!]!
-  courseStartingYears: [CourseStartingYears!]!
-  coursesFromStartingYears(yearTaught: Float!): [CourseStartingYears!]!
-  startingYearsFromCourse(courseId: String!): [CourseStartingYears!]!
-  generalRequirements: [GeneralRequirements!]!
+  sayHello: String!
 }
 
 type Mutation {
-  createNewStudent(createStudentInput: CreateStudentInput!): Student!
-  deleteUniversity(universityName: String!): University!
-  createNewUniversity(createUniversityInput: CreateUniversityInput!): University!
-  createNewEducation(createEducationInput: CreateEducationInput!): Education!
-  createNewStartingYear(createStartingYearInput: CreateStartingYearInput!): StartingYear!
-  createNewTeacher(createTeacherInput: CreateTeacherInput!): Teacher!
-  createNewMainArea(createMainAreaInput: CreateMainAreaInput!): MainArea!
-  createNewPeriod(createPeriodInput: CreatePeriodInput!): Period!
-  createNewCourse(createCourseInput: CreateCourseInput!, createCourseEducationsInput: [CreateCourseEducationsInput!]!, createCoursePeriodsInput: [CreateCoursePeriodsInput!]!, createCourseMainAreasInput: [CreateCourseMainAreasInput!]!, createCourseStartingYearsInput: [CreateCourseStartingYearsInput!]!): Course!
-  createNewCourseEducations(createCourseStartingYearsInput: CreateCourseStartingYearsInput!): CourseStartingYears!
-  createNewCoursePeriods(createCoursePeriodsInput: CreateCoursePeriodsInput!): CoursePeriods!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
-  deleteGeneralRequirements(universityName: String!): GeneralRequirements!
-  createNewGeneralRequirement(createGeneralRequirementsInput: CreateGeneralRequirementsInput!): GeneralRequirements!
-}
-
-input CreateStudentInput {
-  """email of the user"""
-  email: String!
-
-  """password of the user"""
-  password: String!
-
-  """starting year of the user"""
-  startingYear: Int!
-
-  """university of the user"""
-  universityName: String!
-
-  """education of the user"""
-  educationName: String!
-}
-
-input CreateUniversityInput {
-  universityName: String!
-}
-
-input CreateEducationInput {
-  educationName: String!
-  symbol: String!
-  universityName: String!
-}
-
-input CreateStartingYearInput {
-  startingYear: Int!
-}
-
-input CreateTeacherInput {
-  """email of the teacher"""
-  email: String!
-
-  """password of the teacher"""
-  password: String!
-
-  """firstname of the teacher"""
-  firstName: String!
-
-  """lastname of the teacher"""
-  lastName: String!
-}
-
-input CreateMainAreaInput {
-  type: String!
-}
-
-input CreatePeriodInput {
-  value: Int!
-}
-
-input CreateCourseInput {
-  """courseId of the course"""
-  courseId: String!
-
-  """courseName of the uscourseer"""
-  courseName: String!
-
-  """courseLink of the course"""
-  courseLink: String!
-
-  """teacher of the course"""
-  teacherEmail: String!
-
-  """university of the course"""
-  universityName: String!
-}
-
-input CreateCourseEducationsInput {
-  """course Id of the course"""
-  courseId: String!
-
-  """education id of the education"""
-  educationId: String!
-}
-
-input CreateCoursePeriodsInput {
-  """course Id of the course"""
-  courseId: String!
-
-  """value of the period"""
-  periodValue: Int!
-}
-
-input CreateCourseMainAreasInput {
-  """course Id of the course"""
-  courseId: String!
-
-  """type of main area"""
-  type: String!
-}
-
-input CreateCourseStartingYearsInput {
-  """course Id of the course"""
-  courseId: String!
-
-  """year the course is being taught"""
-  yearTaught: Int!
-
-  """hp of the course"""
-  hp: Int!
-
-  """level of the course"""
-  level: String!
-
-  """schema block of the course"""
-  schemaBlock: String!
 }
 
 input LoginUserInput {
@@ -280,15 +117,4 @@ input LoginUserInput {
 
   """password of the user"""
   password: String!
-}
-
-input CreateGeneralRequirementsInput {
-  """Required hp that is from advanced courses"""
-  A1XHp: Int!
-
-  """Required hp in the education main area"""
-  MainAreaHp: Int!
-
-  """The name of the university that has these general requirements"""
-  universityName: String!
 }

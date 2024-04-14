@@ -11,12 +11,15 @@ interface Course {
   priority: string;
 }
 
-type CourseListSectionProps = {
+interface CourseListSectionProps {
   courses: Course[];
   removeCourse: (courseId: number) => void;
   updatePriority: (courseId: number, newPriority: string) => void;
-};
+}
 
+interface SearchSectionProps {
+  onAddCourse: (course: Course) => void;
+}
 
 const priorities = ['Required', 'Optional'];
 
@@ -59,7 +62,7 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
         <div className="col-span-2">{course.code}</div>
         <div className="col-span-3">{course.name}</div>
         <div className="col-span-1">{`${course.hp} hp`}</div>
-        <div className="col-span-2 relative mr-2"> {/* Added margin-right here */}
+        <div className="col-span-2 relative mr-2">
           <Listbox value={course.priority} onChange={(newPriority) => updatePriority(course.id, newPriority)}>
             <Listbox.Button className="border rounded text-center w-full py-1">
               {course.priority}
@@ -84,7 +87,7 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
         </div>
       </div>
     ));
-  };  
+  };
 
   return (
     <div className="mb-8 bg-white shadow rounded-lg p-4">
@@ -96,19 +99,44 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
 };
 
 // Search Section Component
-const SearchSection = () => (
-  <div className="mb-8">
+const SearchSection: React.FC<SearchSectionProps> = ({ onAddCourse }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredCourses = searchTerm
+    ? fakeCourses.filter(course =>
+        course.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        course.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    : [];
+
+  return (
     <div className="p-4 border rounded-lg bg-white shadow">
-      <input type="text" placeholder="Search for courses" className="border p-2 w-full mb-4" />
+      <input
+        type="text"
+        placeholder="Search for courses"
+        className="border p-2 w-full mb-4"
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
       <div className="flex gap-4 mb-4">
         <button className="bg-purple-500 text-white font-bold py-2 px-4 rounded">
           Filter
         </button>
       </div>
-      <div className="p-4 border rounded-lg h-64">Search results</div>
+      <div className="p-4 border rounded-lg h-64 overflow-auto">
+        {filteredCourses.map(course => (
+          <div key={course.id} className="flex justify-between items-center p-2">
+            <span>{course.code} - {course.name}</span>
+            <button
+              className="bg-blue-500 text-white px-4 py-1 rounded"
+              onClick={() => onAddCourse(course)}
+            >
+              Add
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // Main TeacherCreateUpdateProfilePage Component
 export const TeacherCreateUpdateProfilePage = () => {
@@ -127,18 +155,28 @@ export const TeacherCreateUpdateProfilePage = () => {
     }));
   };
 
+  const addCourseToProfile = (courseToAdd: Course) => {
+    if (!courses.find(course => course.id === courseToAdd.id)) {
+      setCourses([...courses, { ...courseToAdd, priority: 'Required' }]); // Set a default priority
+    }
+  };
+
   return (
     <div className="container mx-auto p-8 bg-gray-100 min-h-screen">
+      <ProfileSection />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <ProfileSection />
-          <CourseListSection courses={courses} removeCourse={removeCourse} updatePriority={updatePriority} />
+          <CourseListSection
+            courses={courses}
+            removeCourse={removeCourse}
+            updatePriority={updatePriority}
+          />
           <button className="bg-red-500 text-white font-bold py-2 px-4 rounded mt-6 align-left">
             Edit profile requirements
           </button>
         </div>
         <div className="lg:col-span-1">
-          <SearchSection />
+          <SearchSection onAddCourse={addCourseToProfile} />
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog, Transition, Listbox } from '@headlessui/react';
-import { useLocation } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom';
 
 interface Course {
   id: number;
@@ -19,8 +19,8 @@ const fakeCourses = [
 
 const priorities = ['High', 'Medium', 'Low'];
 
-const location = useLocation();
-const profileId = location.state?.profileId; // Get the profile ID from the passed state
+//const location = useLocation();
+//const profileId = location.state?.profileId; // Get the profile ID from the passed state
 
 export const TeacherCreateUpdateProfilePage = () => {
   const [courses, setCourses] = useState<Course[]>(fakeCourses);

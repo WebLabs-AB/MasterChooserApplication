@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Listbox } from '@headlessui/react';
 
-// Interfaces and types
 interface Course {
   id: number;
   period: string;
@@ -19,17 +18,16 @@ interface CourseListSectionProps {
 
 interface SearchSectionProps {
   onAddCourse: (course: Course) => void;
+  availableCourses: Course[];
 }
 
 const priorities = ['Required', 'Optional'];
 
-// Fake data
 const fakeCourses = [
   { id: 1, period: 'Fall 2024', code: 'CS101', name: 'Introduction to Computer Science', hp: 5, priority: 'Required' },
   { id: 2, period: 'Spring 2025', code: 'CS102', name: 'Data Structures', hp: 5, priority: 'Optional' },
 ];
 
-// Profile Section Component
 const ProfileSection = () => (
   <div className="mb-8">
     <div className="flex justify-between items-center mb-2">
@@ -42,7 +40,6 @@ const ProfileSection = () => (
   </div>
 );
 
-// Course List Section Component
 const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCourse, updatePriority }) => {
   const renderCourseHeadings = () => (
     <div className="grid grid-cols-12 font-bold py-2 bg-gray-200 text-gray-700">
@@ -55,8 +52,8 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
     </div>
   );
 
-  const renderCourses = () => {
-    return courses.map((course: Course) => (
+  const renderCourses = () => (
+    courses.map((course: Course) => (
       <div key={course.id} className="grid grid-cols-12 items-center py-2">
         <div className="col-span-3">{course.period}</div>
         <div className="col-span-2">{course.code}</div>
@@ -86,8 +83,8 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
           </button>
         </div>
       </div>
-    ));
-  };
+    ))
+  );
 
   return (
     <div className="mb-8 bg-white shadow rounded-lg p-4">
@@ -98,15 +95,14 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
   );
 };
 
-// Search Section Component
-const SearchSection: React.FC<SearchSectionProps> = ({ onAddCourse }) => {
+const SearchSection: React.FC<SearchSectionProps> = ({ onAddCourse, availableCourses }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredCourses = searchTerm
-    ? fakeCourses.filter(course =>
+    ? availableCourses.filter(course =>
         course.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
         course.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    : [];
+    : availableCourses;
 
   return (
     <div className="p-4 border rounded-lg bg-white shadow">
@@ -116,11 +112,6 @@ const SearchSection: React.FC<SearchSectionProps> = ({ onAddCourse }) => {
         className="border p-2 w-full mb-4"
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <div className="flex gap-4 mb-4">
-        <button className="bg-purple-500 text-white font-bold py-2 px-4 rounded">
-          Filter
-        </button>
-      </div>
       <div className="p-4 border rounded-lg h-64 overflow-auto">
         {filteredCourses.map(course => (
           <div key={course.id} className="flex justify-between items-center p-2">
@@ -138,26 +129,30 @@ const SearchSection: React.FC<SearchSectionProps> = ({ onAddCourse }) => {
   );
 };
 
-// Main TeacherCreateUpdateProfilePage Component
 export const TeacherCreateUpdateProfilePage = () => {
-  const [courses, setCourses] = useState<Course[]>(fakeCourses);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [availableCourses, setAvailableCourses] = useState<Course[]>(fakeCourses);
 
   const removeCourse = (courseId: number) => {
     setCourses(courses.filter(course => course.id !== courseId));
+    const removedCourse = fakeCourses.find(course => course.id === courseId);
+    if (removedCourse) {
+      setAvailableCourses(prev => [...prev, removedCourse]);
+    }
   };
 
   const updatePriority = (courseId: number, newPriority: string) => {
-    setCourses(courses.map(course => {
-      if (course.id === courseId) {
-        return { ...course, priority: newPriority };
-      }
-      return course;
-    }));
+    setCourses(courses.map(course => (
+      course.id === courseId ? { ...course, priority: newPriority } : course
+    )));
   };
 
   const addCourseToProfile = (courseToAdd: Course) => {
     if (!courses.find(course => course.id === courseToAdd.id)) {
-      setCourses([...courses, { ...courseToAdd, priority: 'Required' }]); // Set a default priority
+      setCourses(prevCourses => [...prevCourses, { ...courseToAdd, priority: 'Required' }]);
+      setAvailableCourses(prevAvailableCourses =>
+        prevAvailableCourses.filter(course => course.id !== courseToAdd.id)
+      );
     }
   };
 
@@ -176,7 +171,7 @@ export const TeacherCreateUpdateProfilePage = () => {
           </button>
         </div>
         <div className="lg:col-span-1">
-          <SearchSection onAddCourse={addCourseToProfile} />
+          <SearchSection onAddCourse={addCourseToProfile} availableCourses={availableCourses} />
         </div>
       </div>
     </div>

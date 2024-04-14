@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 // Define a TypeScript interface for the profile
 interface Profile {
@@ -16,6 +17,7 @@ const profilesData = [
 
 // Main Component for the Teacher Masterprofile Landing Page
 export const TeacherLandingPage = () => {
+  const navigate = useNavigate(); // Initialize the navigate function
   const [profiles, setProfiles] = useState<Profile[]>(profilesData);
   const [isRemoveDialogOpen, setRemoveDialogOpen] = useState(false);
   const [profileToRemove, setProfileToRemove] = useState<Profile | null>(null);
@@ -36,10 +38,21 @@ export const TeacherLandingPage = () => {
     }
   };
 
+  // Function to navigate to the edit page
+  const handleEdit = (profileId: number) => {
+    navigate(`/teachermasterprofile`, { state: { profileId } });
+  };
+
   const renderProfiles = () => {
     return profiles.map(profile => (
       <div key={profile.id} className="flex justify-between items-center p-4 border-b border-gray-200">
         <div className="flex-1">{profile.name}</div>
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+          onClick={() => handleEdit(profile.id)} // Navigate to edit page
+        >
+          Edit
+        </button>
         <button
           className="bg-red-500 text-white px-4 py-2 rounded"
           onClick={() => openRemoveDialog(profile)}

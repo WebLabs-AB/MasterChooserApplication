@@ -59,12 +59,12 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
         <div className="col-span-2">{course.code}</div>
         <div className="col-span-3">{course.name}</div>
         <div className="col-span-1">{`${course.hp} hp`}</div>
-        <div className="col-span-2 relative">
+        <div className="col-span-2 relative mr-2"> {/* Added margin-right here */}
           <Listbox value={course.priority} onChange={(newPriority) => updatePriority(course.id, newPriority)}>
             <Listbox.Button className="border rounded text-center w-full py-1">
               {course.priority}
             </Listbox.Button>
-            <Listbox.Options className="absolute z-10 w-full bg-white border rounded shadow-lg mt-1 max-h-60 overflow-auto">
+            <Listbox.Options className="absolute z-10 w-full bg-white border rounded shadow-lg mt-1 overflow-auto">
               {priorities.map((priority) => (
                 <Listbox.Option
                   key={priority}
@@ -84,7 +84,7 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
         </div>
       </div>
     ));
-  };
+  };  
 
   return (
     <div className="mb-8 bg-white shadow rounded-lg p-4">
@@ -101,9 +101,6 @@ const SearchSection = () => (
     <div className="p-4 border rounded-lg bg-white shadow">
       <input type="text" placeholder="Search for courses" className="border p-2 w-full mb-4" />
       <div className="flex gap-4 mb-4">
-        <button className="bg-green-500 text-white font-bold py-2 px-4 rounded">
-          Add
-        </button>
         <button className="bg-purple-500 text-white font-bold py-2 px-4 rounded">
           Filter
         </button>

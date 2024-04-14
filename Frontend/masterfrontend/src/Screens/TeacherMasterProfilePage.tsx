@@ -34,17 +34,69 @@ const fakeCourses = [
   { id: 2, period: 'Spring 2025', code: 'CS102', name: 'Data Structures', hp: 5, priority: 'Optional' },
 ];
 
-const ProfileSection = () => (
-  <div className="mb-8">
-    <div className="flex justify-between items-center mb-4">
-      <h1 className="text-3xl font-bold text-gray-800">ProfileName</h1>
-      <button className="text-white bg-indigo-600 hover:bg-indigo-700 font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
-        Edit
-      </button>
+const ProfileSection = () => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [profileName, setProfileName] = useState('ProfileName');
+  const [tempProfileName, setTempProfileName] = useState(profileName);
+
+  const handleEditClick = () => {
+    setTempProfileName(profileName); // Initialize temporary state with current profile name
+    setIsEditing(true); // Show input field
+  };
+
+  const handleSaveClick = () => {
+    setProfileName(tempProfileName); // Update profile name with the edited value
+    setIsEditing(false); // Hide input field
+  };
+
+  const handleCancelClick = () => {
+    setIsEditing(false); // Hide input field without saving changes
+  };
+
+  return (
+    <div className="mb-8">
+      <div className="mb-4 flex items-center">
+        {isEditing ? (
+          <>
+            <input
+              type="text"
+              value={tempProfileName}
+              onChange={(e) => setTempProfileName(e.target.value)}
+              className="text-2xl font-bold text-gray-800 border-b-2 border-indigo-600 mr-4"
+            />
+            <button
+              className="text-white bg-green-600 hover:bg-green-700 font-bold py-1 px-3 rounded transition duration-300 ease-in-out mr-2"
+              onClick={handleSaveClick}
+            >
+              Save
+            </button>
+            <button
+              className="text-white bg-red-600 hover:bg-red-700 font-bold py-1 px-3 rounded transition duration-300 ease-in-out"
+              onClick={handleCancelClick}
+            >
+              Cancel
+            </button>
+          </>
+        ) : (
+          <>
+            <h1 className="text-3xl font-bold text-gray-800 mr-4">{profileName}</h1>
+            <button
+              className="text-white bg-indigo-600 hover:bg-indigo-700 font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
+              onClick={handleEditClick}
+            >
+              Edit
+            </button>
+          </>
+        )}
+      </div>
+      <div className="p-4 border rounded-lg bg-teal-50 shadow">
+        Profile information and restrictions
+      </div>
     </div>
-    <div className="p-4 border rounded-lg bg-teal-50 shadow">Profile information and restrictions</div>
-  </div>
-);
+  );
+};
+
+
 
 const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCourse, updatePriority }) => {
   const renderCourseHeadings = () => (
@@ -334,7 +386,7 @@ export const TeacherCreateUpdateProfilePage = () => {
               </div>
             </Dialog>
           </Transition>
-          
+
           </div>
             <div className="lg:col-span-1">
             <SearchSection onAddCourse={addCourseToProfile} availableCourses={availableCourses} />

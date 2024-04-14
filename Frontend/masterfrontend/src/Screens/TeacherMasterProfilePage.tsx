@@ -54,12 +54,12 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
 
   const renderCourses = () => {
     return courses.map((course: Course) => (
-      <div key={course.id} className="grid grid-cols-12 gap-2 items-center py-2">
+      <div key={course.id} className="grid grid-cols-12 items-center py-2">
         <div className="col-span-3">{course.period}</div>
         <div className="col-span-2">{course.code}</div>
         <div className="col-span-3">{course.name}</div>
         <div className="col-span-1">{`${course.hp} hp`}</div>
-        <div className="col-span-2 relative"> {/* Set to relative to constrain the dropdown */}
+        <div className="col-span-2 relative">
           <Listbox value={course.priority} onChange={(newPriority) => updatePriority(course.id, newPriority)}>
             <Listbox.Button className="border rounded text-center w-full py-1">
               {course.priority}
@@ -77,8 +77,8 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
             </Listbox.Options>
           </Listbox>
         </div>
-        <div className="col-span-1 text-center">
-          <button onClick={() => removeCourse(course.id)} className="bg-red-500 text-white px-4 py-1 rounded w-full">
+        <div className="col-span-1">
+          <button onClick={() => removeCourse(course.id)} className="bg-red-500 text-white px-3 py-1 rounded w-full">
             Remove
           </button>
         </div>

@@ -52,21 +52,25 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
     </div>
   );
 
-  const renderCourses = () =>
-    courses.map((course) => (
-      <div key={course.id} className="grid grid-cols-12 items-center py-2">
+  const renderCourses = () => {
+    return courses.map((course: Course) => (
+      <div key={course.id} className="grid grid-cols-12 gap-2 items-center py-2">
         <div className="col-span-3">{course.period}</div>
         <div className="col-span-2">{course.code}</div>
         <div className="col-span-3">{course.name}</div>
         <div className="col-span-1">{`${course.hp} hp`}</div>
-        <div className="col-span-2">
-          <Listbox as="div" value={course.priority} onChange={(newPriority) => updatePriority(course.id, newPriority)}>
+        <div className="col-span-2 relative"> {/* Set to relative to constrain the dropdown */}
+          <Listbox value={course.priority} onChange={(newPriority) => updatePriority(course.id, newPriority)}>
             <Listbox.Button className="border rounded text-center w-full py-1">
               {course.priority}
             </Listbox.Button>
-            <Listbox.Options className="absolute z-10 mt-1 bg-white border rounded shadow-lg w-full">
+            <Listbox.Options className="absolute z-10 w-full bg-white border rounded shadow-lg mt-1 max-h-60 overflow-auto">
               {priorities.map((priority) => (
-                <Listbox.Option key={priority} value={priority} className="px-4 py-2 text-center cursor-pointer hover:bg-gray-100">
+                <Listbox.Option
+                  key={priority}
+                  value={priority}
+                  className="px-4 py-2 text-center cursor-pointer hover:bg-gray-100"
+                >
                   {priority}
                 </Listbox.Option>
               ))}
@@ -80,6 +84,7 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
         </div>
       </div>
     ));
+  };
 
   return (
     <div className="mb-8 bg-white shadow rounded-lg p-4">
@@ -127,15 +132,17 @@ export const TeacherCreateUpdateProfilePage = () => {
 
   return (
     <div className="container mx-auto p-8 bg-gray-100 min-h-screen">
-      <ProfileSection />
-      <div className="flex flex-col lg:flex-row justify-between gap-6">
-        <CourseListSection courses={courses} removeCourse={removeCourse} updatePriority={updatePriority} />
-        <SearchSection />
-      </div>
-      <div className="text-center">
-        <button className="bg-red-500 text-white font-bold py-2 px-4 rounded w-full lg:w-auto mt-6">
-          Edit profile requirements
-        </button>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <ProfileSection />
+          <CourseListSection courses={courses} removeCourse={removeCourse} updatePriority={updatePriority} />
+          <button className="bg-red-500 text-white font-bold py-2 px-4 rounded mt-6 align-left">
+            Edit profile requirements
+          </button>
+        </div>
+        <div className="lg:col-span-1">
+          <SearchSection />
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, Transition, Listbox } from '@headlessui/react';
+import { Listbox } from '@headlessui/react';
 
 interface Course {
   id: number;
@@ -11,17 +11,14 @@ interface Course {
 }
 
 const fakeCourses = [
-  { id: 1, period: 'Fall 2024', code: 'CS101', name: 'Introduction to Computer Science', hp: 5, priority: 'High' },
-  { id: 2, period: 'Spring 2025', code: 'CS102', name: 'Data Structures', hp: 5, priority: 'Medium' },
-  // Add more courses as needed
+  { id: 1, period: 'Fall 2024', code: 'CS101', name: 'Introduction to Computer Science', hp: 5, priority: 'Required' },
+  { id: 2, period: 'Spring 2025', code: 'CS102', name: 'Data Structures', hp: 5, priority: 'Optional' },
 ];
 
-const priorities = ['High', 'Medium', 'Low'];
+const priorities = ['Required', 'Optional'];
 
 export const TeacherCreateUpdateProfilePage = () => {
   const [courses, setCourses] = useState<Course[]>(fakeCourses);
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const [searchResults, setSearchResults] = useState<Course[]>([]); // Placeholder state for search results
 
   const removeCourse = (courseId: number) => {
     setCourses(courses.filter(course => course.id !== courseId));
@@ -37,34 +34,40 @@ export const TeacherCreateUpdateProfilePage = () => {
   };
 
   const renderCourseHeadings = () => (
-    <div className="grid grid-cols-5 gap-4 font-bold py-2">
-      <span>Course period</span>
-      <span>Course code</span>
-      <span>Course name</span>
-      <span>Hp</span>
-      <span>Priority</span>
+    <div className="grid grid-cols-5 gap-4 font-bold py-2 bg-gray-200 text-gray-700">
+      <div>Course period</div>
+      <div>Course code</div>
+      <div>Course name</div>
+      <div>Hp</div>
+      <div>Priority</div>
     </div>
   );
 
   const renderCourses = () => {
     return courses.map((course) => (
       <div key={course.id} className="grid grid-cols-5 gap-4 items-center py-2">
-        <span>{course.period}</span>
-        <span>{course.code}</span>
-        <span>{course.name}</span>
-        <span>{course.hp} hp</span>
-        <div className="flex items-center">
+        <div>{course.period}</div>
+        <div>{course.code}</div>
+        <div>{course.name}</div>
+        <div>{`${course.hp} hp`}</div>
+        <div className="flex gap-2 items-center justify-center">
           <Listbox as="div" value={course.priority} onChange={(newPriority) => updatePriority(course.id, newPriority)}>
-            <Listbox.Button>{course.priority}</Listbox.Button>
-            <Listbox.Options>
+            <Listbox.Button className="border rounded px-4 py-1 cursor-pointer text-center">
+              {course.priority}
+            </Listbox.Button>
+            <Listbox.Options className="absolute z-10 mt-1 bg-white border rounded shadow-lg">
               {priorities.map((priority) => (
-                <Listbox.Option key={priority} value={priority}>
+                <Listbox.Option
+                  key={priority}
+                  value={priority}
+                  className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-center"
+                >
                   {priority}
                 </Listbox.Option>
               ))}
             </Listbox.Options>
           </Listbox>
-          <button onClick={() => removeCourse(course.id)} className="ml-2">
+          <button onClick={() => removeCourse(course.id)} className="bg-red-500 text-white px-2 py-1 rounded">
             Remove
           </button>
         </div>
@@ -73,33 +76,36 @@ export const TeacherCreateUpdateProfilePage = () => {
   };
 
   return (
-    <div className="container mx-auto my-8 p-4 bg-white shadow rounded space-y-6">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-bold">ProfileName</h1>
-        <button className="px-4 py-2 rounded text-white bg-blue-500">Edit</button>
+    <div className="container mx-auto p-4 bg-white shadow rounded">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">ProfileName</h1>
+        <button className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded">
+          Edit
+        </button>
       </div>
-      <div className="p-4 border rounded">Profile information and restrictions</div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="col-span-2 p-4 border rounded">
-          <div className="flex justify-between mb-4">
-            <div>
-              <span>Search for courses</span>
-              {/* Placeholder for search input */}
-              <input type="text" placeholder="Enter course name or code" className="border p-1 ml-2" />
-            </div>
-            <button className="px-4 py-2 rounded text-white bg-green-500">Add</button>
+      <div className="mb-6 p-4 border rounded">Profile information and restrictions</div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div className="p-4 border rounded">
+          <div className="mb-6">
+            <input type="text" placeholder="Search for courses" className="border p-2 mr-2 w-full" />
+            <button className="text-white bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded">
+              Add
+            </button>
           </div>
-          <button className="px-4 py-2 rounded border mb-4">Filter</button>
-          {/* Placeholder for search results */}
-          <div className="p-4 border rounded">Search results</div>
+          <button className="mb-6 text-white bg-indigo-500 hover:bg-indigo-700 font-bold py-2 px-4 rounded">
+            Filter
+          </button>
+          <div className="p-4 border rounded h-64">Search results</div>
         </div>
-        <div className="col-span-2">
-          <h2 className="text-lg font-semibold mb-2">Added courses</h2>
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Added courses</h2>
           {renderCourseHeadings()}
           {renderCourses()}
         </div>
       </div>
-      <button className="px-4 py-2 rounded text-white bg-red-500">Edit profile requirements</button>
+      <button className="text-white bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded w-full md:w-auto">
+        Edit profile requirements
+      </button>
     </div>
   );
 };

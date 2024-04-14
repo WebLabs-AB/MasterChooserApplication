@@ -17,43 +17,22 @@ const profilesData = [
 // Main Component for the Teacher Masterprofile Landing Page
 export const TeacherLandingPage = () => {
   const [profiles, setProfiles] = useState<Profile[]>(profilesData);
-  const [isDialogOpen, setDialogOpen] = useState(false);
-  const [currentProfile, setCurrentProfile] = useState<Profile | null>(null);
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [profileName, setProfileName] = useState('');
-
-  const openEditDialog = (profile: Profile) => {
-    setIsEditMode(true);
-    setProfileName(profile.name);
-    setCurrentProfile(profile);
-    setDialogOpen(true);
-  };
+  const [isRemoveDialogOpen, setRemoveDialogOpen] = useState(false);
+  const [profileToRemove, setProfileToRemove] = useState<Profile | null>(null);
 
   const openRemoveDialog = (profile: Profile) => {
-    setIsEditMode(false);
-    setCurrentProfile(profile);
-    setDialogOpen(true);
+    setProfileToRemove(profile);
+    setRemoveDialogOpen(true);
   };
 
-  const closeDialog = () => {
-    setDialogOpen(false);
-    setCurrentProfile(null);
-    setProfileName('');
+  const closeRemoveDialog = () => {
+    setRemoveDialogOpen(false);
   };
 
-  const handleEdit = () => {
-    if (currentProfile) {
-      setProfiles(
-        profiles.map(p => (p.id === currentProfile.id ? { ...p, name: profileName } : p))
-      );
-      closeDialog();
-    }
-  };
-
-  const handleRemove = () => {
-    if (currentProfile) {
-      setProfiles(profiles.filter(p => p.id !== currentProfile.id));
-      closeDialog();
+  const handleRemoveConfirm = () => {
+    if (profileToRemove) {
+      setProfiles(profiles.filter(p => p.id !== profileToRemove.id));
+      closeRemoveDialog();
     }
   };
 
@@ -61,12 +40,6 @@ export const TeacherLandingPage = () => {
     return profiles.map(profile => (
       <div key={profile.id} className="flex justify-between items-center p-4 border-b border-gray-200">
         <div className="flex-1">{profile.name}</div>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-          onClick={() => openEditDialog(profile)}
-        >
-          Edit
-        </button>
         <button
           className="bg-red-500 text-white px-4 py-2 rounded"
           onClick={() => openRemoveDialog(profile)}
@@ -97,9 +70,9 @@ export const TeacherLandingPage = () => {
         </button>
       </div>
 
-      {/* Dialog for Edit and Remove actions */}
-      <Transition appear show={isDialogOpen} as={React.Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeDialog}>
+      {/* Dialog for Remove confirmation */}
+      <Transition appear show={isRemoveDialogOpen} as={React.Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeRemoveDialog}>
           <Transition.Child
             as={React.Fragment}
             enter="ease-out duration-300"
@@ -111,9 +84,31 @@ export const TeacherLandingPage = () => {
           >
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
-
-          {/* Rest of the dialog component */}
-          {/* ... */}
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                  Are you sure you want to delete the master profile?
+                </Dialog.Title>
+                <div className="mt-4 flex justify-center">
+                  <button
+                    type="button"
+                    className="bg-red-500 text-white px-4 py-2 rounded mr-2"
+                    onClick={handleRemoveConfirm}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-gray-500 text-white px-4 py-2 rounded"
+                    onClick={closeRemoveDialog}
+                  >
+                    No
+                  </button>
+                </div>
+              </Dialog.Panel>
+            </div>
+          </div>
         </Dialog>
       </Transition>
     </div>

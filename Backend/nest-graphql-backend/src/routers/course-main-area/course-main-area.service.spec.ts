@@ -79,12 +79,25 @@ describe('CourseMainareasService', () => {
   });
 });
 
-describe('Test findAll function', () => {
+describe('Test findAll func', () => {
   test('should retrieve all course-mainareas', async () => {
     const expectedCourseMainAreas = [courseMainArea, courseMainArea2];
 
     const retrievedCourseMainAreas = await courseMainAreasService.findAll();
 
     expect(retrievedCourseMainAreas).toEqual(expectedCourseMainAreas);
+  });
+});
+
+describe('Test createCourseMainAreas func', () => {
+  test('should create a new course main area', async () => {
+    courseMainAreasRepository.save.mockReturnValue(courseMainArea);
+    courseMainAreasRepository.create.mockReturnValue(courseMainArea);
+
+    const newCoursePeriod = await courseMainAreasService.createCourseMainArea(
+      courseMainArea,
+    );
+    expect(courseMainAreasRepository.create).toHaveBeenCalledTimes(1);
+    expect(newCoursePeriod).toEqual(courseMainArea);
   });
 });

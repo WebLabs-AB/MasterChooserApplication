@@ -1,18 +1,90 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CourseMainAreaService } from './course-main-area.service';
+import { Repository } from 'typeorm';
+import { CourseMainArea, MainArea } from 'src/entities';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Course } from 'src/entities/NormalTypes/Course.entity';
 
-describe('CourseMainAreaService', () => {
-  let service: CourseMainAreaService;
+type MockType<T> = {
+  [P in keyof T]?: jest.Mock<{}>;
+};
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [CourseMainAreaService],
-    }).compile();
+let courseMainAreasService: CourseMainAreaService;
 
-    service = module.get<CourseMainAreaService>(CourseMainAreaService);
+const courseMainAreasRepository: MockType<Repository<CourseMainArea>> = {
+  save: jest.fn(),
+  findOne: jest.fn(),
+  find: jest.fn(),
+  create: jest.fn(),
+  delete: jest.fn(),
+};
+
+beforeAll(async () => {
+  const module: TestingModule = await Test.createTestingModule({
+    providers: [
+      CourseMainAreaService,
+      {
+        provide: getRepositoryToken(CourseMainArea),
+        useValue: courseMainAreasRepository,
+      },
+    ],
+  }).compile();
+
+  courseMainAreasService = module.get(CourseMainAreaService);
+});
+
+afterEach(() => {
+  jest.resetAllMocks();
+});
+
+let courseMainArea;
+let courseMainArea2;
+
+beforeEach(() => {
+  const course = new Course();
+  course.courseId = 'TDDD97';
+  course.name = 'Webbprogrammering';
+
+  const mainArea = new MainArea();
+  mainArea.name = 'Datateknik';
+
+  const mainArea2 = new MainArea();
+  mainArea2.name = 'Systemvetenskap';
+
+  courseMainArea = new CourseMainArea();
+  courseMainArea.course = course;
+  courseMainArea.courseId = course.courseId;
+  courseMainArea.mainArea = mainArea;
+  courseMainArea.mainAreaName = mainArea.name;
+
+  courseMainArea2 = new CourseMainArea();
+  courseMainArea2.course = course;
+  courseMainArea2.courseId = course.courseId;
+  courseMainArea2.mainArea = mainArea2;
+  courseMainArea2.mainAreaName = mainArea2.name;
+
+  course.courseBelongsToMainArea = [courseMainArea, courseMainArea2];
+  mainArea.courseBelongsToMainArea = [courseMainArea];
+  mainArea2.courseBelongsToMainArea = [courseMainArea2];
+
+  courseMainAreasRepository.find.mockReturnValue([
+    courseMainArea,
+    courseMainArea2,
+  ]);
+});
+
+describe('CourseMainareasService', () => {
+  test('should be defined', () => {
+    expect(courseMainAreasService).toBeDefined();
   });
+});
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+describe('Test findAll function', () => {
+  test('should retrieve all course-mainareas', async () => {
+    const expectedCourseMainAreas = [courseMainArea, courseMainArea2];
+
+    const retrievedCourseMainAreas = await courseMainAreasService.findAll();
+
+    expect(retrievedCourseMainAreas).toEqual(expectedCourseMainAreas);
   });
 });

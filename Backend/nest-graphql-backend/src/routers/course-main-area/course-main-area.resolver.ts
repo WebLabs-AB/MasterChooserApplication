@@ -1,7 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CourseMainArea } from 'src/entities/NormalTypes/CourseMainArea.entity';
 import { CourseMainAreaService } from './course-main-area.service';
-import { CreateCourseMainAreaInput } from 'src/inputTypes/create-course-mainArea.input';
+import { CreateCourseMainAreaInput } from 'src/inputTypes/create/create-course-mainArea.input';
+import { RemoveCourseMainAreaInput } from 'src/inputTypes/remove/remove-course-mainArea.input';
 
 @Resolver()
 export class CourseMainAreaResolver {
@@ -27,11 +28,11 @@ export class CourseMainAreaResolver {
   // Removes a CourseMainArea object for the database
   @Mutation((returns) => CourseMainArea)
   async removeCourseMainArea(
-    @Args('createCourseMainAreaInput')
-    createCourseMainAreaInput: CreateCourseMainAreaInput,
+    @Args('removeCourseMainAreaInput')
+    removeCourseMainAreaInput: RemoveCourseMainAreaInput,
   ): Promise<CourseMainArea> {
     return this.courseMainareaService.removeCourseMainArea(
-      createCourseMainAreaInput,
+      removeCourseMainAreaInput,
     );
   }
 

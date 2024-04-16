@@ -1,7 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CourseMainArea } from 'src/entities';
-import { CreateCourseMainAreaInput } from 'src/inputTypes/create-course-mainArea.input';
+import { CreateCourseMainAreaInput } from 'src/inputTypes/create/create-course-mainArea.input';
+import { RemoveCourseMainAreaInput } from 'src/inputTypes/remove/remove-course-mainArea.input';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -50,18 +51,18 @@ export class CourseMainAreaService {
   /**
    * Description: Deletes a CourseMainArea entity
    * from the database based on the provided criteria.
-   * @param createCourseMainAreaInput An object containing the courseId and
+   * @param removeCourseMainAreaInput An object containing the courseId and
    * mainAreaName of the CourseMainArea to be deleted.
    * @returns A Promise that resolves to the deleted CourseMainArea entity.
    */
   async removeCourseMainArea(
-    createCourseMainAreaInput: CreateCourseMainAreaInput,
+    removeCourseMainAreaInput: RemoveCourseMainAreaInput,
   ): Promise<CourseMainArea> {
     // Check if CourseMainArea exists in the database
     const existingCourseMainArea = await this.courseMainAreaRepository.findOne({
       where: {
-        courseId: createCourseMainAreaInput.courseId,
-        mainAreaName: createCourseMainAreaInput.mainAreaName,
+        courseId: removeCourseMainAreaInput.courseId,
+        mainAreaName: removeCourseMainAreaInput.mainAreaName,
       },
     });
 

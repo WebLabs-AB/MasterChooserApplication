@@ -13,12 +13,24 @@ export class CourseMainAreaResolver {
     return this.courseMainareaService.findAll();
   }
 
+  // Creates a new CourseMainArea object for the database
   @Mutation((returns) => CourseMainArea)
   async createCourseMainArea(
     @Args('createCourseMainAreaInput')
     createCourseMainAreaInput: CreateCourseMainAreaInput,
   ): Promise<CourseMainArea> {
     return this.courseMainareaService.createCourseMainArea(
+      createCourseMainAreaInput,
+    );
+  }
+
+  // Removes a CourseMainArea object for the database
+  @Mutation((returns) => CourseMainArea)
+  async removeCourseMainArea(
+    @Args('createCourseMainAreaInput')
+    createCourseMainAreaInput: CreateCourseMainAreaInput,
+  ): Promise<CourseMainArea> {
+    return this.courseMainareaService.removeCourseMainArea(
       createCourseMainAreaInput,
     );
   }

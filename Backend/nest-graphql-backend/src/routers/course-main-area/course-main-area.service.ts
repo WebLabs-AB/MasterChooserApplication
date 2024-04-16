@@ -77,11 +77,38 @@ export class CourseMainAreaService {
   }
 
   /**
-   * Description: Check if a specific CourseMainArea exists
-   * input:
-   * @param courseId
-   * @param mainAreaName
-   * @returns
+   * Description: Retrieves CourseMainArea entities from the database based
+   * on the provided main area name.
+   * @param mainAreaName The name of the main area to retrieve CourseMainArea
+   * entities for.
+   * @returns A Promise that resolves to an array of CourseMainArea entities
+   * matching the provided main area name.
+   */
+  async courseFromMainArea(mainAreaName: string): Promise<CourseMainArea[]> {
+    return await this.courseMainAreaRepository.find({
+      where: { mainAreaName: mainAreaName },
+    });
+  }
+
+  /**
+   * Description: Retrieves CourseMainArea entities from the database based
+   * on the provided course ID.
+   * @param courseId The ID of the course to retrieve CourseMainArea
+   * entities for.
+   * @returns A Promise that resolves to an array of CourseMainArea entities
+   * associated with the provided course ID.
+   */
+  async mainAreaFromCourse(courseId: string): Promise<CourseMainArea[]> {
+    return await this.courseMainAreaRepository.find({
+      where: { courseId: courseId },
+    });
+  }
+
+  /**
+   * Description: Check if a specific CourseMainArea exists in the database.
+   * @param courseId The ID of the course associated with the CourseMainArea.
+   * @param mainAreaName The name of the main area associated with the CourseMainArea.
+   * @returns A Promise that resolves to a boolean indicating whether the CourseMainArea exists.
    */
   async doesCourseMainAreaExists(
     courseId: string,

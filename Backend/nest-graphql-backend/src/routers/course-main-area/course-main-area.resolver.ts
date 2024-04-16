@@ -34,4 +34,20 @@ export class CourseMainAreaResolver {
       createCourseMainAreaInput,
     );
   }
+
+  // Return all main areas that belong to a specific course.
+  @Query((returns) => [CourseMainArea])
+  async courseFromMainArea(
+    @Args('mainAreaName') mainAreaName: string,
+  ): Promise<CourseMainArea[]> {
+    return this.courseMainareaService.courseFromMainArea(mainAreaName);
+  }
+
+  // Return all courses that belong to a specific main area.
+  @Query((returns) => [CourseMainArea])
+  async mainAreaFromCourse(
+    @Args('courseId') courseId: string,
+  ): Promise<CourseMainArea[]> {
+    return this.courseMainareaService.mainAreaFromCourse(courseId);
+  }
 }

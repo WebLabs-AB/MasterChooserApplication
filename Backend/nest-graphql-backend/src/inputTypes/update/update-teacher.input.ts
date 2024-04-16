@@ -2,7 +2,7 @@ import { Field, InputType } from '@nestjs/graphql';
 import { IsEmail } from 'class-validator';
 
 @InputType()
-export class updateTeacherInput {
+export class UpdateTeacherInput {
   @IsEmail()
   @Field(() => String, { description: 'email of the teacher' })
   email: string;

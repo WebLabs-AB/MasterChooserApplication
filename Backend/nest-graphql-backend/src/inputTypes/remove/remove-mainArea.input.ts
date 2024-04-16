@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class removeMainAreaInput {
+export class RemoveMainAreaInput {
   @Field()
   type: string;
 }

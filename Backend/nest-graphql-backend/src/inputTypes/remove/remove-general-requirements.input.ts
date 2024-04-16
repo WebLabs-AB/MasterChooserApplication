@@ -1,7 +1,7 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
-export class removeGeneralRequirementsInput {
+export class RemoveGeneralRequirementsInput {
   @Field((type) => Int, {
     description: 'Required hp that is from advanced courses',
   })

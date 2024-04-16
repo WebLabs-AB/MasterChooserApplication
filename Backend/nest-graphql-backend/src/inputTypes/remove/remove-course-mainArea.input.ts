@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class removeCourseMainAreaInput {
+export class RemoveCourseMainAreaInput {
   @Field(() => String, { description: 'course Id of the course' })
   courseId: string;
 

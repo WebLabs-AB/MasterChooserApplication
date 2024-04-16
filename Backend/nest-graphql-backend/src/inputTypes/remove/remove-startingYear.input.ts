@@ -2,7 +2,7 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 import { IsNumber } from 'class-validator';
 
 @InputType()
-export class removeStartingYearInput {
+export class RemoveStartingYearInput {
   @IsNumber()
   @Field((type) => Int)
   startingYear: number;

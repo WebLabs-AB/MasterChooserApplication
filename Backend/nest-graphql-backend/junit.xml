@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="45" failures="3" errors="0" time="37.702">
+  <testsuite name="AuthResolver" errors="0" failures="2" skipped="0" timestamp="2024-04-15T13:31:57" time="10.894" tests="3">
+    <testcase classname="AuthResolver AuthResolver should be defined" name="AuthResolver AuthResolver should be defined" time="0.018">
+    </testcase>
+    <testcase classname="AuthResolver AuthResolver should logging in an user" name="AuthResolver AuthResolver should logging in an user" time="0.007">
+      <failure>Error: expect(received).toEqual(expected) // deep equality
+
+Expected: {&quot;access_token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlZHVjYXRpb25OYW1lIjoiRGF0YXRla25payIsInN0YXJ0aW5nWWVhciI6MjAxOSwidW5pdmVyc2l0eU5hbWUiOiJDaGFsbWVycyIsImlhdCI6MTY2MTU5Mzg3MiwiZXhwIjoxNjYxNTkzOTMyfQ.rwfdPgnNWzCB0UwrYXbxpVfNpoNdioa6PxK2B5WcQMg&quot;}
+Received: null
+    at Object.&lt;anonymous&gt; (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\src\common\services\auth.resolver.spec.ts:91:22)</failure>
+    </testcase>
+    <testcase classname="AuthResolver AuthResolver should throw an error when logging in an user" name="AuthResolver AuthResolver should throw an error when logging in an user" time="0.006">
+      <failure>Error: expect(received).toEqual(expected) // deep equality
+
+Expected: {&quot;access_token&quot;: &quot;failed&quot;}
+Received: null
+    at Object.&lt;anonymous&gt; (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\src\common\services\auth.resolver.spec.ts:103:22)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="CourseMainareasService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:08" time="1.293" tests="1">
+    <testcase classname="CourseMainareasService should be defined" name="CourseMainareasService should be defined" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="MasterProfileCourseRequiredResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:09" time="0.735" tests="1">
+    <testcase classname="MasterProfileCourseRequiredResolver should be defined" name="MasterProfileCourseRequiredResolver should be defined" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="MasterProfileCourseOptionalResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:10" time="0.736" tests="1">
+    <testcase classname="MasterProfileCourseOptionalResolver should be defined" name="MasterProfileCourseOptionalResolver should be defined" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="MasterProfileCourseRequiredService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:11" time="0.484" tests="1">
+    <testcase classname="MasterProfileCourseRequiredService should be defined" name="MasterProfileCourseRequiredService should be defined" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="MasterProfileCourseOptionalService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:11" time="0.447" tests="1">
+    <testcase classname="MasterProfileCourseOptionalService should be defined" name="MasterProfileCourseOptionalService should be defined" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="MasterSchemaCourseResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:12" time="0.67" tests="1">
+    <testcase classname="MasterSchemaCourseResolver should be defined" name="MasterSchemaCourseResolver should be defined" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="CourseStartingYearResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:12" time="0.669" tests="1">
+    <testcase classname="CourseStartingYearResolver should be defined" name="CourseStartingYearResolver should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="EducationMainAreaResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:13" time="0.636" tests="1">
+    <testcase classname="EducationMainAreaResolver should be defined" name="EducationMainAreaResolver should be defined" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="MasterSchemaCourseService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:14" time="0.464" tests="1">
+    <testcase classname="MasterSchemaCourseService should be defined" name="MasterSchemaCourseService should be defined" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="CourseStartingYearService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:14" time="0.484" tests="1">
+    <testcase classname="CourseStartingYearService should be defined" name="CourseStartingYearService should be defined" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="EducationMainAreaService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:15" time="0.499" tests="1">
+    <testcase classname="EducationMainAreaService should be defined" name="EducationMainAreaService should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="EducationCourseResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:15" time="0.693" tests="1">
+    <testcase classname="EducationCourseResolver should be defined" name="EducationCourseResolver should be defined" time="0.011">
+    </testcase>
+  </testsuite>
+  <testsuite name="CourseMainAreaResolver" errors="0" failures="1" skipped="0" timestamp="2024-04-15T13:32:16" time="1.177" tests="1">
+    <testcase classname="CourseMainAreaResolver should be defined" name="CourseMainAreaResolver should be defined" time="0.005">
+      <failure>Error: Nest can&apos;t resolve dependencies of the CourseMainAreaResolver (?). Please make sure that the argument CourseMainAreaService at index [0] is available in the RootTestModule context.
+
+Potential solutions:
+- Is RootTestModule a valid NestJS module?
+- If CourseMainAreaService is a provider, is it part of the current RootTestModule?
+- If CourseMainAreaService is exported from a separate @Module, is that module imported within RootTestModule?
+  @Module({
+    imports: [ /* the Module containing CourseMainAreaService */ ]
+  })
+
+    at TestingInjector.lookupComponentInParentModules (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\node_modules\@nestjs\core\injector\injector.js:254:19)
+    at TestingInjector.resolveComponentInstance (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\node_modules\@nestjs\core\injector\injector.js:207:33)
+    at TestingInjector.resolveComponentInstance (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\node_modules\@nestjs\testing\testing-injector.js:19:45)
+    at resolveParam (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\node_modules\@nestjs\core\injector\injector.js:128:38)
+    at async Promise.all (index 0)
+    at TestingInjector.resolveConstructorParams (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\node_modules\@nestjs\core\injector\injector.js:143:27)
+    at TestingInjector.loadInstance (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\node_modules\@nestjs\core\injector\injector.js:70:13)
+    at TestingInjector.loadProvider (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\node_modules\@nestjs\core\injector\injector.js:97:9)
+    at C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\node_modules\@nestjs\core\injector\instance-loader.js:56:13
+    at async Promise.all (index 3)
+    at TestingInstanceLoader.createInstancesOfProviders (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\node_modules\@nestjs\core\injector\instance-loader.js:55:9)
+    at C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\node_modules\@nestjs\core\injector\instance-loader.js:40:13
+    at async Promise.all (index 1)
+    at TestingInstanceLoader.createInstances (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\node_modules\@nestjs\core\injector\instance-loader.js:39:9)
+    at TestingInstanceLoader.createInstancesOfDependencies (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\node_modules\@nestjs\core\injector\instance-loader.js:22:13)
+    at TestingInstanceLoader.createInstancesOfDependencies (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\node_modules\@nestjs\testing\testing-instance-loader.js:9:9)
+    at TestingModuleBuilder.createInstancesOfDependencies (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\node_modules\@nestjs\testing\testing-module.builder.js:97:9)
+    at TestingModuleBuilder.compile (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\node_modules\@nestjs\testing\testing-module.builder.js:63:9)
+    at Object.&lt;anonymous&gt; (C:\Users\olive\Desktop\Programmering\VScode\MasterChooserApplication\Backend\nest-graphql-backend\src\routers\course-main-area\course-main-area.resolver.spec.ts:8:35)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="EducationCourseService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:17" time="0.492" tests="1">
+    <testcase classname="EducationCourseService should be defined" name="EducationCourseService should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="PackageCourseResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:18" time="0.744" tests="1">
+    <testcase classname="PackageCourseResolver should be defined" name="PackageCourseResolver should be defined" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="MasterProfileResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:19" time="0.694" tests="1">
+    <testcase classname="MasterProfileResolver should be defined" name="MasterProfileResolver should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="StartingYearResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:19" time="0.632" tests="1">
+    <testcase classname="StartingYearResolver should be defined" name="StartingYearResolver should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="MasterSchemaResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:20" time="0.686" tests="1">
+    <testcase classname="MasterSchemaResolver should be defined" name="MasterSchemaResolver should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="CoursePeriodResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:21" time="0.737" tests="1">
+    <testcase classname="CoursePeriodResolver should be defined" name="CoursePeriodResolver should be defined" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="PackageCourseService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:21" time="0.454" tests="1">
+    <testcase classname="PackageCourseService should be defined" name="PackageCourseService should be defined" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="MasterProfileService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:22" time="0.467" tests="1">
+    <testcase classname="MasterProfileService should be defined" name="MasterProfileService should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="StartingYearService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:22" time="0.466" tests="1">
+    <testcase classname="StartingYearService should be defined" name="StartingYearService should be defined" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="MasterSchemaService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:23" time="0.436" tests="1">
+    <testcase classname="MasterSchemaService should be defined" name="MasterSchemaService should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="CoursePeriodService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:23" time="0.492" tests="1">
+    <testcase classname="CoursePeriodService should be defined" name="CoursePeriodService should be defined" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="UniversityResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:24" time="0.663" tests="1">
+    <testcase classname="UniversityResolver should be defined" name="UniversityResolver should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="EducationResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:25" time="0.602" tests="1">
+    <testcase classname="EducationResolver should be defined" name="EducationResolver should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="UniversityService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:25" time="0.467" tests="1">
+    <testcase classname="UniversityService should be defined" name="UniversityService should be defined" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="MainAreaResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:26" time="0.64" tests="1">
+    <testcase classname="MainAreaResolver should be defined" name="MainAreaResolver should be defined" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="EducationService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:26" time="0.419" tests="1">
+    <testcase classname="EducationService should be defined" name="EducationService should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="TeacherResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:27" time="0.71" tests="1">
+    <testcase classname="TeacherResolver should be defined" name="TeacherResolver should be defined" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="StudentResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:27" time="0.667" tests="1">
+    <testcase classname="StudentResolver should be defined" name="StudentResolver should be defined" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="PackageResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:28" time="0.681" tests="1">
+    <testcase classname="PackageResolver should be defined" name="PackageResolver should be defined" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="MainAreaService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:29" time="0.453" tests="1">
+    <testcase classname="MainAreaService should be defined" name="MainAreaService should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="PeriodResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:29" time="0.716" tests="1">
+    <testcase classname="PeriodResolver should be defined" name="PeriodResolver should be defined" time="0.01">
+    </testcase>
+  </testsuite>
+  <testsuite name="CourseResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:30" time="0.655" tests="1">
+    <testcase classname="CourseResolver should be defined" name="CourseResolver should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="TeacherService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:31" time="0.439" tests="1">
+    <testcase classname="TeacherService should be defined" name="TeacherService should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="StudentService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:31" time="0.438" tests="1">
+    <testcase classname="StudentService should be defined" name="StudentService should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="PackageService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:32" time="0.46" tests="1">
+    <testcase classname="PackageService should be defined" name="PackageService should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="AdminResolver" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:32" time="0.741" tests="1">
+    <testcase classname="AdminResolver should be defined" name="AdminResolver should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="PeriodService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:33" time="0.441" tests="1">
+    <testcase classname="PeriodService should be defined" name="PeriodService should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="CourseService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:33" time="0.466" tests="1">
+    <testcase classname="CourseService should be defined" name="CourseService should be defined" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="AdminService" errors="0" failures="0" skipped="0" timestamp="2024-04-15T13:32:34" time="0.476" tests="1">
+    <testcase classname="AdminService should be defined" name="AdminService should be defined" time="0.005">
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -25,8 +25,8 @@ export class CourseMainArea extends BaseEntity {
    * Name of the main area.
    */
   @PrimaryColumn({ name: 'main_area_name' })
-  @Field((type) => Int)
-  mainAreaName: number;
+  @Field()
+  mainAreaName: string;
 
   /**
    * The course associated with the main area.

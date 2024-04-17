@@ -1,8 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PeriodService } from './period.service';
 import { Period } from 'src/entities';
-import { CreatePeriodInput } from 'src/inputTypes/create-period.input';
-import { RemovePeriodInput } from 'src/inputTypes/create-period.input';
+import { CreatePeriodInput } from 'src/inputTypes/create/create-period.input';
+import { RemovePeriodInput } from 'src/inputTypes/remove/remove-period.input';
 
 @Resolver()
 export class PeriodResolver {

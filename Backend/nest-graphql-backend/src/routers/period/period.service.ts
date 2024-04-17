@@ -73,14 +73,6 @@ export class PeriodService {
   }
 
   /**
-   * Description: ?
-   * Input: ?
-   * @param updatePeriodInput ?
-   * @returns The new updated Period.
-   */
-  async updatePeriod(updatePeriodInput: UpdatePeriodInput): Promise<Period[]> {}
-
-  /**
    * Description: Checks if a period with the specified value exists in the database.
    * @param value The value of the period to check for existence.
    * @returns A Promise that resolves to a boolean indicating whether the period exists.

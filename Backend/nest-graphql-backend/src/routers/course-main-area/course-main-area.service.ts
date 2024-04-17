@@ -1,8 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CourseMainArea } from 'src/entities';
+import { CourseMainArea, MainArea, Course } from 'src/entities';
 import { CreateCourseMainAreaInput } from 'src/inputTypes/create/create-course-mainArea.input';
 import { RemoveCourseMainAreaInput } from 'src/inputTypes/remove/remove-course-mainArea.input';
+import { UpdateCourseMainAreaInput } from 'src/inputTypes/update/update-course-mainArea.input';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -10,6 +11,10 @@ export class CourseMainAreaService {
   constructor(
     @InjectRepository(CourseMainArea)
     private courseMainAreaRepository: Repository<CourseMainArea>,
+    @InjectRepository(Course)
+    private courseRepository: Repository<Course>,
+    @InjectRepository(MainArea)
+    private mainAreaRepository: Repository<MainArea>,
   ) {}
 
   /**
@@ -46,6 +51,53 @@ export class CourseMainAreaService {
       createCourseMainAreaInput,
     );
     return this.courseMainAreaRepository.save(newCourseMainArea);
+  }
+
+  /**
+   * Description: Creates a ManyToMany connection between Course and MainArea.
+   * Input: courseID & list with MainArea primary keys.
+   * @param updateCourseMainAreaInput An object containing the courseId and
+   * a list of mainAreaNames..
+   * @returns The new updated CourseMainAreas.
+   */
+  async updateCourseMainArea(
+    updateCourseMainAreaInput: UpdateCourseMainAreaInput,
+  ): Promise<CourseMainArea[]> {
+    const courseId = updateCourseMainAreaInput.courseId;
+    const mainAreaNames = updateCourseMainAreaInput.mainAreaNames;
+
+    // First, find the course that you're updating.
+    const course = await this.courseRepository.findOneBy({ courseId });
+    if (!course) {
+      throw new Error(`Course with ID ${courseId} not found`);
+    }
+
+    // Remove existing CourseMainArea connections for this course.
+    await this.courseMainAreaRepository.delete({ course });
+
+    // Create a new CourseMainArea entity for each mainAreaName.
+    const updatedCourseMainAreas = mainAreaNames.map(async (mainAreaName) => {
+      const mainArea = await this.mainAreaRepository.findOneBy({
+        name: mainAreaName,
+      });
+
+      if (!mainArea) {
+        throw new Error(`MainArea with name ${mainAreaName} not found`);
+      }
+
+      // Create a new CourseMainArea connection.
+      const courseMainArea = this.courseMainAreaRepository.create({
+        course,
+        mainArea,
+        courseId: course.courseId,
+        mainAreaName: mainArea.name,
+      });
+
+      // Save the new CourseMainArea connection.
+      return this.courseMainAreaRepository.save(courseMainArea);
+    });
+
+    return Promise.all(updatedCourseMainAreas);
   }
 
   /**

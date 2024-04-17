@@ -1,4 +1,5 @@
 import { Admin } from './NormalTypes/Admin.entity';
+import { Course } from './NormalTypes/Course.entity';
 import { CourseMainArea } from './NormalTypes/CourseMainArea.entity';
 import { CoursePeriod } from './NormalTypes/CoursePeriod.entity';
 import { CourseStartingYear } from './NormalTypes/CourseStartingYear.entity';
@@ -26,3 +27,4 @@ export { StartingYear } from './NormalTypes/StartingYear.entity';
 export { Student } from './NormalTypes/Student.entity';
 export { Teacher } from './NormalTypes/Teacher.entity';
 export { University } from './NormalTypes/University.entity';
+export { Course } from './NormalTypes/Course.entity';

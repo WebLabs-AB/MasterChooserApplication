@@ -5,6 +5,6 @@ export class UpdateCourseMainAreaInput {
   @Field(() => String, { description: 'course Id of the course' })
   courseId: string;
 
-  @Field(() => String, { description: 'name of main area' })
-  mainAreaName: string;
+  @Field(() => String, { description: 'list with main area names' })
+  mainAreaNames: string[];
 }

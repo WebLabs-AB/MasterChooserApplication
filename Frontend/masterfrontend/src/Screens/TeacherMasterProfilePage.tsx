@@ -218,6 +218,29 @@ export const TeacherCreateUpdateProfilePage = () => {
   const [packages, setPackages] = useState<CoursePackage[]>([]);
   const [isPackageDialogOpen, setPackageDialogOpen] = useState(false);
   const [currentPackageIndex, setCurrentPackageIndex] = useState<number | null>(null);
+  const [isConfirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+  const [packageToDelete, setPackageToDelete] = useState<number | null>(null);
+
+  // Function to open confirmation dialog for deleting a package
+  const confirmDeletePackage = (index: number) => {
+    setPackageToDelete(index);
+    setConfirmDeleteOpen(true);
+  };
+
+  // Function to delete a package
+  const deletePackage = () => {
+    if (packageToDelete !== null) {
+      setPackages((currentPackages) => currentPackages.filter((_, index) => index !== packageToDelete));
+      setConfirmDeleteOpen(false);
+      setPackageToDelete(null);
+    }
+  };
+
+  // Function to cancel package deletion
+  const cancelDeletePackage = () => {
+    setConfirmDeleteOpen(false);
+    setPackageToDelete(null);
+  };
 
   const openPackageDialog = (index: number | null) => {
     setCurrentPackageIndex(index);
@@ -323,10 +346,19 @@ export const TeacherCreateUpdateProfilePage = () => {
     );
   };
 
+  // Function to render the packages list with delete buttons
   const renderPackages = () => {
     return packages.map((pkg, index) => (
-      <div key={index} className="p-2 border-b cursor-pointer" onClick={() => openPackageDialog(index)}>
-        {pkg.packageName}
+      <div key={index} className="flex justify-between items-center p-2 border-b">
+        <div onClick={() => openPackageDialog(index)}>
+          {pkg.packageName}
+        </div>
+        <button
+          onClick={() => confirmDeletePackage(index)}
+          className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-300 ease-in-out"
+        >
+          Delete
+        </button>
       </div>
     ));
   };
@@ -391,6 +423,48 @@ export const TeacherCreateUpdateProfilePage = () => {
             <div className="lg:col-span-1">
             <SearchSection onAddCourse={addCourseToProfile} availableCourses={availableCourses} />
           </div>
+
+      {/* Confirmation dialog for deleting a package */}
+      <Transition appear show={isConfirmDeleteOpen} as={React.Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={cancelDeletePackage}>
+          <Transition.Child
+            as={React.Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                  Are you sure you want to delete this package?
+                </Dialog.Title>
+                <div className="mt-4 flex justify-end">
+                  <button
+                    type="button"
+                    className="bg-red-500 text-white px-4 py-2 rounded mr-2"
+                    onClick={deletePackage}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-gray-500 text-white px-4 py-2 rounded"
+                    onClick={cancelDeletePackage}
+                  >
+                    No
+                  </button>
+                </div>
+              </Dialog.Panel>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
       </div>
     </div>
   );

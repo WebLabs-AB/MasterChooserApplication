@@ -138,9 +138,6 @@ describe('Test updateCourseMainArea func', () => {
   test('should successfully update the CourseMainArea relationship', async () => {
     courseMainAreasRepository.delete.mockReturnValue({ affected: 1 });
     courseMainAreasRepository.create.mockImplementation((entity) => entity);
-    //courseMainAreasRepository.save.mockImplementation((entity) =>
-    //Promise.resolve(entity),
-    //);
     courseMainAreasRepository.save.mockReturnValue([
       courseMainArea,
       courseMainArea2,

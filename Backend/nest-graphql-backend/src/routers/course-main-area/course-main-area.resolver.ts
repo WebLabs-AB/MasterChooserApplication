@@ -8,13 +8,13 @@ import { RemoveCourseMainAreaInput } from 'src/inputTypes/remove/remove-course-m
 export class CourseMainAreaResolver {
   constructor(private courseMainareaService: CourseMainAreaService) {}
 
-  // Returns all CourseMainArea obejcts from database in a list.
+  // Returns all CourseMainArea obejcts from the database in a list.
   @Query((returns) => [CourseMainArea])
   async courseMainArea(): Promise<CourseMainArea[]> {
     return this.courseMainareaService.findAll();
   }
 
-  // Creates a new CourseMainArea object for the database
+  // Creates a new CourseMainArea object for the database.
   @Mutation((returns) => CourseMainArea)
   async createCourseMainArea(
     @Args('createCourseMainAreaInput')
@@ -25,7 +25,7 @@ export class CourseMainAreaResolver {
     );
   }
 
-  // Removes a CourseMainArea object for the database
+  // Removes a CourseMainArea object from the database.
   @Mutation((returns) => CourseMainArea)
   async removeCourseMainArea(
     @Args('removeCourseMainAreaInput')

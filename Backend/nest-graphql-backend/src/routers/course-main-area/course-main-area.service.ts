@@ -23,7 +23,7 @@ export class CourseMainAreaService {
    * @returns All CourseMainArea objects
    */
   async findAll(): Promise<CourseMainArea[]> {
-    return this.courseMainAreaRepository.find(); // SELECT * FROM coursemainareas;
+    return this.courseMainAreaRepository.find();
   }
 
   /**
@@ -66,7 +66,7 @@ export class CourseMainAreaService {
     const courseId = updateCourseMainAreaInput.courseId;
     const mainAreaNames = updateCourseMainAreaInput.mainAreaNames;
 
-    // First, find the course that you're updating.
+    // Find the course we want to update its relationship.
     const course = await this.courseRepository.findOneBy({ courseId });
     if (!course) {
       throw new Error(`Course with ID ${courseId} not found`);
@@ -110,7 +110,7 @@ export class CourseMainAreaService {
   async removeCourseMainArea(
     removeCourseMainAreaInput: RemoveCourseMainAreaInput,
   ): Promise<CourseMainArea> {
-    // Check if CourseMainArea exists in the database
+    // Check if CourseMainArea exists in the database.
     const existingCourseMainArea = await this.courseMainAreaRepository.findOne({
       where: {
         courseId: removeCourseMainAreaInput.courseId,
@@ -125,7 +125,7 @@ export class CourseMainAreaService {
       );
     }
 
-    // If CourseMainArea exists, delete it
+    // If CourseMainArea exists, delete it.
     return this.courseMainAreaRepository.remove(existingCourseMainArea);
   }
 

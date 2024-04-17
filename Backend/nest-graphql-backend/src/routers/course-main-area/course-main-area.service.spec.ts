@@ -68,11 +68,11 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-let courseMainArea;
-let courseMainArea2;
-let webCourse;
-let mainAreaDataTeknik;
-let mainAreaSystemVetenskap;
+let courseMainArea: CourseMainArea;
+let courseMainArea2: CourseMainArea;
+let webCourse: Course;
+let mainAreaDataTeknik: MainArea;
+let mainAreaSystemVetenskap: MainArea;
 
 beforeEach(() => {
   webCourse = new Course();
@@ -126,11 +126,11 @@ describe('Test createCourseMainAreas func', () => {
     courseMainAreasRepository.save.mockReturnValue(courseMainArea);
     courseMainAreasRepository.create.mockReturnValue(courseMainArea);
 
-    const newCoursePeriod = await courseMainAreasService.createCourseMainArea(
+    const newCourseMainArea = await courseMainAreasService.createCourseMainArea(
       courseMainArea,
     );
     expect(courseMainAreasRepository.create).toHaveBeenCalledTimes(1);
-    expect(newCoursePeriod).toEqual(courseMainArea);
+    expect(newCourseMainArea).toEqual(courseMainArea);
   });
 });
 
@@ -150,11 +150,7 @@ describe('Test updateCourseMainArea func', () => {
     updateInput.mainAreaNames = mainAreaNames;
 
     // First, ensure the course is found
-    const findCourseMock = jest
-      .fn()
-      .mockResolvedValueOnce(new Course())
-      .mockResolvedValueOnce(null);
-    courseRepositoryMock.findOneBy.mockImplementation(findCourseMock);
+    courseRepositoryMock.findOneBy.mockReturnValue(webCourse);
 
     // First, ensure the MainArea is found
     mainAreaRepositoryMock.findOneBy.mockReturnValue(mainAreaSystemVetenskap);
@@ -162,7 +158,6 @@ describe('Test updateCourseMainArea func', () => {
     const updatedRelations = await courseMainAreasService.updateCourseMainArea(
       updateInput,
     );
-    console.log(updatedRelations[0][1].mainAreaName);
 
     expect(courseMainAreasRepository.delete).toHaveBeenCalledTimes(1);
     expect(courseMainAreasRepository.create).toHaveBeenCalledTimes(
@@ -172,8 +167,11 @@ describe('Test updateCourseMainArea func', () => {
       mainAreaNames.length,
     );
     expect(updatedRelations).toHaveLength(mainAreaNames.length);
-    expect(updatedRelations[0][0].mainAreaName).toEqual(mainAreaNames[0]);
-    expect(updatedRelations[0][1].mainAreaName).toEqual(mainAreaNames[1]);
+
+    const updatedCourseMainArea = updatedRelations[0][0];
+    const updatedCourseMainArea2 = updatedRelations[0][1];
+    expect(updatedCourseMainArea.mainAreaName).toEqual(mainAreaNames[0]);
+    expect(updatedCourseMainArea2.mainAreaName).toEqual(mainAreaNames[1]);
   });
 
   test('should not update if the course does not exist', async () => {
@@ -190,35 +188,20 @@ describe('Test updateCourseMainArea func', () => {
 
   test('should not update if a main area does not exist', async () => {
     // First, ensure the course is found
-    const findCourseMock = jest
-      .fn()
-      .mockResolvedValueOnce(new Course())
-      .mockResolvedValueOnce(null);
-    courseRepositoryMock.findOneBy.mockImplementation(findCourseMock);
-
-    // Mock the behavior when a main area is not found
-    const findMainAreaMock = jest
-      .fn()
-      .mockResolvedValueOnce(new MainArea())
-      .mockResolvedValueOnce(null);
-    courseMainAreasRepository.findOne.mockImplementation(findMainAreaMock);
+    courseRepositoryMock.findOneBy.mockReturnValue(webCourse);
 
     const updateInput = new UpdateCourseMainAreaInput();
     updateInput.courseId = 'TDDD97';
-    updateInput.mainAreaNames = ['NonExistentArea'];
+    updateInput.mainAreaNames = ['Datateknik'];
 
     await expect(
       courseMainAreasService.updateCourseMainArea(updateInput),
-    ).rejects.toThrow('MainArea with name NonExistentArea not found');
+    ).rejects.toThrow('MainArea with name Datateknik not found');
   });
 
   test('should throw an error if the database operation fails', async () => {
     // First, ensure the course is found
-    const findCourseMock = jest
-      .fn()
-      .mockResolvedValueOnce(new Course())
-      .mockResolvedValueOnce(null);
-    courseRepositoryMock.findOneBy.mockImplementation(findCourseMock);
+    courseRepositoryMock.findOneBy.mockReturnValue(webCourse);
 
     // Mock a database error
     courseMainAreasRepository.delete.mockImplementation(() => {

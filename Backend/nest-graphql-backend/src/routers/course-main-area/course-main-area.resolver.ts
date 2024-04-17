@@ -6,12 +6,12 @@ import { RemoveCourseMainAreaInput } from 'src/inputTypes/remove/remove-course-m
 
 @Resolver()
 export class CourseMainAreaResolver {
-  constructor(private courseMainareaService: CourseMainAreaService) {}
+  constructor(private courseMainAreaService: CourseMainAreaService) {}
 
   // Returns all CourseMainArea obejcts from the database in a list.
   @Query((returns) => [CourseMainArea])
   async courseMainArea(): Promise<CourseMainArea[]> {
-    return this.courseMainareaService.findAll();
+    return this.courseMainAreaService.findAll();
   }
 
   // Creates a new CourseMainArea object for the database.
@@ -20,7 +20,7 @@ export class CourseMainAreaResolver {
     @Args('createCourseMainAreaInput')
     createCourseMainAreaInput: CreateCourseMainAreaInput,
   ): Promise<CourseMainArea> {
-    return this.courseMainareaService.createCourseMainArea(
+    return this.courseMainAreaService.createCourseMainArea(
       createCourseMainAreaInput,
     );
   }
@@ -31,7 +31,7 @@ export class CourseMainAreaResolver {
     @Args('removeCourseMainAreaInput')
     removeCourseMainAreaInput: RemoveCourseMainAreaInput,
   ): Promise<CourseMainArea> {
-    return this.courseMainareaService.removeCourseMainArea(
+    return this.courseMainAreaService.removeCourseMainArea(
       removeCourseMainAreaInput,
     );
   }
@@ -41,7 +41,7 @@ export class CourseMainAreaResolver {
   async courseFromMainArea(
     @Args('mainAreaName') mainAreaName: string,
   ): Promise<CourseMainArea[]> {
-    return this.courseMainareaService.courseFromMainArea(mainAreaName);
+    return this.courseMainAreaService.courseFromMainArea(mainAreaName);
   }
 
   // Return all courses that belong to a specific main area.
@@ -49,6 +49,6 @@ export class CourseMainAreaResolver {
   async mainAreaFromCourse(
     @Args('courseId') courseId: string,
   ): Promise<CourseMainArea[]> {
-    return this.courseMainareaService.mainAreaFromCourse(courseId);
+    return this.courseMainAreaService.mainAreaFromCourse(courseId);
   }
 }

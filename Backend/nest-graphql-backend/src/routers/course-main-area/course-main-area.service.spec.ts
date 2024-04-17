@@ -20,6 +20,26 @@ const courseMainAreasRepository: MockType<Repository<CourseMainArea>> = {
   delete: jest.fn(),
 };
 
+// Mock repository for Course
+const courseRepositoryMock: MockType<Repository<Course>> = {
+  save: jest.fn(),
+  findOne: jest.fn(),
+  find: jest.fn(),
+  findOneBy: jest.fn(),
+  create: jest.fn(),
+  delete: jest.fn(),
+};
+
+// Mock repository for MainArea
+const mainAreaRepositoryMock: MockType<Repository<MainArea>> = {
+  save: jest.fn(),
+  findOne: jest.fn(),
+  find: jest.fn(),
+  findOneBy: jest.fn(),
+  create: jest.fn(),
+  delete: jest.fn(),
+};
+
 beforeAll(async () => {
   const module: TestingModule = await Test.createTestingModule({
     providers: [
@@ -28,10 +48,20 @@ beforeAll(async () => {
         provide: getRepositoryToken(CourseMainArea),
         useValue: courseMainAreasRepository,
       },
+      {
+        provide: getRepositoryToken(Course),
+        useValue: courseRepositoryMock,
+      },
+      {
+        provide: getRepositoryToken(MainArea),
+        useValue: mainAreaRepositoryMock,
+      },
     ],
   }).compile();
 
-  courseMainAreasService = module.get(CourseMainAreaService);
+  courseMainAreasService = module.get<CourseMainAreaService>(
+    CourseMainAreaService,
+  );
 });
 
 afterEach(() => {
@@ -117,6 +147,20 @@ describe('updateCourseMainArea', () => {
     updateInput.courseId = 'TDDD97';
     updateInput.mainAreaNames = mainAreaNames;
 
+    // First, ensure the course is found
+    const findCourseMock = jest
+      .fn()
+      .mockResolvedValueOnce(new Course())
+      .mockResolvedValueOnce(null);
+    courseRepositoryMock.findOneBy.mockImplementation(findCourseMock);
+
+    // First, ensure the MainArea is found
+    const findMainAreaMock = jest
+      .fn()
+      .mockResolvedValueOnce(new MainArea())
+      .mockResolvedValueOnce(null);
+    mainAreaRepositoryMock.findOneBy.mockImplementation(findMainAreaMock);
+
     const updatedRelations = await courseMainAreasService.updateCourseMainArea(
       updateInput,
     );
@@ -137,7 +181,7 @@ describe('updateCourseMainArea', () => {
     courseMainAreasRepository.findOne.mockReturnValue(null);
 
     const updateInput = new UpdateCourseMainAreaInput();
-    updateInput.courseId = 'TDDD97';
+    updateInput.courseId = 'TDDD99';
     updateInput.mainAreaNames = ['Datateknik'];
 
     await expect(
@@ -146,6 +190,13 @@ describe('updateCourseMainArea', () => {
   });
 
   test('should not update if a main area does not exist', async () => {
+    // First, ensure the course is found
+    const findCourseMock = jest
+      .fn()
+      .mockResolvedValueOnce(new Course())
+      .mockResolvedValueOnce(null);
+    courseRepositoryMock.findOneBy.mockImplementation(findCourseMock);
+
     // Mock the behavior when a main area is not found
     const findMainAreaMock = jest
       .fn()
@@ -155,7 +206,7 @@ describe('updateCourseMainArea', () => {
 
     const updateInput = new UpdateCourseMainAreaInput();
     updateInput.courseId = 'TDDD97';
-    updateInput.mainAreaNames = ['Datateknik', 'NonExistentArea'];
+    updateInput.mainAreaNames = ['NonExistentArea'];
 
     await expect(
       courseMainAreasService.updateCourseMainArea(updateInput),
@@ -163,6 +214,13 @@ describe('updateCourseMainArea', () => {
   });
 
   test('should throw an error if the database operation fails', async () => {
+    // First, ensure the course is found
+    const findCourseMock = jest
+      .fn()
+      .mockResolvedValueOnce(new Course())
+      .mockResolvedValueOnce(null);
+    courseRepositoryMock.findOneBy.mockImplementation(findCourseMock);
+
     // Mock a database error
     courseMainAreasRepository.delete.mockImplementation(() => {
       throw new Error('Database operation failed');

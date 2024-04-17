@@ -70,38 +70,36 @@ afterEach(() => {
 
 let courseMainArea;
 let courseMainArea2;
+let webCourse;
+let mainAreaDataTeknik;
+let mainAreaSystemVetenskap;
 
 beforeEach(() => {
-  const course = new Course();
-  course.courseId = 'TDDD97';
-  course.name = 'Webbprogrammering';
+  webCourse = new Course();
+  webCourse.courseId = 'TDDD97';
+  webCourse.name = 'Webbprogrammering';
 
-  const mainArea = new MainArea();
-  mainArea.name = 'Datateknik';
+  mainAreaDataTeknik = new MainArea();
+  mainAreaDataTeknik.name = 'Datateknik';
 
-  const mainArea2 = new MainArea();
-  mainArea2.name = 'Systemvetenskap';
+  mainAreaSystemVetenskap = new MainArea();
+  mainAreaSystemVetenskap.name = 'Systemvetenskap';
 
   courseMainArea = new CourseMainArea();
-  courseMainArea.course = course;
-  courseMainArea.courseId = course.courseId;
-  courseMainArea.mainArea = mainArea;
-  courseMainArea.mainAreaName = mainArea.name;
+  courseMainArea.course = webCourse;
+  courseMainArea.courseId = webCourse.courseId;
+  courseMainArea.mainArea = mainAreaDataTeknik;
+  courseMainArea.mainAreaName = mainAreaDataTeknik.name;
 
   courseMainArea2 = new CourseMainArea();
-  courseMainArea2.course = course;
-  courseMainArea2.courseId = course.courseId;
-  courseMainArea2.mainArea = mainArea2;
-  courseMainArea2.mainAreaName = mainArea2.name;
+  courseMainArea2.course = webCourse;
+  courseMainArea2.courseId = webCourse.courseId;
+  courseMainArea2.mainArea = mainAreaSystemVetenskap;
+  courseMainArea2.mainAreaName = mainAreaSystemVetenskap.name;
 
-  course.courseBelongsToMainArea = [courseMainArea, courseMainArea2];
-  mainArea.courseBelongsToMainArea = [courseMainArea];
-  mainArea2.courseBelongsToMainArea = [courseMainArea2];
-
-  courseMainAreasRepository.find.mockReturnValue([
-    courseMainArea,
-    courseMainArea2,
-  ]);
+  webCourse.courseBelongsToMainArea = [courseMainArea, courseMainArea2];
+  mainAreaDataTeknik.courseBelongsToMainArea = [courseMainArea];
+  mainAreaSystemVetenskap.courseBelongsToMainArea = [courseMainArea2];
 });
 
 describe('CourseMainareasService', () => {
@@ -113,9 +111,12 @@ describe('CourseMainareasService', () => {
 describe('Test findAll func', () => {
   test('should retrieve all course-mainareas', async () => {
     const expectedCourseMainAreas = [courseMainArea, courseMainArea2];
+    courseMainAreasRepository.find.mockReturnValue([
+      courseMainArea,
+      courseMainArea2,
+    ]);
 
     const retrievedCourseMainAreas = await courseMainAreasService.findAll();
-
     expect(retrievedCourseMainAreas).toEqual(expectedCourseMainAreas);
   });
 });
@@ -133,13 +134,17 @@ describe('Test createCourseMainAreas func', () => {
   });
 });
 
-describe('updateCourseMainArea', () => {
+describe('Test updateCourseMainArea func', () => {
   test('should successfully update the CourseMainArea relationship', async () => {
     courseMainAreasRepository.delete.mockReturnValue({ affected: 1 });
     courseMainAreasRepository.create.mockImplementation((entity) => entity);
-    courseMainAreasRepository.save.mockImplementation((entity) =>
-      Promise.resolve(entity),
-    );
+    //courseMainAreasRepository.save.mockImplementation((entity) =>
+    //Promise.resolve(entity),
+    //);
+    courseMainAreasRepository.save.mockReturnValue([
+      courseMainArea,
+      courseMainArea2,
+    ]);
 
     const updateInput = new UpdateCourseMainAreaInput();
     const mainAreaNames = ['Datateknik', 'Systemvetenskap'];
@@ -155,15 +160,12 @@ describe('updateCourseMainArea', () => {
     courseRepositoryMock.findOneBy.mockImplementation(findCourseMock);
 
     // First, ensure the MainArea is found
-    const findMainAreaMock = jest
-      .fn()
-      .mockResolvedValueOnce(new MainArea())
-      .mockResolvedValueOnce(null);
-    mainAreaRepositoryMock.findOneBy.mockImplementation(findMainAreaMock);
+    mainAreaRepositoryMock.findOneBy.mockReturnValue(mainAreaSystemVetenskap);
 
     const updatedRelations = await courseMainAreasService.updateCourseMainArea(
       updateInput,
     );
+    console.log(updatedRelations[0][1].mainAreaName);
 
     expect(courseMainAreasRepository.delete).toHaveBeenCalledTimes(1);
     expect(courseMainAreasRepository.create).toHaveBeenCalledTimes(
@@ -173,8 +175,8 @@ describe('updateCourseMainArea', () => {
       mainAreaNames.length,
     );
     expect(updatedRelations).toHaveLength(mainAreaNames.length);
-    expect(updatedRelations[0].mainAreaName).toEqual(mainAreaNames[0]);
-    expect(updatedRelations[1].mainAreaName).toEqual(mainAreaNames[1]);
+    expect(updatedRelations[0][0].mainAreaName).toEqual(mainAreaNames[0]);
+    expect(updatedRelations[0][1].mainAreaName).toEqual(mainAreaNames[1]);
   });
 
   test('should not update if the course does not exist', async () => {

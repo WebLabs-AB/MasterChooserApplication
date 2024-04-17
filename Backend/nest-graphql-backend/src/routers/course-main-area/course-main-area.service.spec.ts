@@ -111,10 +111,7 @@ describe('CourseMainareasService', () => {
 describe('Test findAll func', () => {
   test('should retrieve all course-mainareas', async () => {
     const expectedCourseMainAreas = [courseMainArea, courseMainArea2];
-    courseMainAreasRepository.find.mockReturnValue([
-      courseMainArea,
-      courseMainArea2,
-    ]);
+    courseMainAreasRepository.find.mockReturnValue(expectedCourseMainAreas);
 
     const retrievedCourseMainAreas = await courseMainAreasService.findAll();
     expect(retrievedCourseMainAreas).toEqual(expectedCourseMainAreas);

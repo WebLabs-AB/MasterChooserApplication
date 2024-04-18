@@ -354,30 +354,46 @@ const PackageSection: React.FC<PackageSectionProps> = ({ availableCourses, onPac
     onPackageUpdate(updatedPackages);
   };
 
+  // Function to render the packages list with delete buttons
+  const renderPackages = () => {
+    return (
+      <div>
+        {packages.map((pkg, index) => (
+          <div key={pkg.id} className="flex justify-between items-center p-2">
+            <div onClick={() => handleOpenPackageDialog(index)}>
+              {pkg.packageName}
+            </div>
+            <button onClick={() => deletePackage(pkg.id)} className="bg-red-500 text-white px-4 py-2 rounded">
+              Delete
+            </button>
+          </div>
+        ))}
+        {isPackageDialogOpen && (
+          <PackageDialog
+            isOpen={isPackageDialogOpen}
+            closeDialog={handleClosePackageDialog}
+            courses={availableCourses}
+            savePackage={(pkg) => savePackage(pkg, editablePackageIndex)}
+            packageToEdit={editablePackageIndex !== null ? packages[editablePackageIndex] : undefined}
+          />
+        )}
+      </div>
+    );
+  };
+
   return (
     <div>
+      {/* Display the packages */}
+      <div className="mt-4">        
+        <div className="mb-8 bg-white shadow rounded-lg p-4">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Course packages</h2>
+          {renderPackages()}
+        </div>
+      </div>
+
       <button onClick={() => handleOpenPackageDialog(null)} className="bg-blue-500 text-white px-4 py-2 rounded">
         Create Package
       </button>
-      {packages.map((pkg, index) => (
-        <div key={pkg.id} className="flex justify-between items-center p-2">
-          <div onClick={() => handleOpenPackageDialog(index)}>
-            {pkg.packageName}
-          </div>
-          <button onClick={() => deletePackage(pkg.id)} className="bg-red-500 text-white px-4 py-2 rounded">
-            Delete
-          </button>
-        </div>
-      ))}
-      {isPackageDialogOpen && (
-        <PackageDialog
-          isOpen={isPackageDialogOpen}
-          closeDialog={handleClosePackageDialog}
-          courses={availableCourses}
-          savePackage={(pkg) => savePackage(pkg, editablePackageIndex)}
-          packageToEdit={editablePackageIndex !== null ? packages[editablePackageIndex] : undefined}
-        />
-      )}
     </div>
   );
 };
@@ -419,12 +435,10 @@ export const TeacherCreateUpdateProfilePage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <CourseListSection courses={courses} removeCourse={removeCourse} updatePriority={updatePriority} />
-          <SearchSection onAddCourse={addCourseToProfile} availableCourses={availableCourses} />
-
-          <button className="bg-orange-500 text-white font-bold py-2 px-4 rounded mt-6 align-left hover:bg-orange-600 transition duration-300 ease-in-out">
-            Edit profile requirements
-          </button>
           <PackageSection availableCourses={availableCourses} onPackageUpdate={handlePackageUpdate} />
+        </div>
+        <div className="lg:col-span-1">
+          <SearchSection onAddCourse={addCourseToProfile} availableCourses={availableCourses} />
         </div>
       </div>
     </div>

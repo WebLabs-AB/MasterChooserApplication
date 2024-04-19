@@ -403,11 +403,25 @@ export const TeacherCreateUpdateProfilePage = () => {
   const [availableCourses, setAvailableCourses] = useState<Course[]>(fakeCourses);
 
   const removeCourse = (courseId: number) => {
-    setCourses(courses.filter(course => course.id !== courseId));
-    const remainingCourses = availableCourses.find(c => c.id === courseId);
-    if (remainingCourses) {
-      setAvailableCourses(prev => [...prev, remainingCourses]);
-    }
+    // Update the courses list by removing the selected course
+    setCourses(prevCourses => {
+      // Find the course that is being removed
+      const courseToRemove = prevCourses.find(course => course.id === courseId);
+
+      // Update the available courses list to include the removed course if it's not already included
+      if (courseToRemove) {
+        setAvailableCourses(prevAvailableCourses => {
+          // Check if the course is already in the available courses list
+          const isAlreadyAvailable = prevAvailableCourses.some(course => course.id === courseId);
+
+          // Add the course back to available courses if it's not already there
+          return isAlreadyAvailable ? prevAvailableCourses : [...prevAvailableCourses, courseToRemove];
+        });
+      }
+
+      // Return the new list of courses excluding the removed one
+      return prevCourses.filter(course => course.id !== courseId);
+    });
   };
 
   const updatePriority = (courseId: number, newPriority: string) => {

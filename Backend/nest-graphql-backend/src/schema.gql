@@ -17,6 +17,13 @@ type Student {
   year: StartingYear!
 }
 
+type CourseMainArea {
+  courseId: String!
+  mainAreaName: String!
+  course: Course!
+  mainArea: MainArea!
+}
+
 type MainArea {
   name: String!
   MasterSchemas: [MasterSchema!]
@@ -105,10 +112,32 @@ type LoggedUserOutput {
 
 type Query {
   sayHello: String!
+  courses: [Course!]!
+  courseMainArea: [CourseMainArea!]!
+  courseFromMainArea(mainAreaName: String!): [CourseMainArea!]!
+  mainAreaFromCourse(courseId: String!): [CourseMainArea!]!
 }
 
 type Mutation {
+  createCourseMainArea(createCourseMainAreaInput: CreateCourseMainAreaInput!): CourseMainArea!
+  removeCourseMainArea(removeCourseMainAreaInput: RemoveCourseMainAreaInput!): CourseMainArea!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
+}
+
+input CreateCourseMainAreaInput {
+  """course Id of the course"""
+  courseId: String!
+
+  """name of main area"""
+  mainAreaName: String!
+}
+
+input RemoveCourseMainAreaInput {
+  """course Id of the course"""
+  courseId: String!
+
+  """name of main area"""
+  mainAreaName: String!
 }
 
 input LoginUserInput {

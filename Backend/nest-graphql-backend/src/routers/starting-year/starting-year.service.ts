@@ -32,9 +32,7 @@ export class StartingYearService {
   async createStartingYear(
     createStartingYearInput: CreateStartingYearInput,
   ): Promise<StartingYear> {
-    if (
-      await this.doesStartingYearExists(createStartingYearInput.startingYear)
-    ) {
+    if (await this.doesStartingYearExists(createStartingYearInput.year)) {
       throw new HttpException(
         'Starting year already exists',
         HttpStatus.CONFLICT,
@@ -57,7 +55,7 @@ export class StartingYearService {
   ): Promise<StartingYear> {
     // Check if StartingYear exists in the database
     return this.startingYearRepository.findOne({
-      where: { startingYear: updateStartingYearInput.startingYear },
+      where: { year: updateStartingYearInput.year },
     });
   }
 
@@ -73,7 +71,7 @@ export class StartingYearService {
     // Check if StartingYear exists in the database
     const existingStartingYear = await this.startingYearRepository.findOne({
       where: {
-        startingYear: removeStartingYearInput.startingYear,
+        year: removeStartingYearInput.year,
       },
     });
 
@@ -90,12 +88,12 @@ export class StartingYearService {
 
   /**
    * Description: Checks if a startingYear with the specified value exists in the database.
-   * @param startingYear The value of the startingYear to check for existence.
+   * @param year The value of the startingYear to check for existence.
    * @returns A Promise that resolves to a boolean indicating whether the startingYear exists.
    */
-  async doesStartingYearExists(startingYear: number): Promise<boolean> {
+  async doesStartingYearExists(year: number): Promise<boolean> {
     const startYear = await this.startingYearRepository.findOne({
-      where: { startingYear: startingYear },
+      where: { year: year },
     });
 
     if (!startYear) {

@@ -5,5 +5,5 @@ import { IsNumber } from 'class-validator';
 export class RemoveStartingYearInput {
   @IsNumber()
   @Field((type) => Int)
-  startingYear: number;
+  year: number;
 }

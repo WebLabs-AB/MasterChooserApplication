@@ -32,7 +32,7 @@ export class UniversityService {
   async createUniversity(
     createUniversityInput: CreateUniversityInput,
   ): Promise<University> {
-    if (await this.doesUniversityExists(createUniversityInput.universityName)) {
+    if (await this.doesUniversityExists(createUniversityInput.name)) {
       throw new HttpException('University already exists', HttpStatus.CONFLICT);
     }
 
@@ -52,7 +52,7 @@ export class UniversityService {
   ): Promise<University> {
     // Check if University exists in the database
     return this.universityRepository.findOne({
-      where: { universityName: updateUniversityInput.universityName },
+      where: { name: updateUniversityInput.name },
     });
   }
 
@@ -68,7 +68,7 @@ export class UniversityService {
     // Check if University exists in the database
     const existingUniversity = await this.universityRepository.findOne({
       where: {
-        universityName: removeUniversityInput.universityName,
+        name: removeUniversityInput.name,
       },
     });
 
@@ -81,13 +81,13 @@ export class UniversityService {
   }
 
   /**
-   * Description: Checks if a university with the specified universityName exists in the database.
-   * @param universityName The universityName of the university to check for existence.
+   * Description: Checks if a university with the specified name exists in the database.
+   * @param name The name of the university to check for existence.
    * @returns A Promise that resolves to a boolean indicating whether the university exists.
    */
-  async doesUniversityExists(universityName: string): Promise<boolean> {
+  async doesUniversityExists(name: string): Promise<boolean> {
     const university = await this.universityRepository.findOne({
-      where: { universityName: universityName },
+      where: { name: name },
     });
 
     if (!university) {

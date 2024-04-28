@@ -4,9 +4,7 @@ import { Course } from 'src/entities/NormalTypes/Course.entity';
 
 @Resolver()
 export class CourseResolver {
-  constructor(private courseService: CourseService) {
-
-  }
+  constructor(private courseService: CourseService) {}
 
   // Gets all courses.
   @Query((returns) => [Course])

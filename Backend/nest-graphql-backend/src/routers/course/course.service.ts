@@ -16,4 +16,15 @@ export class CourseService {
   async findAll(): Promise<Course[]> {
     return await this.courseRepo.find();
   }
+
+  /**
+   * Description: Returns the course matching the given course ID.
+   * @param courseId The course ID, which uniquely identifies the course.
+   * @returns The Course object, or null if no course exists with the given course ID.
+   */
+  async findById(courseId: string) {
+    return await this.courseRepo.findOne({
+        where: { courseId: courseId }
+    });
+  }
 }

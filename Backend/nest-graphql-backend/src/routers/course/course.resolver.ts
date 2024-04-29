@@ -11,4 +11,10 @@ export class CourseResolver {
   async getCourses(): Promise<Course[]> {
     return this.courseService.findAll();
   }
+
+  // Gets a course by its course ID.
+  @Query((returns) => Course)
+  async getCourseById(courseId: string): Promise<Course> {
+    return this.courseService.findById(courseId);
+  }
 }

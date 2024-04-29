@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CourseService } from './course.service';
 import { Repository } from 'typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import {
   Course,
   CourseMainArea,
@@ -19,19 +20,20 @@ import { StudentService } from '../student/student.service';
 import { UniversityService } from '../university/university.service';
 import { EducationService } from '../education/education.service';
 import { TeacherService } from '../teacher/teacher.service';
-import { getRepositoryToken } from '@nestjs/typeorm';
 import { EducationCourseService } from '../education-course/education-course.service';
 import { CoursePeriodService } from '../course-period/course-period.service';
 import { CourseMainAreaService } from '../course-main-area/course-main-area.service';
 import { CourseStartingYearService } from '../course-starting-year/course-starting-year.service';
 import { MainAreaService } from '../main-area/main-area.service';
 
+// Utility type for mocking repository methods in tests
 type MockType<T> = {
   [P in keyof T]?: jest.Mock<{}>;
 };
 
 let courseService: CourseService;
 
+// Define mocks for each repository that will be used in the service
 const courseRepository: MockType<Repository<Course>> = {
   save: jest.fn(),
   findOne: jest.fn(),
@@ -98,6 +100,7 @@ const mainAreaRepository: MockType<Repository<MainArea>> = {
   delete: jest.fn(),
 };
 
+// Before all tests, initialize the module and inject the service
 beforeAll(async () => {
   const module: TestingModule = await Test.createTestingModule({
     providers: [
@@ -157,18 +160,22 @@ beforeAll(async () => {
   courseService = module.get(CourseService);
 });
 
+// Reset all mocks after each test to ensure clean state
 afterEach(() => {
   jest.resetAllMocks();
 });
 
+// Test to ensure the service is properly defined
 describe('CourseService', () => {
   test('should be defined', () => {
     expect(courseService).toBeDefined();
   });
 });
 
+// Tests for the findAll function in CourseService
 describe('Test findall func', () => {
   test('should retrieve all courses', async () => {
+    // Mock data setup for Course, Teacher, Education, and related entities
     const university = new University();
     university.name = 'LIU';
 
@@ -231,6 +238,7 @@ describe('Test findall func', () => {
 
     startingYear.courseBelongsToStartingYear = [courseStartingYear];
 
+    // Set up mock implementations to return specific entities
     universityRepository.findOneByOrFail.mockReturnValue(university);
     teacherRepository.findOne.mockReturnValue(teacher);
 
@@ -251,8 +259,10 @@ describe('Test findall func', () => {
     course.courseBelongsToMainArea = [courseMainArea];
     course.courseBelongsToPeriod = [coursePeriod];
 
+    // Mock the response for find operation on course repository
     courseRepository.find.mockReturnValue([course]);
 
+    // Execute the findAll function and assert the expected result
     const allCourses = await courseService.findAll();
     expect(allCourses).toEqual([course]);
   });

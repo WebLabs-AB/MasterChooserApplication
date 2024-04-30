@@ -67,6 +67,11 @@ const ProfileSection = () => {
     setIsEditing(false); // Hide input field without saving changes
   };
 
+  const handleEditProfileRequirements = () => {
+    // Here you can define what happens when the 'Edit profile requirements' button is clicked
+    console.log('Edit profile requirements clicked');
+  };
+
   return (
     <div className="mb-8">
       <div className="mb-4 flex items-center">
@@ -95,7 +100,7 @@ const ProfileSection = () => {
           <>
             <h1 className="text-3xl font-bold text-gray-800 mr-4">{profileName}</h1>
             <button
-              className="text-white bg-indigo-600 hover:bg-indigo-700 font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
+              className="text-white bg-indigo-600 hover:bg-indigo-700 font-bold py-2 px-4 rounded transition duration-300 ease-in-out mr-2"
               onClick={handleEditClick}
             >
               Edit
@@ -103,8 +108,15 @@ const ProfileSection = () => {
           </>
         )}
       </div>
-      <div className="p-4 border rounded-lg bg-teal-50 shadow">
-        Profile information and restrictions
+
+      <div className="p-4 border rounded-lg bg-teal-50 shadow flex flex-col justify-between h-auto">
+        <span>Profile information and restrictions</span>
+        <button
+          onClick={handleEditProfileRequirements}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out self-start mt-4"
+        >
+          Edit profile requirements
+        </button>
       </div>
     </div>
   );

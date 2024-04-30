@@ -473,8 +473,8 @@ const PackageDialog: React.FC<PackageDialogProps> = ({
                           )}
                         </Listbox.Option>
                       ))}
-                    </Listbox.Options
-                  ></Listbox>
+                    </Listbox.Options>
+                  </Listbox>
                 </div>
                 <div className="mt-4 flex justify-end">
                   <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">

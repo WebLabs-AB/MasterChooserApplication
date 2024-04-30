@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Dialog, Listbox, Transition } from '@headlessui/react';
 
 interface Course {
@@ -8,6 +8,16 @@ interface Course {
   name: string;
   hp: number;
   priority: string;
+}
+
+interface ProfileRequirements {
+  minCourses: number;
+  minAdvancedCourses: number;
+  selectedEducations: string[];
+  packageRequirements: {
+    packageId: number;
+    minCourses: number;
+  }[];
 }
 
 interface CourseListSectionProps {
@@ -41,6 +51,12 @@ interface PackageDialogProps {
   packageToEdit?: CoursePackage;
 }
 
+interface ProfileRequirementsDialogProps {
+  isOpen: boolean;
+  closeDialog: () => void;
+  saveRequirements: (requirements: ProfileRequirements) => void;
+}
+
 const priorities = ['Required', 'Optional'];
 
 const fakeCourses = [
@@ -48,10 +64,107 @@ const fakeCourses = [
   { id: 2, period: 'Spring 2025', code: 'CS102', name: 'Data Structures', hp: 5, priority: 'Optional' },
 ];
 
+const ProfileRequirementsDialog: React.FC<ProfileRequirementsDialogProps> = ({ isOpen, closeDialog, saveRequirements }) => {
+  const [minCourses, setMinCourses] = useState<number>(0);
+  const [minAdvancedCourses, setMinAdvancedCourses] = useState<number>(0);
+  const [selectedEducations, setSelectedEducations] = useState<string[]>([]);
+  const [packageRequirements, setPackageRequirements] = useState<{ packageId: number; minCourses: number }[]>([]);
+
+  const handleSave = () => {
+    saveRequirements({
+      minCourses,
+      minAdvancedCourses,
+      selectedEducations,
+      packageRequirements
+    });
+    closeDialog();
+  };
+
+  // Dummy data for educations and packages - replace with actual data as needed
+  const educations = ['Software Engineering', 'Data Science', 'Computer Science'];
+  const packages = [{ id: 1, name: "Package A" }, { id: 2, name: "Package B" }];
+
+  return (
+    <Transition show={isOpen} as={Fragment}>
+      <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={closeDialog}>
+        <div className="min-h-screen px-4 text-center">
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+          >
+            <div className="inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">Edit Profile Requirements</Dialog.Title>
+              <form onSubmit={(e) => e.preventDefault()}>
+                <div className="mt-4">
+                  <label className="block text-sm font-medium text-gray-700">Minimum number of courses:</label>
+                  <input
+                    type="number"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                    value={minCourses}
+                    onChange={(e) => setMinCourses(Number(e.target.value))}
+                  />
+                </div>
+                <div className="mt-4">
+                  <label className="block text-sm font-medium text-gray-700">Minimum number of advanced courses:</label>
+                  <input
+                    type="number"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                    value={minAdvancedCourses}
+                    onChange={(e) => setMinAdvancedCourses(Number(e.target.value))}
+                  />
+                </div>
+                <div className="mt-4">
+                  <label className="block text-sm font-medium text-gray-700">Select educations:</label>
+                  <Listbox value={selectedEducations} onChange={setSelectedEducations} multiple>
+                    {educations.map((education) => (
+                      <Listbox.Option key={education} value={education}>
+                        {({ selected }) => (
+                          <div className={`cursor-pointer select-none relative py-2 pl-10 pr-4 ${selected ? 'bg-teal-100' : 'bg-white'}`}>
+                            {selected && (
+                              <span className="text-teal-600 absolute inset-y-0 left-0 flex items-center pl-3">
+                                <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 01.083 1.32l-.083.094-8 8a1 1 0 01-1.32.083l-.094-.083-4-4a1 1 0 011.32-1.497l-.094.083L9 13.585l7.293-7.292 a1 1 0 011.497-.083z" clipRule="evenodd" />
+                                </svg>
+                              </span>
+                            )}
+                            {education}
+                          </div>
+                        )}
+                      </Listbox.Option>
+                    ))}
+                  </Listbox>
+                </div>
+                <div className="mt-4">
+                  <label className="block text-sm font-medium text-gray-700">Package requirements:</label>
+                  {/* Implement package selection logic similar to educations, storing the package id and minimum courses required */}
+                </div>
+                <div className="mt-4 flex justify-end">
+                  <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" onClick={handleSave}>
+                    Save
+                  </button>
+                  <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded ml-2" onClick={closeDialog}>
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </Transition.Child>
+        </div>
+      </Dialog>
+    </Transition>
+  );
+};
+
 const ProfileSection = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [profileName, setProfileName] = useState('ProfileName');
   const [tempProfileName, setTempProfileName] = useState(profileName);
+  const [isRequirementsDialogOpen, setIsRequirementsDialogOpen] = useState(false);
 
   const handleEditClick = () => {
     setTempProfileName(profileName); // Initialize temporary state with current profile name
@@ -68,8 +181,16 @@ const ProfileSection = () => {
   };
 
   const handleEditProfileRequirements = () => {
-    // Here you can define what happens when the 'Edit profile requirements' button is clicked
-    console.log('Edit profile requirements clicked');
+    setIsRequirementsDialogOpen(true);
+  };
+
+  const closeRequirementsDialog = () => {
+    setIsRequirementsDialogOpen(false);
+  };
+
+  const saveRequirements = (requirements: ProfileRequirements) => {
+    console.log('Saved Requirements:', requirements);
+    closeRequirementsDialog();
   };
 
   return (
@@ -117,10 +238,16 @@ const ProfileSection = () => {
         >
           Edit profile requirements
         </button>
+        <ProfileRequirementsDialog
+          isOpen={isRequirementsDialogOpen}
+          closeDialog={closeRequirementsDialog}
+          saveRequirements={saveRequirements}
+        />
       </div>
     </div>
   );
 };
+
 
 const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCourse, updatePriority }) => {
   const renderCourseHeadings = () => (

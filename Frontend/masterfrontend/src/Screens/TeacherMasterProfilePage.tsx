@@ -1,12 +1,14 @@
+// Import necessary React and Headless UI components
 import React, { Fragment, useEffect, useState } from 'react';
 import { Dialog, Listbox, Transition } from '@headlessui/react';
 
+// Define interfaces for strict typing with TypeScript to enhance code reliability and developer experience.
 interface Course {
   id: number;
   period: string;
   code: string;
   name: string;
-  hp: number;
+  hp: number; // "hp" stands for "hours per period" or could be "honor points", depending on context
   priority: string;
 }
 
@@ -22,7 +24,7 @@ interface ProfileRequirements {
 }
 
 interface ProfileSectionProps {
-  packages: CoursePackage[]; // Use the CoursePackage interface for typing
+  packages: CoursePackage[]; // Array of course packages to be displayed or edited
 }
 
 interface CourseListSectionProps {
@@ -37,7 +39,7 @@ interface SearchSectionProps {
 }
 
 interface CoursePackage {
-  id: number;  // Add this line
+  id: number;
   packageName: string;
   obligatoryCourses: number;
   courses: Course[];
@@ -63,24 +65,29 @@ interface ProfileRequirementsDialogProps {
   packages: CoursePackage[];  // List of existing packages
 }
 
+// Priority options available for courses
 const priorities = ['Required', 'Optional'];
 
+// Sample course data to populate the initial state
 const fakeCourses = [
   { id: 1, period: 'Fall 2024', code: 'CS101', name: 'Introduction to Computer Science', hp: 5, priority: 'Required' },
   { id: 2, period: 'Spring 2025', code: 'CS102', name: 'Data Structures', hp: 5, priority: 'Optional' },
 ];
 
+// Component to handle profile requirement editing in a modal dialog
 const ProfileRequirementsDialog: React.FC<ProfileRequirementsDialogProps> = ({
   isOpen,
   closeDialog,
   saveRequirements,
   packages
 }) => {
+  // Local state to manage input fields within the dialog
   const [minCourses, setMinCourses] = useState<number>(0);
   const [minAdvancedCourses, setMinAdvancedCourses] = useState<number>(0);
   const [selectedEducations, setSelectedEducations] = useState<string[]>([]);
   const [packageRequirements, setPackageRequirements] = useState<ProfileRequirements['packageRequirements']>([]);
 
+  // Sync package options with the passed-down props whenever they change
   useEffect(() => {
     setPackageRequirements(packages.map(pkg => ({
       packageId: pkg.id,
@@ -89,6 +96,7 @@ const ProfileRequirementsDialog: React.FC<ProfileRequirementsDialogProps> = ({
     })));
   }, [packages]);
 
+  // Handle form submission by calling the passed-in save function
   const handleSave = () => {
     saveRequirements({
       minCourses,
@@ -99,6 +107,7 @@ const ProfileRequirementsDialog: React.FC<ProfileRequirementsDialogProps> = ({
     closeDialog();
   };
 
+  // Render the dialog UI using Headless UI's Transition and Dialog components
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={closeDialog}>
@@ -168,12 +177,15 @@ const ProfileRequirementsDialog: React.FC<ProfileRequirementsDialogProps> = ({
   );
 };
 
+// Main section of the profile, handling editing and viewing of profile details
 const ProfileSection: React.FC<ProfileSectionProps> = ({ packages }) => {
+  // Local state for managing edit mode
   const [isEditing, setIsEditing] = useState(false);
   const [profileName, setProfileName] = useState('ProfileName');
   const [tempProfileName, setTempProfileName] = useState(profileName);
   const [isRequirementsDialogOpen, setIsRequirementsDialogOpen] = useState(false);
 
+  // Handlers for button clicks to manage state
   const handleEditClick = () => {
     setTempProfileName(profileName);
     setIsEditing(true);
@@ -188,6 +200,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ packages }) => {
     setIsEditing(false);
   };
 
+  // Open and close the requirements dialog
   const handleEditProfileRequirements = () => {
     setIsRequirementsDialogOpen(true);
   };
@@ -196,11 +209,13 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ packages }) => {
     setIsRequirementsDialogOpen(false);
   };
 
+  // Log the saved requirements for debugging
   const saveRequirements = (requirements: ProfileRequirements) => {
     console.log('Saved Requirements:', requirements);
     closeRequirementsDialog();
   };
 
+  // Render the profile section UI with conditional display based on edit state
   return (
     <div className="mb-8">
       <div className="mb-4 flex items-center">
@@ -256,7 +271,9 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ packages }) => {
   );
 };
 
+// Component to list and manage courses in the profile
 const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCourse, updatePriority }) => {
+  // Render headings for the course list
   const renderCourseHeadings = () => (
     <div className="grid grid-cols-12 font-bold py-2 bg-gray-100 text-gray-800">
       <div className="col-span-3">Course period</div>
@@ -268,6 +285,7 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
     </div>
   );
 
+  // Render individual courses with options to remove or change priority
   const renderCourses = () => (
     courses.map((course: Course) => (
       <div key={course.id} className="grid grid-cols-12 items-center py-2">
@@ -290,10 +308,11 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
                   {priority}
                 </Listbox.Option>
               ))}
-            </Listbox.Options>
+          </Listbox.Options>
           </Listbox>
         </div>
         <div className="col-span-1">
+          // Button to remove a course from the list, triggering state update
           <button onClick={() => removeCourse(course.id)} className="bg-red-500 text-white px-3 py-1 rounded w-full transition duration-300 ease-in-out hover:bg-red-600">
             Remove
           </button>
@@ -302,6 +321,7 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
     ))
   );
 
+  // Main render block for CourseListSection, showing course details and management options
   return (
     <div className="mb-8 bg-white shadow rounded-lg p-4">
       <h2 className="text-lg font-semibold text-gray-800 mb-4">Added courses</h2>
@@ -311,15 +331,18 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
   );
 };
 
+// SearchSection allows searching and adding courses to the profile
 const SearchSection: React.FC<SearchSectionProps> = ({ onAddCourse, availableCourses }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Filter courses based on the search term input by the user
   const filteredCourses = searchTerm
     ? availableCourses.filter(course =>
         course.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
         course.name.toLowerCase().includes(searchTerm.toLowerCase()))
     : availableCourses;
 
+  // Render the search input and list of filtered courses
   return (
     <div className="p-4 border rounded-lg bg-white shadow">
       <input
@@ -345,6 +368,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({ onAddCourse, availableCou
   );
 };
 
+// PackageDialog manages creation and editing of course packages
 const PackageDialog: React.FC<PackageDialogProps> = ({
   isOpen,
   closeDialog,
@@ -356,6 +380,7 @@ const PackageDialog: React.FC<PackageDialogProps> = ({
   const [obligatoryCourses, setObligatoryCourses] = useState(0);
   const [selectedCourses, setSelectedCourses] = useState<number[]>([]);
 
+  // Reset form state when a package is not being edited
   useEffect(() => {
     if (packageToEdit) {
       setPackageName(packageToEdit.packageName);
@@ -372,6 +397,7 @@ const PackageDialog: React.FC<PackageDialogProps> = ({
     setSelectedCourses([]);
   };
 
+  // Handle form submission to save or update a package
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const packageData: CoursePackage = {
@@ -385,10 +411,12 @@ const PackageDialog: React.FC<PackageDialogProps> = ({
     resetForm();
   };
 
+  // Manage course selection for the package
   const handleCourseSelection = (selectedIds: number[]) => {
     setSelectedCourses(selectedIds);
   };
 
+  // Render the package creation/edit dialog
   return (
     <Transition show={isOpen} as={React.Fragment}>
       <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={closeDialog}>
@@ -445,8 +473,8 @@ const PackageDialog: React.FC<PackageDialogProps> = ({
                           )}
                         </Listbox.Option>
                       ))}
-                    </Listbox.Options>
-                  </Listbox>
+                    </Listbox.Options
+                  ></Listbox>
                 </div>
                 <div className="mt-4 flex justify-end">
                   <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">
@@ -465,73 +493,79 @@ const PackageDialog: React.FC<PackageDialogProps> = ({
   );
 };
 
+// The PackageSection component handles the listing, creation, and deletion of course packages
 const PackageSection: React.FC<PackageSectionProps> = ({ availableCourses, onPackageUpdate }) => {
   const [packages, setPackages] = useState<CoursePackage[]>([]);
   const [isPackageDialogOpen, setPackageDialogOpen] = useState(false);
   const [editablePackageIndex, setEditablePackageIndex] = useState<number | null>(null);
 
+  // Open dialog for creating or editing a package
   const handleOpenPackageDialog = (index: number | null) => {
     setEditablePackageIndex(index);
     setPackageDialogOpen(true);
   };
 
+  // Close the package dialog and reset editable index
   const handleClosePackageDialog = () => {
     setPackageDialogOpen(false);
+    setEditablePackageIndex(null);
   };
 
-  // Ensure to handle the 'id' properly
+  // Save or update a package in the local state and propagate the update upwards
   const savePackage = (pkg: CoursePackage, index: number | null) => {
-    const newPackages = index !== null
-      ? packages.map((p, i) => i === index ? { ...pkg, id: packages[index].id } : p)
-      : [...packages, { ...pkg, id: Math.max(0, ...packages.map(p => p.id)) + 1 }];
-    
-    setPackages(newPackages);
-    onPackageUpdate(newPackages); // Ensure to pass the updated packages back to the parent
-  };
-
-  const deletePackage = (id: number) => {
-    const updatedPackages = packages.filter(pkg => pkg.id !== id);
+    let updatedPackages = [...packages];
+    if (index !== null) {
+      // Update existing package
+      updatedPackages = updatedPackages.map((p, i) => (i === index ? { ...pkg, id: p.id } : p));
+    } else {
+      // Add new package
+      updatedPackages.push({ ...pkg, id: packages.reduce((maxId, p) => Math.max(p.id, maxId), -1) + 1 });
+    }
     setPackages(updatedPackages);
     onPackageUpdate(updatedPackages);
   };
 
-  // Function to render the packages list with delete buttons
-  const renderPackages = () => {
-    return (
-      <div>
-        {packages.map((pkg, index) => (
-          <div key={pkg.id} className="flex justify-between items-center p-2">
-            <div onClick={() => handleOpenPackageDialog(index)}>
-              {pkg.packageName}
-            </div>
-            <button onClick={() => deletePackage(pkg.id)} className="bg-red-500 text-white px-4 py-2 rounded">
-              Delete
-            </button>
-          </div>
-        ))}
-        {isPackageDialogOpen && (
-          <PackageDialog
-            isOpen={isPackageDialogOpen}
-            closeDialog={handleClosePackageDialog}
-            courses={availableCourses}
-            savePackage={(pkg) => savePackage(pkg, editablePackageIndex)}
-            packageToEdit={editablePackageIndex !== null ? packages[editablePackageIndex] : undefined}
-          />
-        )}
-      </div>
-    );
+  // Delete a package from the list
+  const deletePackage = (id: number) => {
+    const updatedPackages = packages.filter(p => p.id !== id);
+    setPackages(updatedPackages);
+    onPackageUpdate(updatedPackages);
   };
 
+  // Render a list of packages with options to edit or delete
+  const renderPackages = () => (
+    <div>
+      {packages.map((pkg, index) => (
+        <div key={pkg.id} className="flex justify-between items-center p-2">
+          <div onClick={() => handleOpenPackageDialog(index)}>
+            {pkg.packageName}
+          </div>
+          <button onClick={() => deletePackage(pkg.id)} className="bg-red-500 text-white px-4 py-2 rounded">
+            Delete
+          </button>
+        </div>
+      ))}
+      {isPackageDialogOpen && (
+        <PackageDialog
+          isOpen={isPackageDialogOpen}
+          closeDialog={handleClosePackageDialog}
+          courses={availableCourses}
+          savePackage={(pkg) => savePackage(pkg, editablePackageIndex)}
+          packageToEdit={editablePackageIndex !== null ? packages[editablePackageIndex] : undefined}
+        />
+      )}
+    </div>
+  );
+
+  // Main render block for PackageSection
   return (
     <div>
-      {/* Display the packages */}
-      <div className="mt-4">        
+      <div className="mt-4">
         <div className="mb-8 bg-white shadow rounded-lg p-4">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Course packages</h2>
           {renderPackages()}
         </div>
       </div>
-
       <button onClick={() => handleOpenPackageDialog(null)} className="bg-blue-500 text-white px-4 py-2 rounded">
         Create Package
       </button>
@@ -539,52 +573,40 @@ const PackageSection: React.FC<PackageSectionProps> = ({ availableCourses, onPac
   );
 };
 
+// Entry component for the teacher's page, managing state and components for creating and updating course profiles
 export const TeacherCreateUpdateProfilePage = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [availableCourses, setAvailableCourses] = useState<Course[]>(fakeCourses);
-  const [packages, setPackages] = useState<CoursePackage[]>([]); // Manage packages here
+  const [packages, setPackages] = useState<CoursePackage[]>([]); // Local state to manage packages
 
+  // Function to handle updates to packages, potentially synchronizing with a backend service
   const handlePackageUpdate = (updatedPackages: CoursePackage[]) => {
-    setPackages(updatedPackages); // Update packages state
+    setPackages(updatedPackages);
   };
 
+  // Function to remove a course from the profile
   const removeCourse = (courseId: number) => {
-    // Update the courses list by removing the selected course
-    setCourses(prevCourses => {
-      // Find the course that is being removed
-      const courseToRemove = prevCourses.find(course => course.id === courseId);
-
-      // Update the available courses list to include the removed course if it's not already included
-      if (courseToRemove) {
-        setAvailableCourses(prevAvailableCourses => {
-          // Check if the course is already in the available courses list
-          const isAlreadyAvailable = prevAvailableCourses.some(course => course.id === courseId);
-
-          // Add the course back to available courses if it's not already there
-          return isAlreadyAvailable ? prevAvailableCourses : [...prevAvailableCourses, courseToRemove];
-        });
-      }
-
-      // Return the new list of courses excluding the removed one
-      return prevCourses.filter(course => course.id !== courseId);
-    });
+    const updatedCourses = courses.filter(course => course.id !== courseId);
+    setCourses(updatedCourses);
+    setAvailableCourses([...availableCourses, ...updatedCourses.filter(c => c.id === courseId)]);
   };
 
+  // Update course priority within the profile
   const updatePriority = (courseId: number, newPriority: string) => {
-    setCourses(courses.map(course => (
+    const updatedCourses = courses.map(course =>
       course.id === courseId ? { ...course, priority: newPriority } : course
-    )));
+    );
+    setCourses(updatedCourses);
   };
 
+  // Add a course to the profile, setting the default priority
   const addCourseToProfile = (courseToAdd: Course) => {
-    if (!courses.find(course => course.id === courseToAdd.id)) {
-      setCourses(prevCourses => [...prevCourses, { ...courseToAdd, priority: 'Required' }]);
-      setAvailableCourses(prevAvailableCourses =>
-        prevAvailableCourses.filter(course => course.id !== courseToAdd.id)
-      );
+    if (!courses.some(course => course.id === courseToAdd.id)) {
+      setCourses([...courses, { ...courseToAdd, priority: 'Required' }]);
     }
   };
 
+  // Main render function for the TeacherCreateUpdateProfilePage, organizing the layout and components
   return (
     <div className="container mx-auto p-8 bg-gray-100 min-h-screen">
       <ProfileSection packages={packages}/>

@@ -6,5 +6,5 @@ export class UpdateCourseEducationsInput {
   courseId: string;
 
   @Field(() => String, { description: 'education id of the education' })
-  educationId: string;
+  educationId: string[];
 }

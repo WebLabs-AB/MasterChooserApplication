@@ -251,12 +251,14 @@ const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requir
         )}
         {/* Render the edit button for profile requirements */}
         {!isEditingRequirements && (
-          <button
-            className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
-            onClick={() => setIsEditingRequirements(true)}
-          >
-            Edit Profile Requirements
-          </button>
+          <div style={{ width: 'fit-content' }}> {/* Set a fixed width for the wrapping div */}
+            <button
+              className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+              onClick={() => setIsEditingRequirements(true)}
+            >
+              Edit Profile Requirements
+            </button>
+          </div>
         )}
       </div>
     </div>

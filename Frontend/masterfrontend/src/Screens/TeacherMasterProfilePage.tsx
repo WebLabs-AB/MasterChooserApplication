@@ -144,11 +144,11 @@ const ProfileRequirementsEditor: React.FC<ProfileRequirementsEditorProps> = ({
           />
         </div>
       ))}
-      <div className="mt-4 flex justify-between">
-        <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700" onClick={closeDialog}>
+      <div className="mt-4 space-x-2 justify-end">
+        <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded ml-4 hover:bg-gray-600 transition duration-300 ease-in-out" onClick={closeDialog}>
           Cancel
         </button>
-        <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" onClick={handleSave}>
+        <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out" onClick={handleSave}>
           Save
         </button>
       </div>
@@ -226,13 +226,29 @@ const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requir
       <div className="p-4 border rounded-lg bg-teal-50 shadow flex flex-col justify-between h-auto">
         <span>Profile information and restrictions</span>
         {/* Render the ProfileRequirementsEditor conditionally based on editing state */}
-        <ProfileRequirementsEditor
-          saveRequirements={saveRequirements}
-          packages={packages}
-          isEditing={isEditingRequirements}
-          isOpen={isEditingRequirements}
-          closeDialog={() => setIsEditingRequirements(false)}
-        />
+        {isEditingRequirements ? (
+          <ProfileRequirementsEditor
+            saveRequirements={saveRequirements}
+            packages={packages}
+            isEditing={isEditingRequirements}
+            isOpen={isEditingRequirements}
+            closeDialog={() => setIsEditingRequirements(false)}
+          />
+        ) : (
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-gray-700">Minimum number of courses:</label>
+            <p>{/* Display minimum number of courses */}</p>
+            <label className="block text-sm font-medium text-gray-700 mt-4">Minimum number of advanced courses:</label>
+            <p>{/* Display minimum number of advanced courses */}</p>
+            <label className="block text-sm font-medium text-gray-700 mt-4">Package requirements:</label>
+            {packages.map((pkg) => (
+              <div key={pkg.id} className="flex justify-between items-center mt-2">
+                <span>{pkg.packageName}</span>
+                <p>{/* Display minimum courses for package */}</p>
+              </div>
+            ))}
+          </div>
+        )}
         {/* Render the edit button for profile requirements */}
         {!isEditingRequirements && (
           <button
@@ -288,7 +304,6 @@ const CourseListSection: React.FC<CourseListSectionProps> = ({ courses, removeCo
           </Listbox>
         </div>
         <div className="col-span-1">
-          // Button to remove a course from the list, triggering state update
           <button onClick={() => removeCourse(course.id)} className="bg-red-500 text-white px-3 py-1 rounded w-full transition duration-300 ease-in-out hover:bg-red-600">
             Remove
           </button>
@@ -430,7 +445,7 @@ const PackageDialog: React.FC<PackageDialogProps> = ({
                 <div className="mt-4">
                   <Listbox value={selectedCourses} onChange={handleCourseSelection} multiple>
                     <Listbox.Button className="border rounded px-4 py-2 w-full text-left">
-                      {selectedCourses.length} courses selected
+                      {selectedCourses.length}
                     </Listbox.Button>
                     <Listbox.Options className="absolute z-10 w-full bg-white border rounded shadow-lg mt-1 overflow-auto">
                       {courses.map(course => (

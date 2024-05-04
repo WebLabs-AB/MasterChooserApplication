@@ -27,4 +27,15 @@ export class CourseService {
         where: { courseId: courseId }
     });
   }
+
+  /**
+   * Description: Checks if a course exists, given its course ID.
+   * @param coruseId The course ID to check.
+   * @returns A boolean representing whether the object exists or not.
+   */
+  async doesCourseExists(coruseId: string) : Promise<boolean> {
+    const course = this.findById(coruseId);
+
+    return course !== null;
+  }
 }

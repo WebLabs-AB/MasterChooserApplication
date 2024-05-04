@@ -75,9 +75,9 @@ const fakeCourses = [
 ];
 
 // Component to handle profile requirement editing directly in the profile section
-const ProfileRequirementsDialog: React.FC<ProfileRequirementsDialogProps> = ({
+const ProfileRequirementsEditor: React.FC<Omit<ProfileRequirementsDialogProps, "isOpen" | "closeDialog"> & {saveRequirements: (requirements: ProfileRequirements) => void; packages: CoursePackage[];}> = ({
   saveRequirements,
-  packages
+  packages,
 }) => {
   // Local state to manage input fields within the profile section
   const [minCourses, setMinCourses] = useState<number>(0);
@@ -108,65 +108,45 @@ const ProfileRequirementsDialog: React.FC<ProfileRequirementsDialogProps> = ({
   // Render the input fields for editing profile requirements
   return (
     <div className="mt-4">
-      {!isEditing ? (
-        <div>
-          <p className="font-semibold">Minimum number of courses: {minCourses}</p>
-          <p className="font-semibold mt-2">Minimum number of advanced courses: {minAdvancedCourses}</p>
-          <p className="font-semibold mt-2">Package requirements:</p>
-          {packageRequirements.map(req => (
-            <p key={req.packageId} className="mt-1">{req.packageName}: {req.minCourses}</p>
-          ))}
-          <div className="mt-4 flex justify-end">
-            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" onClick={() => setIsEditing(true)}>
-              Edit
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Minimum number of courses:</label>
+      <label className="block text-sm font-medium text-gray-700">Minimum number of courses:</label>
+      <input
+        type="number"
+        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+        value={minCourses}
+        onChange={(e) => setMinCourses(Number(e.target.value))}
+      />
+      <label className="block text-sm font-medium text-gray-700 mt-4">Minimum number of advanced courses:</label>
+      <input
+        type="number"
+        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+        value={minAdvancedCourses}
+        onChange={(e) => setMinAdvancedCourses(Number(e.target.value))}
+      />
+      <label className="block text-sm font-medium text-gray-700 mt-4">Package requirements:</label>
+      {packageRequirements.map((req, index) => (
+        <div key={req.packageId} className="flex justify-between items-center mt-2">
+          <span>{req.packageName}</span>
           <input
             type="number"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-            value={minCourses}
-            onChange={(e) => setMinCourses(Number(e.target.value))}
+            className="ml-4 w-24 px-2 py-1 border border-gray-300 rounded-md"
+            value={req.minCourses}
+            onChange={e => {
+              const updated = [...packageRequirements];
+              updated[index].minCourses = Number(e.target.value);
+              setPackageRequirements(updated);
+            }}
           />
-          <label className="block text-sm font-medium text-gray-700 mt-4">Minimum number of advanced courses:</label>
-          <input
-            type="number"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-            value={minAdvancedCourses}
-            onChange={(e) => setMinAdvancedCourses(Number(e.target.value))}
-          />
-          <label className="block text-sm font-medium text-gray-700 mt-4">Package requirements:</label>
-          {packageRequirements.map((req, index) => (
-            <div key={req.packageId} className="flex justify-between items-center mt-2">
-              <span>{req.packageName}</span>
-              <input
-                type="number"
-                className="ml-4 w-24 px-2 py-1 border border-gray-300 rounded-md"
-                value={req.minCourses}
-                onChange={e => {
-                  const updated = [...packageRequirements];
-                  updated[index].minCourses = Number(e.target.value);
-                  setPackageRequirements(updated);
-                }}
-              />
-            </div>
-          ))}
-          <div className="mt-4 flex justify-end">
-            <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" onClick={handleSave}>
-              Save
-            </button>
-            <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded ml-2" onClick={() => setIsEditing(false)}>
-              Cancel
-            </button>
-          </div>
         </div>
-      )}
+      ))}
+      <div className="mt-4 flex justify-end">
+        <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" onClick={handleSave}>
+          Save
+        </button>
+      </div>
     </div>
   );
 };
+
 
 // Main section of the profile, handling editing and viewing of profile details
 const ProfileSection: React.FC<ProfileSectionProps> = ({ packages }) => {
@@ -174,89 +154,38 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ packages }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [profileName, setProfileName] = useState('ProfileName');
   const [tempProfileName, setTempProfileName] = useState(profileName);
-  const [isRequirementsDialogOpen, setIsRequirementsDialogOpen] = useState(false);
 
-  // Handlers for button clicks to manage state
-  const handleEditClick = () => {
-    setTempProfileName(profileName);
-    setIsEditing(true);
-  };
-
-  const handleSaveClick = () => {
-    setProfileName(tempProfileName);
-    setIsEditing(false);
-  };
-
-  const handleCancelClick = () => {
-    setIsEditing(false);
-  };
-
-  // Open and close the requirements dialog
+  // Open and close the requirements editor
   const handleEditProfileRequirements = () => {
-    setIsRequirementsDialogOpen(true);
-  };
-
-  const closeRequirementsDialog = () => {
-    setIsRequirementsDialogOpen(false);
+    setIsEditing(true);
   };
 
   // Log the saved requirements for debugging
   const saveRequirements = (requirements: ProfileRequirements) => {
     console.log('Saved Requirements:', requirements);
-    closeRequirementsDialog();
+    setIsEditing(false);
   };
 
   // Render the profile section UI with conditional display based on edit state
   return (
     <div className="mb-8">
       <div className="mb-4 flex items-center">
-        {isEditing ? (
-          <>
-            <input
-              type="text"
-              value={tempProfileName}
-              onChange={(e) => setTempProfileName(e.target.value)}
-              className="text-2xl font-bold text-gray-800 border-b-2 border-indigo-600 mr-4"
-            />
-            <button
-              className="text-white bg-green-600 hover:bg-green-700 font-bold py-1 px-3 rounded transition duration-300 ease-in-out mr-2"
-              onClick={handleSaveClick}
-            >
-              Save
-            </button>
-            <button
-              className="text-white bg-red-600 hover:bg-red-700 font-bold py-1 px-3 rounded transition duration-300 ease-in-out"
-              onClick={handleCancelClick}
-            >
-              Cancel
-            </button>
-          </>
-        ) : (
-          <>
-            <h1 className="text-3xl font-bold text-gray-800 mr-4">{profileName}</h1>
-            <button
-              className="text-white bg-indigo-600 hover:bg-indigo-700 font-bold py-2 px-4 rounded transition duration-300 ease-in-out mr-2"
-              onClick={handleEditClick}
-            >
-              Edit
-            </button>
-          </>
-        )}
+        <h1 className="text-3xl font-bold text-gray-800 mr-4">{profileName}</h1>
       </div>
       <div className="p-4 border rounded-lg bg-teal-50 shadow flex flex-col justify-between h-auto">
         <span>Profile information and restrictions</span>
+        {isEditing && (
+          <ProfileRequirementsEditor
+            saveRequirements={saveRequirements}
+            packages={packages}
+          />
+        )}
         <button
           onClick={handleEditProfileRequirements}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out self-start mt-4"
         >
           Edit profile requirements
         </button>
-        <ProfileRequirementsDialog
-          isOpen={isRequirementsDialogOpen}
-          closeDialog={closeRequirementsDialog}
-          saveRequirements={saveRequirements}
-          packages={packages}
-        />
       </div>
     </div>
   );

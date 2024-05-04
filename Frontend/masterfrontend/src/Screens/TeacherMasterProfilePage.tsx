@@ -147,45 +147,79 @@ const ProfileRequirementsEditor: React.FC<Omit<ProfileRequirementsDialogProps, "
   );
 };
 
-
 // Main section of the profile, handling editing and viewing of profile details
-const ProfileSection: React.FC<ProfileSectionProps> = ({ packages }) => {
-  // Local state for managing edit mode
-  const [isEditing, setIsEditing] = useState(false);
+const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requirements: ProfileRequirements) => void }> = ({ packages, saveRequirements }) => {
+  // Local state for managing edit mode, profile name, and temporary profile name
+  const [isEditingName, setIsEditingName] = useState(false);
   const [profileName, setProfileName] = useState('ProfileName');
   const [tempProfileName, setTempProfileName] = useState(profileName);
 
-  // Open and close the requirements editor
-  const handleEditProfileRequirements = () => {
-    setIsEditing(true);
+  // Function to handle changes to the profile name
+  const handleProfileNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTempProfileName(e.target.value);
   };
 
-  // Log the saved requirements for debugging
-  const saveRequirements = (requirements: ProfileRequirements) => {
-    console.log('Saved Requirements:', requirements);
-    setIsEditing(false);
+  // Function to open the edit mode for profile name
+  const handleEditProfileName = () => {
+    setIsEditingName(true);
+  };
+
+  // Function to save the edited profile name
+  const handleSaveProfileName = () => {
+    setProfileName(tempProfileName);
+    setIsEditingName(false);
+  };
+
+  // Function to cancel editing the profile name
+  const handleCancelEditProfileName = () => {
+    setIsEditingName(false);
+    setTempProfileName(profileName);
   };
 
   // Render the profile section UI with conditional display based on edit state
   return (
     <div className="mb-8">
       <div className="mb-4 flex items-center">
-        <h1 className="text-3xl font-bold text-gray-800 mr-4">{profileName}</h1>
+        {isEditingName ? (
+          <>
+            <input
+              type="text"
+              value={tempProfileName}
+              onChange={handleProfileNameChange}
+              className="text-3xl font-bold text-gray-800 mr-4 border-b-2 border-blue-500"
+            />
+            <button
+              onClick={handleSaveProfileName}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out"
+            >
+              Save
+            </button>
+            <button
+              onClick={handleCancelEditProfileName}
+              className="bg-gray-500 text-white px-4 py-2 rounded ml-4 hover:bg-gray-600 transition duration-300 ease-in-out"
+            >
+              Cancel
+            </button>
+          </>
+        ) : (
+          <>
+            <h1 className="text-3xl font-bold text-gray-800 mr-4">{profileName}</h1>
+            <button
+              onClick={handleEditProfileName}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out"
+            >
+              Edit
+            </button>
+          </>
+        )}
       </div>
       <div className="p-4 border rounded-lg bg-teal-50 shadow flex flex-col justify-between h-auto">
         <span>Profile information and restrictions</span>
-        {isEditing && (
-          <ProfileRequirementsEditor
-            saveRequirements={saveRequirements}
-            packages={packages}
-          />
-        )}
-        <button
-          onClick={handleEditProfileRequirements}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out self-start mt-4"
-        >
-          Edit profile requirements
-        </button>
+        {/* The ProfileRequirementsEditor component remains unchanged */}
+        <ProfileRequirementsEditor
+          saveRequirements={saveRequirements}
+          packages={packages}
+        />
       </div>
     </div>
   );
@@ -526,10 +560,16 @@ export const TeacherCreateUpdateProfilePage = () => {
     }
   };
 
+  // Define the saveRequirements function within the TeacherCreateUpdateProfilePage component
+  const saveRequirements = (requirements: ProfileRequirements) => {
+    // Implement the logic to save requirements here, such as sending them to a backend API
+    console.log('Saving requirements:', requirements);
+  };
+
   // Main render function for the TeacherCreateUpdateProfilePage, organizing the layout and components
   return (
     <div className="container mx-auto p-8 bg-gray-100 min-h-screen">
-      <ProfileSection packages={packages}/>
+      <ProfileSection packages={packages} saveRequirements={saveRequirements} />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <CourseListSection courses={courses} removeCourse={removeCourse} updatePriority={updatePriority} />

@@ -1,4 +1,3 @@
-// EducationRequirementsDialog.tsx
 import React, { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Course, CoursePackage } from '../../Assets/Interfaces';
@@ -20,9 +19,9 @@ const EducationRequirementsDialog: React.FC<EducationRequirementsDialogProps> = 
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
-  const [selectedPackageRequirements, setSelectedPackageRequirements] = useState<CoursePackage[]>(packages.map(pkg => ({
+  const [packageRequirements, setPackageRequirements] = useState<CoursePackage[]>(packages.map(pkg => ({
     ...pkg,
-    minCourses: pkg.minCourses || 0  // Initialize minCourses if it's undefined
+    minCourses: pkg.minCourses || 0  // Initialize minCourses if undefined
   })));
 
   const handleCourseSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,14 +34,13 @@ const EducationRequirementsDialog: React.FC<EducationRequirementsDialogProps> = 
   };
 
   const handlePackageMinChange = (packageId: number, minCourses: number) => {
-    const updatedPackages = selectedPackageRequirements.map(pkg => pkg.id === packageId ? { ...pkg, minCourses } : pkg);
-    setSelectedPackageRequirements(updatedPackages);
+    const updatedPackages = packageRequirements.map(pkg =>
+      pkg.id === packageId ? { ...pkg, minCourses } : pkg);
+    setPackageRequirements(updatedPackages);
   };
 
-  const filteredCourses = courses.filter(course => course.name.toLowerCase().includes(searchTerm.toLowerCase()));
-
   const saveChanges = () => {
-    saveEducationRequirements(selectedCourses, selectedPackageRequirements);
+    saveEducationRequirements(selectedCourses, packageRequirements);
     onClose();
   };
 
@@ -69,7 +67,7 @@ const EducationRequirementsDialog: React.FC<EducationRequirementsDialogProps> = 
                 onChange={handleCourseSearchChange}
               />
               <div className="mt-4">
-                {filteredCourses.map(course => (
+                {courses.filter(course => course.name.toLowerCase().includes(searchTerm.toLowerCase())).map(course => (
                   <div key={course.id} className="flex justify-between items-center p-2">
                     <span>{course.name}</span>
                     <button
@@ -82,7 +80,8 @@ const EducationRequirementsDialog: React.FC<EducationRequirementsDialogProps> = 
                 ))}
               </div>
               <div className="mt-4">
-                {selectedPackageRequirements.map(pkg => (
+                <label className="block text-sm font-medium text-gray-700 mt-4">Package requirements:</label>
+                {packageRequirements.map((pkg) => (
                   <div key={pkg.id} className="flex justify-between items-center mt-2">
                     <span>{pkg.packageName}</span>
                     <input

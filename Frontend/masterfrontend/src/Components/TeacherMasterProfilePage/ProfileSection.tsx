@@ -47,22 +47,6 @@ const ProfileRequirementsEditor: React.FC<ProfileRequirementsEditorProps> = ({
               value={minAdvancedCourses}
               onChange={(e) => setMinAdvancedCourses(Number(e.target.value))}
           />
-          <label className="block text-sm font-medium text-gray-700 mt-4">Package requirements:</label>
-          {packageRequirements.map((req, index) => (
-              <div key={req.packageId} className="flex justify-between items-center mt-2">
-                  <span>{req.packageName}</span>
-                  <input
-                      type="number"
-                      className="ml-4 w-24 px-2 py-1 border border-gray-300 rounded-md"
-                      value={req.minCourses}
-                      onChange={e => {
-                          const updated = [...packageRequirements];
-                          updated[index].minCourses = Number(e.target.value);
-                          setPackageRequirements(updated);
-                      }}
-                  />
-              </div>
-          ))}
           <button
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out mt-4"
               onClick={() => setIsEducationDialogOpen(true)}
@@ -79,11 +63,10 @@ const ProfileRequirementsEditor: React.FC<ProfileRequirementsEditorProps> = ({
           </div>
           <EducationRequirementsDialog
               isOpen={isEducationDialogOpen}
-              courses={[]} // Add actual courses list or a method to retrieve it
+              courses={[]} // Assume this gets updated to pass actual courses
               packages={packages}
               onClose={() => setIsEducationDialogOpen(false)}
               saveEducationRequirements={(selectedCourses, updatedPackages) => {
-                  // Implement your logic for handling the selection
                   console.log('Selected Courses:', selectedCourses);
                   console.log('Updated Packages:', updatedPackages);
               }}
@@ -168,13 +151,6 @@ const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requir
             <p>{/* Display minimum number of courses */}</p>
             <label className="block text-sm font-medium text-gray-700 mt-4">Minimum number of advanced courses:</label>
             <p>{/* Display minimum number of advanced courses */}</p>
-            <label className="block text-sm font-medium text-gray-700 mt-4">Package requirements:</label>
-            {packages.map((pkg) => (
-              <div key={pkg.id} className="flex justify-between items-center mt-2">
-                <span>{pkg.packageName}</span>
-                <p>{/* Display minimum courses for package */}</p>
-              </div>
-            ))}
           </div>
         )}
         {!isEditingRequirements && (

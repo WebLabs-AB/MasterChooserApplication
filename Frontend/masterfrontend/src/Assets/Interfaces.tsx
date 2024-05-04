@@ -69,6 +69,7 @@ export interface CoursePackage {
   packageName: string;
   obligatoryCourses: number;
   courses: Course[];
+  minCourses?: number;  // Optional if it might not be present on all packages initially
 }
 
 export interface PackageSectionProps {

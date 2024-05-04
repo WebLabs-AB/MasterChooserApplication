@@ -1,84 +1,97 @@
 import React, { useEffect, useState } from 'react';
 import { ProfileRequirements, ProfileSectionProps, ProfileRequirementsEditorProps } from '../../Assets/Interfaces';
+import EducationRequirementsDialog from './EducationRequirementsDialog';
 
-// Component to handle profile requirement editing directly in the profile section
 const ProfileRequirementsEditor: React.FC<ProfileRequirementsEditorProps> = ({
-    saveRequirements,
-    packages,
-    isEditing, // Add the isEditing prop here
-    closeDialog
-  }) => {
-    // Local state to manage input fields within the profile section
-    const [minCourses, setMinCourses] = useState<number>(0);
-    const [minAdvancedCourses, setMinAdvancedCourses] = useState<number>(0);
-    const [packageRequirements, setPackageRequirements] = useState<ProfileRequirements['packageRequirements']>([]);
-  
-    // Sync package options with the passed-down props whenever they change
-    useEffect(() => {
-      setPackageRequirements(packages.map(pkg => ({
-        packageId: pkg.id,
-        packageName: pkg.packageName,
-        minCourses: 0,
-      })));
-    }, [packages]);
-  
-    // Save the updated requirements and propagate the update upwards
-    const handleSave = () => {
-      saveRequirements({
-        minCourses,
-        minAdvancedCourses,
-        selectedEducations: [], // Placeholder for selected educations, adjust as needed
-        packageRequirements
-      });
-      closeDialog(); // Close the dialog after saving
-    };
-  
-    // Render the input fields for editing profile requirements
-    return (
-      <div className={`mt-4 ${isEditing ? 'block' : 'hidden'}`}>
-        <label className="block text-sm font-medium text-gray-700">Minimum number of courses:</label>
-        <input
-          type="number"
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-          value={minCourses}
-          onChange={(e) => setMinCourses(Number(e.target.value))}
-        />
-        <label className="block text-sm font-medium text-gray-700 mt-4">Minimum number of advanced courses:</label>
-        <input
-          type="number"
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-          value={minAdvancedCourses}
-          onChange={(e) => setMinAdvancedCourses(Number(e.target.value))}
-        />
-        <label className="block text-sm font-medium text-gray-700 mt-4">Package requirements:</label>
-        {packageRequirements.map((req, index) => (
-          <div key={req.packageId} className="flex justify-between items-center mt-2">
-            <span>{req.packageName}</span>
-            <input
-              type="number"
-              className="ml-4 w-24 px-2 py-1 border border-gray-300 rounded-md"
-              value={req.minCourses}
-              onChange={e => {
-                const updated = [...packageRequirements];
-                updated[index].minCourses = Number(e.target.value);
-                setPackageRequirements(updated);
-              }}
-            />
-          </div>
-        ))}
-        <div className="mt-4 space-x-2 justify-end">
-          <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded ml-4 hover:bg-gray-600 transition duration-300 ease-in-out" onClick={closeDialog}>
-            Cancel
-          </button>
-          <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out" onClick={handleSave}>
-            Save
-          </button>
-        </div>
-      </div>
-    );
-  };
-  
+  saveRequirements,
+  packages,
+  isEditing,
+  closeDialog
+}) => {
+  const [minCourses, setMinCourses] = useState<number>(0);
+  const [minAdvancedCourses, setMinAdvancedCourses] = useState<number>(0);
+  const [packageRequirements, setPackageRequirements] = useState<ProfileRequirements['packageRequirements']>([]);
+  const [isEducationDialogOpen, setIsEducationDialogOpen] = useState(false);
 
+  useEffect(() => {
+      setPackageRequirements(packages.map(pkg => ({
+          packageId: pkg.id,
+          packageName: pkg.packageName,
+          minCourses: 0,
+      })));
+  }, [packages]);
+
+  const handleSave = () => {
+      saveRequirements({
+          minCourses,
+          minAdvancedCourses,
+          selectedEducations: [], // Placeholder for selected educations, adjust as needed
+          packageRequirements
+      });
+      closeDialog();
+  };
+
+  return (
+      <div className={`mt-4 ${isEditing ? 'block' : 'hidden'}`}>
+          <label className="block text-sm font-medium text-gray-700">Minimum number of courses:</label>
+          <input
+              type="number"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+              value={minCourses}
+              onChange={(e) => setMinCourses(Number(e.target.value))}
+          />
+          <label className="block text-sm font-medium text-gray-700 mt-4">Minimum number of advanced courses:</label>
+          <input
+              type="number"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+              value={minAdvancedCourses}
+              onChange={(e) => setMinAdvancedCourses(Number(e.target.value))}
+          />
+          <label className="block text-sm font-medium text-gray-700 mt-4">Package requirements:</label>
+          {packageRequirements.map((req, index) => (
+              <div key={req.packageId} className="flex justify-between items-center mt-2">
+                  <span>{req.packageName}</span>
+                  <input
+                      type="number"
+                      className="ml-4 w-24 px-2 py-1 border border-gray-300 rounded-md"
+                      value={req.minCourses}
+                      onChange={e => {
+                          const updated = [...packageRequirements];
+                          updated[index].minCourses = Number(e.target.value);
+                          setPackageRequirements(updated);
+                      }}
+                  />
+              </div>
+          ))}
+          <button
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out mt-4"
+              onClick={() => setIsEducationDialogOpen(true)}
+          >
+              Add Education Requirements
+          </button>
+          <div className="mt-4 space-x-2 justify-end">
+              <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded ml-4 hover:bg-gray-600 transition duration-300 ease-in-out" onClick={closeDialog}>
+                  Cancel
+              </button>
+              <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out" onClick={handleSave}>
+                  Save
+              </button>
+          </div>
+          <EducationRequirementsDialog
+              isOpen={isEducationDialogOpen}
+              courses={[]} // Add actual courses list or a method to retrieve it
+              packages={packages}
+              onClose={() => setIsEducationDialogOpen(false)}
+              saveEducationRequirements={(selectedCourses, updatedPackages) => {
+                  // Implement your logic for handling the selection
+                  console.log('Selected Courses:', selectedCourses);
+                  console.log('Updated Packages:', updatedPackages);
+              }}
+          />
+      </div>
+  );
+};
+  
 const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requirements: ProfileRequirements) => void }> = ({ packages, saveRequirements }) => {
   const [isEditingName, setIsEditingName] = useState(false);
   const [profileName, setProfileName] = useState('ProfileName');

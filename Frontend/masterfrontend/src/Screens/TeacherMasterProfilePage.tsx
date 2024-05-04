@@ -65,6 +65,11 @@ interface ProfileRequirementsDialogProps {
   packages: CoursePackage[];  // List of existing packages
 }
 
+// Define the ProfileRequirementsEditorProps interface with the isEditing prop
+interface ProfileRequirementsEditorProps extends ProfileRequirementsDialogProps {
+  isEditing: boolean;
+}
+
 // Priority options available for courses
 const priorities = ['Required', 'Optional'];
 
@@ -75,15 +80,16 @@ const fakeCourses = [
 ];
 
 // Component to handle profile requirement editing directly in the profile section
-const ProfileRequirementsEditor: React.FC<Omit<ProfileRequirementsDialogProps, "isOpen" | "closeDialog"> & {saveRequirements: (requirements: ProfileRequirements) => void; packages: CoursePackage[];}> = ({
+const ProfileRequirementsEditor: React.FC<ProfileRequirementsEditorProps> = ({
   saveRequirements,
   packages,
+  isEditing, // Add the isEditing prop here
+  closeDialog
 }) => {
   // Local state to manage input fields within the profile section
   const [minCourses, setMinCourses] = useState<number>(0);
   const [minAdvancedCourses, setMinAdvancedCourses] = useState<number>(0);
   const [packageRequirements, setPackageRequirements] = useState<ProfileRequirements['packageRequirements']>([]);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   // Sync package options with the passed-down props whenever they change
   useEffect(() => {
@@ -102,12 +108,12 @@ const ProfileRequirementsEditor: React.FC<Omit<ProfileRequirementsDialogProps, "
       selectedEducations: [], // Placeholder for selected educations, adjust as needed
       packageRequirements
     });
-    setIsEditing(false); // Disable editing mode after saving
+    closeDialog(); // Close the dialog after saving
   };
 
   // Render the input fields for editing profile requirements
   return (
-    <div className="mt-4">
+    <div className={`mt-4 ${isEditing ? 'block' : 'hidden'}`}>
       <label className="block text-sm font-medium text-gray-700">Minimum number of courses:</label>
       <input
         type="number"
@@ -138,7 +144,10 @@ const ProfileRequirementsEditor: React.FC<Omit<ProfileRequirementsDialogProps, "
           />
         </div>
       ))}
-      <div className="mt-4 flex justify-end">
+      <div className="mt-4 flex justify-between">
+        <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700" onClick={closeDialog}>
+          Cancel
+        </button>
         <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" onClick={handleSave}>
           Save
         </button>
@@ -153,6 +162,7 @@ const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requir
   const [isEditingName, setIsEditingName] = useState(false);
   const [profileName, setProfileName] = useState('ProfileName');
   const [tempProfileName, setTempProfileName] = useState(profileName);
+  const [isEditingRequirements, setIsEditingRequirements] = useState(false); // New state for editing profile requirements
 
   // Function to handle changes to the profile name
   const handleProfileNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -215,11 +225,23 @@ const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requir
       </div>
       <div className="p-4 border rounded-lg bg-teal-50 shadow flex flex-col justify-between h-auto">
         <span>Profile information and restrictions</span>
-        {/* The ProfileRequirementsEditor component remains unchanged */}
+        {/* Render the ProfileRequirementsEditor conditionally based on editing state */}
         <ProfileRequirementsEditor
           saveRequirements={saveRequirements}
           packages={packages}
+          isEditing={isEditingRequirements}
+          isOpen={isEditingRequirements}
+          closeDialog={() => setIsEditingRequirements(false)}
         />
+        {/* Render the edit button for profile requirements */}
+        {!isEditingRequirements && (
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+            onClick={() => setIsEditingRequirements(true)}
+          >
+            Edit Profile Requirements
+          </button>
+        )}
       </div>
     </div>
   );

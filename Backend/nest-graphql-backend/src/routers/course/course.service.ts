@@ -10,7 +10,7 @@ export class CourseService {
   ) {}
 
   /**
-   * Description: Returns all courses in the database.
+   * Returns all courses in the database.
    * @returns A list of all Course objects.
    */
   async findAll(): Promise<Course[]> {
@@ -18,7 +18,7 @@ export class CourseService {
   }
 
   /**
-   * Description: Returns the course matching the given course ID.
+   * Returns the course matching the given course ID.
    * @param courseId The course ID, which uniquely identifies the course.
    * @returns The Course object, or null if no course exists with the given course ID.
    */
@@ -29,7 +29,21 @@ export class CourseService {
   }
 
   /**
-   * Description: Checks if a course exists, given its course ID.
+   * Deletes a course by its ID.
+   * @param courseId The ID of the course.
+   */
+  async deleteByid(courseId: string): Promise<void> {
+    if (!await this.doesCourseExists(courseId)) {
+      // TODO: throw some kind of error
+    }
+
+    await this.courseRepo.delete({
+      courseId: courseId
+    });
+  }
+
+  /**
+   * Checks if a course exists, given its course ID.
    * @param coruseId The course ID to check.
    * @returns A boolean representing whether the object exists or not.
    */

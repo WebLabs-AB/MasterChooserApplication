@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Course, CoursePackage } from '../../Assets/Interfaces';
 
@@ -19,10 +19,15 @@ const EducationRequirementsDialog: React.FC<EducationRequirementsDialogProps> = 
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
-  const [packageRequirements, setPackageRequirements] = useState<CoursePackage[]>(packages.map(pkg => ({
-    ...pkg,
-    minCourses: pkg.minCourses || 0  // Initialize minCourses if undefined
-  })));
+  const [packageRequirements, setPackageRequirements] = useState<CoursePackage[]>([]);
+
+  useEffect(() => {
+    // This effect updates the local state to reflect changes in the `packages` prop
+    setPackageRequirements(packages.map(pkg => ({
+      ...pkg,
+      minCourses: pkg.minCourses || 0  // Ensure `minCourses` is initialized
+    })));
+  }, [packages]); // Dependency array includes `packages` to react to changes
 
   const handleCourseSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -80,7 +85,6 @@ const EducationRequirementsDialog: React.FC<EducationRequirementsDialogProps> = 
                 ))}
               </div>
               <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-700 mt-4">Package requirements:</label>
                 {packageRequirements.map((pkg) => (
                   <div key={pkg.id} className="flex justify-between items-center mt-2">
                     <span>{pkg.packageName}</span>

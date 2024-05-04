@@ -74,18 +74,16 @@ const fakeCourses = [
   { id: 2, period: 'Spring 2025', code: 'CS102', name: 'Data Structures', hp: 5, priority: 'Optional' },
 ];
 
-// Component to handle profile requirement editing in a modal dialog
+// Component to handle profile requirement editing directly in the profile section
 const ProfileRequirementsDialog: React.FC<ProfileRequirementsDialogProps> = ({
-  isOpen,
-  closeDialog,
   saveRequirements,
   packages
 }) => {
-  // Local state to manage input fields within the dialog
+  // Local state to manage input fields within the profile section
   const [minCourses, setMinCourses] = useState<number>(0);
   const [minAdvancedCourses, setMinAdvancedCourses] = useState<number>(0);
-  const [selectedEducations, setSelectedEducations] = useState<string[]>([]);
   const [packageRequirements, setPackageRequirements] = useState<ProfileRequirements['packageRequirements']>([]);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   // Sync package options with the passed-down props whenever they change
   useEffect(() => {
@@ -96,84 +94,77 @@ const ProfileRequirementsDialog: React.FC<ProfileRequirementsDialogProps> = ({
     })));
   }, [packages]);
 
-  // Handle form submission by calling the passed-in save function
+  // Save the updated requirements and propagate the update upwards
   const handleSave = () => {
     saveRequirements({
       minCourses,
       minAdvancedCourses,
-      selectedEducations,
+      selectedEducations: [], // Placeholder for selected educations, adjust as needed
       packageRequirements
     });
-    closeDialog();
+    setIsEditing(false); // Disable editing mode after saving
   };
 
-  // Render the dialog UI using Headless UI's Transition and Dialog components
+  // Render the input fields for editing profile requirements
   return (
-    <Transition show={isOpen} as={Fragment}>
-      <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={closeDialog}>
-        <div className="min-h-screen px-4 text-center">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
-          >
-            <div className="inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-              <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">Edit Profile Requirements</Dialog.Title>
-              <form onSubmit={(e) => e.preventDefault()}>
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700">Minimum number of courses:</label>
-                  <input
-                    type="number"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                    value={minCourses}
-                    onChange={(e) => setMinCourses(Number(e.target.value))}
-                  />
-                </div>
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700">Minimum number of advanced courses:</label>
-                  <input
-                    type="number"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                    value={minAdvancedCourses}
-                    onChange={(e) => setMinAdvancedCourses(Number(e.target.value))}
-                  />
-                </div>
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700">Package requirements:</label>
-                  {packageRequirements.map((req, index) => (
-                    <div key={req.packageId} className="flex justify-between items-center mt-2">
-                      <span>{req.packageName}</span>
-                      <input
-                        type="number"
-                        className="ml-4 w-24 px-2 py-1 border border-gray-300 rounded-md"
-                        value={req.minCourses}
-                        onChange={e => {
-                          const updated = [...packageRequirements];
-                          updated[index].minCourses = Number(e.target.value);
-                          setPackageRequirements(updated);
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-4 flex justify-end">
-                  <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" onClick={handleSave}>
-                    Save
-                  </button>
-                  <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded ml-2" onClick={closeDialog}>
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
-          </Transition.Child>
+    <div className="mt-4">
+      {!isEditing ? (
+        <div>
+          <p className="font-semibold">Minimum number of courses: {minCourses}</p>
+          <p className="font-semibold mt-2">Minimum number of advanced courses: {minAdvancedCourses}</p>
+          <p className="font-semibold mt-2">Package requirements:</p>
+          {packageRequirements.map(req => (
+            <p key={req.packageId} className="mt-1">{req.packageName}: {req.minCourses}</p>
+          ))}
+          <div className="mt-4 flex justify-end">
+            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" onClick={() => setIsEditing(true)}>
+              Edit
+            </button>
+          </div>
         </div>
-      </Dialog>
-    </Transition>
+      ) : (
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Minimum number of courses:</label>
+          <input
+            type="number"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+            value={minCourses}
+            onChange={(e) => setMinCourses(Number(e.target.value))}
+          />
+          <label className="block text-sm font-medium text-gray-700 mt-4">Minimum number of advanced courses:</label>
+          <input
+            type="number"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+            value={minAdvancedCourses}
+            onChange={(e) => setMinAdvancedCourses(Number(e.target.value))}
+          />
+          <label className="block text-sm font-medium text-gray-700 mt-4">Package requirements:</label>
+          {packageRequirements.map((req, index) => (
+            <div key={req.packageId} className="flex justify-between items-center mt-2">
+              <span>{req.packageName}</span>
+              <input
+                type="number"
+                className="ml-4 w-24 px-2 py-1 border border-gray-300 rounded-md"
+                value={req.minCourses}
+                onChange={e => {
+                  const updated = [...packageRequirements];
+                  updated[index].minCourses = Number(e.target.value);
+                  setPackageRequirements(updated);
+                }}
+              />
+            </div>
+          ))}
+          <div className="mt-4 flex justify-end">
+            <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" onClick={handleSave}>
+              Save
+            </button>
+            <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded ml-2" onClick={() => setIsEditing(false)}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

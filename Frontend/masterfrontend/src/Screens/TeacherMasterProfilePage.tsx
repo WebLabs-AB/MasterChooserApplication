@@ -8,7 +8,7 @@ import SearchSection from '../Components/TeacherMasterProfilePage/SearchSection'
 
 // Sample course data to populate the initial state
 const fakeCourses = [
-  { id: 1, period: 'Fall 2024', code: 'CS101', name: 'Introduction to Computer Science', hp: 5, priority: 'Required' },
+  { id: 1, period: 'Fall 2024', code: 'CS101', name: 'Introduction to Computer Science', hp: 5, priority: 'Optional' },
   { id: 2, period: 'Spring 2025', code: 'CS102', name: 'Data Structures', hp: 5, priority: 'Optional' },
 ];
 
@@ -43,7 +43,7 @@ export const TeacherCreateUpdateProfilePage = () => {
   // Add a course to the profile, setting the default priority
   const addCourseToProfile = (courseToAdd: Course) => {
     if (!courses.some(course => course.id === courseToAdd.id)) {
-      setCourses(prev => [...prev, { ...courseToAdd, priority: 'Required' }]);
+      setCourses(prev => [...prev, { ...courseToAdd, priority: 'Optional' }]);
       // Remove from availableCourses
       setAvailableCourses(prev => prev.filter(c => c.id !== courseToAdd.id));
     }

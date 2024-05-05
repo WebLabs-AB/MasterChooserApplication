@@ -4,6 +4,7 @@ import EducationRequirementsDialog from './EducationRequirementsDialog';
 
 const ProfileRequirementsEditor: React.FC<ProfileRequirementsEditorProps> = ({
   saveRequirements,
+  courses,
   packages,
   isEditing,
   closeDialog
@@ -63,7 +64,7 @@ const ProfileRequirementsEditor: React.FC<ProfileRequirementsEditorProps> = ({
           </div>
           <EducationRequirementsDialog
               isOpen={isEducationDialogOpen}
-              courses={[]} // Assume this gets updated to pass actual courses
+              courses={courses} // Assume this gets updated to pass actual courses
               packages={packages}
               onClose={() => setIsEducationDialogOpen(false)}
               saveEducationRequirements={(selectedCourses, updatedPackages) => {
@@ -75,7 +76,7 @@ const ProfileRequirementsEditor: React.FC<ProfileRequirementsEditorProps> = ({
   );
 };
   
-const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requirements: ProfileRequirements) => void }> = ({ packages, saveRequirements }) => {
+const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requirements: ProfileRequirements) => void }> = ({ packages, saveRequirements, courses }) => {
   const [isEditingName, setIsEditingName] = useState(false);
   const [profileName, setProfileName] = useState('ProfileName');
   const [tempProfileName, setTempProfileName] = useState(profileName);
@@ -141,6 +142,7 @@ const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requir
           <ProfileRequirementsEditor
             saveRequirements={saveRequirements}
             packages={packages}
+            courses={courses}
             isEditing={isEditingRequirements}
             isOpen={isEditingRequirements}
             closeDialog={() => setIsEditingRequirements(false)}

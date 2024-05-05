@@ -51,6 +51,7 @@ export interface ProfileRequirements {
 
 export interface ProfileSectionProps {
   packages: CoursePackage[]; // Array of course packages to be displayed or edited
+  courses: Course[];
 }
 
 export interface CourseListSectionProps {
@@ -95,5 +96,6 @@ export interface ProfileRequirementsDialogProps {
 // Define the ProfileRequirementsEditorProps interface with the isEditing prop
 export interface ProfileRequirementsEditorProps extends ProfileRequirementsDialogProps {
   isEditing: boolean;
+  courses: Course[];
 }
 

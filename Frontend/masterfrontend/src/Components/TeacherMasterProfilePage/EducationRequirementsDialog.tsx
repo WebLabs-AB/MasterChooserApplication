@@ -22,20 +22,19 @@ const EducationRequirementsDialog: React.FC<EducationRequirementsDialogProps> = 
   const [packageRequirements, setPackageRequirements] = useState<CoursePackage[]>([]);
 
   useEffect(() => {
-    // This effect updates the local state to reflect changes in the `packages` prop
     setPackageRequirements(packages.map(pkg => ({
       ...pkg,
-      minCourses: pkg.minCourses || 0  // Ensure `minCourses` is initialized
+      minCourses: pkg.minCourses || 0
     })));
-  }, [packages]); // Dependency array includes `packages` to react to changes
-
-  const handleCourseSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
+  }, [packages]);
 
   const toggleCourseSelection = (course: Course) => {
-    const isSelected = selectedCourses.some(c => c.id === course.id);
-    setSelectedCourses(isSelected ? selectedCourses.filter(c => c.id !== course.id) : [...selectedCourses, course]);
+    const isSelected = selectedCourses.find(c => c.id === course.id);
+    if (isSelected) {
+      setSelectedCourses(selectedCourses.filter(c => c.id !== course.id));
+    } else {
+      setSelectedCourses([...selectedCourses, course]);
+    }
   };
 
   const handlePackageMinChange = (packageId: number, minCourses: number) => {
@@ -48,6 +47,11 @@ const EducationRequirementsDialog: React.FC<EducationRequirementsDialogProps> = 
     saveEducationRequirements(selectedCourses, packageRequirements);
     onClose();
   };
+
+  const filteredCourses = courses.filter(course => 
+    (course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    course.code.toLowerCase().includes(searchTerm.toLowerCase())) &&
+    !selectedCourses.some(c => c.id === course.id));
 
   return (
     <Transition show={isOpen} as={Fragment}>
@@ -69,20 +73,24 @@ const EducationRequirementsDialog: React.FC<EducationRequirementsDialogProps> = 
                 className="mt-4 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                 placeholder="Search for courses"
                 value={searchTerm}
-                onChange={handleCourseSearchChange}
+                onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
               />
               <div className="mt-4">
-                {courses.filter(course => course.name.toLowerCase().includes(searchTerm.toLowerCase())).map(course => (
-                  <div key={course.id} className="flex justify-between items-center p-2">
-                    <span>{course.name}</span>
-                    <button
-                      className={`px-3 py-1 rounded ${selectedCourses.some(c => c.id === course.id) ? 'bg-blue-500 text-white' : 'bg-gray-300 text-black'}`}
-                      onClick={() => toggleCourseSelection(course)}
-                    >
-                      {selectedCourses.some(c => c.id === course.id) ? 'Deselect' : 'Select'}
-                    </button>
+              {filteredCourses.length > 0 && (
+                  <div className="mt-4 max-h-60 overflow-auto">
+                    {filteredCourses.map(course => (
+                      <div key={course.id} className="flex justify-between items-center p-2 border-b">
+                        {course.code} - {course.name}
+                        <button
+                          className="bg-blue-500 text-white px-3 py-1 rounded"
+                          onClick={() => toggleCourseSelection(course)}
+                        >
+                          Add
+                        </button>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
               <div className="mt-4">
                 {packageRequirements.map((pkg) => (

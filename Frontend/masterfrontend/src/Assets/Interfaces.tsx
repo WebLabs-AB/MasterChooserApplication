@@ -104,3 +104,11 @@ export interface ProfileRequirementsEditorProps extends ProfileRequirementsDialo
   setMinAdvancedCourses: React.Dispatch<React.SetStateAction<number>>; // State setter for minCourses
   closeDialog: () => void;
 }
+
+export interface EducationRequirementsDialogProps {
+  isOpen: boolean;
+  courses: Course[];
+  packages: CoursePackage[];
+  onClose: () => void;
+  saveEducationRequirements: (selectedCourses: Course[], updatedPackages: CoursePackage[]) => void;
+}

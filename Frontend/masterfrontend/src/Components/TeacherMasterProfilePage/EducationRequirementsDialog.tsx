@@ -1,14 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { Course, CoursePackage } from '../../Assets/Interfaces';
-
-interface EducationRequirementsDialogProps {
-  isOpen: boolean;
-  courses: Course[];
-  packages: CoursePackage[];
-  onClose: () => void;
-  saveEducationRequirements: (selectedCourses: Course[], updatedPackages: CoursePackage[]) => void;
-}
+import { Course, CoursePackage, EducationRequirementsDialogProps } from '../../Assets/Interfaces';
 
 const EducationRequirementsDialog: React.FC<EducationRequirementsDialogProps> = ({
   isOpen,

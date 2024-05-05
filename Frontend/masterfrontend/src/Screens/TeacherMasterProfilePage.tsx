@@ -10,8 +10,20 @@ import SearchSection from '../Components/TeacherMasterProfilePage/SearchSection'
 const fakeCourses = [
   { id: 1, period: 'Fall 2024', code: 'CS101', name: 'Introduction to Computer Science', hp: 5, priority: 'Optional' },
   { id: 2, period: 'Spring 2025', code: 'CS102', name: 'Data Structures', hp: 5, priority: 'Optional' },
+  { id: 3, period: 'Fall 2024', code: 'CS103', name: 'Algorithms', hp: 5, priority: 'Required' },
+  { id: 4, period: 'Spring 2025', code: 'CS104', name: 'Computer Architecture', hp: 5, priority: 'Required' },
+  { id: 5, period: 'Fall 2024', code: 'CS105', name: 'Operating Systems', hp: 5, priority: 'Optional' },
+  { id: 6, period: 'Spring 2025', code: 'CS201', name: 'Web Development', hp: 5, priority: 'Optional' },
+  { id: 7, period: 'Fall 2024', code: 'CS202', name: 'Machine Learning', hp: 5, priority: 'Required' },
+  { id: 8, period: 'Spring 2025', code: 'CS203', name: 'Artificial Intelligence', hp: 5, priority: 'Optional' },
+  { id: 9, period: 'Fall 2024', code: 'CS204', name: 'Database Systems', hp: 5, priority: 'Required' },
+  { id: 10, period: 'Spring 2025', code: 'CS205', name: 'Software Engineering', hp: 5, priority: 'Optional' },
+  { id: 11, period: 'Fall 2024', code: 'CS206', name: 'Network Security', hp: 5, priority: 'Required' },
+  { id: 12, period: 'Spring 2025', code: 'CS207', name: 'Cloud Computing', hp: 5, priority: 'Optional' },
+  { id: 13, period: 'Fall 2024', code: 'CS301', name: 'Internet of Things', hp: 5, priority: 'Optional' },
+  { id: 14, period: 'Spring 2025', code: 'CS302', name: 'Advanced Algorithms', hp: 5, priority: 'Required' },
+  { id: 15, period: 'Fall 2024', code: 'CS303', name: 'Quantum Computing', hp: 5, priority: 'Optional' }
 ];
-
 
 // Entry component for the teacher's page, managing state and components for creating and updating course profiles
 export const TeacherCreateUpdateProfilePage = () => {

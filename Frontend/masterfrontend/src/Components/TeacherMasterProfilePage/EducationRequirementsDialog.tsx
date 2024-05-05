@@ -100,6 +100,14 @@ const EducationRequirementsDialog: React.FC<EducationRequirementsDialogProps> = 
                     ))}
                   </div>
                 )}
+                {selectedCourses.length > 0 && (
+                  <div className="mt-4">
+                    <h4 className="text-md font-medium text-gray-900">Selected Courses:</h4>
+                    {selectedCourses.map(course => (
+                      <p key={course.id} className="text-gray-800">{course.code} - {course.name}</p>
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="mt-4">
                 {packageRequirements.map((pkg) => (

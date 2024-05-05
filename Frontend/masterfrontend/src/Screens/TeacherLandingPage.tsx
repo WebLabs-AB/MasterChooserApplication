@@ -39,6 +39,10 @@ export const TeacherLandingPage = () => {
     navigate(`/teachermasterprofile`, { state: { profileId } });
   };
 
+  const handleCreate = () => {
+    navigate(`/teachermasterprofile`);
+  };
+
   const renderProfiles = () => {
     return profiles.map(profile => (
       <div key={profile.id} className="flex justify-between items-center p-4 border-b-2 border-teal-200">
@@ -72,7 +76,10 @@ export const TeacherLandingPage = () => {
           <h1 className="text-2xl font-bold text-gray-800">List of created profiles</h1>
         </div>
         {renderProfiles()}
-        <button className="bg-green-600 text-white px-4 py-2 rounded mt-4 hover:bg-green-700 transition duration-300">
+        <button
+          className="bg-green-600 text-white px-4 py-2 rounded mt-4 hover:bg-green-700 transition duration-300"
+          onClick={() => handleCreate()}  
+        >
           Create new
         </button>
       </div>

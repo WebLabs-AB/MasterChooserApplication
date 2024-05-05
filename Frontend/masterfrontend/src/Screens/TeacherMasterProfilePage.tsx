@@ -57,7 +57,7 @@ export const TeacherCreateUpdateProfilePage = () => {
 
   // Main render function for the TeacherCreateUpdateProfilePage, organizing the layout and components
   return (
-    <div className="container mx-auto p-8 bg-gray-100 min-h-screen">
+    <div className="p-8 bg-teal-100 min-h-screen">
       <ProfileSection packages={packages} saveRequirements={saveRequirements} courses={availableCourses} />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">

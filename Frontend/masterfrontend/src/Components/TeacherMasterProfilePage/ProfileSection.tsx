@@ -167,10 +167,8 @@ const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requir
           />
         ) : (
           <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700">Minimum number of courses:</label>
-            <p>{minCourses}</p>
-            <label className="block text-sm font-medium text-gray-700 mt-4">Minimum number of advanced courses:</label>
-            <p>{minAdvancedCourses}</p>
+            <label className="block text-sm font-medium text-gray-700">Minimum number of courses: {minCourses}</label>
+            <label className="block text-sm font-medium text-gray-700 mt-4">Minimum number of advanced courses: {minAdvancedCourses}</label>
           </div>
         )}
         {!isEditingRequirements && (

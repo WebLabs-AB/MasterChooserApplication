@@ -11,14 +11,12 @@ const PackageDialog: React.FC<PackageDialogProps> = ({
   packageToEdit,
 }) => {
   const [packageName, setPackageName] = useState('');
-  const [obligatoryCourses, setObligatoryCourses] = useState(0);
   const [selectedCourses, setSelectedCourses] = useState<number[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     if (packageToEdit) {
       setPackageName(packageToEdit.packageName);
-      setObligatoryCourses(packageToEdit.obligatoryCourses);
       setSelectedCourses(packageToEdit.courses.map(course => course.id));
     } else {
       resetForm();
@@ -27,7 +25,6 @@ const PackageDialog: React.FC<PackageDialogProps> = ({
 
   const resetForm = () => {
     setPackageName('');
-    setObligatoryCourses(0);
     setSelectedCourses([]);
   };
 
@@ -36,7 +33,6 @@ const PackageDialog: React.FC<PackageDialogProps> = ({
     const packageData: CoursePackage = {
       id: packageToEdit ? packageToEdit.id : Math.max(0, ...courses.map(p => p.id)) + 1,
       packageName,
-      obligatoryCourses,
       courses: selectedCourses.map(id => courses.find(course => course.id === id)!),
     };
     savePackage(packageData);
@@ -108,13 +104,6 @@ const PackageDialog: React.FC<PackageDialogProps> = ({
                   placeholder="Package Name"
                   value={packageName}
                   onChange={(e) => setPackageName(e.target.value)}
-                />
-                <input
-                  type="number"
-                  className="border mt-2 w-full rounded-md"
-                  placeholder="Number of Obligatory Courses"
-                  value={obligatoryCourses}
-                  onChange={(e) => setObligatoryCourses(parseInt(e.target.value))}
                 />
                 <input
                   type="text"

@@ -68,7 +68,6 @@ export interface SearchSectionProps {
 export interface CoursePackage {
   id: number;
   packageName: string;
-  obligatoryCourses: number;
   courses: Course[];
   minCourses?: number;  // Optional if it might not be present on all packages initially
 }

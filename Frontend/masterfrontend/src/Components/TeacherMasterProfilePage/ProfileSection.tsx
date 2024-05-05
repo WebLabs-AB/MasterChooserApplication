@@ -90,7 +90,7 @@ const ProfileRequirementsEditor: React.FC<ProfileRequirementsEditorProps> = ({
   
 const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requirements: ProfileRequirements) => void }> = ({ packages, saveRequirements, courses }) => {
   const [isEditingName, setIsEditingName] = useState(false);
-  const [profileName, setProfileName] = useState('Placeholder ProfileName');
+  const [profileName, setProfileName] = useState('ProfileName');
   const [tempProfileName, setTempProfileName] = useState(profileName);
   const [minCourses, setMinCourses] = useState<number | string>(0);
   const [minAdvancedCourses, setMinAdvancedCourses] = useState<number | string>(0);
@@ -151,7 +151,7 @@ const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requir
         )}
       </div>
       <div className="p-4 border rounded-lg bg-teal-50 shadow flex flex-col justify-between h-auto">
-        <span>Profile information and restrictions</span>
+        <span>Profile information and requirements</span>
         {isEditingRequirements ? (
           <ProfileRequirementsEditor
             isOpen={isEditingRequirements}

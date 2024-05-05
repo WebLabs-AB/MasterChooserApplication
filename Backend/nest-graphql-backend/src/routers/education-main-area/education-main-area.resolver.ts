@@ -3,18 +3,19 @@ import { EducationMainAreaService } from './education-main-area.service';
 import { EducationMainArea } from 'src/entities';
 import { CreateEducationMainAreaInput } from 'src/inputTypes/create/create-education-mainArea.input';
 import { RemoveEducationMainAreaInput } from 'src/inputTypes/remove/remove-education-mainArea.input';
+import { UpdateEducationMainAreaInput } from 'src/inputTypes/update/update-education-mainArea.input';
 
 @Resolver()
 export class EducationMainAreaResolver {
   constructor(private educationMainAreaService: EducationMainAreaService) {}
 
-  // Returns all CourseMainArea obejcts from the database in a list.
+  // Returns all EducationMainArea obejcts from the database in a list.
   @Query((returns) => [EducationMainArea])
-  async courseMainArea(): Promise<EducationMainArea[]> {
+  async educationMainArea(): Promise<EducationMainArea[]> {
     return this.educationMainAreaService.findAll();
   }
 
-  // Creates a new CourseMainArea object for the database.
+  // Creates a new EducationMainArea object for the database.
   @Mutation((returns) => EducationMainArea)
   async createEducationMainArea(
     @Args('createEducationMainAreaInput')
@@ -25,7 +26,7 @@ export class EducationMainAreaResolver {
     );
   }
 
-  // Removes a CourseMainArea object from the database.
+  // Removes a EducationMainArea object from the database.
   @Mutation((returns) => EducationMainArea)
   async removeEducationMainArea(
     @Args('removeEducationMainAreaInput')
@@ -33,6 +34,17 @@ export class EducationMainAreaResolver {
   ): Promise<EducationMainArea> {
     return this.educationMainAreaService.removeEducationMainArea(
       removeEducationMainAreaInput,
+    );
+  }
+
+  // Updates a EducationMainArea object from the database.
+  @Mutation((returns) => EducationMainArea)
+  async updateEducationMainArea(
+    @Args('updateEducationMainAreaInput')
+    updateEducationMainAreaInput: UpdateEducationMainAreaInput,
+  ): Promise<EducationMainArea[]> {
+    return this.educationMainAreaService.updateEducationMainArea(
+      updateEducationMainAreaInput,
     );
   }
 

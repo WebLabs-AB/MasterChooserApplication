@@ -28,7 +28,8 @@ export const TeacherCreateUpdateProfilePage = () => {
   const removeCourse = (courseId: number) => {
     const updatedCourses = courses.filter(course => course.id !== courseId);
     setCourses(updatedCourses);
-    setAvailableCourses([...availableCourses, ...updatedCourses.filter(c => c.id === courseId)]);
+    // Add back to availableCourses
+    setAvailableCourses(prev => [...prev, ...fakeCourses.filter(c => c.id === courseId)]);
   };
 
   // Update course priority within the profile
@@ -42,7 +43,9 @@ export const TeacherCreateUpdateProfilePage = () => {
   // Add a course to the profile, setting the default priority
   const addCourseToProfile = (courseToAdd: Course) => {
     if (!courses.some(course => course.id === courseToAdd.id)) {
-      setCourses([...courses, { ...courseToAdd, priority: 'Required' }]);
+      setCourses(prev => [...prev, { ...courseToAdd, priority: 'Required' }]);
+      // Remove from availableCourses
+      setAvailableCourses(prev => prev.filter(c => c.id !== courseToAdd.id));
     }
   };
 

@@ -26,12 +26,22 @@ const ProfileRequirementsEditor: React.FC<ProfileRequirementsEditorProps> = ({
 
   const handleSave = () => {
       saveRequirements({
-          minCourses,
-          minAdvancedCourses,
+          minCourses: Number(minCourses),
+          minAdvancedCourses: Number(minAdvancedCourses),
           selectedEducations: [], // Placeholder for selected educations, adjust as needed
           packageRequirements
       });
       closeDialog();
+  };
+
+  const handleMinCoursesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setMinCourses(value === "" ? "" : Number(value));
+  };
+  
+  const handleMinAdvancedCoursesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setMinAdvancedCourses(value === "" ? "" : Number(value));
   };
 
   return (
@@ -41,14 +51,14 @@ const ProfileRequirementsEditor: React.FC<ProfileRequirementsEditorProps> = ({
               type="number"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
               value={minCourses}
-              onChange={(e) => setMinCourses(Number(e.target.value))}
+              onChange={handleMinCoursesChange}
           />
           <label className="block text-sm font-medium text-gray-700 mt-4">Minimum number of advanced courses:</label>
           <input
               type="number"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
               value={minAdvancedCourses}
-              onChange={(e) => setMinAdvancedCourses(Number(e.target.value))}
+              onChange={handleMinAdvancedCoursesChange}
           />
           <button
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out mt-4"
@@ -80,10 +90,10 @@ const ProfileRequirementsEditor: React.FC<ProfileRequirementsEditorProps> = ({
   
 const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requirements: ProfileRequirements) => void }> = ({ packages, saveRequirements, courses }) => {
   const [isEditingName, setIsEditingName] = useState(false);
-  const [profileName, setProfileName] = useState('ProfileName');
+  const [profileName, setProfileName] = useState('Placeholder ProfileName');
   const [tempProfileName, setTempProfileName] = useState(profileName);
-  const [minCourses, setMinCourses] = useState<number>(0);
-  const [minAdvancedCourses, setMinAdvancedCourses] = useState<number>(0);
+  const [minCourses, setMinCourses] = useState<number | string>(0);
+  const [minAdvancedCourses, setMinAdvancedCourses] = useState<number | string>(0);
   const [isEditingRequirements, setIsEditingRequirements] = useState(false);
 
   const handleProfileNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {

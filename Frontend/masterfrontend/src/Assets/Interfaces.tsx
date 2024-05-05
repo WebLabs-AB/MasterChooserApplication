@@ -97,11 +97,11 @@ export interface ProfileRequirementsDialogProps {
 export interface ProfileRequirementsEditorProps extends ProfileRequirementsDialogProps {
   isEditing: boolean;
   courses: Course[];
-  isOpen: boolean;  // Ensure this property is expected
-  minCourses: number; // Minimum number of courses
-  minAdvancedCourses: number; // Minimum number of advanced courses
-  setMinCourses: React.Dispatch<React.SetStateAction<number>>; // State setter for minCourses
-  setMinAdvancedCourses: React.Dispatch<React.SetStateAction<number>>; // State setter for minCourses
+  isOpen: boolean;
+  minCourses: number | string;  // Allow number or string to handle empty input fields
+  minAdvancedCourses: number | string;  // Allow number or string to handle empty input fields
+  setMinCourses: React.Dispatch<React.SetStateAction<number | string>>;
+  setMinAdvancedCourses: React.Dispatch<React.SetStateAction<number | string>>;
   closeDialog: () => void;
 }
 

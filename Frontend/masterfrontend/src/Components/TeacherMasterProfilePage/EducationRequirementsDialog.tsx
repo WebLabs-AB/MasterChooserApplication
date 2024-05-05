@@ -12,6 +12,13 @@ const EducationRequirementsDialog: React.FC<EducationRequirementsDialogProps> = 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [packageRequirements, setPackageRequirements] = useState<CoursePackage[]>([]);
+  const [selectedEducation, setSelectedEducation] = useState('');
+
+  const educations = [
+    { id: 'edu1', name: 'Data Science' },
+    { id: 'edu2', name: 'Computer Science' },
+    { id: 'edu3', name: 'Information Technology' }
+  ];
 
   useEffect(() => {
     setPackageRequirements(packages.map(pkg => ({
@@ -60,6 +67,16 @@ const EducationRequirementsDialog: React.FC<EducationRequirementsDialogProps> = 
           >
             <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
               <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">Education Requirements</Dialog.Title>
+              <select
+                value={selectedEducation}
+                onChange={(e) => setSelectedEducation(e.target.value)}
+                className="mt-4 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+              >
+                <option value="">Select Education</option>
+                {educations.map(edu => (
+                  <option key={edu.id} value={edu.id}>{edu.name}</option>
+                ))}
+              </select>
               <input
                 type="text"
                 className="mt-4 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
@@ -114,3 +131,4 @@ const EducationRequirementsDialog: React.FC<EducationRequirementsDialogProps> = 
 };
 
 export default EducationRequirementsDialog;
+

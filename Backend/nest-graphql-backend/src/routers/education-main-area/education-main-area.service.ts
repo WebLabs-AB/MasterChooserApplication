@@ -67,7 +67,9 @@ export class EducationMainAreaService {
     const educationId = updateEducationMainAreaInput.educationId;
 
     // Find the course we want to update its relationship.
-    const mainArea = await this.mainAreaRepository.findOneBy({ mainAreaName });
+    const mainArea = await this.mainAreaRepository.findOneBy({
+      name: mainAreaName,
+    });
     if (!mainArea) {
       throw new Error(`Course with ID ${mainAreaName} not found`);
     }

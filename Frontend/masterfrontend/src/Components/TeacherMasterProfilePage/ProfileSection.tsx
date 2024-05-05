@@ -6,11 +6,13 @@ const ProfileRequirementsEditor: React.FC<ProfileRequirementsEditorProps> = ({
   saveRequirements,
   courses,
   packages,
+  minCourses,
+  minAdvancedCourses,
+  setMinCourses,
+  setMinAdvancedCourses,
   isEditing,
   closeDialog
 }) => {
-  const [minCourses, setMinCourses] = useState<number>(0);
-  const [minAdvancedCourses, setMinAdvancedCourses] = useState<number>(0);
   const [packageRequirements, setPackageRequirements] = useState<ProfileRequirements['packageRequirements']>([]);
   const [isEducationDialogOpen, setIsEducationDialogOpen] = useState(false);
 
@@ -80,6 +82,8 @@ const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requir
   const [isEditingName, setIsEditingName] = useState(false);
   const [profileName, setProfileName] = useState('ProfileName');
   const [tempProfileName, setTempProfileName] = useState(profileName);
+  const [minCourses, setMinCourses] = useState<number>(0);
+  const [minAdvancedCourses, setMinAdvancedCourses] = useState<number>(0);
   const [isEditingRequirements, setIsEditingRequirements] = useState(false);
 
   const handleProfileNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -140,19 +144,23 @@ const ProfileSection: React.FC<ProfileSectionProps & { saveRequirements: (requir
         <span>Profile information and restrictions</span>
         {isEditingRequirements ? (
           <ProfileRequirementsEditor
+            isOpen={isEditingRequirements}
             saveRequirements={saveRequirements}
             packages={packages}
             courses={courses}
+            minCourses={minCourses}
+            minAdvancedCourses={minAdvancedCourses}
+            setMinCourses={setMinCourses}
+            setMinAdvancedCourses={setMinAdvancedCourses}
             isEditing={isEditingRequirements}
-            isOpen={isEditingRequirements}
             closeDialog={() => setIsEditingRequirements(false)}
           />
         ) : (
           <div className="mt-4">
             <label className="block text-sm font-medium text-gray-700">Minimum number of courses:</label>
-            <p>{/* Display minimum number of courses */}</p>
+            <p>{minCourses}</p>
             <label className="block text-sm font-medium text-gray-700 mt-4">Minimum number of advanced courses:</label>
-            <p>{/* Display minimum number of advanced courses */}</p>
+            <p>{minAdvancedCourses}</p>
           </div>
         )}
         {!isEditingRequirements && (
